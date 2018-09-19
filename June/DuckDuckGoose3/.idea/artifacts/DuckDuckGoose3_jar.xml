@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DuckDuckGoose3:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DuckDuckGoose3_jar</output-path>
+    <root id="archive" name="DuckDuckGoose3.jar">
+      <element id="module-output" name="DuckDuckGoose3" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/DDG3/jxinput-0.8 (2).jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/DDG3/windows/Engine.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/DDG3/windows/gluegen-rt-natives-windows-amd64.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/DDG3/windows/gluegen-rt-natives-windows-i586.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/DDG3/windows/gluegen-rt.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/DDG3/windows/gson-2.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/DDG3/windows/jogl-all-natives-windows-amd64.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/DDG3/windows/jogl-all-natives-windows-i586.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/DDG3/windows/jogl-all.jar" path-in-jar="/" />
+      <element id="library" level="project" name="XboxController-master" />
+    </root>
+  </artifact>
+</component>
