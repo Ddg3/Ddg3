@@ -21,9 +21,9 @@ public class Player extends Object
     private float rStickX = 0f;
     private float rStickY = 0f;
 
-    public Player(String name, int width, int height, String path, int totalFrames, float frameLife, int playerNumber)
+    public Player(String name, int width, int height, String path, int totalFrames, float frameLife, Boolean target, int playerNumber)
     {
-        super(name, width, height, path, totalFrames, frameLife);
+        super(name, width, height, path, totalFrames, frameLife, target);
 
         this.playerNumber = playerNumber;
         device = GameManager.deviceManager.devices[playerNumber];
@@ -43,43 +43,39 @@ public class Player extends Object
             rStickX += axes.getRXDelta();
             rStickY += axes.getRYDelta();
 
-            move(dt);
+            move();
             look();
 
-            this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
-            this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
-
-            System.out.println(offsetPos.x);
-           /*this.offsetPos.x = main.getInput().getMouseX() - this.width;
-           this.offsetPos.y = main.getInput().getMouseY() + this.height + 180;*/
+            this.offsetPos.x = this.position.x - this.width / 2 + 320;
+            this.offsetPos.y = this.position.y - this.height / 2 + 180;
         }
     }
 
-    public void move(float dt)
+    public void move()
     {
         if (lStickX > 0.4f)
         {
-            this.position.x -= 100f * dt;
+            this.position.x -= 2f;
             if (rStickX < 0.4f && rStickX > -0.4f)
             {
                 this.setFrame(6);
             }
         }
         if (lStickX < -0.4f) {
-            this.position.x +=  100f * dt;
+            this.position.x +=  2f;
             if (rStickX < 0.4f && rStickX > -0.4f) {
                 this.setFrame(2);
             }
         }
 
         if (lStickY > 0.4f) {
-            this.position.y += 100f * dt;
+            this.position.y += 2f;
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(0);
             }
         }
         if (lStickY < -0.4f) {
-            this.position.y -=  100f * dt;
+            this.position.y -=  2f;
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(4);
             }
