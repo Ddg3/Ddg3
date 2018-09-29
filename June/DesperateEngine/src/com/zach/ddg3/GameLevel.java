@@ -7,7 +7,8 @@ import com.zach.engine.Main;
  */
 public abstract class GameLevel
 {
-    public int bottomCamera;
+    public static int bottomCamera;
+    public static int topCamera;
 
     public abstract void init(Main main);
 

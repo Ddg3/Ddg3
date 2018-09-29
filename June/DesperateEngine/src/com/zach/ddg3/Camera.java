@@ -4,6 +4,8 @@ import com.zach.engine.Main;
 
 public class Camera
 {
+    public static int topCamera;
+    public static int bottomCamera;
     public float getPosX() {
         return posX;
     }
@@ -64,17 +66,17 @@ public class Camera
 
         main.getRenderman().setCameraX(0);
 
-        if(posY < 350 && posY > -360)
+        if(posY < topCamera && posY > bottomCamera)
         {
             main.getRenderman().setCameraY((int)posY);
         }
-        else if(posY >= 350)
+        else if(posY >= topCamera)
             {
-                main.getRenderman().setCameraY(350);
+                main.getRenderman().setCameraY(topCamera);
             }
             else
                 {
-                    main.getRenderman().setCameraY(-360);
+                    main.getRenderman().setCameraY(bottomCamera);
                 }
     }
 }

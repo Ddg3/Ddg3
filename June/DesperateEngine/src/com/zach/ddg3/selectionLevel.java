@@ -12,7 +12,8 @@ public class selectionLevel extends GameLevel
     @Override
     public void init(Main main)
     {
-        this.bottomCamera = 490;
+        this.bottomCamera = -360;
+        this.topCamera = 350;
 
         floor = new Object("floor", 640, 1080, "/selectionFloor.png", 1, 0.1f);
         GameManager.objects.add(floor);

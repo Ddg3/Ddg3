@@ -15,9 +15,9 @@ public class GameManager extends AbstractGame
     public static ArrayList<Object> objects = new ArrayList<Object>(1);
     public static ArrayList<TextObject> textObjects = new ArrayList<TextObject>(1);
     private ArrayList<Object> toKillList = new ArrayList<Object>();
-    private int[] collision;
     private int levelWidth;
     private int levelHeight;
+    private boolean[] collision;
     private boolean isColliding = false;
 
     public static Object center;
@@ -66,6 +66,9 @@ public class GameManager extends AbstractGame
         gameLevelManager.currLevel.update(main, dt);
         camera.update(this, main, dt);
         deviceManager.update(main, dt);
+
+        camera.topCamera = gameLevelManager.currLevel.topCamera;
+        camera.bottomCamera = gameLevelManager.currLevel.bottomCamera;
     }
 
     @Override
@@ -98,28 +101,9 @@ public class GameManager extends AbstractGame
         }
     }
 
-    public void loadLevel(String path)
+    public boolean getCollision(int x, int y)
     {
-        //Useless function. Keeping bc why not
-        Image levelImage = new Image(path);
-
-        levelWidth = levelImage.getWidth();
-        levelHeight = levelImage.getHeight();
-        collision = new int[levelWidth * levelHeight];
-        for(int y = 0; y < levelImage.getHeight(); y++)
-        {
-            for(int x = 0; x < levelImage.getWidth(); x++)
-            {
-                if(levelImage.getPixel()[x + y * levelImage.getWidth()] == 0xff000000)
-                {
-                    collision[x + y * levelImage.getWidth()] = 1;
-                }
-                else
-                {
-                    collision[x + y * levelImage.getWidth()] = 0;
-                }
-            }
-        }
+        return false;
     }
 
     public static void removeObjectsByName(String name)
@@ -143,11 +127,6 @@ public class GameManager extends AbstractGame
             }
         }
         return null;
-    }
-
-    public int getCollision(int x, int y)
-    {
-        return collision[x + y * levelWidth];
     }
 
     public static void main(String args[])
