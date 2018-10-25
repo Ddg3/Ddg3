@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="res"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/res"/>
+	<classpathentry kind="lib" path="C:/Users/lawrzac22/Desktop/DDG3/jxinput-0.8 (2).jar"/>
+	<classpathentry kind="lib" path="H:/CompSci/Ddg3-cfb4e1242ec1348b65539b37b68edaae0a9cde00/Ddg3-cfb4e1242ec1348b65539b37b68edaae0a9cde00/June/DDG3/jxinput-0.8 (2).jar"/>
+	<classpathentry kind="output" path="out/production/DesperateEngine"/>
+</classpath>
