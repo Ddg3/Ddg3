@@ -56,6 +56,11 @@ public class Player extends Object
         else
         {
             moveKeyboard(main,dt);
+            
+            if(main.getInput().isKey(KeyEvent.VK_A))
+            {
+                System.out.println("A");
+            }
         }
         
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
@@ -155,56 +160,45 @@ public class Player extends Object
     
     public void moveKeyboard(Main main, float dt)
     {
-        if (main.getInput().isKeyDown(KeyEvent.VK_A))
+        if (main.getInput().isKey(KeyEvent.VK_A))
         {
-            moveDir.x = -100f * dt;
-            if (rStickX < 0.4f && rStickX > -0.4f)
-            {
-                this.setFrame(6);
-            }
+            this.position.x += -100f * dt;
+            this.setFrame(6);
+            
         }
-        if (main.getInput().isKeyDown(KeyEvent.VK_D)) {
-            moveDir.x =  100f * dt;
-            if (rStickX < 0.4f && rStickX > -0.4f) {
-                this.setFrame(2);
-            }
+        if (main.getInput().isKey(KeyEvent.VK_D)) 
+        {
+            this.position.x += 100f * dt;    
+            this.setFrame(2);
         }
 
-        if (main.getInput().isKeyDown(KeyEvent.VK_S)) {
-            moveDir.y = 100f * dt;
-            if (rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(0);
-            }
+        if (main.getInput().isKey(KeyEvent.VK_S)) 
+        {
+         this.position.y += 100f * dt;
+         this.setFrame(0);
         }
-        if (main.getInput().isKeyDown(KeyEvent.VK_W)) {
-            moveDir.y =  -100f * dt;
-            if (rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(4);
-            }
+        if (main.getInput().isKey(KeyEvent.VK_W)) 
+        {
+          this.position.y +=  -100f * dt;   
+          this.setFrame(4); 
         }
-
+        
         //Changes frame of animation on the diagonals if the right thumbstick is not being used
-        if (main.getInput().isKeyDown(KeyEvent.VK_A) && main.getInput().isKeyDown(KeyEvent.VK_W))
+        if (main.getInput().isKey(KeyEvent.VK_A) && main.getInput().isKey(KeyEvent.VK_W))
         {
-            if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f)
-            {
-                this.setFrame(5);
-            }
+            this.setFrame(5);
         }
-        if (main.getInput().isKeyDown(KeyEvent.VK_A) && main.getInput().isKeyDown(KeyEvent.VK_S)) {
-            if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(7);
-            }
+        if (main.getInput().isKey(KeyEvent.VK_A) && main.getInput().isKey(KeyEvent.VK_S)) 
+        {
+            this.setFrame(7);
         }
-        if (main.getInput().isKeyDown(KeyEvent.VK_D) && main.getInput().isKeyDown(KeyEvent.VK_S)) {
-            if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(1);
-            }
+        if (main.getInput().isKey(KeyEvent.VK_D) && main.getInput().isKey(KeyEvent.VK_S)) 
+        {
+            this.setFrame(1);
         }
-        if (main.getInput().isKeyDown(KeyEvent.VK_D) && main.getInput().isKeyDown(KeyEvent.VK_W)) {
-            if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(3);
-            }
+        if (main.getInput().isKey(KeyEvent.VK_D) && main.getInput().isKey(KeyEvent.VK_W)) 
+        {
+          this.setFrame(3);  
         }
         
         //VERY IMPORTANT
@@ -216,8 +210,5 @@ public class Player extends Object
         {
             moveDir.y *= -1;
         }*/
-        
-         this.position.x += moveDir.x;
-         this.position.y += moveDir.y;
     }
 }

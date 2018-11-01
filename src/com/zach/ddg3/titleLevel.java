@@ -48,7 +48,7 @@ public class titleLevel extends GameLevel
         GameManager.objects.add(title);
         title.setPosition(0, 0);
 
-        enterText = new TextObject("fat gay lmao" , 280,325,0xffffffff, 1);
+        enterText = new TextObject("She took the kids" , 280,325,0xffffffff, 1);
         GameManager.textObjects.add(enterText);
 
         player1 = new Player("player1", 57, 68, "/duckUnarmed.png", 8, 0.1f, 0);
