@@ -33,6 +33,7 @@ public class titleLevel extends GameLevel
         swan = new Object("swan", 92, 95, "/swanRaise.png", 12, 0.05f);
         GameManager.objects.add(swan);
         swan.setPosition(-10, -135);
+        //swan.zIndex = 0;
 
         owlGuard2 = new Object("owlGuard2", 68, 74, "/owlGuardAnim.png", 5, 0.1f);
         //GameManager.objects.add(owlGuard2);
@@ -48,12 +49,13 @@ public class titleLevel extends GameLevel
         GameManager.objects.add(title);
         title.setPosition(0, 0);
 
-        enterText = new TextObject("She took the kids" , 280,325,0xffffffff, 1);
+        enterText = new TextObject("" , 280,325,0xffffffff, 1);
         GameManager.textObjects.add(enterText);
 
         player1 = new Player("player1", 57, 68, "/duckUnarmed.png", 8, 0.1f, 0);
         GameManager.objects.add(player1);
         player1.setPosition(0,0);
+        //player1.zIndex = 0;
     }
 
     @Override

@@ -7,8 +7,9 @@ import com.zach.engine.gfx.ImageTile;
 /**
  * Created by Zach on 6/9/2018.
  */
-public class Object extends GameObject
+public class Object extends GameObject implements Comparable<Object>
 {
+    public int zIndex;
     private ImageTile objImage;
     public int anim = 0;
     public float opacity;
@@ -22,7 +23,11 @@ public class Object extends GameObject
     private int minRange = 0;
     private int maxRange = 0;
     private int endPoint = 0;
-
+    
+    public int getzIndex() {
+        return zIndex;
+    }
+  
     public Object(String name, int width, int height, String path, int totalFrames, float frameLife)
     {
         objImage = new ImageTile(path, width, height);
@@ -188,5 +193,9 @@ public class Object extends GameObject
         setFrame(start);
         endPoint = end;
         isPlayingInRange = true;
+    }
+
+    public int compareTo(Object o) {
+        return this.zIndex - o.getzIndex();
     }
 }

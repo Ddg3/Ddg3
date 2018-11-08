@@ -6,6 +6,7 @@ import com.zach.engine.Renderman;
 import com.zach.engine.gfx.Image;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Zach on 4/14/2018.
@@ -69,6 +70,8 @@ public class GameManager extends AbstractGame
 
         camera.topCamera = gameLevelManager.currLevel.topCamera;
         camera.bottomCamera = gameLevelManager.currLevel.bottomCamera;
+        
+        Collections.sort(objects);
     }
 
     @Override
