@@ -28,6 +28,12 @@ public class Main implements Runnable
     private int height = 360;
     private float scale = 3f;
 
+    public int getFps() {
+        return fps;
+    }
+
+    private int fps = 0;
+
     public Window getWindow() {
         return window;
     }
@@ -95,7 +101,7 @@ public class Main implements Runnable
 
         double frameTime = 0;
         int frames = 0;
-        int fps = 0;
+        fps = 0;
 
         game.init(this);
 
@@ -131,7 +137,7 @@ public class Main implements Runnable
                 renderman.clear();
                 game.render(this, renderman);
                 renderman.process();
-                renderman.drawText("FPS:" + fps, 0, 0, 0xffffffff, 1);
+                //renderman.drawText("FPS:" + fps, 0, 0, 0xffffffff, 1);
                 window.update();
                 frames++;
 

@@ -6,6 +6,7 @@ import com.ivan.xinput.XInputComponentsDelta;
 import com.ivan.xinput.XInputDevice;
 import com.zach.engine.Main;
 import com.zach.engine.Renderman;
+import java.awt.event.KeyEvent;
 
 public class Player extends Object
 {
@@ -20,6 +21,8 @@ public class Player extends Object
     private float lStickY = 0f;
     private float rStickX = 0f;
     private float rStickY = 0f;
+
+    private Vector moveDir = new Vector(0,0);
 
     public Player(String name, int width, int height, String path, int totalFrames, float frameLife, int playerNumber)
     {
@@ -43,19 +46,28 @@ public class Player extends Object
             rStickX += axes.getRXDelta();
             rStickY += axes.getRYDelta();
 
-            move(dt);
+            moveController(dt);
             look();
-
-            this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
-            this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
 
             //System.out.println(offsetPos.x);
            /*this.offsetPos.x = main.getInput().getMouseX() - this.width;
            this.offsetPos.y = main.getInput().getMouseY() + this.height + 180;*/
         }
+        else
+        {
+            moveKeyboard(main,dt);
+
+            if(main.getInput().isKey(KeyEvent.VK_A))
+            {
+                System.out.println("A");
+            }
+        }
+
+        this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
+        this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
     }
 
-    public void move(float dt)
+    public void moveController(float dt)
     {
         if (lStickX > 0.4f)
         {
@@ -120,8 +132,7 @@ public class Player extends Object
             //Right
             this.setFrame(2);
         }
-        if (rStickY > 0.4f)
-        {
+        if (rStickY > 0.4f) {
             //Down
             this.setFrame(0);
         }
@@ -145,5 +156,59 @@ public class Player extends Object
             //Right and Up
             this.setFrame(3);
         }
+    }
+
+    public void moveKeyboard(Main main, float dt)
+    {
+        if (main.getInput().isKey(KeyEvent.VK_A))
+        {
+            this.position.x += -100f * dt;
+            this.setFrame(6);
+
+        }
+        if (main.getInput().isKey(KeyEvent.VK_D))
+        {
+            this.position.x += 100f * dt;
+            this.setFrame(2);
+        }
+
+        if (main.getInput().isKey(KeyEvent.VK_S))
+        {
+            this.position.y += 100f * dt;
+            this.setFrame(0);
+        }
+        if (main.getInput().isKey(KeyEvent.VK_W))
+        {
+            this.position.y +=  -100f * dt;
+            this.setFrame(4);
+        }
+
+        //Changes frame of animation on the diagonals if the right thumbstick is not being used
+        if (main.getInput().isKey(KeyEvent.VK_A) && main.getInput().isKey(KeyEvent.VK_W))
+        {
+            this.setFrame(5);
+        }
+        if (main.getInput().isKey(KeyEvent.VK_A) && main.getInput().isKey(KeyEvent.VK_S))
+        {
+            this.setFrame(7);
+        }
+        if (main.getInput().isKey(KeyEvent.VK_D) && main.getInput().isKey(KeyEvent.VK_S))
+        {
+            this.setFrame(1);
+        }
+        if (main.getInput().isKey(KeyEvent.VK_D) && main.getInput().isKey(KeyEvent.VK_W))
+        {
+            this.setFrame(3);
+        }
+
+        //VERY IMPORTANT
+        /*if(this.position.x >= 320 || this.position.x <= -320)
+        {
+            moveDir.x *= -1;
+        }
+        if(this.position.y >= 180 || this.position.y <= -180)
+        {
+            moveDir.y *= -1;
+        }*/
     }
 }

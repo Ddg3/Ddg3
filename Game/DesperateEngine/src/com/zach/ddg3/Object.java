@@ -7,8 +7,9 @@ import com.zach.engine.gfx.ImageTile;
 /**
  * Created by Zach on 6/9/2018.
  */
-public class Object extends GameObject
+public class Object extends GameObject implements Comparable<Object>
 {
+    public int zIndex;
     private ImageTile objImage;
     public int anim = 0;
     public float opacity;
@@ -22,6 +23,10 @@ public class Object extends GameObject
     private int minRange = 0;
     private int maxRange = 0;
     private int endPoint = 0;
+
+    public int getzIndex() {
+        return zIndex;
+    }
 
     public Object(String name, int width, int height, String path, int totalFrames, float frameLife)
     {
@@ -48,11 +53,11 @@ public class Object extends GameObject
             offsetPos.setY(position.y - height / 2 + 180);
         }
         else
-            {
-                //The camera centers ONE image and nothing else, so this image does not need to be offset
-                offsetPos.setX(position.x);
-                offsetPos.setY(position.y);
-            }
+        {
+            //The camera centers ONE image and nothing else, so this image does not need to be offset
+            offsetPos.setX(position.x);
+            offsetPos.setY(position.y);
+        }
     }
 
     @Override
@@ -86,16 +91,16 @@ public class Object extends GameObject
                 }
             }
             else
-                {
-                    tempLife -= dt;
-                    if (tempLife <= 0 && anim < endPoint) {
-                        anim++;
-                        tempLife = frameLife;
-                    }
-                    if (anim == endPoint) {
-                        stop();
-                    }
+            {
+                tempLife -= dt;
+                if (tempLife <= 0 && anim < endPoint) {
+                    anim++;
+                    tempLife = frameLife;
                 }
+                if (anim == endPoint) {
+                    stop();
+                }
+            }
         }
 
         if(!target)
@@ -104,10 +109,10 @@ public class Object extends GameObject
             offsetPos.setY(position.y - height / 2 + 180);
         }
         else
-            {
-                offsetPos.setX(position.x);
-                offsetPos.setY(position.y);
-            }
+        {
+            offsetPos.setX(position.x);
+            offsetPos.setY(position.y);
+        }
 
     }
 
@@ -116,7 +121,7 @@ public class Object extends GameObject
     {
         //r.drawFillRectangle((int)positionX, (int)positionY, width, height, 0xff00ff00);
         if(this.visible)
-        r.drawImageTile(objImage, (int)offsetPos.x, (int)offsetPos.y, anim, 0, scale);
+            r.drawImageTile(objImage, (int)offsetPos.x, (int)offsetPos.y, anim, 0, scale);
 
         //Shows the origin of the image (Its top left)
         //r.setPixel((int)offsetPos.x, (int)offsetPos.y, 0xff00FF00);
@@ -188,5 +193,9 @@ public class Object extends GameObject
         setFrame(start);
         endPoint = end;
         isPlayingInRange = true;
+    }
+
+    public int compareTo(Object o) {
+        return this.zIndex - o.getzIndex();
     }
 }

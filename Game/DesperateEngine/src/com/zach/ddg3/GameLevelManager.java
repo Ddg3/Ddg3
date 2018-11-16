@@ -9,6 +9,10 @@ import com.zach.engine.Renderman;
  */
 public class GameLevelManager extends AbstractGame
 {
+    public static GameState getGameState() {
+        return gameState;
+    }
+
     protected static GameState gameState;
     protected static GameLevel currLevel;
     private boolean switched;

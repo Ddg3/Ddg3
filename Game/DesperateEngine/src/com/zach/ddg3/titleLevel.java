@@ -25,7 +25,9 @@ public class titleLevel extends GameLevel
     @Override
     public void init(Main main)
     {
-        this.bottomCamera = 1000;
+        this.bottomCamera = 0;
+        this.topCamera = 0;
+
         nest = new Object("nest", 640, 480, "/swanNest.png", 1, 0.1f);
         GameManager.objects.add(nest);
         nest.setPosition(0, -7);

@@ -5,7 +5,9 @@ import com.zach.engine.Main;
 import com.zach.engine.Renderman;
 import com.zach.engine.gfx.Image;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Zach on 4/14/2018.
@@ -19,6 +21,8 @@ public class GameManager extends AbstractGame
     private int levelHeight;
     private boolean[] collision;
     private boolean isColliding = false;
+    private static TextObject fpsCounter = null;
+    private boolean showFps = true;
 
     public static Object center;
     public static Camera camera;
@@ -46,6 +50,9 @@ public class GameManager extends AbstractGame
         GameManager.objects.add(center);
         center.visible = false;
         center.setPosition(0,0);
+
+        fpsCounter = new TextObject("FPS:" + main.getFps() , 0,0,0xffffffff, 1);
+        GameManager.textObjects.add(fpsCounter);
     }
 
     @Override
@@ -69,6 +76,32 @@ public class GameManager extends AbstractGame
 
         camera.topCamera = gameLevelManager.currLevel.topCamera;
         camera.bottomCamera = gameLevelManager.currLevel.bottomCamera;
+
+        Collections.sort(objects);
+
+        fpsCounter.text = "FPS:" + main.getFps();
+        fpsCounter.posX = 0;
+        if(gameLevelManager.getGameState() != GameLevelManager.GameState.TITLE_STATE && (camera.getPosY() < gameLevelManager.currLevel.topCamera && camera.getPosY() > gameLevelManager.currLevel.bottomCamera))
+        {
+            fpsCounter.posY = (int) camera.getPosY();
+        }
+        if(gameLevelManager.getGameState() == GameLevelManager.GameState.TITLE_STATE)
+        {
+            fpsCounter.posY = (int) camera.getPosY();
+        }
+
+        if(main.getInput().isKeyDown(KeyEvent.VK_F1))
+        {
+            if(showFps)
+            {
+                showFps = false;
+                return;
+            }
+            else
+                {
+                    showFps = true;
+                }
+        }
     }
 
     @Override
@@ -97,7 +130,11 @@ public class GameManager extends AbstractGame
         {
             //Renders all text objects
             if(textObj.visible)
-            main.getRenderman().drawText(textObj.text, textObj.posX, textObj.posY, textObj.color, textObj.scale);
+                main.getRenderman().drawText(textObj.text, textObj.posX, textObj.posY, textObj.color, textObj.scale);
+        }
+        if(showFps)
+        {
+            main.getRenderman().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale);
         }
     }
 
