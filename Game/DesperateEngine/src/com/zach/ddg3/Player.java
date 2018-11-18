@@ -56,11 +56,6 @@ public class Player extends Object
         else
         {
             moveKeyboard(main,dt);
-
-            if(main.getInput().isKey(KeyEvent.VK_A))
-            {
-                System.out.println("A");
-            }
         }
 
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);

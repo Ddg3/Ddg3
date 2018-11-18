@@ -24,6 +24,9 @@ public class Object extends GameObject implements Comparable<Object>
     private int maxRange = 0;
     private int endPoint = 0;
 
+    public static boolean isActiveOnPause = false;
+    public static boolean isActiveOnPlay = true;
+
     public int getzIndex() {
         return zIndex;
     }

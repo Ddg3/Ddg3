@@ -23,6 +23,7 @@ public class GameManager extends AbstractGame
     private boolean isColliding = false;
     private static TextObject fpsCounter = null;
     private boolean showFps = true;
+    private boolean isPlaying = true;
 
     public static Object center;
     public static Camera camera;
@@ -61,7 +62,10 @@ public class GameManager extends AbstractGame
         //Runs ALWAYS in case u couldn't tell
         for(int i = 0; i < objects.size(); i++)
         {
-            objects.get(i).update(main, this, dt);
+            if((objects.get(i).isActiveOnPlay && isPlaying) || (objects.get(i).isActiveOnPause && !isPlaying))
+            {
+                objects.get(i).update(main, this, dt);
+            }
             if(objects.get(i).isDead())
             {
                 objects.remove(i);
@@ -101,6 +105,18 @@ public class GameManager extends AbstractGame
                 {
                     showFps = true;
                 }
+        }
+        if(main.getInput().isKeyDown(KeyEvent.VK_ESCAPE))
+        {
+            if(isPlaying)
+            {
+                isPlaying = false;
+                return;
+            }
+            else
+            {
+                isPlaying = true;
+            }
         }
     }
 
