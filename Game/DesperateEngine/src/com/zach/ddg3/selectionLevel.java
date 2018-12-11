@@ -6,6 +6,8 @@ import com.zach.engine.Main;
 public class selectionLevel extends GameLevel
 {
     public static Player player1;
+    public static Player player2;
+
     private static Object fountain;
     private static Object floor;
     private static Object arch;
@@ -13,8 +15,11 @@ public class selectionLevel extends GameLevel
     @Override
     public void init(Main main)
     {
-        this.bottomCamera = -360;
-        this.topCamera = 350;
+        this.verticleBounds.clear();
+        this.horizBounds.clear();
+
+        this.verticleBounds.add(new Vector(350,-360));
+        this.horizBounds.add(new Vector(0,0));
 
         floor = new Object("floor", 640, 1080, "/selectionFloor.png", 1, 0.1f);
         GameManager.objects.add(floor);
@@ -26,7 +31,13 @@ public class selectionLevel extends GameLevel
 
         player1 = new Player("player1", 57, 68, "/duckUnarmed.png", 8, 0.1f, 0);
         GameManager.objects.add(player1);
-        player1.setPosition(0,425);
+        player1.setPosition(0,0);
+        //player1.visible = false;
+
+        player2 = new Player("player2", 57, 68, "/duckUnarmed.png", 8, 0.1f, 1);
+        GameManager.objects.add(player1);
+        player2.setPosition(75,0);
+        player2.visible = false;
 
         arch = new Object("arch", 640, 1080, "/selectionArch.png", 1, 0.1f);
         GameManager.objects.add(arch);
@@ -40,8 +51,16 @@ public class selectionLevel extends GameLevel
 
         if(player1.device.poll() && player1.device.getDelta().getButtons().isPressed(XInputButton.START))
         {
+            //System.out.println("DAB");
+            player1.visible = true;
             GameManager.objects.add(player1);
         }
+        if(player2.device.poll() && player2.device.getDelta().getButtons().isPressed(XInputButton.START))
+        {
+            player2.visible = true;
+            GameManager.objects.add(player2);
+        }
+
     }
 
     @Override

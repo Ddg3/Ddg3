@@ -22,8 +22,6 @@ public class Player extends Object
     private float rStickX = 0f;
     private float rStickY = 0f;
 
-    private Vector moveDir = new Vector(0,0);
-
     public Player(String name, int width, int height, String path, int totalFrames, float frameLife, int playerNumber)
     {
         super(name, width, height, path, totalFrames, frameLife);

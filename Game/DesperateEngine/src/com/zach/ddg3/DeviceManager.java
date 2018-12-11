@@ -37,7 +37,7 @@ public class DeviceManager extends GameLevel
         {
             if(!devices[i].isConnected())
             {
-                //System.out.println("Device " + i + " is disconnected silly goose!");
+                //System.out.println("Device " + i + " is disconnected, silly goose!");
             }
         }
     }

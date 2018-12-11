@@ -1,5 +1,6 @@
 package com.zach.ddg3;
 
+import com.ivan.xinput.enums.XInputButton;
 import com.zach.engine.AbstractGame;
 import com.zach.engine.Main;
 import com.zach.engine.Renderman;
@@ -78,14 +79,14 @@ public class GameManager extends AbstractGame
         camera.update(this, main, dt);
         deviceManager.update(main, dt);
 
-        camera.topCamera = gameLevelManager.currLevel.topCamera;
-        camera.bottomCamera = gameLevelManager.currLevel.bottomCamera;
+        //camera.topCamera = gameLevelManager.currLevel.topCamera;
+        //camera.bottomCamera = gameLevelManager.currLevel.bottomCamera;
 
         Collections.sort(objects);
 
         fpsCounter.text = "FPS:" + main.getFps();
         fpsCounter.posX = 0;
-        if(gameLevelManager.getGameState() != GameLevelManager.GameState.TITLE_STATE && (camera.getPosY() < gameLevelManager.currLevel.topCamera && camera.getPosY() > gameLevelManager.currLevel.bottomCamera))
+        if(gameLevelManager.getGameState() != GameLevelManager.GameState.TITLE_STATE && (camera.getPosY() < gameLevelManager.currLevel.verticleBounds.get(0).x && camera.getPosY() > gameLevelManager.currLevel.verticleBounds.get(0).y))
         {
             fpsCounter.posY = (int) camera.getPosY();
         }

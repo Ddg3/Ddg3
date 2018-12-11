@@ -25,8 +25,11 @@ public class titleLevel extends GameLevel
     @Override
     public void init(Main main)
     {
-        this.bottomCamera = 0;
-        this.topCamera = 0;
+        //this.bottomCamera = 0;
+        //this.topCamera = 0;
+
+        this.verticleBounds.add(new Vector(0,0));
+        this.horizBounds.add(new Vector(0,0));
 
         nest = new Object("nest", 640, 480, "/swanNest.png", 1, 0.1f);
         GameManager.objects.add(nest);
@@ -84,6 +87,7 @@ public class titleLevel extends GameLevel
         }
         if(swan.anim == 10)
         {
+            GameManager.camera.boundsRange = 0;
             GameManager.gameLevelManager.setGameState(GameLevelManager.GameState.SELECTION_STATE);
             uninit();
         }
