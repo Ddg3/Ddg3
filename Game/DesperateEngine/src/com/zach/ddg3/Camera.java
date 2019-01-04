@@ -1,5 +1,6 @@
 package com.zach.ddg3;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.zach.engine.Main;
 
 public class Camera {
@@ -67,24 +68,26 @@ public class Camera {
         posX = (target.position.x + (target.width / 2)) - main.getWidth() / 2;
         posY = (target.position.y + (target.height / 2)) - main.getHeight() / 2;
 
-        topCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(0).x;
-        bottomCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(0).y;
+        topCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).x;
+        bottomCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).y;
 
         main.getRenderman().setCameraX(0);
 
-        if (target.getPositionY() > topCamera && boundsRange != gameManager.gameLevelManager.currLevel.verticleBounds.size())
-        {
-            boundsRange++;
-        }
-        if (target.getPositionY() < bottomCamera && boundsRange != 0)
+        //System.out.println(-target.position.y + " , " + (topCamera + (target.height / 2)) + " with bounds range at: " + boundsRange + " out of " + gameManager.gameLevelManager.currLevel.verticleBounds.size());
+        //System.out.println(posY + " vs. playerpos at " + target.position.y);
+        System.out.println(posY + ", " + topCamera + ", " + bottomCamera);
+        if (posY >= (topCamera + (target.height / 2)) && boundsRange != 0)
         {
             boundsRange--;
+        }
+        if (posY < (bottomCamera - (target.height / 2)) && boundsRange != gameManager.gameLevelManager.currLevel.verticleBounds.size() - 1  )
+        {
+            boundsRange++;
         }
 
         if (posY < topCamera && posY > bottomCamera)
         {
             main.getRenderman().setCameraY((int) posY);
-
         }
         else if (posY >= topCamera)
         {

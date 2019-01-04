@@ -12,14 +12,24 @@ public class selectionLevel extends GameLevel
     private static Object floor;
     private static Object arch;
 
+    private static Object floor2;
+    private static Object wall;
+    private static Object door;
+    private static Object arch2;
+
+    private static Object explosiveGuns;
+
+
     @Override
     public void init(Main main)
     {
         this.verticleBounds.clear();
         this.horizBounds.clear();
 
-        this.verticleBounds.add(new Vector(350,-360));
-        this.horizBounds.add(new Vector(0,0));
+        this.verticleBounds.add(new Vector(350,-1000));
+        this.verticleBounds.add(new Vector(-720,-1000));
+
+        //this.verticleBounds.add(new Vector(-600, -600));
 
         floor = new Object("floor", 640, 1080, "/selectionFloor.png", 1, 0.1f);
         GameManager.objects.add(floor);
@@ -32,15 +42,28 @@ public class selectionLevel extends GameLevel
         player1 = new Player("player1", 57, 68, "/duckUnarmed.png", 8, 0.1f, 0);
         GameManager.objects.add(player1);
         player1.setPosition(0,0);
+        player1.zIndex = 1;
         //player1.visible = false;
 
         player2 = new Player("player2", 57, 68, "/duckUnarmed.png", 8, 0.1f, 1);
         GameManager.objects.add(player1);
         player2.setPosition(75,0);
+        player2.zIndex = 1;
         player2.visible = false;
 
         arch = new Object("arch", 640, 1080, "/selectionArch.png", 1, 0.1f);
         GameManager.objects.add(arch);
+        arch.zIndex = 2;
+
+        floor2 = new Object("floor2", 640, 465, "/selectionGround.png", 1, 0.1f);
+        floor2.setPosition(0, -777);
+        GameManager.objects.add(floor2);
+
+        arch2 = new Object("floor2", 640, 465, "/selectionArch2.png", 1, 0.1f);
+        arch2.setPosition(0, -777);
+        GameManager.objects.add(arch2);
+        arch2.zIndex = 2;
+
 
     }
 
@@ -60,6 +83,7 @@ public class selectionLevel extends GameLevel
             player2.visible = true;
             GameManager.objects.add(player2);
         }
+
 
     }
 

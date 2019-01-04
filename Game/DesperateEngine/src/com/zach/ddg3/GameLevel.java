@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 public abstract class GameLevel
 {
+    //FOR THE LOVE OF GOD REMEMBER UP IS NEGATIVE IN THIS STOOPID REALITY AND DOWN IS POSITIVE
     public static int bottomCamera;
     public static int topCamera;
     //public static ArrayList eventPoints = new ArrayList(1);
