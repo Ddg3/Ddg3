@@ -130,6 +130,11 @@ public class Object extends GameObject implements Comparable<Object>
         //r.setPixel((int)offsetPos.x, (int)offsetPos.y, 0xff00FF00);
     }
 
+    @Override
+    public void collision(GameObject other) {
+
+    }
+
     public void setPosition(float x, float y)
     {
         position.setX(x);

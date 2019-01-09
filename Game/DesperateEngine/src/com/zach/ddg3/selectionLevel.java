@@ -26,8 +26,8 @@ public class selectionLevel extends GameLevel
         this.verticleBounds.clear();
         this.horizBounds.clear();
 
-        this.verticleBounds.add(new Vector(350,-1000));
-        this.verticleBounds.add(new Vector(-720,-1000));
+        this.verticleBounds.add(new Vector(350,-360));
+        this.verticleBounds.add(new Vector(-720,-825));
 
         //this.verticleBounds.add(new Vector(-600, -600));
 
@@ -56,13 +56,21 @@ public class selectionLevel extends GameLevel
         arch.zIndex = 2;
 
         floor2 = new Object("floor2", 640, 465, "/selectionGround.png", 1, 0.1f);
-        floor2.setPosition(0, -777);
+        floor2.setPosition(0, -773);
         GameManager.objects.add(floor2);
 
         arch2 = new Object("floor2", 640, 465, "/selectionArch2.png", 1, 0.1f);
-        arch2.setPosition(0, -777);
+        arch2.setPosition(0, -773);
         GameManager.objects.add(arch2);
         arch2.zIndex = 2;
+
+        wall = new Object("wall", 640, 465, "/selectionWall.png", 1, 0.1f);
+        wall.setPosition(0, -773);
+        GameManager.objects.add(wall);
+
+        door = new Object("door", 640, 465, "/selectionDoor.png", 1, 0.1f);
+        door.setPosition(0, -773);
+        GameManager.objects.add(door);
 
 
     }
@@ -77,11 +85,15 @@ public class selectionLevel extends GameLevel
             //System.out.println("DAB");
             player1.visible = true;
             GameManager.objects.add(player1);
+            GameManager.players.add(player1);
         }
         if(player2.device.poll() && player2.device.getDelta().getButtons().isPressed(XInputButton.START))
         {
             player2.visible = true;
             GameManager.objects.add(player2);
+            GameManager.players.add(player2);
+            player2.position.y = player1.position.y;
+            player2.position.x = player1.position.x + 100;
         }
 
 

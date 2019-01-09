@@ -16,6 +16,7 @@ import java.util.Collections;
 public class GameManager extends AbstractGame
 {
     public static ArrayList<Object> objects = new ArrayList<Object>(1);
+    public static ArrayList<Player> players = new ArrayList<Player>(1);
     public static ArrayList<TextObject> textObjects = new ArrayList<TextObject>(1);
     private ArrayList<Object> toKillList = new ArrayList<Object>();
     private int levelWidth;
