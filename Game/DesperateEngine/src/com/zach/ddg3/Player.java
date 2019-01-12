@@ -4,8 +4,10 @@ import com.ivan.xinput.XInputAxesDelta;
 import com.ivan.xinput.XInputButtonsDelta;
 import com.ivan.xinput.XInputComponentsDelta;
 import com.ivan.xinput.XInputDevice;
+import com.zach.ddg3.components.AABBComponent;
 import com.zach.engine.Main;
-import com.zach.engine.Renderman;
+import com.zach.engine.Renderer;
+
 import java.awt.event.KeyEvent;
 
 public class Player extends Object
@@ -22,6 +24,8 @@ public class Player extends Object
     private float rStickX = 0f;
     private float rStickY = 0f;
 
+    private int color = (int)(Math.random() * Integer.MAX_VALUE);
+
     public Player(String name, int width, int height, String path, int totalFrames, float frameLife, int playerNumber)
     {
         super(name, width, height, path, totalFrames, frameLife);
@@ -32,6 +36,10 @@ public class Player extends Object
         buttons = GameManager.deviceManager.buttons[playerNumber];
         axes = GameManager.deviceManager.axes[playerNumber];
         //GameManager.deviceManager.addComponents(device, delta, buttons, axes);
+        this.addComponent(new AABBComponent(this));
+
+        //this.paddingTop = -30;
+        //this.paddingSide = 0;
     }
 
     @Override
@@ -58,6 +66,22 @@ public class Player extends Object
 
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
+
+        this.updateComponents(main, gameManager, dt);
+    }
+
+    @Override
+    public void render(Main main, Renderer r)
+    {
+        super.render(main, r);
+        //r.drawFillRectangle((int)offsetPos.x, (int)offsetPos.y, width, height, color);
+        this.renderComponents(main, r);
+    }
+
+    @Override
+    public void collision(GameObject other)
+    {
+
     }
 
     public void moveController(float dt)

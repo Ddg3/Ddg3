@@ -1,10 +1,8 @@
 package com.zach.ddg3;
 
-import com.ivan.xinput.enums.XInputButton;
 import com.zach.engine.AbstractGame;
 import com.zach.engine.Main;
-import com.zach.engine.Renderman;
-import com.zach.engine.gfx.Image;
+import com.zach.engine.Renderer;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -43,7 +41,7 @@ public class GameManager extends AbstractGame
     public void init(Main main)
     {
         //Runs first
-        main.getRenderman().setAmbientColor(-1);
+        main.getRenderer().setAmbientColor(-1);
         gameLevelManager.gameState = GameLevelManager.GameState.TITLE_STATE;
         deviceManager.init(main);
 
@@ -74,6 +72,8 @@ public class GameManager extends AbstractGame
                 i--;
             }
         }
+
+        Physics.update();
 
         gameLevelManager.update(main, dt);
         gameLevelManager.currLevel.update(main, dt);
@@ -123,7 +123,7 @@ public class GameManager extends AbstractGame
     }
 
     @Override
-    public void render(Main main, Renderman renderman)
+    public void render(Main main, Renderer renderer)
     {
         /*for(int y = 0; y < levelHeight; y++)
         {
@@ -131,28 +131,28 @@ public class GameManager extends AbstractGame
             {
                 if(collision[x + y * levelWidth] == 1)
                 {
-                    renderman.drawFillRectangle(x * 16, y * 16, 16, 16, 0xff0f0f0f);
+                    renderer.drawFillRectangle(x * 16, y * 16, 16, 16, 0xff0f0f0f);
                 }
                 else
                     {
-                        renderman.drawFillRectangle(x * 16, y * 16, 16, 16, 0xfff9f9f9);
+                        renderer.drawFillRectangle(x * 16, y * 16, 16, 16, 0xfff9f9f9);
                     }
             }
         }*/
         for(Object obj: objects)
         {
             //Renders all objects
-            obj.render(main, renderman);
+            obj.render(main, renderer);
         }
         for(TextObject textObj: textObjects)
         {
             //Renders all text objects
             if(textObj.visible)
-                main.getRenderman().drawText(textObj.text, textObj.posX, textObj.posY, textObj.color, textObj.scale);
+                main.getRenderer().drawText(textObj.text, textObj.posX, textObj.posY, textObj.color, textObj.scale);
         }
         if(showFps)
         {
-            main.getRenderman().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale);
+            main.getRenderer().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale);
         }
     }
 

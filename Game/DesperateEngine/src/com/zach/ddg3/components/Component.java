@@ -1,9 +1,8 @@
 package com.zach.ddg3.components;
 
 import com.zach.ddg3.GameManager;
-import com.zach.ddg3.Object;
 import com.zach.engine.Main;
-import com.zach.engine.Renderman;
+import com.zach.engine.Renderer;
 
 public abstract class Component
 {
@@ -17,7 +16,7 @@ public abstract class Component
 
     protected String tag;
 
-    public abstract void update(Main main, GameManager gameManager, Object parent, float dt);
-    public abstract void render(Main main, GameManager gameManager, Object parent, Renderman renderer);
+    public abstract void update(Main main, GameManager gameManager, float dt);
+    public abstract void render(Main main, Renderer renderer);
 
 }

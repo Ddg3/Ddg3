@@ -2,7 +2,7 @@ package com.zach.ddg3;
 
 import com.zach.engine.AbstractGame;
 import com.zach.engine.Main;
-import com.zach.engine.Renderman;
+import com.zach.engine.Renderer;
 
 /**
  * Created by Zach on 6/12/2018.
@@ -77,7 +77,7 @@ public class GameLevelManager extends AbstractGame
     }
 
     @Override
-    public void render(Main main, Renderman r)
+    public void render(Main main, Renderer r)
     {
 
     }

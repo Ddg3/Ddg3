@@ -5,15 +5,15 @@ public class Main implements Runnable
     private Thread thread;
     private Window window;
 
-    public Renderman getRenderman() {
-        return renderman;
+    public Renderer getRenderer() {
+        return renderer;
     }
 
-    public void setRenderman(Renderman renderman) {
-        this.renderman = renderman;
+    public void setRenderer(Renderer renderer) {
+        this.renderer = renderer;
     }
 
-    private Renderman renderman;
+    private Renderer renderer;
 
     public Input getInput() {
         return input;
@@ -78,7 +78,7 @@ public class Main implements Runnable
     public void initialize()
     {
         window = new Window(this);
-        renderman = new Renderman(this);
+        renderer = new Renderer(this);
         input = new Input(this);
 
         thread = new Thread(this);
@@ -134,10 +134,10 @@ public class Main implements Runnable
 
             if(render)
             {
-                renderman.clear();
-                game.render(this, renderman);
-                renderman.process();
-                //renderman.drawText("FPS:" + fps, 0, 0, 0xffffffff, 1);
+                renderer.clear();
+                game.render(this, renderer);
+                renderer.process();
+                //renderer.drawText("FPS:" + fps, 0, 0, 0xffffffff, 1);
                 window.update();
                 frames++;
 

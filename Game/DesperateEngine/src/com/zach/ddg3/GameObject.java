@@ -2,7 +2,7 @@ package com.zach.ddg3;
 
 import com.zach.ddg3.components.Component;
 import com.zach.engine.Main;
-import com.zach.engine.Renderman;
+import com.zach.engine.Renderer;
 
 import java.util.ArrayList;
 
@@ -16,8 +16,18 @@ public abstract class GameObject
     protected int width;
     protected int totalFrames;
     protected float frameLife;
-    protected int paddingBottom;
-    protected int paddingTop;
+    protected int paddingSide = 0;
+    protected int paddingTop = 0;
+
+    public int getPadding() {
+        return padding;
+    }
+
+    public void setPadding(int padding) {
+        this.padding = padding;
+    }
+
+    protected int padding;
     protected float rotation;
 
     public int getPaddingTop() {
@@ -28,12 +38,12 @@ public abstract class GameObject
         this.paddingTop = paddingTop;
     }
 
-    public int getPaddingBottom() {
-        return paddingBottom;
+    public int getPaddingSide() {
+        return paddingSide;
     }
 
-    public void setPaddingBottom(int paddingBottom) {
-        this.paddingBottom = paddingBottom;
+    public void setPaddingSide(int paddingSide) {
+        this.paddingSide = paddingSide;
     }
 
     public float getRotation() {
@@ -94,22 +104,22 @@ public abstract class GameObject
     protected ArrayList<Component> components = new ArrayList<Component>();
 
     public abstract void update(Main main, GameManager gameManager, float dt);
-    public abstract void render(Main main, Renderman r);
+    public abstract void render(Main main, Renderer r);
     public abstract void collision(GameObject other);
 
-    public void updateComponents(Main main, GameManager gameManager, Object parent, float dt)
+    public void updateComponents(Main main, GameManager gameManager, float dt)
     {
         for(Component component : components)
         {
-            component.update(main, gameManager, parent, dt);
+            component.update(main, gameManager, dt);
         }
     }
 
-    public void renderComponents(Main main, GameManager gameManager, Object parent, Renderman renderer)
+    public void renderComponents(Main main, Renderer renderer)
     {
         for(Component component : components)
         {
-            component.render(main, gameManager, parent, renderer);
+            component.render(main, renderer);
         }
     }
 

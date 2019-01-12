@@ -1,6 +1,5 @@
 package com.zach.ddg3;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.zach.engine.Main;
 
 public class Camera {
@@ -71,11 +70,11 @@ public class Camera {
         topCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).x;
         bottomCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).y;
 
-        main.getRenderman().setCameraX(0);
+        main.getRenderer().setCameraX(0);
 
         //System.out.println(-target.position.y + " , " + (topCamera + (target.height / 2)) + " with bounds range at: " + boundsRange + " out of " + gameManager.gameLevelManager.currLevel.verticleBounds.size());
         //System.out.println(posY + " vs. playerpos at " + target.position.y);
-        System.out.println(posY + ", " + topCamera + ", " + bottomCamera);
+        //System.out.println(posY + ", " + topCamera + ", " + bottomCamera);
         if (posY >= (topCamera + (target.height / 2)) && boundsRange != 0)
         {
             boundsRange--;
@@ -87,14 +86,14 @@ public class Camera {
 
         if (posY < topCamera && posY > bottomCamera)
         {
-            main.getRenderman().setCameraY((int) posY);
+            main.getRenderer().setCameraY((int) posY);
         }
         else if (posY >= topCamera)
         {
-            main.getRenderman().setCameraY(topCamera);
+            main.getRenderer().setCameraY(topCamera);
         } else
             {
-            main.getRenderman().setCameraY(bottomCamera);
+            main.getRenderer().setCameraY(bottomCamera);
         }
     }
 }

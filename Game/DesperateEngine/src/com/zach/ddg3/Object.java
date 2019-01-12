@@ -1,7 +1,7 @@
 package com.zach.ddg3;
 
 import com.zach.engine.Main;
-import com.zach.engine.Renderman;
+import com.zach.engine.Renderer;
 import com.zach.engine.gfx.ImageTile;
 
 /**
@@ -120,7 +120,7 @@ public class Object extends GameObject implements Comparable<Object>
     }
 
     @Override
-    public void render(Main main, Renderman r)
+    public void render(Main main, Renderer r)
     {
         //r.drawFillRectangle((int)positionX, (int)positionY, width, height, 0xff00ff00);
         if(this.visible)
@@ -131,7 +131,8 @@ public class Object extends GameObject implements Comparable<Object>
     }
 
     @Override
-    public void collision(GameObject other) {
+    public void collision(GameObject other)
+    {
 
     }
 

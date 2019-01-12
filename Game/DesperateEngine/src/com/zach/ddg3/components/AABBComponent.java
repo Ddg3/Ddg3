@@ -2,13 +2,30 @@ package com.zach.ddg3.components;
 
 import com.zach.ddg3.GameManager;
 import com.zach.ddg3.Object;
+import com.zach.ddg3.Physics;
 import com.zach.engine.Main;
-import com.zach.engine.Renderman;
+import com.zach.engine.Renderer;
 
 public class AABBComponent extends Component
 {
+    private int color = (int)(Math.random() * Integer.MAX_VALUE);
+
+    public Object getParent() {
+        return parent;
+    }
+
+    public void setParent(Object parent) {
+        this.parent = parent;
+    }
+
+    private Object parent;
     private int centerX, centerY;
     private int halfWidth, halfHeight;
+
+    public AABBComponent(Object parent)
+    {
+        this.parent = parent;
+    }
 
     public int getCenterX() {
         return centerX;
@@ -43,18 +60,21 @@ public class AABBComponent extends Component
     }
 
     @Override
-    public void update(Main main, GameManager gameManager, Object parent, float dt)
+    public void update(Main main, GameManager gameManager, float dt)
     {
-        centerX = (int)(parent.getPositionX() + (parent.getWidth() / 2));
-        centerY = (int)(parent.getPositionY() + (parent.getHeight() / 2) + (parent.getPaddingTop() / 2));
+        centerX = (int)(parent.getPositionX());
+        centerY = (int)(parent.getPositionY());
 
-        halfWidth = parent.getWidth() - parent.getPaddingBottom();
-        halfHeight = parent.getHeight() - parent.getPaddingTop();
+        halfWidth = (parent.getWidth() / 2) - parent.getPaddingSide();
+        halfHeight = (parent.getHeight() / 2) - (parent.getPaddingTop() / 2);
+
+        Physics.addAABBComponent(this);
     }
 
     @Override
-    public void render(Main main, GameManager gameManager, Object parent, Renderman renderer)
+    public void render(Main main, Renderer renderer)
     {
-
+        renderer.drawFillRectangle(centerX - halfWidth + 320, centerY - halfHeight + 180, halfWidth * 2, halfHeight * 2, color);
+        renderer.setPixel(centerX + 320, centerY + 180, 0xffff0000);
     }
 }

@@ -8,7 +8,7 @@ public class selectionLevel extends GameLevel
     public static Player player1;
     public static Player player2;
 
-    private static Object fountain;
+    private static Wall fountain;
     private static Object floor;
     private static Object arch;
 
@@ -34,7 +34,7 @@ public class selectionLevel extends GameLevel
         floor = new Object("floor", 640, 1080, "/selectionFloor.png", 1, 0.1f);
         GameManager.objects.add(floor);
 
-        fountain = new Object("fountain", 188, 103, "/fountain.png", 4, 0.1f);
+        fountain = new Wall("fountain", 188, 103, "/fountain.png", 4, 0.1f);
         fountain.setPosition(0, 150);
         fountain.playInRange(0,3);
         GameManager.objects.add(fountain);

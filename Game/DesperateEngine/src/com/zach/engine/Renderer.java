@@ -10,7 +10,7 @@ import java.util.Comparator;
 /**
  * Created by Zach on 4/14/2018.
  */
-public class Renderman
+public class Renderer
 {
     private int pWidth;
     private int pHeight;
@@ -69,7 +69,7 @@ public class Renderman
         this.zOrder = zOrder;
     }
 
-    public Renderman(Main main)
+    public Renderer(Main main)
     {
         pWidth = main.getWidth();
         pHeight = main.getHeight();
