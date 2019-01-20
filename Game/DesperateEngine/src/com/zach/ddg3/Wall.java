@@ -11,7 +11,7 @@ public class Wall extends Object
     public Wall(String name, int width, int height, String path, int totalFrames, float frameLife)
     {
         super(name, width, height, path, totalFrames, frameLife);
-        this.tag = name;
+        this.tag = "Wall";
 
         this.addComponent(new AABBComponent(this));
     }
@@ -36,8 +36,5 @@ public class Wall extends Object
     {
         super.collision(other);
         color = (int)(Math.random() * Integer.MAX_VALUE);
-
-        System.out.println("yes");
     }
-
 }

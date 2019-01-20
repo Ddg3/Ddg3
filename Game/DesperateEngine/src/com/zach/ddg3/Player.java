@@ -19,6 +19,11 @@ public class Player extends Object
     private XInputButtonsDelta buttons;
     private XInputAxesDelta axes;
 
+    private boolean collidingTop = false;
+    private boolean collidingBottom = false;
+    private boolean collidingLeft = false;
+    private boolean collidingRight = false;
+
     private float lStickX = 0f;
     private float lStickY = 0f;
     private float rStickX = 0f;
@@ -45,6 +50,8 @@ public class Player extends Object
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
+        collidingTop = false;
+
         if(device.poll())
         {
             lStickX += axes.getLXDelta();
@@ -81,37 +88,76 @@ public class Player extends Object
     @Override
     public void collision(GameObject other)
     {
+        if(other.getTag().equalsIgnoreCase("Wall"))
+        {
+            AABBComponent myC = (AABBComponent)this.findComponent("aabb");
+            AABBComponent otherC = (AABBComponent)other.findComponent("aabb");
 
+            if(myC.getCenterY() < otherC.getCenterY())
+            {
+                int distance = myC.getHalfHeight() + otherC.getHalfHeight() - (otherC.getCenterY() - myC.getCenterY());
+                position.y -= distance;
+                offsetPos.y -= distance;
+                myC.setCenterY(myC.getCenterY() - distance);
+                collidingTop = true;
+            }
+        }
     }
 
     public void moveController(float dt)
     {
+        //Left
         if (lStickX > 0.4f)
         {
-            this.position.x -= 100f * dt;
+            if(!collidingRight)
+            {
+                this.position.x -= 100f * dt;
+            }
             if (rStickX < 0.4f && rStickX > -0.4f)
             {
                 this.setFrame(6);
             }
         }
-        if (lStickX < -0.4f) {
-            this.position.x +=  100f * dt;
+        //Right
+        if (lStickX < -0.4f)
+        {
+            if(!collidingLeft)
+            {
+                this.position.x += 100f * dt;
+            }
             if (rStickX < 0.4f && rStickX > -0.4f) {
                 this.setFrame(2);
             }
         }
 
-        if (lStickY > 0.4f) {
-            this.position.y += 100f * dt;
+        //Down
+        if (lStickY > 0.4f)
+        {
+            if(!collidingTop)
+            {
+                this.position.y += 100f * dt;
+            }
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(0);
             }
         }
-        if (lStickY < -0.4f) {
-            this.position.y -=  100f * dt;
+
+        //Up
+        if (lStickY < -0.4f)
+        {
+            if(!collidingBottom)
+            {
+                this.position.y -= 100f * dt;
+            }
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(4);
             }
+        }
+
+        if(lStickY < 0.4f && lStickY > -0.4f)
+        {
+            //Idle on Y
+            collidingTop = false;
         }
 
         //Changes frame of animation on the diagonals if the right thumbstick is not being used

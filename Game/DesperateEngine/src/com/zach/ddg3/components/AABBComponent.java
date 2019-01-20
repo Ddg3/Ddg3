@@ -9,21 +9,21 @@ import com.zach.engine.Renderer;
 public class AABBComponent extends Component
 {
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
-
-    public Object getParent() {
-        return parent;
-    }
-
-    public void setParent(Object parent) {
-        this.parent = parent;
-    }
-
     private Object parent;
     private int centerX, centerY;
     private int halfWidth, halfHeight;
 
     public AABBComponent(Object parent)
     {
+        this.parent = parent;
+        this.tag = "aabb";
+    }
+
+    public Object getParent() {
+        return parent;
+    }
+
+    public void setParent(Object parent) {
         this.parent = parent;
     }
 
