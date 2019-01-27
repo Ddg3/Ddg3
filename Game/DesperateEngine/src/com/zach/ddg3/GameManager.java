@@ -23,6 +23,7 @@ public class GameManager extends AbstractGame
     private boolean isColliding = false;
     private static TextObject fpsCounter = null;
     private boolean showFps = true;
+    private boolean showHitboxes = false;
     private boolean isPlaying = true;
 
     public static Object center;
@@ -108,6 +109,18 @@ public class GameManager extends AbstractGame
                     showFps = true;
                 }
         }
+        if(main.getInput().isKeyDown(KeyEvent.VK_F2))
+        {
+            if(showHitboxes)
+            {
+                showHitboxes = false;
+                return;
+            }
+            else
+            {
+                showHitboxes = true;
+            }
+        }
         if(main.getInput().isKeyDown(KeyEvent.VK_ESCAPE))
         {
             if(isPlaying)
@@ -143,6 +156,8 @@ public class GameManager extends AbstractGame
         {
             //Renders all objects
             obj.render(main, renderer);
+            if(showHitboxes)
+            obj.renderComponents(main, renderer);
         }
         for(TextObject textObj: textObjects)
         {

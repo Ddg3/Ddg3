@@ -27,8 +27,8 @@ public class Wall extends Object
     public void render(Main main, Renderer r)
     {
         super.render(main, r);
-        r.drawFillRectangle((int)offsetPos.x, (int)offsetPos.y, width, height, color);
-        this.renderComponents(main, r);
+        //r.drawFillRectangle((int)offsetPos.x, (int)offsetPos.y, width, height, color);
+        //this.renderComponents(main, r);
     }
 
     @Override

@@ -19,7 +19,6 @@ public class selectionLevel extends GameLevel
 
     private static Object explosiveGuns;
 
-
     @Override
     public void init(Main main)
     {
@@ -38,6 +37,8 @@ public class selectionLevel extends GameLevel
         fountain.setPosition(0, 150);
         fountain.playInRange(0,3);
         GameManager.objects.add(fountain);
+        fountain.paddingTop = 15;
+        fountain.paddingSide = 10;
 
         player1 = new Player("player1", 57, 68, "/duckUnarmed.png", 8, 0.1f, 0);
         GameManager.objects.add(player1);

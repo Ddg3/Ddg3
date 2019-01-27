@@ -6,17 +6,31 @@ import com.zach.ddg3.Physics;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 
+import java.awt.event.KeyEvent;
+
 public class AABBComponent extends Component
 {
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
     private Object parent;
     private int centerX, centerY;
     private int halfWidth, halfHeight;
+    private int lastCenterX;
+    private int lastCenterY;
 
-    public AABBComponent(Object parent)
-    {
-        this.parent = parent;
-        this.tag = "aabb";
+    public int getLastCenterX() {
+        return lastCenterX;
+    }
+
+    public void setLastCenterX(int lastCenterX) {
+        this.lastCenterX = lastCenterX;
+    }
+
+    public int getLastCenterY() {
+        return lastCenterY;
+    }
+
+    public void setLastCenterY(int lastCenterY) {
+        this.lastCenterY = lastCenterY;
     }
 
     public Object getParent() {
@@ -59,9 +73,18 @@ public class AABBComponent extends Component
         this.halfHeight = halfHeight;
     }
 
+    public AABBComponent(Object parent)
+    {
+        this.parent = parent;
+        this.tag = "aabb";
+    }
+
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
+        lastCenterX = centerX;
+        lastCenterY = centerY;
+
         centerX = (int)(parent.getPositionX());
         centerY = (int)(parent.getPositionY());
 

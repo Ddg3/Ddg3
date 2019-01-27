@@ -43,14 +43,17 @@ public class Player extends Object
         //GameManager.deviceManager.addComponents(device, delta, buttons, axes);
         this.addComponent(new AABBComponent(this));
 
-        //this.paddingTop = -30;
-        //this.paddingSide = 0;
+        this.paddingTop = 15;
+        this.paddingSide = 5;
     }
 
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
         collidingTop = false;
+        collidingBottom = false;
+        collidingLeft = false;
+        collidingRight = false;
 
         if(device.poll())
         {
@@ -75,6 +78,7 @@ public class Player extends Object
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
 
         this.updateComponents(main, gameManager, dt);
+        System.out.println(this.position.y);
     }
 
     @Override
@@ -82,7 +86,7 @@ public class Player extends Object
     {
         super.render(main, r);
         //r.drawFillRectangle((int)offsetPos.x, (int)offsetPos.y, width, height, color);
-        this.renderComponents(main, r);
+        //this.renderComponents(main, r);
     }
 
     @Override
@@ -93,14 +97,51 @@ public class Player extends Object
             AABBComponent myC = (AABBComponent)this.findComponent("aabb");
             AABBComponent otherC = (AABBComponent)other.findComponent("aabb");
 
-            if(myC.getCenterY() < otherC.getCenterY())
+            //System.out.println(Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) + " < " + (myC.getHalfWidth() + otherC.getHalfWidth()));
+            if(Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) < (myC.getHalfWidth() + otherC.getHalfWidth()) - 2)
             {
-                int distance = myC.getHalfHeight() + otherC.getHalfHeight() - (otherC.getCenterY() - myC.getCenterY());
-                position.y -= distance;
-                offsetPos.y -= distance;
-                myC.setCenterY(myC.getCenterY() - distance);
-                collidingTop = true;
+                //Top/bottom collision because X values are closer than Y
+                //Top
+                if (myC.getCenterY() < otherC.getCenterY()) {
+                    int distance = myC.getHalfHeight() + otherC.getHalfHeight() - (otherC.getCenterY() - myC.getCenterY());
+                    position.y -= distance;
+                    offsetPos.y -= distance;
+                    myC.setCenterY(myC.getCenterY() - distance);
+                    collidingTop = true;
+                }
+
+                //Bottom
+                if (myC.getCenterY() > otherC.getCenterY()) {
+                    int distance = myC.getHalfHeight() + otherC.getHalfHeight() - (myC.getCenterY() - otherC.getCenterY());
+                    position.y += distance;
+                    offsetPos.y += distance;
+                    myC.setCenterY(myC.getCenterY() + distance);
+                    collidingBottom = true;
+                }
             }
+            else
+                {
+                    //Side collision bc vice versa
+                    //Left
+                    if (myC.getCenterX() < otherC.getCenterX())
+                    {
+                        int distance = (myC.getHalfWidth() + otherC.getHalfWidth()) - (otherC.getCenterX() - myC.getCenterX());
+                        position.x -= distance;
+                        offsetPos.x -= distance;
+                        myC.setCenterX(myC.getCenterX() - distance);
+                        collidingRight = true;
+                    }
+
+                    //Right
+                    if (myC.getCenterX() > otherC.getCenterX())
+                    {
+                        int distance = (myC.getHalfWidth() + otherC.getHalfWidth()) - (myC.getCenterX() - otherC.getCenterX());
+                        position.x += distance;
+                        offsetPos.x += distance;
+                        myC.setCenterX(myC.getCenterX() + distance);
+                        collidingLeft = true;
+                    }
+                }
         }
     }
 
