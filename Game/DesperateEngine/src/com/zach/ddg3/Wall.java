@@ -32,9 +32,23 @@ public class Wall extends Object
     }
 
     @Override
-    public void collision(GameObject other)
+    public void collision(Object other)
     {
         super.collision(other);
         color = (int)(Math.random() * Integer.MAX_VALUE);
+        zUpdate(other);
+    }
+
+    public void zUpdate(Object target)
+    {
+        //AND NEEDS TO BE COLLIDING
+        if(target.position.y < this.position.y)
+        {
+            this.zIndex = target.zIndex + 1;
+        }
+        if(target.position.y > this.position.y)
+        {
+            this.zIndex = target.zIndex;
+        }
     }
 }

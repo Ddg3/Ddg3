@@ -131,7 +131,7 @@ public class Object extends GameObject implements Comparable<Object>
     }
 
     @Override
-    public void collision(GameObject other)
+    public void collision(Object other)
     {
 
     }

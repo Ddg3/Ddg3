@@ -90,7 +90,7 @@ public class Player extends Object
     }
 
     @Override
-    public void collision(GameObject other)
+    public void collision(Object other)
     {
         if(other.getTag().equalsIgnoreCase("Wall"))
         {

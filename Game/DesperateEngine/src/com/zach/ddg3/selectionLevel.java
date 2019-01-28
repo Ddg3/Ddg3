@@ -9,6 +9,7 @@ public class selectionLevel extends GameLevel
     public static Player player2;
 
     private static Wall fountain;
+    private static Wall[] statues = new Wall[12];
     private static Object floor;
     private static Object arch;
 
@@ -73,7 +74,29 @@ public class selectionLevel extends GameLevel
         door.setPosition(0, -773);
         GameManager.objects.add(door);
 
-
+        int yInd = 0;
+        for(int i = 0; i < statues.length; i++)
+        {
+            statues[i] = new Wall("statue" + i, 61, 80, "/statues.png", 2, 0.1f);
+            int xInd = 0;
+            int frInd = 0;
+            if(i % 2 == 0)
+            {
+                xInd = -1;
+                frInd = 0;
+                yInd++;
+            }
+            else
+                {
+                    xInd = 1;
+                    frInd = 1;
+                }
+            statues[i].setPosition(225 * xInd, 625 + (yInd * -150));
+            statues[i].setFrame(frInd);
+            statues[i].paddingSide = 2;
+            statues[i].paddingTop = 5;
+            GameManager.objects.add(statues[i]);
+        }
     }
 
     @Override
