@@ -16,6 +16,16 @@ public abstract class Component
 
     protected String tag;
 
+    public String getSubTag() {
+        return subTag;
+    }
+
+    public void setSubTag(String subTag) {
+        this.subTag = subTag;
+    }
+
+    protected String subTag;
+
     public abstract void update(Main main, GameManager gameManager, float dt);
     public abstract void render(Main main, Renderer renderer);
 

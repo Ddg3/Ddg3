@@ -24,6 +24,25 @@ public class Object extends GameObject implements Comparable<Object>
     private int maxRange = 0;
     private int endPoint = 0;
 
+    public int getOffsetCenterX() {
+        return offsetCenterX;
+    }
+
+    public void setOffsetCenterX(int offsetCenterX) {
+        this.offsetCenterX = offsetCenterX;
+    }
+
+    public int getOffsetCenterY() {
+        return offsetCenterY;
+    }
+
+    public void setOffsetCenterY(int offsetCenterY) {
+        this.offsetCenterY = offsetCenterY;
+    }
+
+    private int offsetCenterX = 0;
+    private int offsetCenterY = 0;
+
     public static boolean isActiveOnPause = false;
     public static boolean isActiveOnPlay = true;
 

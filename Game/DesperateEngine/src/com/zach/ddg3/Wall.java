@@ -13,7 +13,8 @@ public class Wall extends Object
         super(name, width, height, path, totalFrames, frameLife);
         this.tag = "Wall";
 
-        this.addComponent(new AABBComponent(this));
+        this.addComponent(new AABBComponent(this, "wall"));
+        this.addComponent(new AABBComponent(this, "zUpdater"));
     }
 
     @Override
@@ -21,6 +22,11 @@ public class Wall extends Object
     {
         super.update(main, gameManager, dt);
         this.updateComponents(main, gameManager, dt);
+
+        /*if(gameManager.players.get(0) != null)
+        {
+            zUpdate(gameManager.players.get(0));
+        }*/
     }
 
     @Override
@@ -36,19 +42,21 @@ public class Wall extends Object
     {
         super.collision(other);
         color = (int)(Math.random() * Integer.MAX_VALUE);
-        zUpdate(other);
+        //zUpdate(other);
     }
 
     public void zUpdate(Object target)
     {
+        AABBComponent myC = (AABBComponent)this.findComponentBySubtag("zUpdater");
+        AABBComponent otherC = (AABBComponent)target.findComponent("aabb");
         //AND NEEDS TO BE COLLIDING
-        if(target.position.y < this.position.y)
+        if(otherC.getCenterY() + otherC.getHalfHeight() < myC.getCenterY() + myC.getHalfHeight())
         {
             this.zIndex = target.zIndex + 1;
         }
-        if(target.position.y > this.position.y)
+        if(otherC.getCenterY() - otherC.getHalfHeight() > myC.getCenterY() - myC.getHalfHeight())
         {
-            this.zIndex = target.zIndex;
+            this.zIndex = target.zIndex - 1;
         }
     }
 }

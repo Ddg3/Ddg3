@@ -10,6 +10,7 @@ public class selectionLevel extends GameLevel
 
     private static Wall fountain;
     private static Wall[] statues = new Wall[12];
+    private static Wall[] sideRails = new Wall[2];
     private static Object floor;
     private static Object arch;
 
@@ -94,9 +95,19 @@ public class selectionLevel extends GameLevel
             statues[i].setPosition(225 * xInd, 625 + (yInd * -150));
             statues[i].setFrame(frInd);
             statues[i].paddingSide = 2;
-            statues[i].paddingTop = 5;
+            statues[i].paddingTop = 45;
+            statues[i].setOffsetCenterY(20);
             GameManager.objects.add(statues[i]);
         }
+
+        sideRails[0] = new Wall("sideRail1", 56, 936, "/sideRail.png", 2, 0.1f);
+        sideRails[0].setPosition(-300, 50);
+        GameManager.objects.add(sideRails[0]);
+
+        sideRails[1] = new Wall("sideRail1", 56, 936, "/sideRail.png", 2, 0.1f);
+        sideRails[1].setPosition(300, 50);
+        sideRails[1].setFrame(1);
+        GameManager.objects.add(sideRails[1]);
     }
 
     @Override

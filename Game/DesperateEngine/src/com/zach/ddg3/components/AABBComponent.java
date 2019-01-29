@@ -73,10 +73,11 @@ public class AABBComponent extends Component
         this.halfHeight = halfHeight;
     }
 
-    public AABBComponent(Object parent)
+    public AABBComponent(Object parent, String subTag)
     {
         this.parent = parent;
         this.tag = "aabb";
+        this.subTag = subTag;
     }
 
     @Override
@@ -85,11 +86,22 @@ public class AABBComponent extends Component
         lastCenterX = centerX;
         lastCenterY = centerY;
 
-        centerX = (int)(parent.getPositionX());
-        centerY = (int)(parent.getPositionY());
+        if(this.subTag == "wall")
+        {
+            centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX());
+            centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY());
 
-        halfWidth = (parent.getWidth() / 2) - parent.getPaddingSide();
-        halfHeight = (parent.getHeight() / 2) - (parent.getPaddingTop() / 2);
+            halfWidth = (parent.getWidth() / 2) - parent.getPaddingSide();
+            halfHeight = (parent.getHeight() / 2) - (parent.getPaddingTop() / 2);
+        }
+        if(this.subTag == "zUpdater")
+        {
+            centerX = (int) (parent.getPositionX());
+            centerY = (int) (parent.getPositionY());
+
+            halfWidth = (parent.getWidth() / 2);
+            halfHeight = (parent.getHeight() / 2);
+        }
 
         Physics.addAABBComponent(this);
     }
