@@ -26,8 +26,19 @@ public class Physics
                     if(Math.abs(c0.getCenterY() - c1.getCenterY()) < c0.getHalfHeight() + c1.getHalfHeight())
                     {
                         //Colliding on both axes
-                        c0.getParent().collision(c1.getParent());
-                        c1.getParent().collision(c0.getParent());
+                        if(c0.getSubTag().equalsIgnoreCase("zUpdater"))
+                        {
+                            c0.getParent().collision(c1.getParent());
+                        }
+                        else if(c1.getSubTag().equalsIgnoreCase("zUpdater"))
+                        {
+                            c1.getParent().collision(c0.getParent());
+                        }
+                        else if(c0.getSubTag().equalsIgnoreCase("wall") && c1.getSubTag().equalsIgnoreCase("wall"))
+                        {
+                            c0.getParent().collision(c1.getParent());
+                            c1.getParent().collision(c0.getParent());
+                        }
                     }
                 }
             }

@@ -101,7 +101,7 @@ public class Player extends Object
                     //Top/bottom collision because X values are closer than Y
                     //Top
                     if (myC.getCenterY() < otherC.getCenterY()) {
-                        System.out.println("AH");
+                        //System.out.println("AH");
                         int distance = myC.getHalfHeight() + otherC.getHalfHeight() - (otherC.getCenterY() - myC.getCenterY());
                         position.y -= distance;
                         offsetPos.y -= distance;
@@ -111,7 +111,7 @@ public class Player extends Object
 
                     //Bottom
                     if (myC.getCenterY() > otherC.getCenterY()) {
-                        System.out.println("AH");
+                        //System.out.println("AH");
                         int distance = myC.getHalfHeight() + otherC.getHalfHeight() - (myC.getCenterY() - otherC.getCenterY());
                         position.y += distance;
                         offsetPos.y += distance;
@@ -123,7 +123,7 @@ public class Player extends Object
                     //Side collision bc vice versa
                     //Left
                     if (myC.getCenterX() < otherC.getCenterX()) {
-                        System.out.println("AH");
+                        //System.out.println("AH");
                         int distance = (myC.getHalfWidth() + otherC.getHalfWidth()) - (otherC.getCenterX() - myC.getCenterX());
                         position.x -= distance;
                         offsetPos.x -= distance;
@@ -133,7 +133,7 @@ public class Player extends Object
 
                     //Right
                     if (myC.getCenterX() > otherC.getCenterX()) {
-                        System.out.println("AH");
+                        //System.out.println("AH");
                         int distance = (myC.getHalfWidth() + otherC.getHalfWidth()) - (myC.getCenterX() - otherC.getCenterX());
                         position.x += distance;
                         offsetPos.x += distance;

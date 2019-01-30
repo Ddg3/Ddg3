@@ -42,7 +42,7 @@ public class Wall extends Object
     {
         super.collision(other);
         color = (int)(Math.random() * Integer.MAX_VALUE);
-        //zUpdate(other);
+        zUpdate(other);
     }
 
     public void zUpdate(Object target)
