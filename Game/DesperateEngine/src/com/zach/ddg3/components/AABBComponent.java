@@ -88,6 +88,7 @@ public class AABBComponent extends Component
 
         if(this.subTag == "wall")
         {
+
             centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX());
             centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY());
 
@@ -109,7 +110,10 @@ public class AABBComponent extends Component
     @Override
     public void render(Main main, Renderer renderer)
     {
-        renderer.drawFillRectangle(centerX - halfWidth + 320, centerY - halfHeight + 180, halfWidth * 2, halfHeight * 2, color);
-        renderer.setPixel(centerX + 320, centerY + 180, 0xffff0000);
+        if(this.getSubTag() == "wall")
+        {
+            renderer.drawFillRectangle(centerX - halfWidth + 320, centerY - halfHeight + 180, halfWidth * 2, halfHeight * 2, color);
+            renderer.setPixel(centerX + 320, centerY + 180, 0xffff0000);
+        }
     }
 }

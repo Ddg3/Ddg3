@@ -1,6 +1,7 @@
 package com.zach.ddg3;
 
 import com.ivan.xinput.enums.XInputButton;
+import com.zach.ddg3.components.AABBComponent;
 import com.zach.engine.Main;
 
 public class selectionLevel extends GameLevel
@@ -12,12 +13,12 @@ public class selectionLevel extends GameLevel
     private static Wall[] statues = new Wall[12];
     private static Wall[] sideRails = new Wall[2];
     private static Object floor;
-    private static Object arch;
+    private static Wall arch;
+    private static Wall archRef;
 
     private static Object floor2;
     private static Object wall;
     private static Object door;
-    private static Object arch2;
 
     private static Object explosiveGuns;
 
@@ -54,18 +55,9 @@ public class selectionLevel extends GameLevel
         player2.zIndex = 1;
         player2.visible = false;
 
-        arch = new Object("arch", 640, 1080, "/selectionArch.png", 1, 0.1f);
-        GameManager.objects.add(arch);
-        arch.zIndex = 2;
-
         floor2 = new Object("floor2", 640, 465, "/selectionGround.png", 1, 0.1f);
         floor2.setPosition(0, -773);
         GameManager.objects.add(floor2);
-
-        arch2 = new Object("floor2", 640, 465, "/selectionArch2.png", 1, 0.1f);
-        arch2.setPosition(0, -773);
-        GameManager.objects.add(arch2);
-        arch2.zIndex = 2;
 
         wall = new Object("wall", 640, 465, "/selectionWall.png", 1, 0.1f);
         wall.setPosition(0, -773);
@@ -74,6 +66,25 @@ public class selectionLevel extends GameLevel
         door = new Object("door", 640, 465, "/selectionDoor.png", 1, 0.1f);
         door.setPosition(0, -773);
         GameManager.objects.add(door);
+
+        arch = new Wall("arch", 320, 239, "/selectionArchMerged.png", 2, 0.1f);
+        GameManager.objects.add(arch);
+        arch.setPosition(-160, -475);
+        arch.zIndex = 2;
+        arch.paddingSide = 125;
+        arch.paddingTop = 80;
+        arch.setOffsetCenterX(-60);
+        arch.setOffsetCenterY(30);
+
+        archRef = new Wall("archRef", 320, 239, "/selectionArchMerged.png", 2, 0.1f);
+        GameManager.objects.add(archRef);
+        archRef.setPosition(160, -475);
+        archRef.zIndex = 2;
+        archRef.setFrame(1);
+        archRef.paddingSide = 125;
+        archRef.paddingTop = 80;
+        archRef.setOffsetCenterX(60);
+        archRef.setOffsetCenterY(30);
 
         int yInd = 0;
         for(int i = 0; i < statues.length; i++)
@@ -103,11 +114,15 @@ public class selectionLevel extends GameLevel
         sideRails[0] = new Wall("sideRail1", 56, 936, "/sideRail.png", 2, 0.1f);
         sideRails[0].setPosition(-300, 50);
         GameManager.objects.add(sideRails[0]);
+        sideRails[0].zIndex = 1;
+        sideRails[0].paddingTop = 10;
 
         sideRails[1] = new Wall("sideRail1", 56, 936, "/sideRail.png", 2, 0.1f);
         sideRails[1].setPosition(300, 50);
         sideRails[1].setFrame(1);
         GameManager.objects.add(sideRails[1]);
+        sideRails[1].zIndex = 1;
+        sideRails[1].paddingTop = 10;
     }
 
     @Override

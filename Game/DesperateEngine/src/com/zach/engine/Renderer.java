@@ -281,7 +281,7 @@ public class Renderer
         int tempHeight = height;
 
         //Clipping for optimization
-        if(tempX  + posX < 0)
+        /*if(tempX  + posX < 0)
         {
             tempX -= posX;
         }
@@ -296,7 +296,7 @@ public class Renderer
         if(tempHeight + posY > pHeight)
         {
             tempHeight = tempHeight - (tempHeight + posY - pHeight);
-        }
+        }*/
         for(int y = tempY; y <= tempHeight; y++)
         {
             for(int x = tempX; x <= tempWidth; x++)

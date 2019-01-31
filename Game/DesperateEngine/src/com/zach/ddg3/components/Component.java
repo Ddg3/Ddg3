@@ -26,6 +26,7 @@ public abstract class Component
 
     protected String subTag;
 
+
     public abstract void update(Main main, GameManager gameManager, float dt);
     public abstract void render(Main main, Renderer renderer);
 

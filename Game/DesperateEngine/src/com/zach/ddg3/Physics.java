@@ -34,7 +34,7 @@ public class Physics
                         {
                             c1.getParent().collision(c0.getParent());
                         }
-                        else if(c0.getSubTag().equalsIgnoreCase("wall") && c1.getSubTag().equalsIgnoreCase("wall"))
+                        else
                         {
                             c0.getParent().collision(c1.getParent());
                             c1.getParent().collision(c0.getParent());
