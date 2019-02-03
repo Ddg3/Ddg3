@@ -151,7 +151,7 @@ public class Player extends Object
         {
             if(!collidingRight)
             {
-                this.position.x -= 100f * dt;
+                this.position.x -= 200f * dt;
             }
             if (rStickX < 0.4f && rStickX > -0.4f)
             {
@@ -163,7 +163,7 @@ public class Player extends Object
         {
             if(!collidingLeft)
             {
-                this.position.x += 100f * dt;
+                this.position.x += 200f * dt;
             }
             if (rStickX < 0.4f && rStickX > -0.4f) {
                 this.setFrame(2);
@@ -175,7 +175,7 @@ public class Player extends Object
         {
             if(!collidingTop)
             {
-                this.position.y += 100f * dt;
+                this.position.y += 200f * dt;
             }
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(0);
@@ -187,7 +187,7 @@ public class Player extends Object
         {
             if(!collidingBottom)
             {
-                this.position.y -= 100f * dt;
+                this.position.y -= 200f * dt;
             }
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(4);

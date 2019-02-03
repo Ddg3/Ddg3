@@ -53,7 +53,8 @@ public class Camera {
         this.targetName = name;
     }
 
-    public void update(GameManager gameManager, Main main, float dt) {
+    public void update(GameManager gameManager, Main main, float dt)
+    {
         if (target == null) {
             target = gameManager.getObject(targetName);
         }

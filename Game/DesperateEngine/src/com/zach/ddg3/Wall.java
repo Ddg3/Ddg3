@@ -47,16 +47,17 @@ public class Wall extends Object
 
     public void zUpdate(Object target)
     {
-        AABBComponent myC = (AABBComponent)this.findComponentBySubtag("zUpdater");
-        AABBComponent otherC = (AABBComponent)target.findComponent("aabb");
-        //AND NEEDS TO BE COLLIDING
-        if(otherC.getCenterY() + otherC.getHalfHeight() < myC.getCenterY() + myC.getHalfHeight())
+        if (!target.getTag().equalsIgnoreCase("Wall"))
         {
-            this.zIndex = target.zIndex + 1;
-        }
-        if(otherC.getCenterY() - otherC.getHalfHeight() > myC.getCenterY() - myC.getHalfHeight())
-        {
-            this.zIndex = target.zIndex - 1;
+            AABBComponent myC = (AABBComponent) this.findComponentBySubtag("zUpdater");
+            AABBComponent otherC = (AABBComponent) target.findComponent("aabb");
+            //AND NEEDS TO BE COLLIDING
+            if (otherC.getCenterY() + otherC.getHalfHeight() < myC.getCenterY() + myC.getHalfHeight()) {
+                this.zIndex = target.zIndex + 1;
+            }
+            if (otherC.getCenterY() - otherC.getHalfHeight() > myC.getCenterY() - myC.getHalfHeight()) {
+                this.zIndex = target.zIndex - 1;
+            }
         }
     }
 }
