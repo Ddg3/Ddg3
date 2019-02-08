@@ -4,6 +4,7 @@ import com.ivan.xinput.XInputAxesDelta;
 import com.ivan.xinput.XInputButtonsDelta;
 import com.ivan.xinput.XInputComponentsDelta;
 import com.ivan.xinput.XInputDevice;
+import com.ivan.xinput.enums.XInputButton;
 import com.zach.ddg3.components.AABBComponent;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
@@ -28,6 +29,8 @@ public class Player extends Object
     private float lStickY = 0f;
     private float rStickX = 0f;
     private float rStickY = 0f;
+
+    private Object flyingAnim = null;
 
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
 
@@ -76,7 +79,6 @@ public class Player extends Object
 
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
-
         this.updateComponents(main, gameManager, dt);
         //System.out.println(this.position.y);
     }
@@ -313,5 +315,30 @@ public class Player extends Object
         {
             moveDir.y *= -1;
         }*/
+    }
+
+    public void dropIn(Player player, Main main, float dt)
+    {
+        if ((player.device.poll() && player.device.getDelta().getButtons().isPressed(XInputButton.START)) && !player.visible)
+        {
+            flyingAnim = new Object("flyingAnim" + player.playerNumber, 64, 59, "/flyingAnim.png", 15, 0.1f);
+            flyingAnim.position.x = player.position.x + (main.getWidth() / 2);
+            flyingAnim.position.y = player.position.y + (main.getHeight() / 2);
+            flyingAnim.play();
+            GameManager.objects.add(flyingAnim);
+        }
+
+        if (flyingAnim != null)
+        {
+            if (flyingAnim.position.x == player.position.x && flyingAnim.position.y == player.position.y)
+            {
+                GameManager.removeObjectsByName("flyingAnim" + player.playerNumber);
+                player.visible = true;
+                GameManager.objects.add(player);
+                GameManager.players.add(player);
+            }
+            flyingAnim.position.x += 200 * dt;
+            flyingAnim.position.y += 200 * dt;
+        }
     }
 }

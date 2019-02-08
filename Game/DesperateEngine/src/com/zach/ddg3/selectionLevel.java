@@ -131,10 +131,11 @@ public class selectionLevel extends GameLevel {
     }
 
     @Override
-    public void update(Main main, float dt) {
+    public void update(Main main, float dt)
+    {
         //System.out.println(GameManager.players.size());
 
-        if ((player1.device.poll() && player1.device.getDelta().getButtons().isPressed(XInputButton.START)) || (main.getInput().isKey(KeyEvent.VK_SPACE) && !player1.visible)) {
+        /*if ((player1.device.poll() && player1.device.getDelta().getButtons().isPressed(XInputButton.START)) || (main.getInput().isKey(KeyEvent.VK_SPACE) && !player1.visible)) {
             //System.out.println("DAB");
             GameManager.objects.add(player1);
             GameManager.players.add(player1);
@@ -146,8 +147,9 @@ public class selectionLevel extends GameLevel {
             GameManager.players.add(player2);
             player2.position.y = player1.position.y;
             player2.position.x = player1.position.x + 100;
-        }
+        }*/
 
+        player1.dropIn(player1, main, dt);
 
     }
 
