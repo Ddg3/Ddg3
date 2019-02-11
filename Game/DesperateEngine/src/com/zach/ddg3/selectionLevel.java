@@ -45,12 +45,14 @@ public class selectionLevel extends GameLevel {
         fountain.paddingTop = 15;
         fountain.paddingSide = 10;
 
-        player1 = new Player("player1", 57, 68, "/duckUnarmed.png", 8, 0.1f, 0);
-        player1.setPosition(0, 0);
+        player1 = new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0);
+        player1.setPosition(-320, -160);
         player1.zIndex = 1;
-        player1.visible = false;
+        GameManager.objects.add(player1);
+        GameManager.players.add(player1);
+        //player1.visible = false;
 
-        player2 = new Player("player2", 57, 68, "/duckUnarmed.png", 8, 0.1f, 1);
+        player2 = new Player("player2", 63, 68, "/duckSheetLong.png", 24, 0.01f, 1);
         player2.setPosition(75, 0);
         player2.zIndex = 1;
         player2.visible = false;
@@ -149,7 +151,7 @@ public class selectionLevel extends GameLevel {
             player2.position.x = player1.position.x + 100;
         }*/
 
-        player1.dropIn(player1, main, dt);
+        //player1.dropIn(player1, main, dt);
 
     }
 

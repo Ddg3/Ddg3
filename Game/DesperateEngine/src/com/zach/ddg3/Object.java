@@ -20,9 +20,12 @@ public class Object extends GameObject implements Comparable<Object>
     private float frameLife;
     private float tempLife;
     private boolean isPlayingInRange = false;
+    private boolean isPlayingInRangeAndBack = false;
+    private boolean reversing = false;
     private int minRange = 0;
     private int maxRange = 0;
     private int endPoint = 0;
+    private boolean inGame = true;
 
     public int getOffsetCenterX() {
         return offsetCenterX;
@@ -38,6 +41,14 @@ public class Object extends GameObject implements Comparable<Object>
 
     public void setOffsetCenterY(int offsetCenterY) {
         this.offsetCenterY = offsetCenterY;
+    }
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public void setInGame(boolean inGame) {
+        this.inGame = inGame;
     }
 
     private int offsetCenterX = 0;
@@ -85,6 +96,22 @@ public class Object extends GameObject implements Comparable<Object>
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
+        if(!target)
+        {
+            offsetPos.setX(position.x - width / 2 + 320);
+            offsetPos.setY(position.y - height / 2 + 180);
+        }
+        else
+        {
+            offsetPos.setX(position.x);
+            offsetPos.setY(position.y);
+        }
+
+        animate(dt);
+    }
+
+    public void animate(float dt)
+    {
         if(anim == totalFrames)
         {
             anim = 0;
@@ -124,18 +151,28 @@ public class Object extends GameObject implements Comparable<Object>
                 }
             }
         }
-
-        if(!target)
+        if(isPlayingInRangeAndBack)
         {
-            offsetPos.setX(position.x - width / 2 + 320);
-            offsetPos.setY(position.y - height / 2 + 180);
+            tempLife -= dt;
+            if (anim == maxRange)
+            {
+                reversing = true;
+            }
+            if (anim == minRange)
+            {
+                reversing = false;
+            }
+            if (tempLife <= 0 && anim < maxRange && !reversing)
+            {
+                anim++;
+                tempLife = frameLife;
+            }
+            if (tempLife <= 0 && anim > minRange && reversing)
+            {
+                anim--;
+                tempLife = frameLife;
+            }
         }
-        else
-        {
-            offsetPos.setX(position.x);
-            offsetPos.setY(position.y);
-        }
-
     }
 
     @Override
@@ -212,8 +249,9 @@ public class Object extends GameObject implements Comparable<Object>
     }
     public void playInRange(int min, int max)
     {
+        setFrame(min);
         minRange = min;
-        maxRange = max + 1;
+        maxRange = max;
         isPlayingInRange = true;
     }
     public void playTo(int start, int end)
@@ -221,6 +259,14 @@ public class Object extends GameObject implements Comparable<Object>
         setFrame(start);
         endPoint = end;
         isPlayingInRange = true;
+    }
+
+    public void playInRangeAndBack(int min, int max)
+    {
+        setFrame(min);
+        minRange = min;
+        maxRange = max;
+        isPlayingInRangeAndBack = true;
     }
 
     public int compareTo(Object o) {

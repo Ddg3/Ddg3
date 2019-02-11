@@ -30,7 +30,10 @@ public class Player extends Object
     private float rStickX = 0f;
     private float rStickY = 0f;
 
-    private Object flyingAnim = null;
+    private Vector spawnPoint = null;
+
+    private boolean droppingIn = false;
+
 
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
 
@@ -48,6 +51,8 @@ public class Player extends Object
 
         this.paddingTop = 15;
         this.paddingSide = 5;
+        spawnPoint = new Vector(this.position.x + 320, this.position.y + 160);
+        this.setInGame(false);
     }
 
     @Override
@@ -65,8 +70,13 @@ public class Player extends Object
             rStickX += axes.getRXDelta();
             rStickY += axes.getRYDelta();
 
-            moveController(dt);
-            look();
+            if(this.isInGame())
+            {
+                moveController(dt);
+                look();
+            }
+
+            dropIn(main, dt);
 
             //System.out.println(offsetPos.x);
            /*this.offsetPos.x = main.getInput().getMouseX() - this.width;
@@ -81,6 +91,8 @@ public class Player extends Object
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
         this.updateComponents(main, gameManager, dt);
         //System.out.println(this.position.y);
+
+        this.animate(dt);
     }
 
     @Override
@@ -317,28 +329,24 @@ public class Player extends Object
         }*/
     }
 
-    public void dropIn(Player player, Main main, float dt)
+    public void dropIn(Main main, float dt)
     {
-        if ((player.device.poll() && player.device.getDelta().getButtons().isPressed(XInputButton.START)) && !player.visible)
+        if(this.device.getDelta().getButtons().isPressed(XInputButton.START) && !this.isInGame())
         {
-            flyingAnim = new Object("flyingAnim" + player.playerNumber, 64, 59, "/flyingAnim.png", 15, 0.1f);
-            flyingAnim.position.x = player.position.x + (main.getWidth() / 2);
-            flyingAnim.position.y = player.position.y + (main.getHeight() / 2);
-            flyingAnim.play();
-            GameManager.objects.add(flyingAnim);
+            this.droppingIn = true;
+            this.playInRangeAndBack(8, 22);
         }
 
-        if (flyingAnim != null)
+        if(this.position.x >= this.spawnPoint.x && this.position.y >= this.spawnPoint.y)
         {
-            if (flyingAnim.position.x == player.position.x && flyingAnim.position.y == player.position.y)
-            {
-                GameManager.removeObjectsByName("flyingAnim" + player.playerNumber);
-                player.visible = true;
-                GameManager.objects.add(player);
-                GameManager.players.add(player);
-            }
-            flyingAnim.position.x += 200 * dt;
-            flyingAnim.position.y += 200 * dt;
+            droppingIn = false;
+            this.setInGame(true);
+            this.setFrame(1);
+        }
+        if(this.droppingIn)
+        {
+            this.position.x += 75 * dt;
+            this.position.y += 75 * dt;
         }
     }
 }

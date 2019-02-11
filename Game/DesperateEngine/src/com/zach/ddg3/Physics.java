@@ -26,11 +26,11 @@ public class Physics
                     if(Math.abs(c0.getCenterY() - c1.getCenterY()) < c0.getHalfHeight() + c1.getHalfHeight())
                     {
                         //Colliding on both axes
-                        if(c0.getSubTag().equalsIgnoreCase("zUpdater"))
+                        if(c0.getSubTag().equalsIgnoreCase("zUpdater") || !c1.getParent().isInGame())
                         {
                             c0.getParent().collision(c1.getParent());
                         }
-                        else if(c1.getSubTag().equalsIgnoreCase("zUpdater"))
+                        else if(c1.getSubTag().equalsIgnoreCase("zUpdater") || !c0.getParent().isInGame())
                         {
                             c1.getParent().collision(c0.getParent());
                         }
