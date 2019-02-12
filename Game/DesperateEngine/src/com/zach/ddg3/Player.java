@@ -30,8 +30,6 @@ public class Player extends Object
     private float rStickX = 0f;
     private float rStickY = 0f;
 
-    private Vector spawnPoint = null;
-
     private boolean droppingIn = false;
 
 
@@ -51,7 +49,6 @@ public class Player extends Object
 
         this.paddingTop = 15;
         this.paddingSide = 5;
-        spawnPoint = new Vector(this.position.x + 320, this.position.y + 160);
         this.setInGame(false);
     }
 
@@ -76,7 +73,7 @@ public class Player extends Object
                 look();
             }
 
-            dropIn(main, dt);
+            dropIn(dt);
 
             //System.out.println(offsetPos.x);
            /*this.offsetPos.x = main.getInput().getMouseX() - this.width;
@@ -106,7 +103,7 @@ public class Player extends Object
     @Override
     public void collision(Object other)
     {
-        if(other.getTag().equalsIgnoreCase("Wall"))
+        if(other.getTag().equalsIgnoreCase("Wall") && this.isInGame())
         {
             AABBComponent myC = (AABBComponent)this.findComponentBySubtag("wall");
             AABBComponent otherC = (AABBComponent)other.findComponentBySubtag("wall");
@@ -329,24 +326,27 @@ public class Player extends Object
         }*/
     }
 
-    public void dropIn(Main main, float dt)
+    public void dropIn(float dt)
     {
-        if(this.device.getDelta().getButtons().isPressed(XInputButton.START) && !this.isInGame())
+        if(this.device.getDelta().getButtons().isPressed(XInputButton.START) && !this.isInGame() && !this.droppingIn)
         {
             this.droppingIn = true;
+            this.visible = true;
             this.playInRangeAndBack(8, 22);
         }
 
-        if(this.position.x >= this.spawnPoint.x && this.position.y >= this.spawnPoint.y)
+        if(this.position.y >= GameManager.center.position.y && droppingIn)
         {
             droppingIn = false;
+            this.stop();
             this.setInGame(true);
             this.setFrame(1);
+            GameManager.players.add(this);
         }
         if(this.droppingIn)
         {
-            this.position.x += 75 * dt;
-            this.position.y += 75 * dt;
+            this.position.x += 90 * dt;
+            this.position.y += 90 * dt;
         }
     }
 }

@@ -205,31 +205,50 @@ public class GameManager extends AbstractGame
     {
             if (GameManager.players.size() == 1)
             {
+                if(GameManager.players.get(0).isInGame())
                 GameManager.center.setPosition(players.get(0).position.x, players.get(0).position.y);
+                else
+                    {
+                        GameManager.center.setPosition(0, 0);
+                    }
             }
             if (GameManager.players.size() == 2)
             {
-                float posX = (players.get(0).position.x + players.get(1).position.x) / 2;
-                float posY = (players.get(0).position.y + players.get(1).position.y) / 2;
+                if(GameManager.players.get(0).isInGame() && GameManager.players.get(1).isInGame())
+                {
+                    float posX = (players.get(0).position.x + players.get(1).position.x) / 2;
+                    float posY = (players.get(0).position.y + players.get(1).position.y) / 2;
 
-                GameManager.center.setPosition(posX, posY);
+                    GameManager.center.setPosition(posX, posY);
+                }
+                else
+                    {
+                        GameManager.center.setPosition(0, 0);
+                    }
             }
             if (GameManager.players.size() == 3)
             {
-                float slope1 = (players.get(2).position.y - players.get(1).position.y) / (players.get(2).position.x - players.get(1).position.x);
-                float perpSlope1 = -1 / slope1;
-                float midX1 = (players.get(2).position.x + players.get(1).position.x) / 2;
-                float midY1 = (players.get(2).position.y + players.get(1).position.y) / 2;
+                if(GameManager.players.get(0).isInGame() && GameManager.players.get(1).isInGame() && GameManager.players.get(2).isInGame())
+                {
+                    float slope1 = (players.get(2).position.y - players.get(1).position.y) / (players.get(2).position.x - players.get(1).position.x);
+                    float perpSlope1 = -1 / slope1;
+                    float midX1 = (players.get(2).position.x + players.get(1).position.x) / 2;
+                    float midY1 = (players.get(2).position.y + players.get(1).position.y) / 2;
 
-                float slope2 = (players.get(2).position.y - players.get(1).position.y) / (players.get(2).position.x - players.get(1).position.x);
-                float perpSlope2 = -1 / slope2;
-                float midX2 = (players.get(2).position.x + players.get(1).position.x) / 2;
-                float midY2 = (players.get(2).position.y + players.get(1).position.y) / 2;
+                    float slope2 = (players.get(2).position.y - players.get(1).position.y) / (players.get(2).position.x - players.get(1).position.x);
+                    float perpSlope2 = -1 / slope2;
+                    float midX2 = (players.get(2).position.x + players.get(1).position.x) / 2;
+                    float midY2 = (players.get(2).position.y + players.get(1).position.y) / 2;
 
-                float circumcenterX = (((perpSlope1 * midX1) + midY1) + ((perpSlope2 * midX2) + midY2)) / (perpSlope1 - perpSlope2);
-                float circumcenterY = ((perpSlope1 * circumcenterX) - (perpSlope1 * midX1) + midY1);
+                    float circumcenterX = (((perpSlope1 * midX1) + midY1) + ((perpSlope2 * midX2) + midY2)) / (perpSlope1 - perpSlope2);
+                    float circumcenterY = ((perpSlope1 * circumcenterX) - (perpSlope1 * midX1) + midY1);
 
-                GameManager.center.setPosition(circumcenterX, circumcenterY);
+                    GameManager.center.setPosition(circumcenterX, circumcenterY);
+                }
+                else
+                    {
+                        GameManager.center.setPosition(0, 0);
+                    }
             }
     }
 
