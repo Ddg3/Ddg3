@@ -108,6 +108,7 @@ public class Object extends GameObject implements Comparable<Object>
         }
 
         animate(dt);
+        updateComponents(main, gameManager, dt);
     }
 
     public void animate(float dt)
@@ -115,6 +116,11 @@ public class Object extends GameObject implements Comparable<Object>
         if(anim == totalFrames)
         {
             anim = 0;
+            tempLife = frameLife;
+        }
+        if(anim < 0)
+        {
+            anim = totalFrames - 1;
             tempLife = frameLife;
         }
         if(isPlaying)

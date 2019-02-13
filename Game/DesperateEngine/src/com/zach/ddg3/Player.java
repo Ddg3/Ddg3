@@ -31,7 +31,9 @@ public class Player extends Object
     private float rStickY = 0f;
 
     private boolean droppingIn = false;
-
+    private boolean selecting = false;
+    private boolean stickSelecting;
+    private Object selection = null;
 
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
 
@@ -67,10 +69,14 @@ public class Player extends Object
             rStickX += axes.getRXDelta();
             rStickY += axes.getRYDelta();
 
-            if(this.isInGame())
+            if(this.isInGame() && !selecting)
             {
                 moveController(dt);
                 look();
+            }
+            if(selecting)
+            {
+                select(selection);
             }
 
             dropIn(dt);
@@ -103,6 +109,7 @@ public class Player extends Object
     @Override
     public void collision(Object other)
     {
+        //System.out.println(other.getTag());
         if(other.getTag().equalsIgnoreCase("Wall") && this.isInGame())
         {
             AABBComponent myC = (AABBComponent)this.findComponentBySubtag("wall");
@@ -152,6 +159,23 @@ public class Player extends Object
                         collidingLeft = true;
                     }
                 }
+        }
+
+        if(other.getTag().equalsIgnoreCase("Selection") && this.isInGame())
+        {
+            if(this.device.getDelta().getButtons().isPressed(XInputButton.A) && this.isInGame() && !selecting)
+            {
+                selecting = true;
+                selection = other;
+                selection.setFrame(1);
+            }
+
+            if(this.device.getDelta().getButtons().isPressed(XInputButton.B) && this.isInGame() && selecting)
+            {
+                selection.setFrame(0);
+                selecting = false;
+                selection = null;
+            }
         }
     }
 
@@ -343,10 +367,55 @@ public class Player extends Object
             this.setFrame(1);
             GameManager.players.add(this);
         }
+
         if(this.droppingIn)
         {
             this.position.x += 90 * dt;
             this.position.y += 90 * dt;
+        }
+    }
+
+    public void select(Object selection)
+    {
+        //Left
+        if(!stickSelecting)
+        {
+            if (lStickX > 0.4f) {
+                if (selection.getFrame() == 1) {
+                    selection.setFrame(3);
+                    stickSelecting = true;
+                    return;
+                } else {
+                    selection.goToPrevFrame();
+                    stickSelecting = true;
+                }
+            }
+
+            //Right
+            if (lStickX < -0.4f) {
+                if (selection.getFrame() == 3) {
+                    selection.setFrame(1);
+                    stickSelecting = true;
+                    return;
+                } else {
+                    selection.goToNextFrame();
+                    stickSelecting = true;
+                }
+            }
+        }
+        else
+            {
+                if (lStickX < 0.4f && lStickX > -0.4f)
+                {
+                    stickSelecting = false;
+                }
+            }
+        if(this.device.getDelta().getButtons().isPressed(XInputButton.A))
+        {
+            System.out.println(selection.anim);
+            this.selection.setFrame(0);
+            selecting = false;
+            this.selection = null;
         }
     }
 }

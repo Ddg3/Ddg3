@@ -26,11 +26,11 @@ public class Physics
                     if(Math.abs(c0.getCenterY() - c1.getCenterY()) < c0.getHalfHeight() + c1.getHalfHeight())
                     {
                         //Colliding on both axes
-                        if(c0.getSubTag().equalsIgnoreCase("zUpdater") || !c1.getParent().isInGame())
+                        if(c0.getSubTag().equalsIgnoreCase("zUpdater"))
                         {
                             c0.getParent().collision(c1.getParent());
                         }
-                        else if(c1.getSubTag().equalsIgnoreCase("zUpdater") || !c0.getParent().isInGame())
+                        else if(c1.getSubTag().equalsIgnoreCase("zUpdater"))
                         {
                             c1.getParent().collision(c0.getParent());
                         }
@@ -43,7 +43,6 @@ public class Physics
                 }
             }
         }
-
         aabbList.clear();
     }
 }

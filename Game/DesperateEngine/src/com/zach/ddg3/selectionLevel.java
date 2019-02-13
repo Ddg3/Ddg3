@@ -38,7 +38,7 @@ public class selectionLevel extends GameLevel {
         floor = new Object("floor", 640, 1080, "/selectionFloor.png", 1, 0.1f);
         GameManager.objects.add(floor);
 
-        fountain = new Wall("fountain", 188, 103, "/fountain.png", 4, 0.1f);
+        fountain = new Wall("fountain", 188, 103, "/fountain.png", 4, 0.1f, true);
         fountain.setPosition(0, 150);
         fountain.playInRange(0, 3);
         GameManager.objects.add(fountain);
@@ -62,17 +62,17 @@ public class selectionLevel extends GameLevel {
         GameManager.objects.add(floor2);
         floor2.zIndex = -1;
 
-        wall = new Wall("wall", 640, 203, "/selectionWall.png", 1, 0.1f);
+        wall = new Wall("wall", 640, 203, "/selectionWall.png", 1, 0.1f, false);
         wall.setPosition(0, -830);
         GameManager.objects.add(wall);
         wall.paddingTop = 100;
 
-        door = new Wall("door", 111, 88, "/selectionDoor.png", 1, 0.1f);
+        door = new Wall("door", 111, 88, "/selectionDoor.png", 1, 0.1f, false);
         door.setPosition(-1, -780);
         GameManager.objects.add(door);
         door.paddingTop = 87;
 
-        arch = new Wall("arch", 155, 239, "/selectionArchWalls.png", 2, 0.1f);
+        arch = new Wall("arch", 155, 239, "/selectionArchWalls.png", 2, 0.1f, true);
         GameManager.objects.add(arch);
         arch.setPosition(-243, -475);
         arch.zIndex = 2;
@@ -81,7 +81,7 @@ public class selectionLevel extends GameLevel {
         arch.setOffsetCenterX(22);
         arch.setOffsetCenterY(0);
 
-        archRef = new Wall("archRef", 155, 239, "/selectionArchWalls.png", 2, 0.1f);
+        archRef = new Wall("archRef", 155, 239, "/selectionArchWalls.png", 2, 0.1f, true);
         GameManager.objects.add(archRef);
         archRef.setPosition(242, -475);
         archRef.zIndex = 2;
@@ -99,7 +99,7 @@ public class selectionLevel extends GameLevel {
 
         int yInd = 0;
         for (int i = 0; i < statues.length; i++) {
-            statues[i] = new Wall("statue" + i, 61, 80, "/statues.png", 2, 0.1f);
+            statues[i] = new Wall("statue" + i, 61, 80, "/statues.png", 2, 0.1f, true);
             int xInd = 0;
             int frInd = 0;
             if (i % 2 == 0) {
@@ -118,18 +118,24 @@ public class selectionLevel extends GameLevel {
             GameManager.objects.add(statues[i]);
         }
 
-        sideRails[0] = new Wall("sideRail1", 56, 936, "/sideRail.png", 2, 0.1f);
+        sideRails[0] = new Wall("sideRail1", 56, 936, "/sideRail.png", 2, 0.1f, true);
         sideRails[0].setPosition(-300, 50);
         GameManager.objects.add(sideRails[0]);
         sideRails[0].zIndex = 1;
         sideRails[0].paddingTop = 10;
 
-        sideRails[1] = new Wall("sideRail1", 56, 936, "/sideRail.png", 2, 0.1f);
+        sideRails[1] = new Wall("sideRail1", 56, 936, "/sideRail.png", 2, 0.1f, true);
         sideRails[1].setPosition(300, 50);
         sideRails[1].setFrame(1);
         GameManager.objects.add(sideRails[1]);
         sideRails[1].zIndex = 1;
         sideRails[1].paddingTop = 10;
+
+        explosiveGuns = new Object("explosiveGuns", 257, 52, "/explosiveSelections.png", 4, 0f);
+        explosiveGuns.setTag("Selection");
+        explosiveGuns.addComponent(new AABBComponent(explosiveGuns, "selection"));
+        explosiveGuns.position.y = -100;
+        GameManager.objects.add(explosiveGuns);
     }
 
     @Override

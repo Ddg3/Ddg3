@@ -86,7 +86,7 @@ public class AABBComponent extends Component
         lastCenterX = centerX;
         lastCenterY = centerY;
 
-        if(this.subTag == "wall")
+        if(this.subTag == "wall" || this.subTag == "selection")
         {
 
             centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX());
@@ -110,7 +110,7 @@ public class AABBComponent extends Component
     @Override
     public void render(Main main, Renderer renderer)
     {
-        if(this.getSubTag() == "wall")
+        if(this.getSubTag() == "wall" || this.subTag == "selection")
         {
             renderer.drawFillRectangle(centerX - halfWidth + 320, centerY - halfHeight + 180, halfWidth * 2, halfHeight * 2, color);
             renderer.setPixel(centerX + 320, centerY + 180, 0xffff0000);

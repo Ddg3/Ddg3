@@ -7,14 +7,20 @@ import com.zach.engine.Renderer;
 public class Wall extends Object
 {
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
+    private boolean isZUpdater;
 
-    public Wall(String name, int width, int height, String path, int totalFrames, float frameLife)
+    public Wall(String name, int width, int height, String path, int totalFrames, float frameLife, boolean isZUpdater)
     {
         super(name, width, height, path, totalFrames, frameLife);
         this.tag = "Wall";
+        this.isZUpdater = isZUpdater;
 
         this.addComponent(new AABBComponent(this, "wall"));
-        this.addComponent(new AABBComponent(this, "zUpdater"));
+
+        if(this.isZUpdater)
+        {
+            this.addComponent(new AABBComponent(this, "zUpdater"));
+        }
     }
 
     @Override
@@ -42,7 +48,11 @@ public class Wall extends Object
     {
         super.collision(other);
         color = (int)(Math.random() * Integer.MAX_VALUE);
-        zUpdate(other);
+
+        if(this.isZUpdater)
+        {
+            zUpdate(other);
+        }
     }
 
     public void zUpdate(Object target)
