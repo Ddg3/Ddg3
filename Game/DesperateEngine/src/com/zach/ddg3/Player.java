@@ -33,6 +33,7 @@ public class Player extends Object
     private boolean droppingIn = false;
     private boolean selecting = false;
     private boolean stickSelecting;
+    private boolean selected = false;
     private Object selection = null;
 
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
@@ -57,6 +58,7 @@ public class Player extends Object
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
+        selected = false;
         collidingTop = false;
         collidingBottom = false;
         collidingLeft = false;
@@ -163,7 +165,7 @@ public class Player extends Object
 
         if(other.getTag().equalsIgnoreCase("Selection") && this.isInGame())
         {
-            if(this.device.getDelta().getButtons().isPressed(XInputButton.A) && this.isInGame() && !selecting)
+            if(this.device.getDelta().getButtons().isPressed(XInputButton.A) && this.isInGame() && !selecting && !selected)
             {
                 selecting = true;
                 selection = other;
@@ -416,6 +418,7 @@ public class Player extends Object
             this.selection.setFrame(0);
             selecting = false;
             this.selection = null;
+            selected = true;
         }
     }
 }
