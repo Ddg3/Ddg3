@@ -24,6 +24,7 @@ public class selectionLevel extends GameLevel {
     private static Wall door;
 
     private static Object explosiveGuns;
+    private static boolean allReady = false;
 
     @Override
     public void init(Main main) {
@@ -134,39 +135,47 @@ public class selectionLevel extends GameLevel {
         explosiveGuns = new Object("explosiveGuns", 257, 52, "/explosiveSelections.png", 4, 0f);
         explosiveGuns.setTag("Selection");
         explosiveGuns.addComponent(new AABBComponent(explosiveGuns, "selection"));
-        explosiveGuns.position.y = -100;
+        explosiveGuns.setPosition(185, -782);
         GameManager.objects.add(explosiveGuns);
     }
 
     @Override
     public void update(Main main, float dt)
     {
-        //System.out.println(GameManager.players.size());
-
+        if(player1.visible)
+        {
+            readyUp(door, dt);
+        }
         if(!player2.visible)
         {
             player2.position.y = GameManager.center.position.y - 220;
         }
-        /*if ((player1.device.poll() && player1.device.getDelta().getButtons().isPressed(XInputButton.START)) || (main.getInput().isKey(KeyEvent.VK_SPACE) && !player1.visible)) {
-            //System.out.println("DAB");
-            GameManager.objects.add(player1);
-            GameManager.players.add(player1);
-            player1.visible = true;
+        if(player1.isInGame())
+        {
+            allReady = true;
         }
-        if (player2.device.poll() && player2.device.getDelta().getButtons().isPressed(XInputButton.START)) {
-            player2.visible = true;
-            GameManager.objects.add(player2);
-            GameManager.players.add(player2);
-            player2.position.y = player1.position.y;
-            player2.position.x = player1.position.x + 100;
-        }*/
+    }
 
-        //player1.dropIn(player1, main, dt);
+    public void readyUp(Object other, float dt)
+    {
+        for(int i = 0; i < GameManager.players.size(); i++)
+        {
+            if(!GameManager.players.get(i).isReady())
+            {
+               allReady = false;
+               return;
+            }
+        }
 
+        if(allReady)
+        {
+            other.setPosition(other.getPositionX(), other.getPositionY() - 100 * dt);
+        }
     }
 
     @Override
-    public void uninit() {
+    public void uninit()
+    {
 
     }
 }

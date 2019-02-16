@@ -35,6 +35,7 @@ public class Player extends Object
     private boolean stickSelecting;
     private boolean selected = false;
     private Object selection = null;
+    private boolean isReady = false;
 
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
 
@@ -382,12 +383,14 @@ public class Player extends Object
         //Left
         if(!stickSelecting)
         {
-            if (lStickX > 0.4f) {
+            if (lStickX > 0.4f)
+            {
                 if (selection.getFrame() == 1) {
                     selection.setFrame(3);
                     stickSelecting = true;
                     return;
-                } else {
+                } else
+                    {
                     selection.goToPrevFrame();
                     stickSelecting = true;
                 }
@@ -395,11 +398,14 @@ public class Player extends Object
 
             //Right
             if (lStickX < -0.4f) {
-                if (selection.getFrame() == 3) {
+                if (selection.getFrame() == 3)
+                {
                     selection.setFrame(1);
                     stickSelecting = true;
                     return;
-                } else {
+                }
+                else
+                    {
                     selection.goToNextFrame();
                     stickSelecting = true;
                 }
@@ -419,6 +425,15 @@ public class Player extends Object
             selecting = false;
             this.selection = null;
             selected = true;
+            isReady = true;
         }
+    }
+
+    public boolean isReady() {
+        return isReady;
+    }
+
+    public void setReady(boolean ready) {
+        isReady = ready;
     }
 }
