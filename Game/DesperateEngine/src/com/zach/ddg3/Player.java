@@ -43,6 +43,7 @@ public class Player extends Object
     {
         super(name, width, height, path, totalFrames, frameLife);
 
+        this.tag = "Player";
         this.playerNumber = playerNumber;
         device = GameManager.deviceManager.devices[playerNumber];
         delta = GameManager.deviceManager.deltas[playerNumber];
@@ -52,7 +53,7 @@ public class Player extends Object
         this.addComponent(new AABBComponent(this, "wall"));
 
         this.paddingTop = 15;
-        this.paddingSide = 5;
+        this.paddingSide = 10;
         this.setInGame(false);
     }
 

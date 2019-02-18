@@ -20,7 +20,8 @@ public class selectionLevel extends GameLevel {
     private static Object archBridge;
 
     private static Object floor2;
-    private static Wall wall;
+    private static Wall doorframe;
+    private static Wall[] walls = new Wall[2];
     private static Wall door;
 
     private static Object explosiveGuns;
@@ -61,12 +62,25 @@ public class selectionLevel extends GameLevel {
         floor2 = new Object("floor2", 640, 465, "/selectionGround.png", 1, 0.1f);
         floor2.setPosition(0, -700);
         GameManager.objects.add(floor2);
-        floor2.zIndex = -1;
+        floor2.zIndex = -2;
 
-        wall = new Wall("wall", 640, 203, "/selectionWall.png", 1, 0.1f, false);
-        wall.setPosition(0, -830);
-        GameManager.objects.add(wall);
-        wall.paddingTop = 100;
+        walls[0] = new Wall("wall1", 265, 203, "/selectionWallHalf.png", 2, 0.1f, false);
+        walls[0].setPosition(-188, -830);
+        GameManager.objects.add(walls[0]);
+        walls[0].paddingTop = 100;
+
+        walls[1] = new Wall("wall2", 265, 203, "/selectionWallHalf.png", 2, 0.1f, false);
+        walls[1].setPosition(186, -830);
+        walls[1].setFrame(1);
+        GameManager.objects.add(walls[1]);
+        walls[1].paddingTop = 100;
+
+        doorframe = new Wall("doorframe", 122, 203, "/selectionWallDoorFrame.png", 1, 0.1f, true);
+        doorframe.removeComponentBySubtag("wall");
+        doorframe.setPosition(-1, -830);
+        GameManager.objects.add(doorframe);
+        doorframe.zIndex = 0;
+        doorframe.setzUpdatePointOffset(-25);
 
         door = new Wall("door", 111, 88, "/selectionDoor.png", 1, 0.1f, false);
         door.setPosition(-1, -780);
@@ -135,7 +149,7 @@ public class selectionLevel extends GameLevel {
         explosiveGuns = new Object("explosiveGuns", 257, 52, "/explosiveSelections.png", 4, 0f);
         explosiveGuns.setTag("Selection");
         explosiveGuns.addComponent(new AABBComponent(explosiveGuns, "selection"));
-        explosiveGuns.setPosition(185, -782);
+        explosiveGuns.setPosition(187, -782);
         GameManager.objects.add(explosiveGuns);
     }
 
@@ -169,6 +183,8 @@ public class selectionLevel extends GameLevel {
 
         if(allReady)
         {
+            //doorframe.zIndex = 2;
+            other.zIndex = -1;
             other.setPosition(other.getPositionX(), other.getPositionY() - 100 * dt);
         }
     }

@@ -8,6 +8,35 @@ public class Wall extends Object
 {
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
     private boolean isZUpdater;
+    private float zUpdatePointHigh;
+
+    public float getzUpdatePointOffset() {
+        return zUpdatePointOffset;
+    }
+
+    public void setzUpdatePointOffset(float zUpdatePointOffset) {
+        this.zUpdatePointOffset = zUpdatePointOffset;
+    }
+
+    private float zUpdatePointOffset;
+
+    public float getzUpdatePointHigh() {
+        return zUpdatePointHigh;
+    }
+
+    public void setzUpdatePointHigh(float zUpdatePointHigh) {
+        this.zUpdatePointHigh = zUpdatePointHigh;
+    }
+
+    public float getzUpdatePointLow() {
+        return zUpdatePointLow;
+    }
+
+    public void setzUpdatePointLow(float zUpdatePointLow) {
+        this.zUpdatePointLow = zUpdatePointLow;
+    }
+
+    private float zUpdatePointLow;
 
     public Wall(String name, int width, int height, String path, int totalFrames, float frameLife, boolean isZUpdater)
     {
@@ -28,7 +57,6 @@ public class Wall extends Object
     {
         super.update(main, gameManager, dt);
         this.updateComponents(main, gameManager, dt);
-
         /*if(gameManager.players.get(0) != null)
         {
             zUpdate(gameManager.players.get(0));
@@ -57,15 +85,18 @@ public class Wall extends Object
 
     public void zUpdate(Object target)
     {
-        if (!target.getTag().equalsIgnoreCase("Wall"))
+        if (target.getTag().equalsIgnoreCase("Player"))
         {
             AABBComponent myC = (AABBComponent) this.findComponentBySubtag("zUpdater");
+            this.zUpdatePointHigh = myC.getCenterY() + myC.getHalfHeight();
+            this.zUpdatePointLow = myC.getCenterY() - myC.getHalfHeight();
             AABBComponent otherC = (AABBComponent) target.findComponent("aabb");
+            System.out.println("(" + (otherC.getCenterY() + otherC.getHalfHeight()) + ", " +  (zUpdatePointHigh + zUpdatePointOffset) + "), (" + (otherC.getCenterY() - otherC.getHalfHeight()) + ", " + zUpdatePointLow + ")");
             //AND NEEDS TO BE COLLIDING
-            if (otherC.getCenterY() + otherC.getHalfHeight() < myC.getCenterY() + myC.getHalfHeight()) {
+            if (otherC.getCenterY() + otherC.getHalfHeight() < zUpdatePointHigh + zUpdatePointOffset) {
                 this.zIndex = target.zIndex + 1;
             }
-            if (otherC.getCenterY() - otherC.getHalfHeight() > myC.getCenterY() - myC.getHalfHeight()) {
+            else if (otherC.getCenterY() - otherC.getHalfHeight() > zUpdatePointLow) {
                 this.zIndex = target.zIndex - 1;
             }
         }
