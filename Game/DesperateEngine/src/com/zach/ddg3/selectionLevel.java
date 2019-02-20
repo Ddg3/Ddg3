@@ -185,7 +185,7 @@ public class selectionLevel extends GameLevel {
         {
             //doorframe.zIndex = 2;
             other.zIndex = -1;
-            other.setPosition(other.getPositionX(), other.getPositionY() - 100 * dt);
+            other.setPosition(other.getPositionX(), other.getPositionY() - 50 * dt);
         }
     }
 

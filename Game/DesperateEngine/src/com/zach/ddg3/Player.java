@@ -5,7 +5,9 @@ import com.ivan.xinput.XInputButtonsDelta;
 import com.ivan.xinput.XInputComponentsDelta;
 import com.ivan.xinput.XInputDevice;
 import com.ivan.xinput.enums.XInputButton;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.zach.ddg3.components.AABBComponent;
+import com.zach.ddg3.components.WeaponComponent;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 
@@ -29,6 +31,9 @@ public class Player extends Object
     private float lStickY = 0f;
     private float rStickX = 0f;
     private float rStickY = 0f;
+
+    private float rTrigger = 0f;
+    private float lTrigger = 0f;
 
     private boolean droppingIn = false;
     private boolean selecting = false;
@@ -72,6 +77,9 @@ public class Player extends Object
             lStickY += axes.getLYDelta();
             rStickX += axes.getRXDelta();
             rStickY += axes.getRYDelta();
+
+            rTrigger += axes.getRTDelta();
+            lTrigger += axes.getLTDelta();
 
             if(this.isInGame() && !selecting)
             {
@@ -421,12 +429,12 @@ public class Player extends Object
             }
         if(this.device.getDelta().getButtons().isPressed(XInputButton.A))
         {
-            System.out.println(selection.anim);
             this.selection.setFrame(0);
             selecting = false;
             this.selection = null;
             selected = true;
             isReady = true;
+            this.addComponent(new WeaponComponent(this, "test"));
         }
     }
 
@@ -436,5 +444,21 @@ public class Player extends Object
 
     public void setReady(boolean ready) {
         isReady = ready;
+    }
+
+    public float getrTrigger() {
+        return rTrigger;
+    }
+
+    public void setrTrigger(float rTrigger) {
+        this.rTrigger = rTrigger;
+    }
+
+    public float getlTrigger() {
+        return lTrigger;
+    }
+
+    public void setlTrigger(float lTrigger) {
+        this.lTrigger = lTrigger;
     }
 }
