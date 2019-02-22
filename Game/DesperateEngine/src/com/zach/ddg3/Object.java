@@ -198,6 +198,19 @@ public class Object extends GameObject implements Comparable<Object>
 
     }
 
+    public void changeSprite(int width, int height, String path, int totalFrames, float frameLife)
+    {
+        objImage.setPath(path);
+        objImage.setWidth(width);
+        objImage.setHeight(height);
+        this.width = width;
+        this.height = height;
+        this.totalFrames = totalFrames;
+        this.frameLife = frameLife;
+        this.frameLife = frameLife;
+        tempLife = frameLife;
+    }
+
     public void setPosition(float x, float y)
     {
         position.setX(x);

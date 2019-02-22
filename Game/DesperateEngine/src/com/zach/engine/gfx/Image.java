@@ -48,13 +48,24 @@ public class Image
 
     private boolean alpha = false;
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    private String path;
+
     public Image(String path)
     {
+        this.path = path;
         BufferedImage image = null;
 
         try
         {
-            image = ImageIO.read(Image.class.getResourceAsStream(path));
+            image = ImageIO.read(Image.class.getResourceAsStream(this.path));
 
         }
         catch (IOException e)

@@ -1,8 +1,8 @@
 package com.zach.ddg3.components;
 
-import com.zach.ddg3.GameManager;
+import com.ivan.xinput.enums.XInputButton;
+import com.zach.ddg3.*;
 import com.zach.ddg3.Object;
-import com.zach.ddg3.Player;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 
@@ -12,7 +12,7 @@ public class WeaponComponent extends Component
     private boolean isCharged = false;
     private boolean bounces = false;
     private int bounceCount = 0;
-    private float speed = 75f;
+    private float speed = 50f;
     private float slowRate = 10f;
     private boolean slows = false;
     private boolean isAnimated = true;
@@ -20,11 +20,19 @@ public class WeaponComponent extends Component
     private int chargeIntervals = 0;
     private boolean explodes = false;
     private boolean animatedTrails = false;
-    private int damage = 1;
+    private int damage = 2;
     private boolean effectTrails = false;
     private boolean chains = false;
     private boolean isCharging = false;
     private float tempCooldown = 0;
+
+    private String bulletPath = "/crownSpin.png";
+    private int bulletWidth = 29;
+    private int bulletHeight = 23;
+    private int bulletFrames = 4;
+    private float bulletFrameTime = 0.1f;
+
+    private int weaponFrameOffset = 0;
 
     public Object getParent() {
         return parent;
@@ -43,6 +51,8 @@ public class WeaponComponent extends Component
         this.subTag = subTag;
 
         this.tempCooldown = shotCooldown;
+
+        chooseWeapon(subTag);
     }
     @Override
     public void update(Main main, GameManager gameManager, float dt)
@@ -75,10 +85,13 @@ public class WeaponComponent extends Component
         if(parent.getTag().equalsIgnoreCase("Player"))
         {
             Player player = (Player) parent;
-            if(player.device.poll() && player.getrTrigger() == -1.0f && tempCooldown <= 0)
+            if(player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) && tempCooldown <= 0)
             {
-                System.out.println("BANG");
                 tempCooldown = shotCooldown;
+                Bullet bullet = new Bullet("bullet" + player.playerNumber, bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - weaponFrameOffset, this);
+                bullet.setPosition(parent.getPositionX(), parent.getPositionY());
+                GameManager.objects.add(bullet);
+
             }
         }
     }
@@ -91,6 +104,26 @@ public class WeaponComponent extends Component
     public void explode()
     {
 
+    }
+
+    public void chooseWeapon(String weaponName)
+    {
+        switch (weaponName)
+        {
+            case "rocketLauncher":
+                shotCooldown = 0.5f;
+                speed = 50f;
+                isAnimated = false;
+                explodes = true;
+
+                bulletPath = "/rocketLauncher_Bullet.png";
+                bulletWidth = 33;
+                bulletHeight = 33;
+                bulletFrames = 8;
+                bulletFrameTime = 0.1f;
+                break;
+
+        }
     }
 
     public float getShotCooldown() {

@@ -73,6 +73,7 @@ public class Player extends Object
 
         if(device.poll())
         {
+            //System.out.println(rTrigger);
             lStickX += axes.getLXDelta();
             lStickY += axes.getLYDelta();
             rStickX += axes.getRXDelta();
@@ -429,12 +430,17 @@ public class Player extends Object
             }
         if(this.device.getDelta().getButtons().isPressed(XInputButton.A))
         {
+            switch (selection.getFrame())
+            {
+                case 1:
+                    this.addComponent(new WeaponComponent(this, "rocketLauncher"));
+                    break;
+            }
             this.selection.setFrame(0);
             selecting = false;
             this.selection = null;
             selected = true;
             isReady = true;
-            this.addComponent(new WeaponComponent(this, "test"));
         }
     }
 

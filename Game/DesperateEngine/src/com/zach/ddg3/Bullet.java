@@ -28,27 +28,39 @@ public class Bullet extends Object
 
     private float speed;
 
-    public Bullet(String name, int width, int height, String path, int totalFrames, float frameLife, int direction, float posX, float posY, WeaponComponent weapon)
+    public Bullet(String name, int width, int height, String path, int totalFrames, float frameLife, int direction, WeaponComponent weapon)
     {
         super(name, width, height, path, totalFrames, frameLife);
-        this.position.x = posX;
-        this.position.y = posY;
+        this.tag = "Bullet";
         this.direction = direction;
 
         this.weapon = weapon;
         this.owner = weapon.getParent();
 
         this.speed = weapon.getSpeed();
+
+        this.setFrame(direction);
     }
 
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
         move(dt);
+
+        this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
+        this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
+        this.updateComponents(main, gameManager, dt);
+        //System.out.println(this.position.y);
+
+        if(weapon.isAnimated())
+        {
+            this.animate(dt);
+        }
     }
 
     public void move(float dt)
     {
+        //System.out.println(this.position.x + ", " + this.position.y);
         switch(direction)
         {
             case 0: this.position.y += speed * dt; break;
