@@ -14,6 +14,15 @@ public abstract class GameObject
     protected String tag;
     protected Vector position = new Vector(0,0);
     protected int width;
+
+    public int getTotalFrames() {
+        return totalFrames;
+    }
+
+    public void setTotalFrames(int totalFrames) {
+        this.totalFrames = totalFrames;
+    }
+
     protected int totalFrames;
     protected float frameLife;
     protected int paddingSide = 0;

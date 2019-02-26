@@ -27,6 +27,8 @@ public class Bullet extends Object
     private WeaponComponent weapon;
 
     private float speed;
+    private float tempSlow = 0f;
+    private float tempAccel = 0f;
 
     public Bullet(String name, int width, int height, String path, int totalFrames, float frameLife, int direction, WeaponComponent weapon)
     {
@@ -38,6 +40,16 @@ public class Bullet extends Object
         this.owner = weapon.getParent();
 
         this.speed = weapon.getSpeed();
+
+        if(weapon.isSlows())
+        {
+            tempSlow = weapon.getSlowRate();
+        }
+
+        if(weapon.isAccelerates())
+        {
+            tempAccel = weapon.getAccelRate();
+        }
 
         this.setFrame(direction);
     }
@@ -55,6 +67,18 @@ public class Bullet extends Object
         if(weapon.isAnimated())
         {
             this.animate(dt);
+        }
+
+        if(weapon.isSlows())
+        {
+            this.speed -= tempSlow;
+            tempSlow += dt;
+        }
+
+        if(weapon.isAccelerates())
+        {
+            this.speed += tempAccel;
+            tempAccel += dt;
         }
     }
 

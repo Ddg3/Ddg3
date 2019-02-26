@@ -26,6 +26,7 @@ public class Object extends GameObject implements Comparable<Object>
     private int maxRange = 0;
     private int endPoint = 0;
     private boolean inGame = true;
+    private int frameOffset = 0;
 
     public int getOffsetCenterX() {
         return offsetCenterX;
@@ -200,15 +201,16 @@ public class Object extends GameObject implements Comparable<Object>
 
     public void changeSprite(int width, int height, String path, int totalFrames, float frameLife)
     {
-        objImage.setPath(path);
-        objImage.setWidth(width);
-        objImage.setHeight(height);
         this.width = width;
         this.height = height;
         this.totalFrames = totalFrames;
         this.frameLife = frameLife;
         this.frameLife = frameLife;
         tempLife = frameLife;
+        this.objImage = new ImageTile(path, width, height);
+        /*objImage.setPath(path);
+        objImage.setWidth(width);
+        objImage.setHeight(height);*/
     }
 
     public void setPosition(float x, float y)
@@ -291,5 +293,13 @@ public class Object extends GameObject implements Comparable<Object>
 
     public int compareTo(Object o) {
         return this.zIndex - o.getzIndex();
+    }
+
+    public int getFrameOffset() {
+        return frameOffset;
+    }
+
+    public void setFrameOffset(int frameOffset) {
+        this.frameOffset = frameOffset;
     }
 }

@@ -8,7 +8,7 @@ import com.zach.engine.Renderer;
 
 public class WeaponComponent extends Component
 {
-    private float shotCooldown = 0.5f;
+    private float shotCooldown = 1.0f;
     private boolean isCharged = false;
     private boolean bounces = false;
     private int bounceCount = 0;
@@ -25,6 +25,9 @@ public class WeaponComponent extends Component
     private boolean chains = false;
     private boolean isCharging = false;
     private float tempCooldown = 0;
+    private boolean accelerates = false;
+    private float accelRate = 0;
+    private boolean animChangedOnShoot = false;
 
     private String bulletPath = "/crownSpin.png";
     private int bulletWidth = 29;
@@ -70,6 +73,10 @@ public class WeaponComponent extends Component
         {
             explode();
         }
+        if(animChangedOnShoot && tempCooldown <= 0 && parent.getFrameOffset() > 0)
+        {
+            parent.setFrameOffset(0);
+        }
 
         tempCooldown -= dt;
     }
@@ -88,10 +95,13 @@ public class WeaponComponent extends Component
             if(player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) && tempCooldown <= 0)
             {
                 tempCooldown = shotCooldown;
-                Bullet bullet = new Bullet("bullet" + player.playerNumber, bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - weaponFrameOffset, this);
+                Bullet bullet = new Bullet("bullet" + player.playerNumber, bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
                 bullet.setPosition(parent.getPositionX(), parent.getPositionY());
                 GameManager.objects.add(bullet);
-
+                if(animChangedOnShoot)
+                {
+                    parent.setFrameOffset(parent.getTotalFrames() / 2);
+                }
             }
         }
     }
@@ -111,10 +121,12 @@ public class WeaponComponent extends Component
         switch (weaponName)
         {
             case "rocketLauncher":
-                shotCooldown = 0.5f;
                 speed = 50f;
                 isAnimated = false;
                 explodes = true;
+                accelerates = true;
+                accelRate = 0.1f;
+                animChangedOnShoot = true;
 
                 bulletPath = "/rocketLauncher_Bullet.png";
                 bulletWidth = 33;
@@ -228,5 +240,37 @@ public class WeaponComponent extends Component
 
     public void setChains(boolean chains) {
         this.chains = chains;
+    }
+
+    public boolean isAccelerates() {
+        return accelerates;
+    }
+
+    public void setAccelerates(boolean accelerates) {
+        this.accelerates = accelerates;
+    }
+
+    public float getAccelRate() {
+        return accelRate;
+    }
+
+    public void setAccelRate(float accelRate) {
+        this.accelRate = accelRate;
+    }
+
+    public boolean isSlows() {
+        return slows;
+    }
+
+    public void setSlows(boolean slows) {
+        this.slows = slows;
+    }
+
+    public boolean isAnimChangedOnShoot() {
+        return animChangedOnShoot;
+    }
+
+    public void setAnimChangedOnShoot(boolean animChangedOnShoot) {
+        this.animChangedOnShoot = animChangedOnShoot;
     }
 }

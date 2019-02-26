@@ -203,7 +203,7 @@ public class Player extends Object
             }
             if (rStickX < 0.4f && rStickX > -0.4f)
             {
-                this.setFrame(6);
+                this.setFrame(6 + this.getFrameOffset());
             }
         }
         //Right
@@ -214,7 +214,7 @@ public class Player extends Object
                 this.position.x += 200f * dt;
             }
             if (rStickX < 0.4f && rStickX > -0.4f) {
-                this.setFrame(2);
+                this.setFrame(2 + this.getFrameOffset());
             }
         }
 
@@ -226,7 +226,7 @@ public class Player extends Object
                 this.position.y += 200f * dt;
             }
             if (rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(0);
+                this.setFrame(0 + this.getFrameOffset());
             }
         }
 
@@ -238,7 +238,7 @@ public class Player extends Object
                 this.position.y -= 200f * dt;
             }
             if (rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(4);
+                this.setFrame(4 + this.getFrameOffset());
             }
         }
 
@@ -253,22 +253,22 @@ public class Player extends Object
         {
             if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f)
             {
-                this.setFrame(5);
+                this.setFrame(5 + this.getFrameOffset());
             }
         }
         if (lStickX > 0.4f && lStickY > 0.4f) {
             if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(7);
+                this.setFrame(7 + this.getFrameOffset());
             }
         }
         if (lStickY > 0.4f && lStickX < -0.4f) {
             if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(1);
+                this.setFrame(1 + this.getFrameOffset());
             }
         }
         if (lStickY < -0.4f && lStickX < -0.4f) {
             if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(3);
+                this.setFrame(3 + this.getFrameOffset());
             }
         }
     }
@@ -277,35 +277,35 @@ public class Player extends Object
     {
         if (rStickX > 0.4f) {
             //Left
-            this.setFrame(6);
+            this.setFrame(6 + this.getFrameOffset());
         }
         if (rStickX < -0.4f) {
             //Right
-            this.setFrame(2);
+            this.setFrame(2 + this.getFrameOffset());
         }
         if (rStickY > 0.4f) {
             //Down
-            this.setFrame(0);
+            this.setFrame(0 + this.getFrameOffset());
         }
         if (rStickY < -0.4f) {
             //Up
-            this.setFrame(4);
+            this.setFrame(4 + this.getFrameOffset());
         }
         if (rStickX > 0.4f && rStickY < -0.4f) {
             //Left and Up
-            this.setFrame(5);
+            this.setFrame(5 + this.getFrameOffset());
         }
         if (rStickX > 0.4f && rStickY > 0.4f) {
             //Left and Down
-            this.setFrame(7);
+            this.setFrame(7 + this.getFrameOffset());
         }
         if (rStickY > 0.4f && rStickX < -0.4f) {
             //Right and Down
-            this.setFrame(1);
+            this.setFrame(1 + this.getFrameOffset());
         }
         if (rStickY < -0.4f && rStickX < -0.4f) {
             //Right and Up
-            this.setFrame(3);
+            this.setFrame(3 + this.getFrameOffset());
         }
     }
 
@@ -434,6 +434,7 @@ public class Player extends Object
             {
                 case 1:
                     this.addComponent(new WeaponComponent(this, "rocketLauncher"));
+                    this.changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
                     break;
             }
             this.selection.setFrame(0);
