@@ -25,6 +25,7 @@ public class selectionLevel extends GameLevel {
     private static Wall door;
 
     private static Object explosiveGuns;
+    private static Object explosiveGuns2;
     private static boolean allReady = false;
 
     @Override
@@ -151,6 +152,14 @@ public class selectionLevel extends GameLevel {
         explosiveGuns.addComponent(new AABBComponent(explosiveGuns, "selection"));
         explosiveGuns.setPosition(187, -782);
         GameManager.objects.add(explosiveGuns);
+
+        explosiveGuns2 = new Object("explosiveGuns2", 259, 54, "/explosiveSelections2.png", 4, 0f);
+        explosiveGuns2.setTag("Selection");
+        explosiveGuns2.addComponent(new AABBComponent(explosiveGuns2, "selection"));
+        AABBComponent otherC = (AABBComponent) explosiveGuns2.findComponentBySubtag("selection");
+        otherC.setDesignatedPlayer(1);
+        explosiveGuns2.setPosition(187, -782);
+        GameManager.objects.add(explosiveGuns2);
     }
 
     @Override

@@ -95,7 +95,7 @@ public class WeaponComponent extends Component
             if(player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) && tempCooldown <= 0)
             {
                 tempCooldown = shotCooldown;
-                Bullet bullet = new Bullet("bullet" + player.playerNumber, bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
+                Bullet bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
                 bullet.setPosition(parent.getPositionX(), parent.getPositionY());
                 GameManager.objects.add(bullet);
                 if(animChangedOnShoot)

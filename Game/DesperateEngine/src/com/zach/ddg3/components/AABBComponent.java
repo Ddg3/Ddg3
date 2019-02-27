@@ -16,7 +16,15 @@ public class AABBComponent extends Component
     private int halfWidth, halfHeight;
     private int lastCenterX;
     private int lastCenterY;
+    private int designatedPlayer = 0;
 
+    public int getDesignatedPlayer() {
+        return designatedPlayer;
+    }
+
+    public void setDesignatedPlayer(int designatedPlayer) {
+        this.designatedPlayer = designatedPlayer;
+    }
     public int getLastCenterX() {
         return lastCenterX;
     }
@@ -88,7 +96,6 @@ public class AABBComponent extends Component
 
         if(this.subTag == "wall" || this.subTag == "selection")
         {
-
             centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX());
             centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY());
 
@@ -103,7 +110,6 @@ public class AABBComponent extends Component
             halfWidth = (parent.getWidth() / 2);
             halfHeight = (parent.getHeight() / 2);
         }
-
         Physics.addAABBComponent(this);
     }
 

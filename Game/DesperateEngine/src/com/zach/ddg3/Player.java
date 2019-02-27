@@ -16,7 +16,7 @@ import java.awt.event.KeyEvent;
 public class Player extends Object
 {
     public static boolean isGoose = false;
-    public static int playerNumber;
+    private int playerNumber = 0;
     public XInputDevice device;
     private XInputComponentsDelta delta;
     private XInputButtonsDelta buttons;
@@ -176,7 +176,13 @@ public class Player extends Object
 
         if(other.getTag().equalsIgnoreCase("Selection") && this.isInGame())
         {
-            if(this.device.getDelta().getButtons().isPressed(XInputButton.A) && this.isInGame() && !selecting && !selected)
+            AABBComponent otherC = (AABBComponent) other.findComponentBySubtag("selection");
+            if(this.device.getDelta().getButtons().isPressed(XInputButton.A)
+                    && this.isInGame() &&
+                    !selecting &&
+                    !selected &&
+                    otherC.getDesignatedPlayer()
+                            == playerNumber)
             {
                 selecting = true;
                 selection = other;
@@ -467,5 +473,13 @@ public class Player extends Object
 
     public void setlTrigger(float lTrigger) {
         this.lTrigger = lTrigger;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public void setPlayerNumber(int playerNumber) {
+        this.playerNumber = playerNumber;
     }
 }
