@@ -15,7 +15,6 @@ import java.awt.event.KeyEvent;
 
 public class Player extends Object
 {
-    public static boolean isGoose = false;
     private int playerNumber = 0;
     public XInputDevice device;
     private XInputComponentsDelta delta;
@@ -41,6 +40,11 @@ public class Player extends Object
     private boolean selected = false;
     private Object selection = null;
     private boolean isReady = false;
+
+    private int time = 60;
+    private float second = 1.5f;
+    private float tempSecond = 1.5f;
+    private boolean isGoose = false;
 
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
 
@@ -451,6 +455,16 @@ public class Player extends Object
         }
     }
 
+    public void addTime(float time)
+    {
+        this.time += time;
+    }
+
+    public void depleteTime(float time)
+    {
+        this.time -= time;
+    }
+
     public boolean isReady() {
         return isReady;
     }
@@ -481,5 +495,37 @@ public class Player extends Object
 
     public void setPlayerNumber(int playerNumber) {
         this.playerNumber = playerNumber;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public float getSecond() {
+        return second;
+    }
+
+    public void setSecond(float second) {
+        this.second = second;
+    }
+
+    public float getTempSecond() {
+        return tempSecond;
+    }
+
+    public void setTempSecond(float tempSecond) {
+        this.tempSecond = tempSecond;
+    }
+
+    public boolean isGoose() {
+        return isGoose;
+    }
+
+    public void setGoose(boolean goose) {
+        isGoose = goose;
     }
 }

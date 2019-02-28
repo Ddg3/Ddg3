@@ -6,6 +6,7 @@ package com.zach.engine.gfx;
 public class Font
 {
     public static final Font STANDARD = new Font("/comic.png");
+    public static final Font BLOCKNUMBER = new Font("/blockNumbers.png");
 
     private Image fontImage;
     private int[] offsets;

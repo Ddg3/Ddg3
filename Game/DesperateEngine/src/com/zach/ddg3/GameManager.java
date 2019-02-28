@@ -166,11 +166,11 @@ public class GameManager extends AbstractGame
         {
             //Renders all text objects
             if(textObj.visible)
-                main.getRenderer().drawText(textObj.text, textObj.posX, textObj.posY, textObj.color, textObj.scale);
+                main.getRenderer().drawText(textObj.text, textObj.posX, textObj.posY, textObj.color, textObj.scale, textObj.font);
         }
         if(showFps)
         {
-            main.getRenderer().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale);
+            main.getRenderer().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale, renderer.BlockNumberFont);
         }
     }
 

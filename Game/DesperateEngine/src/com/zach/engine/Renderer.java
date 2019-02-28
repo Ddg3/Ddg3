@@ -58,7 +58,8 @@ public class Renderer
     }
 
     private int ambientColor = 0xff6b6b6b;
-    private Font font = Font.STANDARD;
+    public static Font StandardFont = Font.STANDARD;
+    public static Font BlockNumberFont = Font.BLOCKNUMBER;
     private ArrayList<ImageRequest> imageRequest = new ArrayList<ImageRequest>();
 
     public int getzOrder() {
@@ -187,7 +188,7 @@ public class Renderer
 
         lightMap[x + y * pWidth] = (maxRed << 16 | maxGreen << 8 | maxBlue);
     }
-    public void drawText(String text, int offsetX, int offsetY, int color, int scale)
+    public void drawText(String text, int offsetX, int offsetY, int color, int scale, Font font)
     {
         int offset = 0;
 
@@ -305,5 +306,22 @@ public class Renderer
             }
         }
     }
+
+    /*public Font getStandardFont() {
+        return StandardFont;
+    }
+
+    public void setStandardFont(Font standardFont) {
+        StandardFont = standardFont;
+    }
+
+    public Font getBlockNumberFont() {
+        return BlockNumberFont;
+    }
+
+    public void setBlockNumberFont(Font blockNumberFont) {
+        BlockNumberFont = blockNumberFont;
+    }*/
+
 }
 
