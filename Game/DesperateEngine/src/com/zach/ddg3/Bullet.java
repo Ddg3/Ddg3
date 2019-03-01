@@ -1,5 +1,6 @@
 package com.zach.ddg3;
 
+import com.zach.ddg3.components.AABBComponent;
 import com.zach.ddg3.components.WeaponComponent;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
@@ -52,6 +53,8 @@ public class Bullet extends Object
         }
 
         this.setFrame(direction);
+        this.addComponent(new AABBComponent(this, "bullet"));
+
     }
 
     @Override
@@ -107,6 +110,22 @@ public class Bullet extends Object
     @Override
     public void collision(Object other)
     {
+        if(other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Wall") )
+        {
+            GameManager.objects.remove(this);
+        }
+        else if(other.getTag().equalsIgnoreCase("Player"))
+        {
+            Player player = (Player)other;
+            if(player.getPlayerNumber() != weapon.getPlayerNumber())
+            {
+                player.depleteTime(weapon.getDamage());
+                if (weapon.isExplodes()) {
+                    weapon.explode();
+                }
 
+                GameManager.objects.remove(this);
+            }
+        }
     }
 }

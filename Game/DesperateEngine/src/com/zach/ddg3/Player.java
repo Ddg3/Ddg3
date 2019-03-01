@@ -45,6 +45,7 @@ public class Player extends Object
     private float second = 1.5f;
     private float tempSecond = 1.5f;
     private boolean isGoose = false;
+    private Object timer = new Object("timer" + playerNumber, 33, 21, "/numbers.png", 61, 0f);
 
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
 
@@ -64,6 +65,9 @@ public class Player extends Object
         this.paddingTop = 15;
         this.paddingSide = 10;
         this.setInGame(false);
+
+        GameManager.objects.add(timer);
+        GameManager.timers.add(playerNumber, timer);
     }
 
     @Override
@@ -111,8 +115,20 @@ public class Player extends Object
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
         this.updateComponents(main, gameManager, dt);
         //System.out.println(this.position.y);
-
         this.animate(dt);
+
+        if(this.isReady)
+        {
+            tempSecond -= dt;
+            if(tempSecond <= 0)
+            {
+                time -= 1;
+                tempSecond = second;
+            }
+
+            timer.setFrame(time);
+            timer.setPosition(this.position.x , this.position.y + 40);
+        }
     }
 
     @Override

@@ -17,6 +17,7 @@ public class GameManager extends AbstractGame
     public static ArrayList<Player> players = new ArrayList<Player>(1);
     public static ArrayList<TextObject> textObjects = new ArrayList<TextObject>(1);
     private ArrayList<Object> toKillList = new ArrayList<Object>();
+    public static ArrayList<Object> timers = new ArrayList<Object>(1);
     private int levelWidth;
     private int levelHeight;
     private boolean[] collision;
@@ -170,7 +171,7 @@ public class GameManager extends AbstractGame
         }
         if(showFps)
         {
-            main.getRenderer().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale, renderer.BlockNumberFont);
+            main.getRenderer().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale, renderer.StandardFont);
         }
     }
 

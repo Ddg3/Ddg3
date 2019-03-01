@@ -29,6 +29,9 @@ public class WeaponComponent extends Component
     private float accelRate = 0;
     private boolean animChangedOnShoot = false;
 
+    private boolean parentIsPlayer = false;
+    private int playerNumber = Integer.MAX_VALUE;
+
     private String bulletPath = "/crownSpin.png";
     private int bulletWidth = 29;
     private int bulletHeight = 23;
@@ -56,6 +59,12 @@ public class WeaponComponent extends Component
         this.tempCooldown = shotCooldown;
 
         chooseWeapon(subTag);
+        if(parent.getTag().equalsIgnoreCase("Player"))
+        {
+            parentIsPlayer = true;
+            Player player = (Player) parent;
+            playerNumber = player.getPlayerNumber();
+        }
     }
     @Override
     public void update(Main main, GameManager gameManager, float dt)
@@ -137,7 +146,21 @@ public class WeaponComponent extends Component
 
         }
     }
+    public boolean isParentIsPlayer() {
+        return parentIsPlayer;
+    }
 
+    public void setParentIsPlayer(boolean parentIsPlayer) {
+        this.parentIsPlayer = parentIsPlayer;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public void setPlayerNumber(int playerNumber) {
+        this.playerNumber = playerNumber;
+    }
     public float getShotCooldown() {
         return shotCooldown;
     }
