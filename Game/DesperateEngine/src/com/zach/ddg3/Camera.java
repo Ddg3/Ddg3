@@ -1,6 +1,7 @@
 package com.zach.ddg3;
 
 import com.zach.engine.Main;
+import org.omg.CORBA.INTERNAL;
 
 public class Camera {
     private int topCamera;
@@ -64,6 +65,13 @@ public class Camera {
             return;
         }
 
+        if(boundsRange == gameManager.gameLevelManager.currLevel.loadPoint)
+        {
+            boundsRange = 0;
+            GameManager.gameLevelManager.currLevel.loadPoint = Integer.MAX_VALUE;
+            GameManager.gameLevelManager.setGameState(GameLevelManager.GameState.MAIN_STATE);
+            GameManager.gameLevelManager.currLevel.uninit();
+        }
         //Offsetting the camera by the center of the image (Bc origin is top left by default) and screen center
         posX = (target.position.x + (target.width / 2)) - main.getWidth() / 2;
         posY = (target.position.y + (target.height / 2)) - main.getHeight() / 2;

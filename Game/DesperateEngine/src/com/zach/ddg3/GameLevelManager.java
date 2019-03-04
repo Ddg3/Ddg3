@@ -38,21 +38,25 @@ public class GameLevelManager extends AbstractGame
     @Override
     public void update(Main main, float dt)
     {
-        /*switch (gameState)
+        switch (gameState)
         {
             case TITLE_STATE:
                 currLevel = new titleLevel();
+                break;
             case ENDGAME_STATE:
                 currLevel = new endGameLevel();
+                break;
             case MAIN_STATE:
                 currLevel = new mainLevel();
+                break;
             case SELECTION_STATE:
                 currLevel = new selectionLevel();
-        }*/
+                break;
+        }
 
         //Checks for current level state and runs accordingly
 
-        if(gameState == GameState.TITLE_STATE)
+        /*if(gameState == GameState.TITLE_STATE)
         {
             currLevel = new titleLevel();
         }
@@ -67,7 +71,7 @@ public class GameLevelManager extends AbstractGame
         if(gameState == GameState.ENDGAME_STATE)
         {
             currLevel = new endGameLevel();
-        }
+        }*/
         if(!switched)
         {
             currLevel.init(main);

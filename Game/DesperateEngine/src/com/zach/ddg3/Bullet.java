@@ -110,7 +110,7 @@ public class Bullet extends Object
     @Override
     public void collision(Object other)
     {
-        if(other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Wall") )
+        if(other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Bullet") )
         {
             GameManager.objects.remove(this);
         }

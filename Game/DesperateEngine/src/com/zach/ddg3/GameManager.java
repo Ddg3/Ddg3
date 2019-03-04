@@ -90,14 +90,17 @@ public class GameManager extends AbstractGame
 
         fpsCounter.text = "FPS:" + main.getFps();
         fpsCounter.posX = 0;
-        if(gameLevelManager.getGameState() != GameLevelManager.GameState.TITLE_STATE && (camera.getPosY() < gameLevelManager.currLevel.verticleBounds.get(0).x && camera.getPosY() > gameLevelManager.currLevel.verticleBounds.get(0).y))
+        /*System.out.println(fpsCounter.posY);
+        System.out.println("CamX: " + gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).x);
+        System.out.println("CamY: "+ gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y);*/
+        if(camera.getPosY() < gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).x && camera.getPosY() > gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y)
         {
             fpsCounter.posY = (int) camera.getPosY();
         }
-        if(gameLevelManager.getGameState() == GameLevelManager.GameState.TITLE_STATE)
-        {
-            fpsCounter.posY = (int) camera.getPosY();
-        }
+        else
+            {
+                fpsCounter.posY = (int) gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y;
+            }
         /*fpsCounter.posY = (int)center.position.y;
         fpsCounter.posX = 0;*/
 
@@ -139,6 +142,16 @@ public class GameManager extends AbstractGame
         }
     }
 
+    /*public void loadLevel(Vector camPosition, Vector playerPosition)
+    {
+        camera.setPosX(camPosition.x);
+        camera.setPosY(camPosition.y);
+
+        for(int i = 0; i < players.size(); i++)
+        {
+            players.get(i).setPosition(playerPosition.x + ((i * 50) - 25), playerPosition.y);
+        }
+    }*/
     @Override
     public void render(Main main, Renderer renderer)
     {

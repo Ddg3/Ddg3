@@ -35,6 +35,8 @@ public class selectionLevel extends GameLevel {
 
         this.verticleBounds.add(new Vector(350, -360));
         this.verticleBounds.add(new Vector(-720, -750));
+        this.verticleBounds.add(new Vector(-900, -1000));
+        this.loadPoint = 2;
 
         //this.verticleBounds.add(new Vector(-600, -600));
 
@@ -67,11 +69,13 @@ public class selectionLevel extends GameLevel {
 
         walls[0] = new Wall("wall1", 265, 203, "/selectionWallHalf.png", 2, 0.1f, false);
         walls[0].setPosition(-188, -830);
+        walls[0].setzUpdatePointOffset(-25);
         GameManager.objects.add(walls[0]);
         walls[0].paddingTop = 100;
 
         walls[1] = new Wall("wall2", 265, 203, "/selectionWallHalf.png", 2, 0.1f, false);
         walls[1].setPosition(186, -830);
+        walls[1].setzUpdatePointOffset(-25);
         walls[1].setFrame(1);
         GameManager.objects.add(walls[1]);
         walls[1].paddingTop = 100;
@@ -201,6 +205,10 @@ public class selectionLevel extends GameLevel {
     @Override
     public void uninit()
     {
-
+        GameManager.camera.setPosX(0);
+        GameManager.camera.setPosY(0);
+        GameManager.objects.clear();
+        GameManager.textObjects.clear();
+        GameManager.gameLevelManager.currLevel = null;
     }
 }

@@ -66,6 +66,7 @@ public class Player extends Object
         this.paddingSide = 10;
         this.setInGame(false);
 
+        timer.visible = false;
         GameManager.objects.add(timer);
         GameManager.timers.add(playerNumber, timer);
     }
@@ -124,10 +125,17 @@ public class Player extends Object
             {
                 time -= 1;
                 tempSecond = second;
+                //
+                //
+                //MAKE SURE PADDING IS UNCHANGED FROM DUCK TO DUCK THROUGHOUT WEAPON CHANGES
+                //
+                //
+                //
             }
 
             timer.setFrame(time);
-            timer.setPosition(this.position.x , this.position.y + 40);
+            /*timer.setPosition(this.position.x, this.position.y - 50);
+            timer.visible = true;*/
         }
     }
 
