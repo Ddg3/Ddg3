@@ -47,6 +47,9 @@ public class Player extends Object
     private boolean isGoose = false;
     private Object timer = new Object("timer" + playerNumber, 33, 21, "/numbers.png", 61, 0f);
 
+    private int widthDifference = 0;
+    private int heightDifference = 0 ;
+
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
 
     public Player(String name, int width, int height, String path, int totalFrames, float frameLife, int playerNumber)
@@ -125,12 +128,6 @@ public class Player extends Object
             {
                 time -= 1;
                 tempSecond = second;
-                //
-                //
-                //MAKE SURE PADDING IS UNCHANGED FROM DUCK TO DUCK THROUGHOUT WEAPON CHANGES
-                //
-                //
-                //
             }
 
             timer.setFrame(time);
@@ -468,9 +465,13 @@ public class Player extends Object
             {
                 case 1:
                     this.addComponent(new WeaponComponent(this, "rocketLauncher"));
+                    this.widthDifference = 102 - this.width;
+                    this.heightDifference = 81 - this.height;
                     this.changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
                     break;
             }
+            this.paddingSide += (widthDifference / 2);
+            this.paddingTop += (heightDifference / 2);
             this.selection.setFrame(0);
             selecting = false;
             this.selection = null;
