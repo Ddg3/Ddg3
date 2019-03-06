@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java" line="72" />
+    <bookmark url="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java" line="80" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="10463508-7a0d-4587-ab5d-6df76b7aab11" name="Default" comment="" />
@@ -34,11 +34,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Camera.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="108" column="13" lean-forward="true" selection-start-line="108" selection-start-column="13" selection-end-line="108" selection-end-column="13" />
+            <state relative-caret-position="500">
+              <caret line="122" column="37" lean-forward="true" selection-start-line="122" selection-start-column="37" selection-end-line="122" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -104,37 +104,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/engine/Renderer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3944">
-              <caret line="301" column="13" lean-forward="true" selection-start-line="301" selection-start-column="13" selection-end-line="301" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameLevelManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
-              <caret line="28" column="37" lean-forward="true" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="56" column="32" lean-forward="true" selection-start-line="52" selection-start-column="8" selection-end-line="56" selection-end-column="32" />
+            <state relative-caret-position="-588">
+              <caret line="134" column="16" selection-start-line="134" selection-start-column="16" selection-end-line="134" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-673">
-              <caret line="29" column="46" selection-start-line="29" selection-start-column="46" selection-end-line="29" selection-end-column="46" />
+            <state relative-caret-position="323">
+              <caret line="84" column="42" lean-forward="true" selection-start-line="84" selection-start-column="42" selection-end-line="84" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#185#193#0" expanded="true" />
@@ -144,19 +126,55 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/engine/Window.java">
+        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Object.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="32" column="5" lean-forward="true" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+            <state relative-caret-position="714">
+              <caret line="54" column="23" selection-start-line="54" selection-start-column="23" selection-end-line="54" selection-end-column="23" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/engine/AbstractGame.java">
+        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Physics.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+            <state relative-caret-position="663">
+              <caret line="39" selection-start-line="39" selection-end-line="39" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#276#277#0" expanded="true" />
+                <element signature="e#310#311#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-299">
+              <caret line="27" column="21" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#367#368#0" expanded="true" />
+                <element signature="e#401#402#0" expanded="true" />
+                <element signature="e#452#453#0" expanded="true" />
+                <element signature="e#498#499#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="98" column="55" selection-start-line="98" selection-start-column="55" selection-end-line="98" selection-end-column="55" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -239,8 +257,8 @@
         <option value="$PROJECT_DIR$/src/com/zach/engine/Renderer.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java" />
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/Camera.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java" />
       </list>
     </option>
   </component>
@@ -323,7 +341,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551836049334" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551838943906" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
@@ -613,20 +631,6 @@
     <entry file="file://$PROJECT_DIR$/res/Duck_rocketLauncher.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#367#368#0" expanded="true" />
-            <element signature="e#401#402#0" expanded="true" />
-            <element signature="e#452#453#0" expanded="true" />
-            <element signature="e#498#499#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zach/engine/gfx/ImageTile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -641,28 +645,6 @@
           <folding>
             <element signature="e#127#128#0" expanded="true" />
             <element signature="e#153#154#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2788">
-          <caret line="180" column="13" selection-start-line="180" selection-start-column="13" selection-end-line="180" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Physics.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="39" selection-start-line="39" selection-end-line="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#276#277#0" expanded="true" />
-            <element signature="e#310#311#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -687,16 +669,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="13" column="45" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="96" column="89" selection-start-line="96" selection-start-column="89" selection-end-line="96" selection-end-column="89" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -822,16 +794,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="46" column="74" selection-start-line="46" selection-start-column="74" selection-end-line="46" selection-end-column="74" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/endGameLevel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -885,30 +847,86 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Physics.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="56" column="32" lean-forward="true" selection-start-line="52" selection-start-column="8" selection-end-line="56" selection-end-column="32" />
+        <state relative-caret-position="663">
+          <caret line="39" selection-start-line="39" selection-end-line="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#276#277#0" expanded="true" />
+            <element signature="e#310#311#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-673">
-          <caret line="29" column="46" selection-start-line="29" selection-start-column="46" selection-end-line="29" selection-end-column="46" />
+        <state relative-caret-position="408">
+          <caret line="98" column="55" selection-start-line="98" selection-start-column="55" selection-end-line="98" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#185#193#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-299">
+          <caret line="27" column="21" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#367#368#0" expanded="true" />
+            <element signature="e#401#402#0" expanded="true" />
+            <element signature="e#452#453#0" expanded="true" />
+            <element signature="e#498#499#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Object.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="54" column="23" selection-start-line="54" selection-start-column="23" selection-end-line="54" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-588">
+          <caret line="134" column="16" selection-start-line="134" selection-start-column="16" selection-end-line="134" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Camera.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="108" column="13" lean-forward="true" selection-start-line="108" selection-start-column="13" selection-end-line="108" selection-end-column="13" />
+        <state relative-caret-position="500">
+          <caret line="122" column="37" lean-forward="true" selection-start-line="122" selection-start-column="37" selection-end-line="122" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="46" column="74" selection-start-line="46" selection-start-column="74" selection-end-line="46" selection-end-column="74" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="84" column="42" lean-forward="true" selection-start-line="84" selection-start-column="42" selection-end-line="84" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#185#193#0" expanded="true" />
           </folding>
         </state>
       </provider>
