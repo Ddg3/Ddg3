@@ -6,6 +6,8 @@ import org.omg.CORBA.INTERNAL;
 public class Camera {
     private int topCamera;
     private int bottomCamera;
+    private int leftCamera;
+    private int rightCamera;
 
     public void setBoundsRange(int boundsRange) {
         this.boundsRange = boundsRange;
@@ -78,8 +80,11 @@ public class Camera {
 
         topCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).x;
         bottomCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).y;
-
-        main.getRenderer().setCameraX(0);
+        if(gameManager.gameLevelManager.currLevel.horizBounds.size() != 0)
+        {
+            leftCamera = (int) gameManager.gameLevelManager.currLevel.horizBounds.get(boundsRange).x;
+            rightCamera = (int) gameManager.gameLevelManager.currLevel.horizBounds.get(boundsRange).y;
+        }
 
         //System.out.println(-target.position.y + " , " + (topCamera + (target.height / 2)) + " with bounds range at: " + boundsRange + " out of " + gameManager.gameLevelManager.currLevel.verticleBounds.size());
         //System.out.println(posY + " vs. playerpos at " + target.position.y);
@@ -103,6 +108,19 @@ public class Camera {
         } else
             {
             main.getRenderer().setCameraY(bottomCamera);
+        }
+
+        if(posX < leftCamera && posX > rightCamera)
+        {
+            main.getRenderer().setCameraX((int) posX);
+        }
+        else if(posX >= leftCamera + (target.width / 2))
+        {
+            main.getRenderer().setCameraX(leftCamera);
+        }
+        else if(posX < rightCamera - (target.width / 2))
+        {
+            main.getRenderer().setCameraX(rightCamera);
         }
     }
 }

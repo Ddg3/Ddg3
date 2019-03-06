@@ -224,8 +224,6 @@ public class Renderer
         int tempWidth = image.getWidth() * scale;
         int tempHeight = image.getHeight() * scale;
 
-        //Clipping for optimization
-
         for(int y = tempY; y < tempHeight; y++)
         {
             for(int x = tempX; x < tempWidth; x++)
