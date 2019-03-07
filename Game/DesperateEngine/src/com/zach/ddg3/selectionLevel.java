@@ -59,6 +59,7 @@ public class selectionLevel extends GameLevel {
         player2 = new Player("player2", 63, 68, "/duckSheetLong.png", 24, 0.01f, 1);
         player2.setPosition(-165, 0);
         player2.zIndex = 1;
+        player2.setKeyDropIn(KeyEvent.VK_TAB);
         GameManager.objects.add(player2);
         player2.visible = false;
 

@@ -114,7 +114,7 @@ public abstract class GameObject
 
     public abstract void update(Main main, GameManager gameManager, float dt);
     public abstract void render(Main main, Renderer r);
-    public abstract void collision(Object other);
+    public abstract void collision(Object other, Main main);
 
     public void updateComponents(Main main, GameManager gameManager, float dt)
     {

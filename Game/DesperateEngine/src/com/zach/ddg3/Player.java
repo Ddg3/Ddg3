@@ -11,6 +11,7 @@ import com.zach.ddg3.components.WeaponComponent;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.event.KeyEvent;
 
 public class Player extends Object
@@ -45,6 +46,18 @@ public class Player extends Object
     private float second = 1.5f;
     private float tempSecond = 1.5f;
     private boolean isGoose = false;
+
+    private int keyUp = KeyEvent.VK_W;
+    private int keyDown = KeyEvent.VK_S;
+    private int keyLeft = KeyEvent.VK_A;
+    private int keyRight = KeyEvent.VK_D;
+    private int keyDropIn = KeyEvent.VK_SPACE;
+    private int keySelect = KeyEvent.VK_E;
+    private int keyShoot = KeyEvent.VK_ENTER;
+    private int keyDeselect = KeyEvent.VK_R;
+
+    private boolean keyBoardSelecting = false;
+
     private Object timer = new Object("timer" + playerNumber, 33, 21, "/numbers.png", 61, 0f);
 
     private int widthDifference = 0;
@@ -99,20 +112,23 @@ public class Player extends Object
                 moveController(dt);
                 look();
             }
-            if(selecting)
-            {
-                select(selection);
-            }
-
-            dropIn(dt);
-
             //System.out.println(offsetPos.x);
            /*this.offsetPos.x = main.getInput().getMouseX() - this.width;
            this.offsetPos.y = main.getInput().getMouseY() + this.height + 180;*/
         }
         else
         {
-            moveKeyboard(main,dt);
+            if(!selecting)
+            {
+                moveKeyboard(main, dt);
+            }
+        }
+
+        dropIn(dt, main);
+
+        if(selecting)
+        {
+            select(selection, main);
         }
 
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
@@ -145,7 +161,7 @@ public class Player extends Object
     }
 
     @Override
-    public void collision(Object other)
+    public void collision(Object other, Main main)
     {
         //System.out.println(other.getTag());
         if(other.getTag().equalsIgnoreCase("Wall") && this.isInGame())
@@ -202,7 +218,7 @@ public class Player extends Object
         if(other.getTag().equalsIgnoreCase("Selection") && this.isInGame())
         {
             AABBComponent otherC = (AABBComponent) other.findComponentBySubtag("selection");
-            if(this.device.getDelta().getButtons().isPressed(XInputButton.A)
+            if((this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKey(keySelect))
                     && this.isInGame() &&
                     !selecting &&
                     !selected &&
@@ -214,7 +230,7 @@ public class Player extends Object
                 selection.setFrame(1);
             }
 
-            if(this.device.getDelta().getButtons().isPressed(XInputButton.B) && this.isInGame() && selecting)
+            if((this.device.getDelta().getButtons().isPressed(XInputButton.B) || main.getInput().isKey(keyDeselect))&& this.isInGame() && selecting)
             {
                 selection.setFrame(0);
                 selecting = false;
@@ -342,43 +358,43 @@ public class Player extends Object
 
     public void moveKeyboard(Main main, float dt)
     {
-        if (main.getInput().isKey(KeyEvent.VK_A))
+        if (main.getInput().isKey(keyLeft))
         {
-            this.position.x += -100f * dt;
+            this.position.x += -200f * dt;
             this.setFrame(6);
 
         }
-        if (main.getInput().isKey(KeyEvent.VK_D))
+        if (main.getInput().isKey(keyRight))
         {
-            this.position.x += 100f * dt;
+            this.position.x += 200f * dt;
             this.setFrame(2);
         }
 
-        if (main.getInput().isKey(KeyEvent.VK_S))
+        if (main.getInput().isKey(keyDown))
         {
-            this.position.y += 100f * dt;
+            this.position.y += 200f * dt;
             this.setFrame(0);
         }
-        if (main.getInput().isKey(KeyEvent.VK_W))
+        if (main.getInput().isKey(keyUp))
         {
-            this.position.y +=  -100f * dt;
+            this.position.y +=  -200f * dt;
             this.setFrame(4);
         }
 
         //Changes frame of animation on the diagonals if the right thumbstick is not being used
-        if (main.getInput().isKey(KeyEvent.VK_A) && main.getInput().isKey(KeyEvent.VK_W))
+        if (main.getInput().isKey(keyLeft) && main.getInput().isKey(keyUp))
         {
             this.setFrame(5);
         }
-        if (main.getInput().isKey(KeyEvent.VK_A) && main.getInput().isKey(KeyEvent.VK_S))
+        if (main.getInput().isKey(keyLeft) && main.getInput().isKey(keyDown))
         {
             this.setFrame(7);
         }
-        if (main.getInput().isKey(KeyEvent.VK_D) && main.getInput().isKey(KeyEvent.VK_S))
+        if (main.getInput().isKey(keyRight) && main.getInput().isKey(keyDown))
         {
             this.setFrame(1);
         }
-        if (main.getInput().isKey(KeyEvent.VK_D) && main.getInput().isKey(KeyEvent.VK_W))
+        if (main.getInput().isKey(keyRight) && main.getInput().isKey(keyUp))
         {
             this.setFrame(3);
         }
@@ -394,9 +410,9 @@ public class Player extends Object
         }*/
     }
 
-    public void dropIn(float dt)
+    public void dropIn(float dt, Main main)
     {
-        if(this.device.getDelta().getButtons().isPressed(XInputButton.START) && !this.isInGame() && !this.droppingIn)
+        if((this.device.getDelta().getButtons().isPressed(XInputButton.START) || main.getInput().isKey(keyDropIn)) && !this.isInGame() && !this.droppingIn)
         {
             this.droppingIn = true;
             this.visible = true;
@@ -419,7 +435,7 @@ public class Player extends Object
         }
     }
 
-    public void select(Object selection)
+    public void select(Object selection, Main main)
     {
         //Left
         if(!stickSelecting)
@@ -459,14 +475,39 @@ public class Player extends Object
                     stickSelecting = false;
                 }
             }
-        if(this.device.getDelta().getButtons().isPressed(XInputButton.A))
+            if (main.getInput().isKeyDown(keyLeft))
+            {
+                if (selection.getFrame() == 1) {
+                    selection.setFrame(3);
+                    keyBoardSelecting = true;
+                    return;
+                } else
+                {
+                    selection.goToPrevFrame();
+                    stickSelecting = true;
+                }
+            }
+
+            //Right
+            if (main.getInput().isKeyDown(keyRight)) {
+                if (selection.getFrame() == 3)
+                {
+                    selection.setFrame(1);
+                    stickSelecting = true;
+                    return;
+                }
+                else
+                {
+                    selection.goToNextFrame();
+                    keyBoardSelecting = true;
+                }
+            }
+        if(this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKeyDown(keySelect))
         {
             switch (selection.getFrame())
             {
                 case 1:
                     this.addComponent(new WeaponComponent(this, "rocketLauncher"));
-                    this.widthDifference = 102 - this.width;
-                    this.heightDifference = 81 - this.height;
                     this.changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
                     break;
             }
@@ -552,5 +593,60 @@ public class Player extends Object
 
     public void setGoose(boolean goose) {
         isGoose = goose;
+    }
+
+    public int getKeyShoot() {
+        return keyShoot;
+    }
+
+    public void setKeyShoot(int keyShoot) {
+        this.keyShoot = keyShoot;
+    }
+    public int getKeyUp() {
+        return keyUp;
+    }
+
+    public void setKeyUp(int keyUp) {
+        this.keyUp = keyUp;
+    }
+
+    public int getKeyDown() {
+        return keyDown;
+    }
+
+    public void setKeyDown(int keyDown) {
+        this.keyDown = keyDown;
+    }
+
+    public int getKeyLeft() {
+        return keyLeft;
+    }
+
+    public void setKeyLeft(int keyLeft) {
+        this.keyLeft = keyLeft;
+    }
+
+    public int getKeyRight() {
+        return keyRight;
+    }
+
+    public void setKeyRight(int keyRight) {
+        this.keyRight = keyRight;
+    }
+
+    public int getKeyDropIn() {
+        return keyDropIn;
+    }
+
+    public void setKeyDropIn(int keyDropIn) {
+        this.keyDropIn = keyDropIn;
+    }
+
+    public int getKeySelect() {
+        return keySelect;
+    }
+
+    public void setKeySelect(int keySelect) {
+        this.keySelect = keySelect;
     }
 }

@@ -1,6 +1,7 @@
 package com.zach.ddg3;
 
 import com.zach.ddg3.components.AABBComponent;
+import com.zach.engine.Main;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ public class Physics
         aabbList.add(aabb);
     }
 
-    public static void update()
+    public static void update(Main main)
     {
         for(int i = 0; i < aabbList.size(); i++)
         {
@@ -28,16 +29,16 @@ public class Physics
                         //Colliding on both axes
                         if(c0.getSubTag().equalsIgnoreCase("zUpdater"))
                         {
-                            c0.getParent().collision(c1.getParent());
+                            c0.getParent().collision(c1.getParent(), main);
                         }
                         else if(c1.getSubTag().equalsIgnoreCase("zUpdater"))
                         {
-                            c1.getParent().collision(c0.getParent());
+                            c1.getParent().collision(c0.getParent(), main);
                         }
                         else
                         {
-                            c0.getParent().collision(c1.getParent());
-                            c1.getParent().collision(c0.getParent());
+                            c0.getParent().collision(c1.getParent(), main);
+                            c1.getParent().collision(c0.getParent(), main);
                         }
                     }
                 }

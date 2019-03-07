@@ -44,7 +44,7 @@ public class GameManager extends AbstractGame
     {
         //Runs first
         main.getRenderer().setAmbientColor(-1);
-        gameLevelManager.gameState = GameLevelManager.GameState.MAIN_STATE;
+        gameLevelManager.gameState = GameLevelManager.GameState.TITLE_STATE;
         deviceManager.init(main);
 
         //Acts as invisible camera target for menu levels or static camera levels
@@ -75,7 +75,7 @@ public class GameManager extends AbstractGame
             }
         }
 
-        Physics.update();
+        Physics.update(main);
 
         gameLevelManager.update(main, dt);
         gameLevelManager.currLevel.update(main, dt);
@@ -186,11 +186,6 @@ public class GameManager extends AbstractGame
         {
             main.getRenderer().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale, renderer.StandardFont);
         }
-    }
-
-    public boolean getCollision(int x, int y)
-    {
-        return false;
     }
 
     public static void removeObjectsByName(String name)
