@@ -108,7 +108,7 @@ public class Bullet extends Object
     }
 
     @Override
-    public void collision(Object other)
+    public void collision(Object other, Main main)
     {
         if(other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Bullet") )
         {

@@ -72,9 +72,9 @@ public class Wall extends Object
     }
 
     @Override
-    public void collision(Object other)
+    public void collision(Object other, Main main)
     {
-        super.collision(other);
+        super.collision(other, main);
         color = (int)(Math.random() * Integer.MAX_VALUE);
 
         if(this.isZUpdater)
