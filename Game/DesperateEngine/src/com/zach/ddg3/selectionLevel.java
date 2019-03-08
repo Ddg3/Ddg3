@@ -35,7 +35,7 @@ public class selectionLevel extends GameLevel {
 
         this.verticleBounds.add(new Vector(350, -360));
         this.verticleBounds.add(new Vector(-720, -750));
-        this.verticleBounds.add(new Vector(-900, -1000));
+        this.verticleBounds.add(new Vector(-750, -1000));
         this.loadPoint = 2;
 
         //this.verticleBounds.add(new Vector(-600, -600));
@@ -67,15 +67,15 @@ public class selectionLevel extends GameLevel {
         GameManager.objects.add(floor2);
         floor2.zIndex = -2;
 
-        walls[0] = new Wall("wall1", 265, 203, "/selectionWallHalf.png", 2, 0.1f, true);
+        walls[0] = new Wall("wall1", 265, 203, "/selectionWallHalf.png", 2, 0.1f, false);
         walls[0].setPosition(-188, -830);
-        walls[0].setzUpdatePointOffset(-25);
+        //walls[0].setzUpdatePointOffset(-50);
         GameManager.objects.add(walls[0]);
         walls[0].paddingTop = 100;
 
-        walls[1] = new Wall("wall2", 265, 203, "/selectionWallHalf.png", 2, 0.1f, true);
+        walls[1] = new Wall("wall2", 265, 203, "/selectionWallHalf.png", 2, 0.1f, false);
         walls[1].setPosition(186, -830);
-        walls[1].setzUpdatePointOffset(-25);
+        //walls[1].setzUpdatePointOffset(-50);
         walls[1].setFrame(1);
         GameManager.objects.add(walls[1]);
         walls[1].paddingTop = 100;
@@ -155,7 +155,7 @@ public class selectionLevel extends GameLevel {
         explosiveGuns.setTag("Selection");
         explosiveGuns.addComponent(new AABBComponent(explosiveGuns, "selection"));
         explosiveGuns.setPosition(187, -782);
-        explosiveGuns.zIndex = 3;
+        explosiveGuns.zIndex = 0;
         GameManager.objects.add(explosiveGuns);
 
         explosiveGuns2 = new Object("explosiveGuns2", 259, 54, "/explosiveSelections2.png", 4, 0f);
@@ -164,7 +164,7 @@ public class selectionLevel extends GameLevel {
         AABBComponent otherC = (AABBComponent) explosiveGuns2.findComponentBySubtag("selection");
         otherC.setDesignatedPlayer(1);
         explosiveGuns2.setPosition(187, -782);
-        explosiveGuns2.zIndex = 3;
+        explosiveGuns2.zIndex = 0;
         GameManager.objects.add(explosiveGuns2);
     }
 

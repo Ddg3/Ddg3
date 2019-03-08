@@ -44,7 +44,7 @@ public class GameManager extends AbstractGame
     {
         //Runs first
         main.getRenderer().setAmbientColor(-1);
-        gameLevelManager.gameState = GameLevelManager.GameState.MAIN_STATE;
+        gameLevelManager.gameState = GameLevelManager.GameState.TITLE_STATE;
         deviceManager.init(main);
 
         //Acts as invisible camera target for menu levels or static camera levels
@@ -79,6 +79,7 @@ public class GameManager extends AbstractGame
 
         gameLevelManager.update(main, dt);
         gameLevelManager.currLevel.update(main, dt);
+        cameraFollow();
         camera.update(this, main, dt);
         deviceManager.update(main, dt);
 
@@ -86,7 +87,6 @@ public class GameManager extends AbstractGame
         //camera.bottomCamera = gameLevelManager.currLevel.bottomCamera;
 
         Collections.sort(objects);
-        cameraFollow();
 
         fpsCounter.text = "FPS:" + main.getFps();
         fpsCounter.posX = 0;
