@@ -14,6 +14,8 @@ public class mainLevel extends GameLevel
     private static Wall[] sideWalls = new Wall[2];
     private static Wall[] spears = new Wall[8];
     private static Object ground;
+    private static Object stands;
+    private static Wall backGate;
 
     @Override
     public void init(Main main)
@@ -26,8 +28,8 @@ public class mainLevel extends GameLevel
         this.verticleBounds.clear();
         this.horizBounds.clear();
 
-        this.verticleBounds.add(new Vector(350, -360));
-        this.horizBounds.add(new Vector(350, -360));
+        this.verticleBounds.add(new Vector(-15, -350));
+        this.horizBounds.add(new Vector(16, -19));
 
         /*for(int i = 0; i < GameManager.players.size(); i++)
         {
@@ -45,16 +47,28 @@ public class mainLevel extends GameLevel
         frontWall.paddingTop = 84;
         GameManager.objects.add(frontWall);
 
-        backWall = new Wall("backWall", 639, 184, "/BackWalls.png", 1, 0.1f, false);
+        /*backWall = new Wall("backWall", 639, 184, "/BackWalls.png", 1, 0.1f, false);
         backWall.position.y = 120;
         backWall.zIndex = 3;
         backWall.paddingTop = 100;
         backWall.setOffsetCenterY(80);
-        GameManager.objects.add(backWall);
+        GameManager.objects.add(backWall);*/
 
-        ground = new Object("ground", 640, 296, "/ground.png", 1, 0.1f);
+        backGate = new Wall("backGate", 639, 58, "/backFence.png", 1, 0.1f, false);
+        backGate.position.y = 130;
+        backGate.zIndex = 3;
+        backGate.paddingTop = 30;
+        backGate.setOffsetCenterY(35);
+        GameManager.objects.add(backGate);
+
+        ground = new Object("ground", 640, 360, "/ground.png", 1, 0.1f);
         ground.zIndex = 0;
         GameManager.objects.add(ground);
+
+        stands = new Object("stands", 690, 280, "/stands.png", 1, 0.1f);
+        stands.zIndex = 3;
+        stands.position.y = -236;
+        GameManager.objects.add(stands);
 
         diagonalWalls[0] = new Wall("diagonalWall0", 57, 146, "/halfDoor1.png", 2, 0.1f, false);
         diagonalWalls[0].position.y = -171;
@@ -88,15 +102,15 @@ public class mainLevel extends GameLevel
         diagonalWalls[3].setFrame(1);
         GameManager.objects.add(diagonalWalls[3]);
 
-        sideWalls[0] = new Wall("sideWall0", 16, 388, "/sideWalls.png", 2, 0.1f, false);
+        sideWalls[0] = new Wall("sideWall0", 16, 392, "/sideWalls.png", 2, 0.1f, false);
         sideWalls[0].position.x = -327;
-        sideWalls[0].position.y = -26;
+        sideWalls[0].position.y = -25;
         sideWalls[0].zIndex = 3;
         GameManager.objects.add(sideWalls[0]);
 
-        sideWalls[1] = new Wall("sideWall1", 16, 388, "/sideWalls.png", 2, 0.1f, false);
+        sideWalls[1] = new Wall("sideWall1", 16, 392, "/sideWalls.png", 2, 0.1f, false);
         sideWalls[1].position.x = 327;
-        sideWalls[1].position.y = -26;
+        sideWalls[1].position.y = -25;
         sideWalls[1].setFrame(1);
         sideWalls[1].zIndex = 3;
         GameManager.objects.add(sideWalls[1]);
@@ -122,6 +136,7 @@ public class mainLevel extends GameLevel
     @Override
     public void update(Main main, float dt)
     {
+        //System.out.println(Math.abs(frontWall.getPositionY() - (frontWall.getHeight() / 2)) - (players.get(0).getPositionY() + 320));
         /*System.out.println(players.get(0).position.x + ", " + players.get(0).position.y);
         System.out.println(GameManager.camera.boundsRange);
         System.out.println(GameManager.camera.getPosX() + ", " + GameManager.camera.getPosY());*/
