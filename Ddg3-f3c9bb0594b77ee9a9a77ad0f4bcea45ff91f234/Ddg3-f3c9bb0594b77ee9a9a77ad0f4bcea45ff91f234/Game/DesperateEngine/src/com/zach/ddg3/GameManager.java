@@ -1,8 +1,10 @@
 package com.zach.ddg3;
 
+import com.zach.ddg3.components.AABBComponent;
 import com.zach.engine.AbstractGame;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
+import org.omg.CORBA.INTERNAL;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -44,15 +46,17 @@ public class GameManager extends AbstractGame
     {
         //Runs first
         main.getRenderer().setAmbientColor(-1);
-        gameLevelManager.gameState = GameLevelManager.GameState.MAIN_STATE;
+        gameLevelManager.gameState = GameLevelManager.GameState.TITLE_STATE;
         deviceManager.init(main);
 
         //Acts as invisible camera target for menu levels or static camera levels
         center = new Object("center", 640, 360, "/centerTest.png", 1, 1f);
         center.target = true;
-        GameManager.objects.add(center);
-        center.visible = false;
+        //GameManager.objects.add(center);
+        //center.visible = false;
+        center.zIndex = Integer.MAX_VALUE;
         center.setPosition(0,0);
+        center.addComponent(new AABBComponent(center, "camera"));
 
         fpsCounter = new TextObject("FPS:" + main.getFps() , 0,0,0xffffffff, 1);
         GameManager.textObjects.add(fpsCounter);
@@ -67,6 +71,7 @@ public class GameManager extends AbstractGame
             if((objects.get(i).isActiveOnPlay && isPlaying) || (objects.get(i).isActiveOnPause && !isPlaying))
             {
                 objects.get(i).update(main, this, dt);
+                center.update(main, this, dt);
             }
             if(objects.get(i).isDead())
             {
@@ -186,6 +191,7 @@ public class GameManager extends AbstractGame
         {
             main.getRenderer().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale, renderer.StandardFont);
         }
+        center.render(main, renderer);
     }
 
     public static void removeObjectsByName(String name)
