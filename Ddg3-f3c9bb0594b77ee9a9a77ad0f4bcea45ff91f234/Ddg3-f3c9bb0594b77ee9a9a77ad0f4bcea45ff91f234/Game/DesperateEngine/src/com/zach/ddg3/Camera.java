@@ -113,20 +113,13 @@ public class Camera {
         if (posY < topCamera && posY > bottomCamera)
         {
             main.getRenderer().setCameraY((int) posY);
-<<<<<<< HEAD:Game/DesperateEngine/src/com/zach/ddg3/Camera.java
             /*topStopped = false;
             bottomStopped = false;
             stopped = false;*/
-=======
-            topStopped = false;
-            bottomStopped = false;
-            stopped = false;
->>>>>>> 8dba471e1232b06bed7155de911b5f6f1e76a756:Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Game/DesperateEngine/src/com/zach/ddg3/Camera.java
         }
         else if (posY >= topCamera)
         {
             main.getRenderer().setCameraY(topCamera);
-<<<<<<< HEAD:Game/DesperateEngine/src/com/zach/ddg3/Camera.java
             target.position.y = topCamera;
             /*topStopped = true;
             stopped = true;*/
@@ -136,53 +129,28 @@ public class Camera {
             target.position.y = bottomCamera;
             /*bottomStopped = true;
             stopped = true;*/
-=======
-            topStopped = true;
-            stopped = true;
-        } else
-            {
-            main.getRenderer().setCameraY(bottomCamera);
-            bottomStopped = true;
-                stopped = true;
->>>>>>> 8dba471e1232b06bed7155de911b5f6f1e76a756:Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Game/DesperateEngine/src/com/zach/ddg3/Camera.java
         }
 
         if(posX < leftCamera && posX > rightCamera)
         {
             main.getRenderer().setCameraX((int) posX);
-<<<<<<< HEAD:Game/DesperateEngine/src/com/zach/ddg3/Camera.java
             /*leftStopped = false;
             rightStopped = false;
             stopped = false;*/
-=======
-            leftStopped = false;
-            rightStopped = false;
-            stopped = false;
->>>>>>> 8dba471e1232b06bed7155de911b5f6f1e76a756:Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Game/DesperateEngine/src/com/zach/ddg3/Camera.java
         }
         else if(posX >= leftCamera)
         {
             main.getRenderer().setCameraX(leftCamera);
-<<<<<<< HEAD:Game/DesperateEngine/src/com/zach/ddg3/Camera.java
             target.position.x = leftCamera;
             /*leftStopped = true;
             stopped = true*/
-=======
-            leftStopped = true;
-            stopped = true;
->>>>>>> 8dba471e1232b06bed7155de911b5f6f1e76a756:Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Game/DesperateEngine/src/com/zach/ddg3/Camera.java
         }
         else if(posX < rightCamera)
         {
             main.getRenderer().setCameraX(rightCamera);
-<<<<<<< HEAD:Game/DesperateEngine/src/com/zach/ddg3/Camera.java
             target.position.x = rightCamera;
             /*rightStopped = true;
             stopped = true;*/
-=======
-            rightStopped = true;
-            stopped = true;
->>>>>>> 8dba471e1232b06bed7155de911b5f6f1e76a756:Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Game/DesperateEngine/src/com/zach/ddg3/Camera.java
         }
     }
 

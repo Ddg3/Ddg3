@@ -46,11 +46,7 @@ public class GameManager extends AbstractGame
     {
         //Runs first
         main.getRenderer().setAmbientColor(-1);
-<<<<<<< HEAD:Game/DesperateEngine/src/com/zach/ddg3/GameManager.java
         gameLevelManager.gameState = GameLevelManager.GameState.SELECTION_STATE;
-=======
-        gameLevelManager.gameState = GameLevelManager.GameState.TITLE_STATE;
->>>>>>> 8dba471e1232b06bed7155de911b5f6f1e76a756:Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Game/DesperateEngine/src/com/zach/ddg3/GameManager.java
         deviceManager.init(main);
 
         //Acts as invisible camera target for menu levels or static camera levels
@@ -58,11 +54,8 @@ public class GameManager extends AbstractGame
         center.target = true;
         //GameManager.objects.add(center);
         //center.visible = false;
-<<<<<<< HEAD:Game/DesperateEngine/src/com/zach/ddg3/GameManager.java
         //center.zIndex = Integer.MAX_VALUE;
-=======
-        center.zIndex = Integer.MAX_VALUE;
->>>>>>> 8dba471e1232b06bed7155de911b5f6f1e76a756:Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Game/DesperateEngine/src/com/zach/ddg3/GameManager.java
+
         center.setPosition(0,0);
         center.addComponent(new AABBComponent(center, "camera"));
 
@@ -202,10 +195,8 @@ public class GameManager extends AbstractGame
         {
             main.getRenderer().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale, renderer.StandardFont);
         }
-<<<<<<< HEAD:Game/DesperateEngine/src/com/zach/ddg3/GameManager.java
         if(showHitboxes)
-=======
->>>>>>> 8dba471e1232b06bed7155de911b5f6f1e76a756:Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Game/DesperateEngine/src/com/zach/ddg3/GameManager.java
+
         center.render(main, renderer);
     }
 

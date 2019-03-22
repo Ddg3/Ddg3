@@ -136,11 +136,7 @@ public class Player extends Object
         this.updateComponents(main, gameManager, dt);
         if(this.isInGame())
         {
-<<<<<<< HEAD:Game/DesperateEngine/src/com/zach/ddg3/Player.java
             //cameraCollision(GameManager.center, GameManager.camera);
-=======
-            cameraCollision(GameManager.center, GameManager.camera);
->>>>>>> 8dba471e1232b06bed7155de911b5f6f1e76a756:Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234/Game/DesperateEngine/src/com/zach/ddg3/Player.java
         }
         //System.out.println(this.position.y);
         this.animate(dt);
