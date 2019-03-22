@@ -134,10 +134,14 @@ public class Player extends Object
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
         this.updateComponents(main, gameManager, dt);
+        if(this.isInGame())
+        {
+            //cameraCollision(GameManager.center, GameManager.camera);
+        }
         //System.out.println(this.position.y);
         this.animate(dt);
 
-        if(this.isReady)
+        if(GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE)
         {
             tempSecond -= dt;
             if(tempSecond <= 0)
@@ -218,7 +222,7 @@ public class Player extends Object
         if(other.getTag().equalsIgnoreCase("Selection") && this.isInGame())
         {
             AABBComponent otherC = (AABBComponent) other.findComponentBySubtag("selection");
-            if((this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKey(keySelect))
+            if((this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKeyDown(keySelect))
                     && this.isInGame() &&
                     !selecting &&
                     !selected &&
@@ -477,14 +481,15 @@ public class Player extends Object
             }
             if (main.getInput().isKeyDown(keyLeft))
             {
-                if (selection.getFrame() == 1) {
+                if (selection.getFrame() == 1)
+                {
                     selection.setFrame(3);
-                    keyBoardSelecting = true;
                     return;
-                } else
+
+                }
+                else
                 {
                     selection.goToPrevFrame();
-                    stickSelecting = true;
                 }
             }
 
@@ -493,24 +498,32 @@ public class Player extends Object
                 if (selection.getFrame() == 3)
                 {
                     selection.setFrame(1);
-                    stickSelecting = true;
                     return;
                 }
                 else
                 {
                     selection.goToNextFrame();
-                    keyBoardSelecting = true;
                 }
             }
         if(this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKeyDown(keySelect))
         {
+            int newWidth = 0;
+            int newHeight = 0;
+            String newPath = null;
+            int newFrames = 0;
+
             switch (selection.getFrame())
             {
                 case 1:
                     this.addComponent(new WeaponComponent(this, "rocketLauncher"));
-                    this.changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
+                    newWidth = 102;
+                    newHeight = 81;
+                    newPath = "/Duck_rocketLauncher.png";
+                    newFrames = 16;
                     break;
             }
+            widthDifference = Math.abs(this.width - newWidth);
+            heightDifference = Math.abs(this.height - newHeight);
             this.paddingSide += (widthDifference / 2);
             this.paddingTop += (heightDifference / 2);
             this.selection.setFrame(0);
@@ -518,7 +531,59 @@ public class Player extends Object
             this.selection = null;
             selected = true;
             isReady = true;
+
+            this.changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
         }
+    }
+
+    public void cameraCollision(Object center, Camera camera)
+    {
+        AABBComponent myC = (AABBComponent)this.findComponentBySubtag("wall");
+        AABBComponent otherC = (AABBComponent)center.findComponentBySubtag("camera");
+            //System.out.println(Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) + " < " + (myC.getHalfWidth() + otherC.getHalfWidth()));
+                if ((myC.getCenterY() + myC.getHalfHeight()) > (otherC.getCenterY() + otherC.getHalfHeight())/* && !camera.isBottomStopped()*/) {
+                    //System.out.println("AH");
+                    /*int distance = myC.getHalfHeight() + otherC.getHalfHeight() - (otherC.getCenterY() - myC.getCenterY());
+                    position.y -= distance;
+                    offsetPos.y -= distance;
+                    myC.setCenterY(myC.getCenterY() - distance);
+                    collidingTop = true;*/
+                    System.out.println("BOTTOM");
+                }
+
+                //Bottom
+                if ((myC.getCenterY() - myC.getHalfHeight()) < (otherC.getCenterY() - otherC.getHalfHeight())/* && !camera.isTopStopped()*/)
+                {
+                    //System.out.println("AH");
+                    /*int distance = myC.getHalfHeight() + otherC.getHalfHeight() - (myC.getCenterY() - otherC.getCenterY());
+                    position.y += distance;
+                    offsetPos.y += distance;
+                    myC.setCenterY(myC.getCenterY() + distance);
+                    collidingBottom = true;*/
+                    System.out.println("TOP");
+                }
+                //Side collision bc vice versa
+                //Left
+                if ((myC.getCenterX() + myC.getHalfWidth()) > (otherC.getCenterX() + otherC.getHalfWidth())/* && !camera.isRightStopped()*/) {
+                    //System.out.println("AH");
+                    /*int distance = (myC.getHalfWidth() + otherC.getHalfWidth()) - (otherC.getCenterX() - myC.getCenterX());
+                    position.x -= distance;
+                    offsetPos.x -= distance;
+                    myC.setCenterX(myC.getCenterX() - distance);
+                    collidingRight = true;*/
+                    System.out.println("RIGHT");
+                }
+
+                //Right
+                if ((myC.getCenterX() - myC.getHalfWidth()) < (otherC.getCenterX() - otherC.getHalfWidth())/* && !camera.isLeftStopped()*/) {
+                    //System.out.println("AH");
+                    /*int distance = (myC.getHalfWidth() + otherC.getHalfWidth()) - (myC.getCenterX() - otherC.getCenterX());
+                    position.x += distance;
+                    offsetPos.x += distance;
+                    myC.setCenterX(myC.getCenterX() + distance);
+                    collidingLeft = true;*/
+                    System.out.println("LEFT");
+                }
     }
 
     public void addTime(float time)

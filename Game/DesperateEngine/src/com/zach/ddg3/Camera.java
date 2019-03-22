@@ -52,6 +52,16 @@ public class Camera {
     private String targetName;
     private Object target;
 
+    public boolean isStopped() {
+        return stopped;
+    }
+
+    private boolean stopped = false;
+    private boolean topStopped = false;
+    private boolean bottomStopped = false;
+    private boolean leftStopped = false;
+    private boolean rightStopped = false;
+
     public Camera(String name) {
         this.targetName = name;
     }
@@ -59,13 +69,14 @@ public class Camera {
     public void update(GameManager gameManager, Main main, float dt)
     {
         if (target == null) {
-            target = gameManager.getObject(targetName);
+            //target = gameManager.getObject(targetName);
+            target = GameManager.center;
         }
 
-        if (target == null) {
+        /*if (target == null) {
             System.out.println("Object: " + targetName + " could not be found");
             return;
-        }
+        }*/
 
         if(boundsRange == gameManager.gameLevelManager.currLevel.loadPoint)
         {
@@ -80,6 +91,7 @@ public class Camera {
 
         topCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).x;
         bottomCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).y;
+
         if(gameManager.gameLevelManager.currLevel.horizBounds.size() != 0)
         {
             leftCamera = (int) gameManager.gameLevelManager.currLevel.horizBounds.get(boundsRange).x;
@@ -101,26 +113,76 @@ public class Camera {
         if (posY < topCamera && posY > bottomCamera)
         {
             main.getRenderer().setCameraY((int) posY);
+            /*topStopped = false;
+            bottomStopped = false;
+            stopped = false;*/
         }
         else if (posY >= topCamera)
         {
             main.getRenderer().setCameraY(topCamera);
+            target.position.y = topCamera;
+            /*topStopped = true;
+            stopped = true;*/
         } else
             {
             main.getRenderer().setCameraY(bottomCamera);
+            target.position.y = bottomCamera;
+            /*bottomStopped = true;
+            stopped = true;*/
         }
 
         if(posX < leftCamera && posX > rightCamera)
         {
             main.getRenderer().setCameraX((int) posX);
+            /*leftStopped = false;
+            rightStopped = false;
+            stopped = false;*/
         }
-        else if(posX >= leftCamera + (target.width / 2))
+        else if(posX >= leftCamera)
         {
             main.getRenderer().setCameraX(leftCamera);
+            target.position.x = leftCamera;
+            /*leftStopped = true;
+            stopped = true*/
         }
-        else if(posX < rightCamera - (target.width / 2))
+        else if(posX < rightCamera)
         {
             main.getRenderer().setCameraX(rightCamera);
+            target.position.x = rightCamera;
+            /*rightStopped = true;
+            stopped = true;*/
         }
+    }
+
+    public boolean isTopStopped() {
+        return topStopped;
+    }
+
+    public void setTopStopped(boolean topStopped) {
+        this.topStopped = topStopped;
+    }
+
+    public boolean isBottomStopped() {
+        return bottomStopped;
+    }
+
+    public void setBottomStopped(boolean bottomStopped) {
+        this.bottomStopped = bottomStopped;
+    }
+
+    public boolean isLeftStopped() {
+        return leftStopped;
+    }
+
+    public void setLeftStopped(boolean leftStopped) {
+        this.leftStopped = leftStopped;
+    }
+
+    public boolean isRightStopped() {
+        return rightStopped;
+    }
+
+    public void setRightStopped(boolean rightStopped) {
+        this.rightStopped = rightStopped;
     }
 }

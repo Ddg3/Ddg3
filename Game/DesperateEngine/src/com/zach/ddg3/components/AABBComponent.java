@@ -94,7 +94,7 @@ public class AABBComponent extends Component
         lastCenterX = centerX;
         lastCenterY = centerY;
 
-        if(this.subTag == "wall" || this.subTag == "selection" || this.subTag == "bullet")
+        if(this.subTag == "wall" || this.subTag == "selection" || this.subTag == "bullet" || this.subTag == "camera")
         {
             centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX());
             centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY());
