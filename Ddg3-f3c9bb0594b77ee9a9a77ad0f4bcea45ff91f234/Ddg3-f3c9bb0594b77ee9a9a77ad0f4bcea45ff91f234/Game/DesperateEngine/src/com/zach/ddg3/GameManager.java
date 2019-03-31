@@ -102,14 +102,14 @@ public class GameManager extends AbstractGame
         /*System.out.println(fpsCounter.posY);
         System.out.println("CamX: " + gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).x);
         System.out.println("CamY: "+ gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y);*/
-        if(camera.getPosY() < gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).x && camera.getPosY() > gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y)
-        {
-            fpsCounter.posY = (int) camera.getPosY();
-        }
-        else
+        /*if(camera.getPosY() < gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).x && camera.getPosY() > gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y)
+        {*/
+            fpsCounter.posY = (int) center.position.y - (main.getHeight() / 2);
+        //}
+        /*else
             {
                 fpsCounter.posY = (int) gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y;
-            }
+            }*/
         /*fpsCounter.posY = (int)center.position.y;
         fpsCounter.posX = 0;*/
 

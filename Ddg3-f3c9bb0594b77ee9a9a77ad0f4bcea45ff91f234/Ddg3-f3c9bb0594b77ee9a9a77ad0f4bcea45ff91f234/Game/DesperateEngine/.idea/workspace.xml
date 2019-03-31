@@ -1,17 +1,375 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java" line="94" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="10463508-7a0d-4587-ab5d-6df76b7aab11" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/GameManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/GameManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zach/ddg3/Camera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zach/ddg3/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Bullets/rocketLauncher_Bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Duck/Duck_rocketLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Duck/duckSheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Duck/duckSheetLong.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Duck/duckSpriteSheet.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Duck/duckUnarmed.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Duck/duckUnarmed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Duck/duckUnarmedLarge.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Duck/flyingAnim.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Duck/flyingAnim.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/BackWalls.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/arena.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/arenaFrontWall.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/backFence.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/frontWall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/ground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/halfDoor1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/halfDoor2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/owlGuard.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/owlGuard.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/owlGuardAnim.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/owlGuardAnim.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/sideWalls.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/spearPole.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Arena/stands.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Hall/fountain.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Hall/fountain.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Hall/selectionArch.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Hall/selectionArch2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Hall/selectionArchBridge.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Hall/selectionArchMerged.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Hall/selectionArchWalls.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Hall/selectionFloor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Hall/selectionRoom.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Hall/sideRail.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Hall/statues.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Hall/statues.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Room/explosiveSelections.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Room/explosiveSelections2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Room/frigan.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Room/frigan.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Room/selectionDoor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Room/selectionGround.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Room/selectionWall.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Room/selectionWall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Room/selectionWallDoorFrame.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Room/selectionWallHalf.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Title/swanNest.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Title/swanNest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Title/swanNestLarge.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Title/swanRaise.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Environment/Title/swanRaise.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/Other/centerTest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/UI/crownSpin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/UI/numbers.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/UI/numbers.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/UI/playerFrames.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/UI/title.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/UI/title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Art/UI/xbox360controller.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/BossFights/Peregrine Boss Fight.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/BossFights/PeregrineBoss.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/BossFights/TurretAnim.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/BossFights/TurretAnim.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/BossFights/TurretAnimTilt.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/BossFights/TurretAnimTilt.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Bullets/Bullets.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Bullets/alienDuckHead_Bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Bullets/cannon_Bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Bullets/explosion.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Bullets/explosion.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Bullets/fullCharge.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Bullets/grenadeLauncher_Bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Bullets/laserMatrix_Bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Bullets/rocketLauncher_Bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Bullets/shotgun_Bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/CharacterSelect/duckRise.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/CharacterSelect/explosiveStand.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/CharacterSelect/hazardBack.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/CharacterSelect/leftDoor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/CharacterSelect/pointer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/CharacterSelect/prototypeStand.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/CharacterSelect/readyAnim.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/CharacterSelect/readyAnim.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/CharacterSelect/rightDoor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/DDG2_Guns.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/DefaultDuck.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/DefaultSpecies.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Duck_reflect.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Duck_reflect.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Flattened/Duck_LaserMatrix.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Flattened/Duck_alienDuckHead.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Flattened/Duck_cannon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Flattened/Duck_dash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Flattened/Duck_grenadeLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Flattened/Duck_rocketLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Flattened/Duck_shotgun.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Layered/Duck_LaserMatrix.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Layered/Duck_alienDuckHead.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Layered/Duck_cannon.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Layered/Duck_dash.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Layered/Duck_grenadeLauncher.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Layered/Duck_rocketLauncher.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Layered/Duck_shotgun.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Scaled/Duck_LaserMatrix.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Scaled/Duck_alienDuckHead.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Scaled/Duck_cannon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Scaled/Duck_dash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Scaled/Duck_grenadeLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Scaled/Duck_reflect.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Scaled/Duck_rocketLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Duck/Scaled/Duck_shotgun.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Flattened/Goose_alienDuckHead.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Flattened/Goose_cannon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Flattened/Goose_dash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Flattened/Goose_grenadeLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Flattened/Goose_rocketLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Goose_reflect.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Layered/Goose_LaserMatrix.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Layered/Goose_cannon.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Layered/Goose_dash.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Layered/Goose_rocketLauncher.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Layered/Goose_shotgun.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Scaled/Goose_dash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Scaled/Goose_reflect.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/Goose/Scaled/Goose_rocketLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/alienDuckHead.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/cannon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/dash.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/dash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/grenadeLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/laserMatrix.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/rocketLauncher.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/rocketLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Characters/shotgun.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Sounds/test.aup" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Sounds/test.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Sounds/test_data/e08/d08/e0808267.au" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Sounds/test_data/e08/d08/e0808e27.au" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Stage/cloud.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Stage/cloud.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Stage/cloudNoHole.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Title/Duck_alienDuckHead.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Title/Duck_cannon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Title/Duck_rocketLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Title/alienDuckBulletTitle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Title/cannonBulletTitle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Title/duckText.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Title/duckTrail.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Title/gooseText.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Title/gooseTrail.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/Title/rocketBulletTitle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/1fade.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/1fade.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/Scaled/numberCountdown.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/alphabet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/charSelect.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/comic.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/numberCountdown.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/numbersCountdown.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/scoreBar_black.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/scoreBar_blue.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/scoreBar_green.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/scoreBar_lightBlue.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/scoreBar_purple.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/scoreBar_red.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/scoreBar_yellow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/standard.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/standardTest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/UI/startText.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/gunSets.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/placeHolder/title.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/placeHolder/title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/test.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/test2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/Old_Art/testLevel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Art/desktop.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Ddg3-master/Game/DesperateEngine/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/description.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/res.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/project-template.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DesperateEngine.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/BackWalls.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/Duck_rocketLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/backFence.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/blockNumbers.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/centerTest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/Bullet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/Camera.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/DeviceManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/GameLevel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/GameLevelManager$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/GameLevelManager$GameState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/GameLevelManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/GameManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/GameObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/Object.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/Physics.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/TextObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/Vector.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/Wall.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/components/AABBComponent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/components/Component.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/components/WeaponComponent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/endGameLevel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/mainLevel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/selectionLevel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/ddg3/titleLevel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/engine/AbstractGame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/engine/Input.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/engine/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/engine/Renderer$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/engine/Renderer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/engine/Window.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/engine/audio/SoundClip.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/engine/gfx/Font.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/engine/gfx/Image.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/engine/gfx/ImageRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/engine/gfx/ImageTile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/com/zach/engine/gfx/Light.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/comic.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/crownSpin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/duckSheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/duckSheetLong.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/duckUnarmed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/explosiveSelections.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/explosiveSelections2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/flyingAnim.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/fountain.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/frontWall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/ground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/halfDoor1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/halfDoor2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/numbers.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/owlGuardAnim.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/playerFrames.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/rocketLauncher_Bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/selectionArch.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/selectionArch2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/selectionArchBridge.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/selectionArchMerged.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/selectionArchWalls.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/selectionDoor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/selectionFloor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/selectionGround.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/selectionWall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/selectionWallDoorFrame.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/selectionWallHalf.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/sideRail.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/sideWalls.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/spearPole.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/stands.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/statues.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/swanNest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/swanRaise.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/test.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DesperateEngine/xbox360controller.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/BackWalls.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/Duck_rocketLauncher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/backFence.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/blockNumbers.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/centerTest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/comic.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/crownSpin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/duckSheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/duckSheetLong.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/duckUnarmed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/explosiveSelections.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/explosiveSelections2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/flyingAnim.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/fountain.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/frontWall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/ground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/halfDoor1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/halfDoor2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/numbers.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/owlGuardAnim.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/playerFrames.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/rocketLauncher_Bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/selectionArch.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/selectionArch2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/selectionArchBridge.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/selectionArchMerged.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/selectionArchWalls.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/selectionDoor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/selectionFloor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/selectionGround.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/selectionWall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/selectionWallDoorFrame.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/selectionWallHalf.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/sideRail.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/sideWalls.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/spearPole.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/stands.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/statues.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/swanNest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/swanRaise.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/test.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/xbox360controller.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/Bullet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/Camera.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/DeviceManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/GameLevel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/GameLevelManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/GameObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/Object.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/Physics.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/Player.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/TextObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/Vector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/Wall.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/components/Component.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/components/WeaponComponent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/endGameLevel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/ddg3/titleLevel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/engine/AbstractGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/engine/Input.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/engine/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/engine/Renderer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/engine/Window.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/engine/audio/SoundClip.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/engine/gfx/Font.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/engine/gfx/Image.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/engine/gfx/ImageRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/engine/gfx/ImageTile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zach/engine/gfx/Light.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../jxinput-0.8.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/.idea/DesperateEngine.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../Game/DesperateEngine/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/out/production/DesperateEngine/backFence.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/out/production/DesperateEngine/com/zach/ddg3/Camera.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/out/production/DesperateEngine/com/zach/ddg3/GameManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/out/production/DesperateEngine/com/zach/ddg3/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/out/production/DesperateEngine/com/zach/ddg3/components/AABBComponent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/out/production/DesperateEngine/com/zach/ddg3/mainLevel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/out/production/DesperateEngine/com/zach/ddg3/selectionLevel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/out/production/DesperateEngine/ground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/out/production/DesperateEngine/sideWalls.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/out/production/DesperateEngine/skeletons.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/out/production/DesperateEngine/stands.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/out/production/DesperateEngine/timePedestal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/res/backFence.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/res/ground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/res/sideWalls.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/res/skeletons.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/res/stands.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Game/DesperateEngine/res/timePedestal.png" beforeDir="false" />
     </list>
     <ignored path="DesperateEngine.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,245 +383,11 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="FUSProjectUsageTrigger">
-    <session id="-12763843">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="1" />
-          <entry key="project.open.time.11" value="1" />
-          <entry key="project.opened" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="java" value="3" />
-          <entry key="png" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="Image" value="2" />
-          <entry key="JAVA" value="3" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="java" value="928" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="JAVA" value="928" />
-        </counts>
-      </usages-collector>
-    </session>
-  </component>
   <component name="FavoritesManager">
     <favorites_list name="DesperateEngine" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="54" column="10" selection-start-line="54" selection-start-column="10" selection-end-line="54" selection-end-column="10" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/titleLevel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="114" column="36" lean-forward="true" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="428">
-              <caret line="102" column="75" selection-start-line="102" selection-start-column="75" selection-end-line="102" selection-end-column="75" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Camera.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="83" column="55" lean-forward="true" selection-start-line="83" selection-start-column="55" selection-end-line="83" selection-end-column="55" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1037#1038#0" expanded="true" />
-                <element signature="e#1067#1068#0" expanded="true" />
-                <element signature="e#4679#4680#0" expanded="true" />
-                <element signature="e#4712#4713#0" expanded="true" />
-                <element signature="e#4765#4766#0" expanded="true" />
-                <element signature="e#4809#4810#0" expanded="true" />
-                <element signature="e#4849#4850#0" expanded="true" />
-                <element signature="e#4885#4886#0" expanded="true" />
-                <element signature="e#4944#4945#0" expanded="true" />
-                <element signature="e#4994#4995#0" expanded="true" />
-                <element signature="e#5032#5033#0" expanded="true" />
-                <element signature="e#5066#5067#0" expanded="true" />
-                <element signature="e#5121#5122#0" expanded="true" />
-                <element signature="e#5167#5168#0" expanded="true" />
-                <element signature="e#5206#5207#0" expanded="true" />
-                <element signature="e#5241#5242#0" expanded="true" />
-                <element signature="e#5298#5299#0" expanded="true" />
-                <element signature="e#5346#5347#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Player.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="841">
-              <caret line="531" column="142" selection-start-line="531" selection-start-column="142" selection-end-line="531" selection-end-column="142" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#19815#19816#0" expanded="true" />
-                <element signature="e#19848#19849#0" expanded="true" />
-                <element signature="e#19895#19896#0" expanded="true" />
-                <element signature="e#19928#19929#0" expanded="true" />
-                <element signature="e#19960#19961#0" expanded="true" />
-                <element signature="e#19990#19991#0" expanded="true" />
-                <element signature="e#20033#20034#0" expanded="true" />
-                <element signature="e#20064#20065#0" expanded="true" />
-                <element signature="e#20098#20099#0" expanded="true" />
-                <element signature="e#20129#20130#0" expanded="true" />
-                <element signature="e#20176#20177#0" expanded="true" />
-                <element signature="e#20216#20217#0" expanded="true" />
-                <element signature="e#20250#20251#0" expanded="true" />
-                <element signature="e#20281#20282#0" expanded="true" />
-                <element signature="e#20328#20329#0" expanded="true" />
-                <element signature="e#20368#20369#0" expanded="true" />
-                <element signature="e#20404#20405#0" expanded="true" />
-                <element signature="e#20439#20440#0" expanded="true" />
-                <element signature="e#20492#20493#0" expanded="true" />
-                <element signature="e#20540#20541#0" expanded="true" />
-                <element signature="e#20568#20569#0" expanded="true" />
-                <element signature="e#20595#20596#0" expanded="true" />
-                <element signature="e#20632#20633#0" expanded="true" />
-                <element signature="e#20664#20665#0" expanded="true" />
-                <element signature="e#20696#20697#0" expanded="true" />
-                <element signature="e#20725#20726#0" expanded="true" />
-                <element signature="e#20768#20769#0" expanded="true" />
-                <element signature="e#20804#20805#0" expanded="true" />
-                <element signature="e#20840#20841#0" expanded="true" />
-                <element signature="e#20873#20874#0" expanded="true" />
-                <element signature="e#20924#20925#0" expanded="true" />
-                <element signature="e#20968#20969#0" expanded="true" />
-                <element signature="e#21000#21001#0" expanded="true" />
-                <element signature="e#21030#21031#0" expanded="true" />
-                <element signature="e#21073#21074#0" expanded="true" />
-                <element signature="e#21104#21105#0" expanded="true" />
-                <element signature="e#21136#21137#0" expanded="true" />
-                <element signature="e#21167#21168#0" expanded="true" />
-                <element signature="e#21212#21213#0" expanded="true" />
-                <element signature="e#21252#21253#0" expanded="true" />
-                <element signature="e#21280#21281#0" expanded="true" />
-                <element signature="e#21308#21309#0" expanded="true" />
-                <element signature="e#21347#21348#0" expanded="true" />
-                <element signature="e#21381#21382#0" expanded="true" />
-                <element signature="e#21412#21413#0" expanded="true" />
-                <element signature="e#21442#21443#0" expanded="true" />
-                <element signature="e#21485#21486#0" expanded="true" />
-                <element signature="e#21523#21524#0" expanded="true" />
-                <element signature="e#21554#21555#0" expanded="true" />
-                <element signature="e#21584#21585#0" expanded="true" />
-                <element signature="e#21627#21628#0" expanded="true" />
-                <element signature="e#21665#21666#0" expanded="true" />
-                <element signature="e#21697#21698#0" expanded="true" />
-                <element signature="e#21728#21729#0" expanded="true" />
-                <element signature="e#21773#21774#0" expanded="true" />
-                <element signature="e#21813#21814#0" expanded="true" />
-                <element signature="e#21846#21847#0" expanded="true" />
-                <element signature="e#21878#21879#0" expanded="true" />
-                <element signature="e#21925#21926#0" expanded="true" />
-                <element signature="e#21967#21968#0" expanded="true" />
-                <element signature="e#22000#22001#0" expanded="true" />
-                <element signature="e#22032#22033#0" expanded="true" />
-                <element signature="e#22079#22080#0" expanded="true" />
-                <element signature="e#22121#22122#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="592">
-              <caret line="157" column="32" selection-start-line="157" selection-start-column="32" selection-end-line="157" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="850">
-              <caret line="50" column="34" lean-forward="true" selection-start-line="50" selection-start-column="34" selection-end-line="50" selection-end-column="34" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Bullet.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="39" selection-start-line="39" selection-end-line="39" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Physics.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="27" column="21" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameObject.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="592">
-              <caret line="98" column="27" selection-start-line="98" selection-start-column="27" selection-end-line="98" selection-end-column="27" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#367#368#0" expanded="true" />
-                <element signature="e#401#402#0" expanded="true" />
-                <element signature="e#452#453#0" expanded="true" />
-                <element signature="e#498#499#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -340,9 +464,9 @@
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/Camera.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/Player.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java" />
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/Camera.java" />
       </list>
     </option>
   </component>
@@ -357,100 +481,32 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesperateEngine" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesperateEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesperateEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesperateEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="zach" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesperateEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="zach" type="462c0819:PsiDirectoryNode" />
-              <item name="ddg3" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesperateEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="zach" type="462c0819:PsiDirectoryNode" />
-              <item name="ddg3" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesperateEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="zach" type="462c0819:PsiDirectoryNode" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesperateEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="zach" type="462c0819:PsiDirectoryNode" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="audio" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesperateEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="zach" type="462c0819:PsiDirectoryNode" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="gfx" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="ProjectPane" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552604137390" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../Game/DesperateEngine" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\zachl\OneDrive\Desktop\GameProject\DDG\Game\DesperateEngine\res" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.zach.ddg3" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\zachl\OneDrive\Desktop\GameProject\DDG\Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234\Ddg3-f3c9bb0594b77ee9a9a77ad0f4bcea45ff91f234\Game\DesperateEngine\res" />
       <recent name="C:\Users\zachl\OneDrive\Desktop\GameProject\DDG\Game\DesperateEngine\res" />
       <recent name="C:\Users\zachl\OneDrive\Desktop\GameProject\DDG\June\DesperateEngine\res" />
       <recent name="C:\Users\zachl\OneDrive\Desktop\GameProject\June\DesperateEngine\res" />
       <recent name="C:\Users\Zach\IdeaProjects\DesperateEngine\src\com\zach\ddg3" />
-      <recent name="C:\Users\Zach\IdeaProjects\DesperateEngine\res" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.zach.ddg3" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\zachl\OneDrive\Desktop\GameProject\DDG\Game\DesperateEngine\res" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -598,9 +654,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23987207" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24786781" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Capture Tool" order="3" />
@@ -609,7 +665,7 @@
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3261317" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.26898047" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.2689512" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39356178" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -637,9 +693,6 @@
       <collection />
     </option>
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
-  </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
       <path value="$PROJECT_DIR$/../.." />
@@ -650,10 +703,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/duckUnarmed.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-10.0.1/lib/src.zip!/java.desktop/javax/imageio/ImageIO.java" />
     <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/devicePackage.java" />
     <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/objects.java" />
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_191/src.zip!/java/util/ArrayList.java" />
@@ -687,19 +736,6 @@
     <entry file="file://$PROJECT_DIR$/res/crownSpin.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/Component.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="33" selection-start-column="33" selection-end-column="33" />
-          <folding>
-            <element signature="e#347#348#0" expanded="true" />
-            <element signature="e#376#377#0" expanded="true" />
-            <element signature="e#420#421#0" expanded="true" />
-            <element signature="e#456#457#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/RocketLauncher.java" />
     <entry file="file://$PROJECT_DIR$/res/rocketLauncher_Bullet.png">
       <provider selected="true" editor-type-id="images" />
@@ -724,23 +760,6 @@
     <entry file="file://$PROJECT_DIR$/res/comic.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/gfx/Image.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="952">
-          <caret line="79" column="22" selection-start-line="79" selection-start-column="22" selection-end-line="79" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/TextObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="13" column="45" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zach/engine/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1139">
@@ -759,10 +778,152 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameLevel.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/Input.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="15" column="51" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
+        <state relative-caret-position="-248">
+          <caret line="95" selection-start-line="95" selection-end-line="95" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/AbstractGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/Window.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="32" column="5" lean-forward="true" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/Renderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3944">
+          <caret line="301" column="13" lean-forward="true" selection-start-line="301" selection-start-column="13" selection-end-line="301" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/backFence.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/sideWalls.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/blockNumbers.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Physics.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="27" column="21" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="138" column="70" selection-start-line="138" selection-start-column="70" selection-end-line="138" selection-end-column="70" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#22121#22122#0" expanded="true" />
+            <element signature="e#22152#22153#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/titleLevel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="904">
+          <caret line="114" column="36" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Wall.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#345#346#0" expanded="true" />
+            <element signature="e#386#387#0" expanded="true" />
+            <element signature="e#453#454#0" expanded="true" />
+            <element signature="e#513#514#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Bullet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="39" selection-start-line="39" selection-end-line="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Camera.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="904">
+          <caret line="152" column="29" selection-start-line="152" selection-start-column="29" selection-end-line="152" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1037#1038#0" expanded="true" />
+            <element signature="e#1067#1068#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/DeviceManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="687">
+          <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/endGameLevel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="118" column="13" lean-forward="true" selection-start-line="118" selection-start-column="13" selection-end-line="118" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1088">
+          <caret line="102" column="75" selection-start-line="102" selection-start-column="75" selection-end-line="102" selection-end-column="75" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/Component.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
+          <folding>
+            <element signature="e#347#348#0" expanded="true" />
+            <element signature="e#376#377#0" expanded="true" />
+            <element signature="e#420#421#0" expanded="true" />
+            <element signature="e#456#457#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -784,216 +945,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/Input.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-248">
-          <caret line="95" selection-start-line="95" selection-end-line="95" />
+        <state relative-caret-position="2805">
+          <caret line="169" column="5" selection-start-line="169" selection-start-column="5" selection-end-line="169" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/DeviceManager.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/TextObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="687">
-          <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+        <state relative-caret-position="340">
+          <caret line="20" column="27" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/AbstractGame.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameLevel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+        <state relative-caret-position="221">
+          <caret line="15" column="51" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameLevelManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="28" column="37" lean-forward="true" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/Window.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="32" column="5" lean-forward="true" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/Renderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3944">
-          <caret line="301" column="13" lean-forward="true" selection-start-line="301" selection-start-column="13" selection-end-line="301" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/endGameLevel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Wall.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1513">
-          <caret line="103" selection-start-line="103" selection-end-line="103" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#345#346#0" expanded="true" />
-            <element signature="e#386#387#0" expanded="true" />
-            <element signature="e#453#454#0" expanded="true" />
-            <element signature="e#513#514#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="54" column="23" selection-start-line="54" selection-start-column="23" selection-end-line="54" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Bullet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="39" selection-start-line="39" selection-end-line="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Physics.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="27" column="21" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/backFence.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="50" column="34" lean-forward="true" selection-start-line="50" selection-start-column="34" selection-end-line="50" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/sideWalls.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="102" column="75" selection-start-line="102" selection-start-column="75" selection-end-line="102" selection-end-column="75" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="592">
-          <caret line="157" column="32" selection-start-line="157" selection-start-column="32" selection-end-line="157" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="841">
-          <caret line="531" column="142" selection-start-line="531" selection-start-column="142" selection-end-line="531" selection-end-column="142" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#19815#19816#0" expanded="true" />
-            <element signature="e#19848#19849#0" expanded="true" />
-            <element signature="e#19895#19896#0" expanded="true" />
-            <element signature="e#19928#19929#0" expanded="true" />
-            <element signature="e#19960#19961#0" expanded="true" />
-            <element signature="e#19990#19991#0" expanded="true" />
-            <element signature="e#20033#20034#0" expanded="true" />
-            <element signature="e#20064#20065#0" expanded="true" />
-            <element signature="e#20098#20099#0" expanded="true" />
-            <element signature="e#20129#20130#0" expanded="true" />
-            <element signature="e#20176#20177#0" expanded="true" />
-            <element signature="e#20216#20217#0" expanded="true" />
-            <element signature="e#20250#20251#0" expanded="true" />
-            <element signature="e#20281#20282#0" expanded="true" />
-            <element signature="e#20328#20329#0" expanded="true" />
-            <element signature="e#20368#20369#0" expanded="true" />
-            <element signature="e#20404#20405#0" expanded="true" />
-            <element signature="e#20439#20440#0" expanded="true" />
-            <element signature="e#20492#20493#0" expanded="true" />
-            <element signature="e#20540#20541#0" expanded="true" />
-            <element signature="e#20568#20569#0" expanded="true" />
-            <element signature="e#20595#20596#0" expanded="true" />
-            <element signature="e#20632#20633#0" expanded="true" />
-            <element signature="e#20664#20665#0" expanded="true" />
-            <element signature="e#20696#20697#0" expanded="true" />
-            <element signature="e#20725#20726#0" expanded="true" />
-            <element signature="e#20768#20769#0" expanded="true" />
-            <element signature="e#20804#20805#0" expanded="true" />
-            <element signature="e#20840#20841#0" expanded="true" />
-            <element signature="e#20873#20874#0" expanded="true" />
-            <element signature="e#20924#20925#0" expanded="true" />
-            <element signature="e#20968#20969#0" expanded="true" />
-            <element signature="e#21000#21001#0" expanded="true" />
-            <element signature="e#21030#21031#0" expanded="true" />
-            <element signature="e#21073#21074#0" expanded="true" />
-            <element signature="e#21104#21105#0" expanded="true" />
-            <element signature="e#21136#21137#0" expanded="true" />
-            <element signature="e#21167#21168#0" expanded="true" />
-            <element signature="e#21212#21213#0" expanded="true" />
-            <element signature="e#21252#21253#0" expanded="true" />
-            <element signature="e#21280#21281#0" expanded="true" />
-            <element signature="e#21308#21309#0" expanded="true" />
-            <element signature="e#21347#21348#0" expanded="true" />
-            <element signature="e#21381#21382#0" expanded="true" />
-            <element signature="e#21412#21413#0" expanded="true" />
-            <element signature="e#21442#21443#0" expanded="true" />
-            <element signature="e#21485#21486#0" expanded="true" />
-            <element signature="e#21523#21524#0" expanded="true" />
-            <element signature="e#21554#21555#0" expanded="true" />
-            <element signature="e#21584#21585#0" expanded="true" />
-            <element signature="e#21627#21628#0" expanded="true" />
-            <element signature="e#21665#21666#0" expanded="true" />
-            <element signature="e#21697#21698#0" expanded="true" />
-            <element signature="e#21728#21729#0" expanded="true" />
-            <element signature="e#21773#21774#0" expanded="true" />
-            <element signature="e#21813#21814#0" expanded="true" />
-            <element signature="e#21846#21847#0" expanded="true" />
-            <element signature="e#21878#21879#0" expanded="true" />
-            <element signature="e#21925#21926#0" expanded="true" />
-            <element signature="e#21967#21968#0" expanded="true" />
-            <element signature="e#22000#22001#0" expanded="true" />
-            <element signature="e#22032#22033#0" expanded="true" />
-            <element signature="e#22079#22080#0" expanded="true" />
-            <element signature="e#22121#22122#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/titleLevel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="114" column="36" lean-forward="true" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
+        <state relative-caret-position="408">
+          <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="592">
+        <state relative-caret-position="1003">
           <caret line="98" column="27" selection-start-line="98" selection-start-column="27" selection-end-line="98" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1005,43 +990,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/gfx/Image.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="54" column="10" selection-start-line="54" selection-start-column="10" selection-end-line="54" selection-end-column="10" />
+        <state relative-caret-position="186">
+          <caret line="67" selection-start-line="67" selection-end-line="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Object.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="66" selection-start-line="66" selection-end-line="66" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Camera.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="83" column="55" lean-forward="true" selection-start-line="83" selection-start-column="55" selection-end-line="83" selection-end-column="55" />
+        <state relative-caret-position="218">
+          <caret line="140" selection-start-line="140" selection-end-line="140" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1037#1038#0" expanded="true" />
-            <element signature="e#1067#1068#0" expanded="true" />
-            <element signature="e#4679#4680#0" expanded="true" />
-            <element signature="e#4712#4713#0" expanded="true" />
-            <element signature="e#4765#4766#0" expanded="true" />
-            <element signature="e#4809#4810#0" expanded="true" />
-            <element signature="e#4849#4850#0" expanded="true" />
-            <element signature="e#4885#4886#0" expanded="true" />
-            <element signature="e#4944#4945#0" expanded="true" />
-            <element signature="e#4994#4995#0" expanded="true" />
-            <element signature="e#5032#5033#0" expanded="true" />
-            <element signature="e#5066#5067#0" expanded="true" />
-            <element signature="e#5121#5122#0" expanded="true" />
-            <element signature="e#5167#5168#0" expanded="true" />
-            <element signature="e#5206#5207#0" expanded="true" />
-            <element signature="e#5241#5242#0" expanded="true" />
-            <element signature="e#5298#5299#0" expanded="true" />
-            <element signature="e#5346#5347#0" expanded="true" />
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/timePedestal.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
   </component>
   <component name="masterDetails">
