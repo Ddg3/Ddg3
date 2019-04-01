@@ -27,6 +27,14 @@ public class Bullet extends Object
     private Object owner;
     private WeaponComponent weapon;
 
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
     private float speed;
     private float tempSlow = 0f;
     private float tempAccel = 0f;
@@ -54,14 +62,16 @@ public class Bullet extends Object
 
         this.setFrame(direction);
         this.addComponent(new AABBComponent(this, "bullet"));
-
     }
 
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
         move(dt);
-
+        if(weapon.isExploding())
+        {
+            explode();
+        }
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
         this.updateComponents(main, gameManager, dt);
@@ -101,6 +111,18 @@ public class Bullet extends Object
         }
     }
 
+    public void explode()
+    {
+        float tempPosX = this.position.x;
+        float tempPosY = this.position.y;
+        GameManager.objects.remove(this);
+
+        weapon.setExploding(false);
+        Explosion explosion = new Explosion("explosion",90, 82, "/explosion.png", 25, 0.03f, weapon);
+        explosion.setPosition(tempPosX, tempPosY);
+        GameManager.objects.add(explosion);
+    }
+
     @Override
     public void render(Main main, Renderer r)
     {
@@ -113,6 +135,11 @@ public class Bullet extends Object
         if(other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Bullet") )
         {
             GameManager.objects.remove(this);
+            if (weapon.isExplodes())
+            {
+                explode();
+                //weapon.setExploding(false);
+            }
         }
         else if(other.getTag().equalsIgnoreCase("Player"))
         {
@@ -131,9 +158,9 @@ public class Bullet extends Object
                     }
                 if (weapon.isExplodes())
                 {
-                    weapon.explode();
+                    explode();
+                    //weapon.setExploding(false);
                 }
-                GameManager.objects.remove(this);
             }
         }
     }

@@ -37,6 +37,7 @@ public class WeaponComponent extends Component
     private int bulletHeight = 23;
     private int bulletFrames = 4;
     private float bulletFrameTime = 0.1f;
+    private boolean exploding = false;
 
     private int weaponFrameOffset = 0;
 
@@ -80,7 +81,11 @@ public class WeaponComponent extends Component
 
         if (this.explodes)
         {
-            explode();
+            Player player = (Player) parent;
+            if(player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER) && !exploding)
+            {
+                exploding = true;
+            }
         }
         if(animChangedOnShoot && tempCooldown <= 0 && parent.getFrameOffset() > 0)
         {
@@ -101,6 +106,11 @@ public class WeaponComponent extends Component
         if(parent.getTag().equalsIgnoreCase("Player"))
         {
             Player player = (Player) parent;
+            if(tempCooldown <= 0 && parent.getFrameOffset() != 0)
+            {
+                parent.setFrame(parent.getFrame() - (parent.getFrameOffset()));
+                parent.setFrameOffset(0);
+            }
             if(player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) && tempCooldown <= 0)
             {
                 tempCooldown = shotCooldown;
@@ -110,6 +120,7 @@ public class WeaponComponent extends Component
                 if(animChangedOnShoot)
                 {
                     parent.setFrameOffset(parent.getTotalFrames() / 2);
+                    parent.setFrame(parent.getFrame() + (parent.getFrameOffset()));
                 }
             }
         }
@@ -120,18 +131,13 @@ public class WeaponComponent extends Component
 
     }
 
-    public void explode()
-    {
-
-    }
-
     public void chooseWeapon(String weaponName)
     {
         switch (weaponName)
         {
             case "rocketLauncher":
                 speed = 50f;
-                isAnimated = false;
+                isAnimated = true;
                 explodes = true;
                 accelerates = true;
                 accelRate = 0.1f;
@@ -295,5 +301,13 @@ public class WeaponComponent extends Component
 
     public void setAnimChangedOnShoot(boolean animChangedOnShoot) {
         this.animChangedOnShoot = animChangedOnShoot;
+    }
+
+    public boolean isExploding() {
+        return exploding;
+    }
+
+    public void setExploding(boolean exploding) {
+        this.exploding = exploding;
     }
 }

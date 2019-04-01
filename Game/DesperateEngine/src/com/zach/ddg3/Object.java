@@ -21,6 +21,7 @@ public class Object extends GameObject implements Comparable<Object>
     private float tempLife;
     private boolean isPlayingInRange = false;
     private boolean isPlayingInRangeAndBack = false;
+    private boolean isPlayingToDestroy = false;
     private boolean reversing = false;
     private int minRange = 0;
     private int maxRange = 0;
@@ -180,6 +181,10 @@ public class Object extends GameObject implements Comparable<Object>
                 tempLife = frameLife;
             }
         }
+        if(isPlayingToDestroy && anim == endPoint)
+        {
+            this.dead = true;
+        }
     }
 
     @Override
@@ -281,6 +286,14 @@ public class Object extends GameObject implements Comparable<Object>
         setFrame(start);
         endPoint = end;
         isPlayingInRange = true;
+    }
+
+    public void playToAndDestroy(int start, int end)
+    {
+        setFrame(start);
+        endPoint = end;
+        isPlayingInRange = true;
+        isPlayingToDestroy = true;
     }
 
     public void playInRangeAndBack(int min, int max)
