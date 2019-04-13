@@ -57,6 +57,7 @@ public class Player extends Object
     private int keyShoot = KeyEvent.VK_ENTER;
     private int keyDeselect = KeyEvent.VK_R;
     private boolean keyBoardSelecting = false;
+    private int baseHeight = 68;
 
     private ArrayList<Vector> frameHitboxOffsets = new ArrayList<>(1);
 
@@ -78,7 +79,7 @@ public class Player extends Object
         buttons = GameManager.deviceManager.buttons[playerNumber];
         axes = GameManager.deviceManager.axes[playerNumber];
         //GameManager.deviceManager.addComponents(device, delta, buttons, axes);
-        this.addComponent(new AABBComponent(this, "wall"));
+        this.addComponent(new AABBComponent(this, "player"));
 
         this.paddingTop = 15;
         this.paddingSide = 10;
@@ -88,6 +89,7 @@ public class Player extends Object
         GameManager.objects.add(timer);
         GameManager.timers.add(playerNumber, timer);
 
+        offsetHitboxes();
     }
 
     @Override
@@ -112,6 +114,7 @@ public class Player extends Object
 
             if(this.isInGame() && !selecting)
             {
+                cameraCollision();
                 moveController(dt);
                 look();
             }
@@ -137,12 +140,6 @@ public class Player extends Object
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
         this.updateComponents(main, gameManager, dt);
-        //cameraCollision();
-        if(this.isInGame())
-        {
-            //cameraCollision(GameManager.center, GameManager.camera);
-        }
-        //System.out.println(this.position.y);
         this.animate(dt);
 
         if(GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE)
@@ -177,7 +174,7 @@ public class Player extends Object
         //System.out.println(other.getTag());
         if(other.getTag().equalsIgnoreCase("Wall") && this.isInGame())
         {
-            AABBComponent myC = (AABBComponent)this.findComponentBySubtag("wall");
+            AABBComponent myC = (AABBComponent)this.findComponentBySubtag("player");
             AABBComponent otherC = (AABBComponent)other.findComponentBySubtag("wall");
                 //System.out.println(Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) + " < " + (myC.getHalfWidth() + otherC.getHalfWidth()));
                 if (Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) < (myC.getHalfWidth() + otherC.getHalfWidth()) - 2) {
@@ -246,6 +243,54 @@ public class Player extends Object
                 selection.setFrame(0);
                 selecting = false;
                 selection = null;
+            }
+        }
+    }
+
+    public void cameraCollision()
+    {
+        if(this.position.x - (this.width / 2) < GameManager.center.position.x - (GameManager.center.width / 2))
+        {
+            for(int i = 0; i < GameManager.players.size(); i++)
+            {
+                if(!GameManager.players.get(i).collidingRight)
+                {
+                    collidingRight = true;
+                    return;
+                }
+            }
+        }
+        if(this.position.x + (this.width / 2) > GameManager.center.position.x + (GameManager.center.width / 2))
+        {
+            for(int i = 0; i < GameManager.players.size(); i++)
+            {
+                if(!GameManager.players.get(i).collidingLeft)
+                {
+                    collidingLeft = true;
+                    return;
+                }
+            }
+        }
+        /*if(this.position.y - (this.height / 2) < GameManager.center.position.y - (GameManager.center.height / 2))
+        {
+            for(int i = 0; i < GameManager.players.size(); i++)
+            {
+                if(!GameManager.players.get(i).collidingBottom)
+                {
+                    collidingBottom = true;
+                    return;
+                }
+            }
+        }*/
+        if(this.position.y + (this.height / 2) > GameManager.center.position.y + (GameManager.center.height / 2))
+        {
+            for(int i = 0; i < GameManager.players.size(); i++)
+            {
+                if(!GameManager.players.get(i).collidingTop)
+                {
+                    collidingTop = true;
+                    return;
+                }
             }
         }
     }
@@ -540,6 +585,7 @@ public class Player extends Object
             isReady = true;
 
             this.changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
+            offsetHitboxes();
         }
     }
 
@@ -560,9 +606,15 @@ public class Player extends Object
                     newHeight = 92;
                     newPath = "/Goose_rocketLauncher.png";
                     newFrames = 16;
+                    baseHeight = 100;
                     break;
             }
+            widthDifference = Math.abs(this.width - newWidth);
+            heightDifference = Math.abs(this.height - newHeight);
+            this.paddingSide += (widthDifference / 2);
+            this.paddingTop += (heightDifference / 2);
             changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
+            offsetHitboxes();
             return;
         }
         else
@@ -574,89 +626,46 @@ public class Player extends Object
                         newHeight = 81;
                         newPath = "/Duck_rocketLauncher.png";
                         newFrames = 16;
+                        baseHeight = 68;
                         break;
                 }
+                widthDifference = Math.abs(this.width - newWidth);
+                heightDifference = Math.abs(this.height - newHeight);
+                this.paddingSide += (widthDifference / 2);
+                this.paddingTop += (heightDifference / 2);
                 changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
+                offsetHitboxes();
                 return;
             }
     }
-    /*public void cameraCollision(Object center, Camera camera)
+
+    public void offsetHitboxes()
     {
-        AABBComponent myC = (AABBComponent)this.findComponentBySubtag("wall");
-        AABBComponent otherC = (AABBComponent)center.findComponentBySubtag("camera");
-            System.out.println(Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) + " < " + (myC.getHalfWidth() + otherC.getHalfWidth()));
-                if ((myC.getCenterY() + myC.getHalfHeight()) > (otherC.getCenterY() + otherC.getHalfHeight())/* && !camera.isBottomStopped()) {
-                    System.out.println("AH");
-                    int distance = myC.getHalfHeight() + otherC.getHalfHeight() - (otherC.getCenterY() - myC.getCenterY());
-                    position.y -= distance;
-                    offsetPos.y -= distance;
-                    myC.setCenterY(myC.getCenterY() - distance);
-                    collidingTop = true;
-                    System.out.println("BOTTOM");
-                }
+        frameHitboxOffsets.add(0, new Vector(0,0));
+        frameHitboxOffsets.add(1, new Vector(0,0));
+        frameHitboxOffsets.add(2, new Vector(-(width / 8), 0));
+        frameHitboxOffsets.add(3, new Vector(0,0));
+        frameHitboxOffsets.add(4, new Vector(0, 0));
+        frameHitboxOffsets.add(5, new Vector(0,0));
+        frameHitboxOffsets.add(6, new Vector((width / 8),0));
+        frameHitboxOffsets.add(7, new Vector(0,0));
+    }
 
-                //Bottom
-                if ((myC.getCenterY() - myC.getHalfHeight()) < (otherC.getCenterY() - otherC.getHalfHeight())/* && !camera.isTopStopped())
-                {
-                    System.out.println("AH");
-                    int distance = myC.getHalfHeight() + otherC.getHalfHeight() - (myC.getCenterY() - otherC.getCenterY());
-                    position.y += distance;
-                    offsetPos.y += distance;
-                    myC.setCenterY(myC.getCenterY() + distance);
-                    collidingBottom = true;
-                    System.out.println("TOP");
-                }
-                //Side collision bc vice versa
-                //Left
-                if ((myC.getCenterX() + myC.getHalfWidth()) > (otherC.getCenterX() + otherC.getHalfWidth())/* && !camera.isRightStopped()) {
-                    System.out.println("AH");
-                    int distance = (myC.getHalfWidth() + otherC.getHalfWidth()) - (otherC.getCenterX() - myC.getCenterX());
-                    position.x -= distance;
-                    offsetPos.x -= distance;
-                    myC.setCenterX(myC.getCenterX() - distance);
-                    collidingRight = true;
-                    System.out.println("RIGHT");
-                }
+    public ArrayList<Vector> getFrameHitboxOffsets() {
+        return frameHitboxOffsets;
+    }
 
-                //Right
-                if ((myC.getCenterX() - myC.getHalfWidth()) < (otherC.getCenterX() - otherC.getHalfWidth())/* && !camera.isLeftStopped()) {
-                    System.out.println("AH");
-                    int distance = (myC.getHalfWidth() + otherC.getHalfWidth()) - (myC.getCenterX() - otherC.getCenterX());
-                    position.x += distance;
-                    offsetPos.x += distance;
-                    myC.setCenterX(myC.getCenterX() + distance);
-                    collidingLeft = true;
-                    System.out.println("LEFT");
-                }
-    }*/
+    public void setFrameHitboxOffsets(ArrayList<Vector> frameHitboxOffsets) {
+        this.frameHitboxOffsets = frameHitboxOffsets;
+    }
 
-    /*public void cameraCollision()
-    {
-        if(this.position.x - (this.width / 2) < GameManager.center.position.x - (GameManager.center.width / 2))
-        {
-            //copy distance stuff from right AABB collision
-            collidingRight = true;
-            System.out.println("RIGHT");
-        }
-        if(this.position.x + (this.width / 2) > GameManager.center.position.x + (GameManager.center.width / 2))
-        {
-            //copy distance stuff from left AABB collision
-            collidingLeft = true;
-            System.out.println("LEFT");
-        }
-        if(this.position.y - (this.height / 2) < GameManager.center.position.x - (GameManager.center.height / 2))
-        {
-            //copy distance stuff from bottom AABB collision
-            collidingBottom = true;
-            System.out.println("BOTTOM");
-        }
-        if(this.position.y + (this.height / 2) > GameManager.center.position.x + (GameManager.center.height / 2))
-        {
-            //copy distance stuff from top AABB collision
-            collidingTop = true;
-            System.out.println("TOP");
-        }
-    }*/
+    public int getBaseHeight() {
+        return baseHeight;
+    }
+
+    public void setBaseHeight(int baseHeight) {
+        this.baseHeight = baseHeight;
+    }
 
     public void addTime(float time)
     {

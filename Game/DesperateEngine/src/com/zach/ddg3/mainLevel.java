@@ -3,6 +3,7 @@ package com.zach.ddg3;
 import com.zach.engine.Main;
 import org.omg.CORBA.INTERNAL;
 
+import javax.xml.soap.Text;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -20,6 +21,8 @@ public class mainLevel extends GameLevel
     private static Object stands;
     private static Wall backGate;
     private static ArrayList<Object> timePedestals = new ArrayList<Object>(1);
+    private static ArrayList<Object> pointers = new ArrayList<Object>(1);
+    private static ArrayList<TextObject> timers = new ArrayList<TextObject>(1);
 
     @Override
     public void init(Main main)
@@ -146,15 +149,26 @@ public class mainLevel extends GameLevel
 
         for (int i = 0; i < players.size(); i++)
         {
-            timePedestals.add(i, new Object("timePedestal" + i, 160, 58, "/timePedestal.png", 1, 1));
-            GameManager.objects.add(timePedestals.get(i));
-            timePedestals.get(i).zIndex = Integer.MAX_VALUE;
+            pointers.add(i, new Object("pointer" + i, 4, 2, "/pointer.png", 1, 1));
+            GameManager.objects.add(pointers.get(i));
+            pointers.get(i).zIndex = Integer.MAX_VALUE;
+
+            timers.add(i, new TextObject("" + players.get(i).getTime(), (int)pointers.get(i).getPositionX(), (int)pointers.get(i).getPositionY(), 0xffffffff, 1));
+            GameManager.textObjects.add(timers.get(i));
         }
     }
 
     @Override
     public void update(Main main, float dt)
     {
+        for (int i = 0; i < players.size(); i++)
+        {
+            pointers.get(i).setPosition(players.get(i).position.x, players.get(i).position.y - (players.get(i).getBaseHeight() / 2));
+
+            timers.get(i).posX = (int)pointers.get(i).offsetPos.x - 5;
+            timers.get(i).posY = (int)pointers.get(i).offsetPos.y - 10;
+            timers.get(i).text = "" + players.get(i).getTime();
+        }
         /*if(players.size() != 0)
         {
             for (int i = 0; i < players.size(); i++)

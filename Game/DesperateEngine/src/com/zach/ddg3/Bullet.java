@@ -62,6 +62,9 @@ public class Bullet extends Object
 
         this.setFrame(direction);
         this.addComponent(new AABBComponent(this, "bullet"));
+
+        this.paddingTop = this.height / 2;
+        this.paddingSide = this.width / 4;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.zach.ddg3.components;
 import com.zach.ddg3.GameManager;
 import com.zach.ddg3.Object;
 import com.zach.ddg3.Physics;
+import com.zach.ddg3.Player;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 
@@ -96,8 +97,28 @@ public class AABBComponent extends Component
 
         if(this.subTag == "wall" || this.subTag == "selection" || this.subTag == "bullet" || this.subTag == "camera")
         {
+
             centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX());
             centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY());
+
+            halfWidth = (parent.getWidth() / 2) - parent.getPaddingSide();
+            halfHeight = (parent.getHeight() / 2) - (parent.getPaddingTop() / 2);
+        }
+
+        if(this.subTag == "player")
+        {
+            Player player = (Player) parent;
+
+            if(player.isInGame())
+            {
+                centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX() + player.getFrameHitboxOffsets().get(player.getFrame() - player.getFrameOffset()).getX());
+                centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY() + player.getFrameHitboxOffsets().get(player.getFrame() - player.getFrameOffset()).getY());
+            }
+            else
+                {
+                    centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX());
+                    centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY());
+                }
 
             halfWidth = (parent.getWidth() / 2) - parent.getPaddingSide();
             halfHeight = (parent.getHeight() / 2) - (parent.getPaddingTop() / 2);
@@ -116,7 +137,7 @@ public class AABBComponent extends Component
     @Override
     public void render(Main main, Renderer renderer)
     {
-        if(this.getSubTag() == "wall" || this.subTag == "selection")
+        if(this.getSubTag() == "wall" || this.subTag == "selection" || this.getSubTag() == "bullet" || this.getSubTag() == "player")
         {
             renderer.drawFillRectangle(centerX - halfWidth + 320, centerY - halfHeight + 180, halfWidth * 2, halfHeight * 2, color);
             renderer.setPixel(centerX + 320, centerY + 180, 0xffff0000);

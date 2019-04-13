@@ -84,10 +84,10 @@ public class GameManager extends AbstractGame
 
         gameLevelManager.update(main, dt);
         gameLevelManager.currLevel.update(main, dt);
-        for (int i = 0; i < mainLevel.getTimePedestals().size(); i++)
+        /*for (int i = 0; i < mainLevel.getTimePedestals().size(); i++)
         {
             mainLevel.pedestalFollow(main, mainLevel.getTimePedestals().get(i), i);
-        }
+        }*/
         cameraFollow();
         camera.update(this, main, dt);
         deviceManager.update(main, dt);
@@ -98,18 +98,11 @@ public class GameManager extends AbstractGame
         Collections.sort(objects);
 
         fpsCounter.text = "FPS:" + main.getFps();
-        fpsCounter.posX = 0;
+        fpsCounter.posX = (int)(center.position.x);
+        fpsCounter.posY = (int)(center.position.y);
         /*System.out.println(fpsCounter.posY);
         System.out.println("CamX: " + gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).x);
         System.out.println("CamY: "+ gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y);*/
-        if(camera.getPosY() < gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).x && camera.getPosY() > gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y)
-        {
-            fpsCounter.posY = (int) camera.getPosY();
-        }
-        else
-            {
-                fpsCounter.posY = (int) gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y;
-            }
         /*fpsCounter.posY = (int)center.position.y;
         fpsCounter.posX = 0;*/
 
