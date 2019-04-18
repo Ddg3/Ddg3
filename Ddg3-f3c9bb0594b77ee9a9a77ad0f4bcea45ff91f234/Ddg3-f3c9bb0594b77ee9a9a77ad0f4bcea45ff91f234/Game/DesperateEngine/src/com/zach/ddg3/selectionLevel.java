@@ -52,13 +52,13 @@ public class selectionLevel extends GameLevel {
 
         player1 = new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0);
         player1.setPosition(-240, -220);
-        player1.zIndex = 1;
+        player1.zIndex = 2;
         GameManager.objects.add(player1);
         player1.visible = false;
 
         player2 = new Player("player2", 63, 68, "/duckSheetLong.png", 24, 0.01f, 1);
         player2.setPosition(-165, 0);
-        player2.zIndex = 1;
+        player2.zIndex = 2;
         player2.setKeyDropIn(KeyEvent.VK_TAB);
         GameManager.objects.add(player2);
         player2.visible = false;
@@ -93,19 +93,19 @@ public class selectionLevel extends GameLevel {
         GameManager.objects.add(door);
         door.paddingTop = 87;
 
-        arch = new Wall("arch", 155, 239, "/selectionArchWalls.png", 2, 0.1f, true);
+        arch = new Wall("arch", 155, 239, "/selectionArchWalls.png", 2, 0.1f, false);
         GameManager.objects.add(arch);
         arch.setPosition(-243, -475);
-        arch.zIndex = 2;
+        arch.zIndex = 1;
         arch.paddingSide = 20;
         arch.paddingTop = 70;
         arch.setOffsetCenterX(22);
         arch.setOffsetCenterY(0);
 
-        archRef = new Wall("archRef", 155, 239, "/selectionArchWalls.png", 2, 0.1f, true);
+        archRef = new Wall("archRef", 155, 239, "/selectionArchWalls.png", 2, 0.1f, false);
         GameManager.objects.add(archRef);
         archRef.setPosition(242, -475);
-        archRef.zIndex = 2;
+        archRef.zIndex = 1;
         archRef.setFrame(1);
         archRef.paddingSide = 20;
         archRef.paddingTop = 70;

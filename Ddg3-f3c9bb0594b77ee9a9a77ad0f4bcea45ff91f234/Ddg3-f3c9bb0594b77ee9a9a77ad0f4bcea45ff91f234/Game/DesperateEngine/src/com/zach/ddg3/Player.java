@@ -136,12 +136,12 @@ public class Player extends Object
         this.updateComponents(main, gameManager, dt);
         if(this.isInGame())
         {
-            cameraCollision(GameManager.center, GameManager.camera);
+            //cameraCollision(GameManager.center, GameManager.camera);
         }
         //System.out.println(this.position.y);
         this.animate(dt);
 
-        if(this.isReady)
+        if(GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE)
         {
             tempSecond -= dt;
             if(tempSecond <= 0)
@@ -507,13 +507,23 @@ public class Player extends Object
             }
         if(this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKeyDown(keySelect))
         {
+            int newWidth = 0;
+            int newHeight = 0;
+            String newPath = null;
+            int newFrames = 0;
+
             switch (selection.getFrame())
             {
                 case 1:
                     this.addComponent(new WeaponComponent(this, "rocketLauncher"));
-                    this.changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
+                    newWidth = 102;
+                    newHeight = 81;
+                    newPath = "/Duck_rocketLauncher.png";
+                    newFrames = 16;
                     break;
             }
+            widthDifference = Math.abs(this.width - newWidth);
+            heightDifference = Math.abs(this.height - newHeight);
             this.paddingSide += (widthDifference / 2);
             this.paddingTop += (heightDifference / 2);
             this.selection.setFrame(0);
@@ -521,6 +531,8 @@ public class Player extends Object
             this.selection = null;
             selected = true;
             isReady = true;
+
+            this.changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
         }
     }
 

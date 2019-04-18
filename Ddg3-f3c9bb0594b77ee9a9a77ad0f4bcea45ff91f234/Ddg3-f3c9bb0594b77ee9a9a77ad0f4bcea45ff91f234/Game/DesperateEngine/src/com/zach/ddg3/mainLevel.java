@@ -1,6 +1,7 @@
 package com.zach.ddg3;
 
 import com.zach.engine.Main;
+import org.omg.CORBA.INTERNAL;
 
 import java.util.ArrayList;
 
@@ -16,30 +17,32 @@ public class mainLevel extends GameLevel
     private static Object ground;
     private static Object stands;
     private static Wall backGate;
+    private static ArrayList<Object> timePedestals = new ArrayList<Object>(1);
 
     @Override
     public void init(Main main)
     {
-        players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
+        /*players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
         players.get(0).zIndex = 3;
-        GameManager.objects.add(players.get(0));
+        GameManager.objects.add(players.get(0));*/
 
         GameManager.camera.boundsRange = 0;
         this.verticleBounds.clear();
         this.horizBounds.clear();
 
         this.verticleBounds.add(new Vector(-15, -350));
-        this.horizBounds.add(new Vector(16, -19));
+        this.horizBounds.add(new Vector(16, -17));
 
-        /*for(int i = 0; i < GameManager.players.size(); i++)
+        for(int i = 0; i < GameManager.players.size(); i++)
         {
             if(GameManager.players.get(i) != null)
             {
                 players.add(GameManager.players.get(i));
                 players.get(i).setPosition(((i * 50) - 25),0);
                 GameManager.objects.add(players.get(i));
+                GameManager.objects.add(GameManager.timers.get(i));
             }
-        }*/
+        }
 
         frontWall = new Wall("frontWall", 398, 116, "/frontWall.png", 1, 0.1f, false);
         frontWall.position.y = -206;
@@ -131,20 +134,53 @@ public class mainLevel extends GameLevel
             spears[i + 1].setFrame(1);
             GameManager.objects.add(spears[i + 1]);
         }
+
+
+        for (int i = 0; i < players.size(); i++)
+        {
+            timePedestals.add(i, new Object("timePedestal" + i, 160, 58, "/timePedestal.png", 1, 1));
+            GameManager.objects.add(timePedestals.get(i));
+            timePedestals.get(i).zIndex = Integer.MAX_VALUE;
+        }
     }
 
     @Override
     public void update(Main main, float dt)
     {
+        /*if(players.size() != 0)
+        {
+            for (int i = 0; i < players.size(); i++)
+            {
+                GameManager.objects.add(timePedestals.get(i));
+                timePedestals.get(i).zIndex = Integer.MAX_VALUE;
+            }
+        }*/
         //System.out.println(Math.abs(frontWall.getPositionY() - (frontWall.getHeight() / 2)) - (players.get(0).getPositionY() + 320));
         /*System.out.println(players.get(0).position.x + ", " + players.get(0).position.y);
         System.out.println(GameManager.camera.boundsRange);
         System.out.println(GameManager.camera.getPosX() + ", " + GameManager.camera.getPosY());*/
     }
 
+    public static void pedestalFollow(Main main, Object pedestal, int index)
+    {
+        pedestal.position.y = GameManager.center.position.y + (main.getHeight() / 2) - (pedestal.getHeight() / 4);
+        pedestal.position.x = GameManager.center.position.x - (main.getWidth() / 2) + ((main.getWidth() / 4) * index + (index * 3)) + (pedestal.width / 2);
+        GameManager.timers.get(index).setPosition(pedestal.position.x, pedestal.position.y - 40);
+        GameManager.timers.get(index).visible = true;
+        GameManager.timers.get(index).zIndex = Integer.MAX_VALUE;
+
+    }
     @Override
     public void uninit()
     {
 
+    }
+
+    public static ArrayList<Object> getTimePedestals() {
+        return timePedestals;
+    }
+
+    public static void setTimePedestals(ArrayList<Object> timePedestals) {
+        mainLevel.timePedestals = timePedestals;
     }
 }

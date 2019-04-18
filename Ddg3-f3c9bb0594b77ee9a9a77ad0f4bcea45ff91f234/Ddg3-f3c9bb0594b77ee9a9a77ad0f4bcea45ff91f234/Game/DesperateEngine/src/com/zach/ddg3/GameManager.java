@@ -46,7 +46,7 @@ public class GameManager extends AbstractGame
     {
         //Runs first
         main.getRenderer().setAmbientColor(-1);
-        gameLevelManager.gameState = GameLevelManager.GameState.TITLE_STATE;
+        gameLevelManager.gameState = GameLevelManager.GameState.SELECTION_STATE;
         deviceManager.init(main);
 
         //Acts as invisible camera target for menu levels or static camera levels
@@ -54,7 +54,8 @@ public class GameManager extends AbstractGame
         center.target = true;
         //GameManager.objects.add(center);
         //center.visible = false;
-        center.zIndex = Integer.MAX_VALUE;
+        //center.zIndex = Integer.MAX_VALUE;
+
         center.setPosition(0,0);
         center.addComponent(new AABBComponent(center, "camera"));
 
@@ -79,11 +80,14 @@ public class GameManager extends AbstractGame
                 i--;
             }
         }
-
         Physics.update(main);
 
         gameLevelManager.update(main, dt);
         gameLevelManager.currLevel.update(main, dt);
+        for (int i = 0; i < mainLevel.getTimePedestals().size(); i++)
+        {
+            mainLevel.pedestalFollow(main, mainLevel.getTimePedestals().get(i), i);
+        }
         cameraFollow();
         camera.update(this, main, dt);
         deviceManager.update(main, dt);
@@ -98,14 +102,14 @@ public class GameManager extends AbstractGame
         /*System.out.println(fpsCounter.posY);
         System.out.println("CamX: " + gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).x);
         System.out.println("CamY: "+ gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y);*/
-        if(camera.getPosY() < gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).x && camera.getPosY() > gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y)
-        {
-            fpsCounter.posY = (int) camera.getPosY();
-        }
-        else
+        /*if(camera.getPosY() < gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).x && camera.getPosY() > gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y)
+        {*/
+            fpsCounter.posY = (int) center.position.y - (main.getHeight() / 2);
+        //}
+        /*else
             {
                 fpsCounter.posY = (int) gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y;
-            }
+            }*/
         /*fpsCounter.posY = (int)center.position.y;
         fpsCounter.posX = 0;*/
 
@@ -191,6 +195,8 @@ public class GameManager extends AbstractGame
         {
             main.getRenderer().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale, renderer.StandardFont);
         }
+        if(showHitboxes)
+
         center.render(main, renderer);
     }
 
