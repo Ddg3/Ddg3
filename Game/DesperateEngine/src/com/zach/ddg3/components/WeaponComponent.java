@@ -72,7 +72,7 @@ public class WeaponComponent extends Component
     {
         if (!this.isCharged)
         {
-            shoot();
+            shoot(main);
         }
         if (this.isCharged)
         {
@@ -101,17 +101,17 @@ public class WeaponComponent extends Component
 
     }
 
-    public void shoot()
+    public void shoot(Main main)
     {
         if(parent.getTag().equalsIgnoreCase("Player"))
         {
             Player player = (Player) parent;
             if(tempCooldown <= 0 && parent.getFrameOffset() != 0)
             {
-                parent.setFrame(parent.getFrame() - (parent.getFrameOffset()));
                 parent.setFrameOffset(0);
+                parent.setFrame(parent.getFrame() - (parent.getTotalFrames() / 2));
             }
-            if(player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) && tempCooldown <= 0)
+            if((player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) || main.getInput().isKey(player.getKeyShoot())) && tempCooldown <= 0)
             {
                 tempCooldown = shotCooldown;
                 Bullet bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);

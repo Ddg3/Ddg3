@@ -111,8 +111,8 @@ public class AABBComponent extends Component
 
             if(player.isInGame())
             {
-                centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX() + player.getFrameHitboxOffsets().get(player.getFrame() - player.getFrameOffset()).getX());
-                centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY() + player.getFrameHitboxOffsets().get(player.getFrame() - player.getFrameOffset()).getY());
+                centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX() + player.getFrameHitboxOffsets().get(player.getFrame()).getX());
+                centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY() + player.getFrameHitboxOffsets().get(player.getFrame()).getY());
             }
             else
                 {

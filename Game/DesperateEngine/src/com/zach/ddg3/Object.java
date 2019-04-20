@@ -315,4 +315,13 @@ public class Object extends GameObject implements Comparable<Object>
     public void setFrameOffset(int frameOffset) {
         this.frameOffset = frameOffset;
     }
+
+    public ImageTile getObjImage() {
+        return objImage;
+    }
+
+    public void setObjImage(ImageTile objImage) {
+        this.objImage = objImage;
+    }
+
 }

@@ -58,6 +58,9 @@ public class Player extends Object
     private int keyDeselect = KeyEvent.VK_R;
     private boolean keyBoardSelecting = false;
     private int baseHeight = 68;
+    private int[] skinColors = new int[8];
+    private int skIndex = 1;
+    private boolean rainbow;
 
     private ArrayList<Vector> frameHitboxOffsets = new ArrayList<>(1);
 
@@ -90,6 +93,15 @@ public class Player extends Object
         GameManager.timers.add(playerNumber, timer);
 
         offsetHitboxes();
+
+        skinColors[0] = 0xffFF0000;
+        skinColors[1] = 0xffFF9700;
+        skinColors[2] = 0xffFFFF00;
+        skinColors[3] = 0xff00FF00;
+        skinColors[4] = 0xff00FFFF;
+        skinColors[5] = 0xff0000FF;
+        skinColors[6] = 0xffFF00FF;
+        skinColors[7] = 0xff8400DB;
     }
 
     @Override
@@ -117,6 +129,8 @@ public class Player extends Object
                 cameraCollision();
                 moveController(dt);
                 look();
+                changeSkin();
+                rainbowSkin();
             }
             //System.out.println(offsetPos.x);
            /*this.offsetPos.x = main.getInput().getMouseX() - this.width;
@@ -126,6 +140,7 @@ public class Player extends Object
         {
             if(!selecting)
             {
+                cameraCollision();
                 moveKeyboard(main, dt);
             }
         }
@@ -247,6 +262,70 @@ public class Player extends Object
         }
     }
 
+    public void changeSkin()
+    {
+        int oldSkindex = skIndex;
+        if(GameManager.gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
+        {
+            if(buttons.isPressed(XInputButton.LEFT_SHOULDER))
+            {
+                if(skIndex == 0)
+                {
+                    skIndex = 7;
+                }
+                else
+                    {
+                        skIndex--;
+                    }
+            }
+            if(buttons.isPressed(XInputButton.RIGHT_SHOULDER))
+            {
+                if (skIndex == 7)
+                {
+                    skIndex = 0;
+                }
+                else
+                    {
+                      skIndex++;
+                    }
+            }
+            this.getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
+        }
+    }
+
+    public void rainbowSkin()
+    {
+        if(buttons.isPressed(XInputButton.BACK))
+        {
+            if(rainbow)
+            {
+                rainbow = false;
+                return;
+            }
+            else
+            {
+                rainbow = true;
+            }
+        }
+        if(rainbow)
+        {
+            int oldSkindex = skIndex;
+            if(skIndex == 7)
+            {
+                skIndex = 0;
+                this.getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
+                return;
+            }
+            else
+                {
+                    skIndex++;
+                    this.getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
+                }
+
+
+
+        }
+    }
     public void cameraCollision()
     {
         if(this.position.x - (this.width / 2) < GameManager.center.position.x - (GameManager.center.width / 2))
@@ -416,24 +495,36 @@ public class Player extends Object
     {
         if (main.getInput().isKey(keyLeft))
         {
-            this.position.x += -200f * dt;
+            if(!collidingRight)
+            {
+                this.position.x += -200f * dt;
+            }
             this.setFrame(6);
 
         }
         if (main.getInput().isKey(keyRight))
         {
-            this.position.x += 200f * dt;
+            if(!collidingLeft)
+            {
+                this.position.x += 200f * dt;
+            }
             this.setFrame(2);
         }
 
         if (main.getInput().isKey(keyDown))
         {
-            this.position.y += 200f * dt;
+            if(!collidingTop)
+            {
+                this.position.y += 200f * dt;
+            }
             this.setFrame(0);
         }
         if (main.getInput().isKey(keyUp))
         {
-            this.position.y +=  -200f * dt;
+            if(!collidingBottom)
+            {
+                this.position.y += -200f * dt;
+            }
             this.setFrame(4);
         }
 
@@ -585,6 +676,8 @@ public class Player extends Object
             isReady = true;
 
             this.changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
+            frameHitboxOffsets.clear();
+            offsetHitboxes();
             offsetHitboxes();
         }
     }
@@ -614,6 +707,8 @@ public class Player extends Object
             this.paddingSide += (widthDifference / 2);
             this.paddingTop += (heightDifference / 2);
             changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
+            frameHitboxOffsets.clear();
+            offsetHitboxes();
             offsetHitboxes();
             return;
         }
@@ -634,6 +729,8 @@ public class Player extends Object
                 this.paddingSide += (widthDifference / 2);
                 this.paddingTop += (heightDifference / 2);
                 changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
+                frameHitboxOffsets.clear();
+                offsetHitboxes();
                 offsetHitboxes();
                 return;
             }

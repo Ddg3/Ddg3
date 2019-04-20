@@ -73,7 +73,7 @@ public class Bullet extends Object
         move(dt);
         if(weapon.isExploding())
         {
-            explode();
+            explode(false);
         }
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
@@ -114,7 +114,7 @@ public class Bullet extends Object
         }
     }
 
-    public void explode()
+    public void explode(boolean alreadyHit)
     {
         float tempPosX = this.position.x;
         float tempPosY = this.position.y;
@@ -124,6 +124,10 @@ public class Bullet extends Object
         Explosion explosion = new Explosion("explosion",90, 82, "/explosion.png", 25, 0.03f, weapon);
         explosion.setPosition(tempPosX, tempPosY);
         GameManager.objects.add(explosion);
+        if(alreadyHit)
+        {
+            explosion.setDamage(0);
+        }
     }
 
     @Override
@@ -140,7 +144,7 @@ public class Bullet extends Object
             GameManager.objects.remove(this);
             if (weapon.isExplodes())
             {
-                explode();
+                explode(false);
                 //weapon.setExploding(false);
             }
         }
@@ -161,7 +165,7 @@ public class Bullet extends Object
                     }
                 if (weapon.isExplodes())
                 {
-                    explode();
+                    explode(true);
                     //weapon.setExploding(false);
                 }
             }

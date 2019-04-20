@@ -9,6 +9,16 @@ public class Explosion extends Object
 {
     WeaponComponent weapon;
     Object owner;
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    int damage;
     public Explosion(String name, int width, int height, String path, int totalFrames, float frameLife, WeaponComponent weapon)
     {
         super(name, width, height, path, totalFrames, frameLife);
@@ -20,6 +30,7 @@ public class Explosion extends Object
         this.weapon = weapon;
         this.owner = weapon.getParent();
         this.zIndex = owner.zIndex + 1;
+        this.damage = weapon.getDamage();
     }
 
     @Override
@@ -41,7 +52,7 @@ public class Explosion extends Object
             if(player.getPlayerNumber() != weapon.getPlayerNumber())
             {
                 if(player.isGoose())
-                    player.depleteTime(weapon.getDamage());
+                    player.depleteTime(damage);
                 else if(ownerP.isGoose())
                 {
                     player.setGoose(true);

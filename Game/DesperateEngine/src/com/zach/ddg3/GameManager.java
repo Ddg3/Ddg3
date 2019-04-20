@@ -90,6 +90,10 @@ public class GameManager extends AbstractGame
         }*/
         cameraFollow();
         camera.update(this, main, dt);
+        if(!camera.isStopped())
+        {
+            //cameraFollow();
+        }
         deviceManager.update(main, dt);
 
         //camera.topCamera = gameLevelManager.currLevel.topCamera;
@@ -220,7 +224,10 @@ public class GameManager extends AbstractGame
             if (GameManager.players.size() == 1)
             {
                 if(GameManager.players.get(0).isInGame())
-                GameManager.center.setPosition(players.get(0).position.x, players.get(0).position.y);
+                {
+                    GameManager.center.position.x = players.get(0).position.x;
+                    GameManager.center.position.y = players.get(0).position.y;
+                }
                 else
                     {
                         GameManager.center.setPosition(0, 0);
