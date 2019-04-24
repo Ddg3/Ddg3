@@ -129,7 +129,7 @@ public class Player extends Object
                 cameraCollision();
                 moveController(dt);
                 look();
-                changeSkin();
+                changeSkin(gameManager);
                 rainbowSkin();
             }
             //System.out.println(offsetPos.x);
@@ -262,12 +262,12 @@ public class Player extends Object
         }
     }
 
-    public void changeSkin()
+    public void changeSkin(GameManager gameManager)
     {
         int oldSkindex = skIndex;
         if(GameManager.gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
         {
-            if(buttons.isPressed(XInputButton.LEFT_SHOULDER))
+            if(buttons.isPressed(XInputButton.X))
             {
                 if(skIndex == 0)
                 {
@@ -278,7 +278,7 @@ public class Player extends Object
                         skIndex--;
                     }
             }
-            if(buttons.isPressed(XInputButton.RIGHT_SHOULDER))
+            if(buttons.isPressed(XInputButton.Y))
             {
                 if (skIndex == 7)
                 {
@@ -676,6 +676,7 @@ public class Player extends Object
             isReady = true;
 
             this.changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
+            this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
             frameHitboxOffsets.clear();
             offsetHitboxes();
             offsetHitboxes();
@@ -707,6 +708,7 @@ public class Player extends Object
             this.paddingSide += (widthDifference / 2);
             this.paddingTop += (heightDifference / 2);
             changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
+            this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
             frameHitboxOffsets.clear();
             offsetHitboxes();
             offsetHitboxes();
@@ -729,6 +731,7 @@ public class Player extends Object
                 this.paddingSide += (widthDifference / 2);
                 this.paddingTop += (heightDifference / 2);
                 changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
+                this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
                 frameHitboxOffsets.clear();
                 offsetHitboxes();
                 offsetHitboxes();
@@ -748,6 +751,21 @@ public class Player extends Object
         frameHitboxOffsets.add(7, new Vector(0,0));
     }
 
+    public int[] getSkinColors() {
+        return skinColors;
+    }
+
+    public void setSkinColors(int[] skinColors) {
+        this.skinColors = skinColors;
+    }
+
+    public int getSkIndex() {
+        return skIndex;
+    }
+
+    public void setSkIndex(int skIndex) {
+        this.skIndex = skIndex;
+    }
     public ArrayList<Vector> getFrameHitboxOffsets() {
         return frameHitboxOffsets;
     }

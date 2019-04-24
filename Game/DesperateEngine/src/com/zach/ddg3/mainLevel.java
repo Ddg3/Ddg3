@@ -23,6 +23,7 @@ public class mainLevel extends GameLevel
     private static ArrayList<Object> timePedestals = new ArrayList<Object>(1);
     private static ArrayList<Object> pointers = new ArrayList<Object>(1);
     private static ArrayList<TextObject> timers = new ArrayList<TextObject>(1);
+    public static TextObject testText;
 
     @Override
     public void init(Main main)
@@ -149,26 +150,43 @@ public class mainLevel extends GameLevel
 
         for (int i = 0; i < players.size(); i++)
         {
-            pointers.add(i, new Object("pointer" + i, 4, 2, "/pointer.png", 1, 1));
+            /*pointers.add(i, new Object("pointer" + i, 4, 2, "/pointer.png", 1, 1));
             GameManager.objects.add(pointers.get(i));
             pointers.get(i).zIndex = Integer.MAX_VALUE;
 
             timers.add(i, new TextObject("" + players.get(i).getTime(), (int)pointers.get(i).getPositionX(), (int)pointers.get(i).getPositionY(), 0xffffffff, 1));
-            GameManager.textObjects.add(timers.get(i));
+            GameManager.textObjects.add(timers.get(i));*/
+
+            timePedestals.add(i, new Object("playerFrame" + i, 160, 58, "/playerFrameNew.png", 1, 1));
+            GameManager.objects.add(timePedestals.get(i));
+            timePedestals.get(i).zIndex = Integer.MAX_VALUE - 1;
+            timePedestals.get(i).getObjImage().changeColor(players.get(i).getSkinColors()[1], players.get(i).getSkinColors()[players.get(i).getSkIndex()]);
         }
+
+        testText = new TextObject("" , (int)(GameManager.center.position.x),(int)(GameManager.center.position.y + 320),0xffffffff, 1);
+        GameManager.textObjects.add(testText);
+
+
     }
 
     @Override
     public void update(Main main, float dt)
     {
-        for (int i = 0; i < players.size(); i++)
+        /*if(testText != null)
+        {
+            testText.posY = (int) (GameManager.center.position.y + 320);
+        }*/
+        //testText.posX = (int)(GameManager.center.position.x + 320);
+        //testText.posY = (int)(GameManager.center.position.y + 160);
+        /*for (int i = 0; i < players.size(); i++)
         {
             pointers.get(i).setPosition(players.get(i).position.x, players.get(i).position.y - (players.get(i).getBaseHeight() / 2));
 
             timers.get(i).posX = (int)pointers.get(i).offsetPos.x - 5;
             timers.get(i).posY = (int)pointers.get(i).offsetPos.y - 10;
             timers.get(i).text = "" + players.get(i).getTime();
-        }
+        }*/
+
         /*if(players.size() != 0)
         {
             for (int i = 0; i < players.size(); i++)
@@ -181,16 +199,18 @@ public class mainLevel extends GameLevel
         /*System.out.println(players.get(0).position.x + ", " + players.get(0).position.y);
         System.out.println(GameManager.camera.boundsRange);
         System.out.println(GameManager.camera.getPosX() + ", " + GameManager.camera.getPosY());*/
+        for(int i = 0; i < timePedestals.size(); i++)
+        {
+            pedestalFollow(timePedestals.get(i), i);
+        }
     }
 
-    public static void pedestalFollow(Main main, Object pedestal, int index)
+    public static void pedestalFollow(Object pedestal, int index)
     {
-        pedestal.position.y = GameManager.center.position.y + (main.getHeight() / 2) - (pedestal.getHeight() / 4);
-        pedestal.position.x = GameManager.center.position.x - (main.getWidth() / 2) + ((main.getWidth() / 4) * index + (index * 3)) + (pedestal.width / 2);
-        GameManager.timers.get(index).setPosition(pedestal.position.x, pedestal.position.y - 40);
+        //GameManager.timers.get(index).offsetPos.x = pedestal.offsetPos.x;
+        //GameManager.timers.get(index).offsetPos.y = pedestal.offsetPos.y;
         GameManager.timers.get(index).visible = true;
         GameManager.timers.get(index).zIndex = Integer.MAX_VALUE;
-
     }
     @Override
     public void uninit()

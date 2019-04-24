@@ -112,7 +112,7 @@ public class Camera {
 
         if (posY < topCamera && posY > bottomCamera)
         {
-            main.getRenderer().setCameraY((int) posY);
+            main.getRenderer().setCameraY((int)posY);
             //topStopped = false;
             //bottomStopped = false;
             stopped = false;
