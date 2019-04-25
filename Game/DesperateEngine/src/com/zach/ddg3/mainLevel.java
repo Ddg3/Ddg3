@@ -157,7 +157,7 @@ public class mainLevel extends GameLevel
             timers.add(i, new TextObject("" + players.get(i).getTime(), (int)pointers.get(i).getPositionX(), (int)pointers.get(i).getPositionY(), 0xffffffff, 1));
             GameManager.textObjects.add(timers.get(i));*/
 
-            timePedestals.add(i, new Object("playerFrame" + i, 160, 58, "/playerFrameNew.png", 1, 1));
+            timePedestals.add(i, new Object("playerFrame" + i, 160, 58, "/playerFrameNew.png", 2, 0));
             GameManager.objects.add(timePedestals.get(i));
             timePedestals.get(i).zIndex = Integer.MAX_VALUE - 1;
             timePedestals.get(i).getObjImage().changeColor(players.get(i).getSkinColors()[1], players.get(i).getSkinColors()[players.get(i).getSkIndex()]);

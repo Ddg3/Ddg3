@@ -712,6 +712,10 @@ public class Player extends Object
             frameHitboxOffsets.clear();
             offsetHitboxes();
             offsetHitboxes();
+            if(mainLevel.getTimePedestals().size() != 0)
+            {
+                mainLevel.getTimePedestals().get(playerNumber).setFrame(1);
+            }
             return;
         }
         else
@@ -735,6 +739,10 @@ public class Player extends Object
                 frameHitboxOffsets.clear();
                 offsetHitboxes();
                 offsetHitboxes();
+                if(mainLevel.getTimePedestals().size() != 0)
+                {
+                    mainLevel.getTimePedestals().get(playerNumber).setFrame(0);
+                }
                 return;
             }
     }
