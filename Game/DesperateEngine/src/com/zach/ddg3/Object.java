@@ -29,6 +29,16 @@ public class Object extends GameObject implements Comparable<Object>
     private boolean inGame = true;
     private int frameOffset = 0;
 
+    public boolean isKnocked() {
+        return isKnocked;
+    }
+
+    public void setKnocked(boolean knocked) {
+        isKnocked = knocked;
+    }
+
+    private boolean isKnocked;
+
     public int getOffsetCenterX() {
         return offsetCenterX;
     }
@@ -202,6 +212,35 @@ public class Object extends GameObject implements Comparable<Object>
     public void collision(Object other, Main main)
     {
 
+    }
+
+    public Vector findVector(Vector p1, Vector p2)
+    {
+        //float xDelta = Math.abs(p1.x - p2.x);
+        //float yDelta = Math.abs(p1.y - p2.y);
+        float xDelta = p2.x - p1.x;
+        float yDelta = p2.y - p1.y;
+        double angle = Math.tan(yDelta/xDelta);
+        double magnitude = Math.sqrt((xDelta * xDelta) + (yDelta * yDelta));
+
+        Vector newV = new Vector(xDelta, yDelta);
+        newV.setLength(magnitude);
+        newV.setAngle(angle);
+        return newV;
+
+    }
+
+    public void applyKnockback(Vector knockback, float dt)
+    {
+        if(knockback.x / (knockback.getLength() * 10) != 0 && knockback.y / (knockback.getLength() * 10) != 0)
+        {
+            this.position.x += knockback.x / (knockback.getLength() * 10);
+            this.position.y += knockback.y / (knockback.getLength() * 10);
+        }
+        else
+            {
+                isKnocked = false;
+            }
     }
 
     public void changeSprite(int width, int height, String path, int totalFrames, float frameLife)
