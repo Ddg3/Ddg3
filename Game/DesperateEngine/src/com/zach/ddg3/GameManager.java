@@ -254,7 +254,7 @@ public class GameManager extends AbstractGame
                     float posX = (players.get(0).position.x + players.get(1).position.x) / 2;
                     float posY = (players.get(0).position.y + players.get(1).position.y) / 2;
 
-                    GameManager.center.setPosition(posX, posY);
+                    GameManager.center.setPosition((int)posX, (int)posY);
                 }
                 else
                     {

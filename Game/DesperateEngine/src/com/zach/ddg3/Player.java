@@ -61,6 +61,8 @@ public class Player extends Object
     private int[] skinColors = new int[8];
     private int skIndex = 1;
     private boolean rainbow;
+    private boolean isRemoved = false;
+    private boolean nearSelect = false;
 
     private ArrayList<Vector> frameHitboxOffsets = new ArrayList<>(1);
 
@@ -107,6 +109,7 @@ public class Player extends Object
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
+        nearSelect = false;
         selected = false;
         collidingTop = false;
         collidingBottom = false;
@@ -241,6 +244,7 @@ public class Player extends Object
         if(other.getTag().equalsIgnoreCase("Selection") && this.isInGame())
         {
             AABBComponent otherC = (AABBComponent) other.findComponentBySubtag("selection");
+            nearSelect = true;
             if((this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKeyDown(keySelect))
                     && this.isInGame() &&
                     !selecting &&
@@ -757,6 +761,29 @@ public class Player extends Object
         frameHitboxOffsets.add(5, new Vector(0,0));
         frameHitboxOffsets.add(6, new Vector((width / 8),0));
         frameHitboxOffsets.add(7, new Vector(0,0));
+    }
+
+    public boolean isNearSelect() {
+        return nearSelect;
+    }
+
+    public void setNearSelect(boolean nearSelect) {
+        this.nearSelect = nearSelect;
+    }
+    public boolean isSelecting() {
+        return selecting;
+    }
+
+    public void setSelecting(boolean selecting) {
+        this.selecting = selecting;
+    }
+
+    public boolean isRemoved() {
+        return isRemoved;
+    }
+
+    public void setRemoved(boolean removed) {
+        isRemoved = removed;
     }
 
     public int[] getSkinColors() {

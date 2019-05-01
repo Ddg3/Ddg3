@@ -24,6 +24,7 @@ public class mainLevel extends GameLevel
     private static ArrayList<Object> pointers = new ArrayList<Object>(1);
     private static ArrayList<TextObject> timers = new ArrayList<TextObject>(1);
     public static TextObject testText;
+    private static Vulture vulture1;
 
     @Override
     public void init(Main main)
@@ -31,6 +32,7 @@ public class mainLevel extends GameLevel
         /*players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
         players.get(0).zIndex = 3;
         GameManager.objects.add(players.get(0));*/
+
         int randGoose = ThreadLocalRandom.current().nextInt(0, 2);
 
         GameManager.camera.boundsRange = 0;
@@ -161,12 +163,19 @@ public class mainLevel extends GameLevel
             GameManager.objects.add(timePedestals.get(i));
             timePedestals.get(i).zIndex = Integer.MAX_VALUE - 1;
             timePedestals.get(i).getObjImage().changeColor(players.get(i).getSkinColors()[1], players.get(i).getSkinColors()[players.get(i).getSkIndex()]);
+            if(players.get(i).isGoose())
+            {
+                timePedestals.get(i).setFrame(1);
+            }
         }
 
         testText = new TextObject("" , (int)(GameManager.center.position.x),(int)(GameManager.center.position.y + 320),0xffffffff, 1);
         GameManager.textObjects.add(testText);
 
-
+        vulture1 = new Vulture(players.get(0), 0);
+        GameManager.objects.add(vulture1);
+        vulture1.setPosition(-110, -290);
+        vulture1.setTargetPosition(new Vector(-110, -290));
     }
 
     @Override

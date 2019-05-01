@@ -157,26 +157,42 @@ public class selectionLevel extends GameLevel {
         sideRails[1].zIndex = 1;
         sideRails[1].paddingTop = 10;
 
-        explosiveGuns = new Object("explosiveGuns", 257, 52, "/explosiveSelections.png", 4, 0f);
+        explosiveGuns = new Object("explosiveGuns", 257, 52, "/explosiveSelections.png", 5, 0f);
         explosiveGuns.setTag("Selection");
         explosiveGuns.addComponent(new AABBComponent(explosiveGuns, "selection"));
         explosiveGuns.setPosition(187, -782);
-        explosiveGuns.zIndex = 0;
+        explosiveGuns.zIndex = 1;
         GameManager.objects.add(explosiveGuns);
 
-        explosiveGuns2 = new Object("explosiveGuns2", 259, 54, "/explosiveSelections2.png", 4, 0f);
+        explosiveGuns2 = new Object("explosiveGuns2", 257, 52, "/explosiveSelections.png", 5, 0f);
         explosiveGuns2.setTag("Selection");
         explosiveGuns2.addComponent(new AABBComponent(explosiveGuns2, "selection"));
         AABBComponent otherC = (AABBComponent) explosiveGuns2.findComponentBySubtag("selection");
         otherC.setDesignatedPlayer(1);
         explosiveGuns2.setPosition(187, -782);
-        explosiveGuns2.zIndex = 0;
+        explosiveGuns2.zIndex = 1;
         GameManager.objects.add(explosiveGuns2);
     }
 
     @Override
     public void update(Main main, float dt)
     {
+        if(!player1.isNearSelect() && !player1.isSelecting())
+        {
+            explosiveGuns.setFrame(0);
+        }
+        else if(!player1.isSelecting())
+            {
+                explosiveGuns.setFrame(4);
+            }
+        if(!player2.isNearSelect())
+        {
+            explosiveGuns2.setFrame(0);
+        }
+        else if(!player2.isSelecting())
+            {
+              explosiveGuns.setFrame(4);
+            }
         if(player1.visible)
         {
             readyUp(door, dt);

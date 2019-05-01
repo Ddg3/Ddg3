@@ -49,6 +49,10 @@ public class Explosion extends Object
             knockback = knockedObject.findVector(this.position, knockedObject.position);
             knockedObject.applyKnockback(knockback, dt);
         }
+        if(knockedObject != null && !knockedObject.isKnocked())
+        {
+            knockedObject = null;
+        }
     }
 
     @Override
@@ -61,7 +65,7 @@ public class Explosion extends Object
             knockedObject = other;
             knockedObject.setKnocked(true);
             knockback = player.findVector(this.position, player.position);
-            //player.applyKnockback(knockback);
+
             if(player.getPlayerNumber() != weapon.getPlayerNumber())
             {
                 if(player.isGoose())
