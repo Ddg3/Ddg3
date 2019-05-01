@@ -117,6 +117,18 @@ public class WeaponComponent extends Component
                 Bullet bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
                 bullet.setPosition(parent.getPositionX(), parent.getPositionY());
                 GameManager.objects.add(bullet);
+
+                switch (player.getFrame() - parent.getFrameOffset())
+                {
+                    case 0: break;
+                    case 1: break;
+                    case 2: break;
+                    case 3: break;
+                    case 4: break;
+                    case 5: break;
+                    case 6: break;
+                    case 7: break;
+                }
                 if(animChangedOnShoot)
                 {
                     parent.setFrameOffset(parent.getTotalFrames() / 2);

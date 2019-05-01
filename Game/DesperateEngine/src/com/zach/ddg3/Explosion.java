@@ -5,6 +5,8 @@ import com.zach.ddg3.components.WeaponComponent;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 
+import java.util.ArrayList;
+
 public class Explosion extends Object
 {
     WeaponComponent weapon;
@@ -18,9 +20,9 @@ public class Explosion extends Object
         this.damage = damage;
     }
 
-    int damage;
-    Vector knockback = new Vector(0,0);
-    Object knockedObject;
+    private int damage;
+    //Vector knockback = new Vector(0,0);
+    private ArrayList<Object> knockedObjects = new ArrayList<>(1);
 
     public Explosion(String name, int width, int height, String path, int totalFrames, float frameLife, WeaponComponent weapon)
     {
@@ -44,14 +46,16 @@ public class Explosion extends Object
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
         this.updateComponents(main, gameManager, dt);
 
-        if(knockedObject != null && knockedObject.isKnocked())
+        for(int i = 0; i < knockedObjects.size(); i++)
         {
-            knockback = knockedObject.findVector(this.position, knockedObject.position);
-            knockedObject.applyKnockback(knockback, dt);
-        }
-        if(knockedObject != null && !knockedObject.isKnocked())
-        {
-            knockedObject = null;
+            if (knockedObjects.get(i) != null && knockedObjects.get(i).isKnocked()) {
+                Vector knockback = knockedObjects.get(i).findVector(this.position, knockedObjects.get(i).position);
+                knockedObjects.get(i).applyKnockback(knockback, dt);
+            }
+            if (knockedObjects.get(i) != null && !knockedObjects.get(i).isKnocked())
+            {
+                knockedObjects.remove(i);
+            }
         }
     }
 
@@ -62,9 +66,8 @@ public class Explosion extends Object
         {
             Player player = (Player)other;
             Player ownerP = (Player)owner;
-            knockedObject = other;
-            knockedObject.setKnocked(true);
-            knockback = player.findVector(this.position, player.position);
+            knockedObjects.add(other);
+            knockedObjects.get(knockedObjects.indexOf(other)).setKnocked(true);
 
             if(player.getPlayerNumber() != weapon.getPlayerNumber())
             {
