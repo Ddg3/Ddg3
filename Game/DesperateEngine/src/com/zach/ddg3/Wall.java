@@ -93,10 +93,12 @@ public class Wall extends Object
             AABBComponent otherC = (AABBComponent) target.findComponent("aabb");
             //AND NEEDS TO BE COLLIDING
             if (otherC.getCenterY() + otherC.getHalfHeight() < zUpdatePointHigh + zUpdatePointOffset) {
-                this.zIndex = target.zIndex + 1;
+                //this.zIndex = target.zIndex;
+                target.zIndex = this.zIndex - 1;
             }
             else if (otherC.getCenterY() - otherC.getHalfHeight() > zUpdatePointLow) {
-                this.zIndex = target.zIndex - 1;
+                //this.zIndex = target.zIndex - 1;
+                target.zIndex = target.maxzIndex;
             }
         }
     }

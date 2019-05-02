@@ -39,6 +39,9 @@ public class WeaponComponent extends Component
     private float bulletFrameTime = 0.1f;
     private boolean exploding = false;
 
+    private Vector[] bulletOffsetD = new Vector[8];
+    private Vector[] bulletOffsetG = new Vector[8];
+
     private int weaponFrameOffset = 0;
 
     public Object getParent() {
@@ -82,7 +85,7 @@ public class WeaponComponent extends Component
         if (this.explodes)
         {
             Player player = (Player) parent;
-            if(player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER) && !exploding)
+            if((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER) || main.getInput().isKey(player.getKeyAltShoot())) && !exploding)
             {
                 exploding = true;
             }
@@ -115,8 +118,18 @@ public class WeaponComponent extends Component
             {
                 tempCooldown = shotCooldown;
                 Bullet bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
-                bullet.setPosition(parent.getPositionX(), parent.getPositionY());
+                Vector offset;
+                if(!player.isGoose())
+                {
+                    offset = bulletOffsetD[player.getFrame() - parent.getFrameOffset()];
+                }
+                else
+                    {
+                        offset = bulletOffsetG[player.getFrame() - parent.getFrameOffset()];
+                    }
+                bullet.setPosition(parent.getPositionX() + offset.getX(), parent.getPositionY() + offset.getY());
                 GameManager.objects.add(bullet);
+
                 if(animChangedOnShoot)
                 {
                     parent.setFrameOffset(parent.getTotalFrames() / 2);
@@ -148,6 +161,24 @@ public class WeaponComponent extends Component
                 bulletHeight = 33;
                 bulletFrames = 8;
                 bulletFrameTime = 0.1f;
+
+                bulletOffsetD[0] = new Vector(-8,2);
+                bulletOffsetD[1] = new Vector(30,22);
+                bulletOffsetD[2] = new Vector(32,-2);
+                bulletOffsetD[3] = new Vector(31,-26);
+                bulletOffsetD[4] = new Vector(10,-4);
+                bulletOffsetD[5] = new Vector(-31,-26);
+                bulletOffsetD[6] = new Vector(-32,-2);
+                bulletOffsetD[7] = new Vector(-30,22);
+
+                bulletOffsetG[0] = new Vector(-10,4);
+                bulletOffsetG[1] = new Vector(24,24);
+                bulletOffsetG[2] = new Vector(32,-2);
+                bulletOffsetG[3] = new Vector(31,-26);
+                bulletOffsetG[4] = new Vector(10,-4);
+                bulletOffsetG[5] = new Vector(-31,-26);
+                bulletOffsetG[6] = new Vector(-32,-2);
+                bulletOffsetG[7] = new Vector(-30,22);
                 break;
 
         }

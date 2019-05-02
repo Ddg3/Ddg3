@@ -112,45 +112,45 @@ public class Camera {
 
         if (posY < topCamera && posY > bottomCamera)
         {
-            main.getRenderer().setCameraY((int) posY);
-            /*topStopped = false;
-            bottomStopped = false;
-            stopped = false;*/
+            main.getRenderer().setCameraY((int)posY);
+            //topStopped = false;
+            //bottomStopped = false;
+            stopped = false;
         }
         else if (posY >= topCamera)
         {
             main.getRenderer().setCameraY(topCamera);
             target.position.y = topCamera;
-            /*topStopped = true;
-            stopped = true;*/
+            //topStopped = true;
+            stopped = true;
         } else
             {
             main.getRenderer().setCameraY(bottomCamera);
             target.position.y = bottomCamera;
-            /*bottomStopped = true;
-            stopped = true;*/
+            //bottomStopped = true;
+            stopped = true;
         }
 
         if(posX < leftCamera && posX > rightCamera)
         {
             main.getRenderer().setCameraX((int) posX);
-            /*leftStopped = false;
-            rightStopped = false;
-            stopped = false;*/
+            //leftStopped = false;
+            //rightStopped = false;
+            stopped = false;
         }
         else if(posX >= leftCamera)
         {
             main.getRenderer().setCameraX(leftCamera);
             target.position.x = leftCamera;
-            /*leftStopped = true;
-            stopped = true*/
+            //leftStopped = true;
+            stopped = true;
         }
         else if(posX < rightCamera)
         {
             main.getRenderer().setCameraX(rightCamera);
             target.position.x = rightCamera;
-            /*rightStopped = true;
-            stopped = true;*/
+            //rightStopped = true;
+            stopped = true;
         }
     }
 

@@ -12,6 +12,15 @@ import java.util.ArrayList;
 public abstract class GameObject
 {
     protected String tag;
+
+    public Vector getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector position) {
+        this.position = position;
+    }
+
     protected Vector position = new Vector(0,0);
     protected int width;
 

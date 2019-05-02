@@ -10,6 +10,7 @@ import com.zach.engine.gfx.ImageTile;
 public class Object extends GameObject implements Comparable<Object>
 {
     public int zIndex;
+    public int maxzIndex;
     private ImageTile objImage;
     public int anim = 0;
     public float opacity;
@@ -28,6 +29,16 @@ public class Object extends GameObject implements Comparable<Object>
     private int endPoint = 0;
     private boolean inGame = true;
     private int frameOffset = 0;
+
+    public boolean isKnocked() {
+        return isKnocked;
+    }
+
+    public void setKnocked(boolean knocked) {
+        isKnocked = knocked;
+    }
+
+    private boolean isKnocked;
 
     public int getOffsetCenterX() {
         return offsetCenterX;
@@ -204,12 +215,40 @@ public class Object extends GameObject implements Comparable<Object>
 
     }
 
+    public Vector findVector(Vector p1, Vector p2)
+    {
+        //float xDelta = Math.abs(p1.x - p2.x);
+        //float yDelta = Math.abs(p1.y - p2.y);
+        float xDelta = p2.x - p1.x;
+        float yDelta = p2.y - p1.y;
+        double angle = Math.tan(yDelta/xDelta);
+        double magnitude = Math.sqrt((xDelta * xDelta) + (yDelta * yDelta));
+
+        Vector newV = new Vector(xDelta, yDelta);
+        newV.setLength(magnitude);
+        newV.setAngle(angle);
+        return newV;
+
+    }
+
+    public void applyKnockback(Vector knockback, float dt)
+    {
+        if(knockback.x / (knockback.getLength() ) != 0 || knockback.y / (knockback.getLength()) != 0)
+        {
+            this.position.x += knockback.x / (knockback.getLength());
+            this.position.y += knockback.y / (knockback.getLength());
+        }
+        else
+            {
+                isKnocked = false;
+            }
+    }
+
     public void changeSprite(int width, int height, String path, int totalFrames, float frameLife)
     {
         this.width = width;
         this.height = height;
         this.totalFrames = totalFrames;
-        this.frameLife = frameLife;
         this.frameLife = frameLife;
         tempLife = frameLife;
         this.objImage = new ImageTile(path, width, height);
@@ -315,4 +354,13 @@ public class Object extends GameObject implements Comparable<Object>
     public void setFrameOffset(int frameOffset) {
         this.frameOffset = frameOffset;
     }
+
+    public ImageTile getObjImage() {
+        return objImage;
+    }
+
+    public void setObjImage(ImageTile objImage) {
+        this.objImage = objImage;
+    }
+
 }

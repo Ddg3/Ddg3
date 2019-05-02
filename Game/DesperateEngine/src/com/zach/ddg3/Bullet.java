@@ -26,6 +26,8 @@ public class Bullet extends Object
     private int direction;
     private Object owner;
     private WeaponComponent weapon;
+    private int offsetX;
+    private int offsetY;
 
     public float getSpeed() {
         return speed;
@@ -74,6 +76,7 @@ public class Bullet extends Object
         if(weapon.isExploding())
         {
             explode(false);
+            weapon.setExploding(false);
         }
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
@@ -103,14 +106,37 @@ public class Bullet extends Object
         //System.out.println(this.position.x + ", " + this.position.y);
         switch(direction)
         {
-            case 0: this.position.y += speed * dt; break;
-            case 1: this.position.y += speed * dt; this.position.x += speed * dt; break;
-            case 2: this.position.x += speed * dt; break;
-            case 3: this.position.y -= speed * dt; this.position.x += speed * dt; break;
-            case 4: this.position.y -= speed * dt; break;
-            case 5: this.position.y -= speed * dt; this.position.x -= speed * dt; break;
-            case 6: this.position.x -= speed * dt; break;
+            case 0: this.position.y += speed * dt;
+                this.zIndex = weapon.getParent().zIndex;
+                this.maxzIndex = weapon.getParent().maxzIndex;
+                break;
+            case 1: this.position.y += speed * dt; this.position.x += speed * dt;
+                this.zIndex = weapon.getParent().zIndex;
+                this.maxzIndex = weapon.getParent().maxzIndex;
+                break;
+            case 2: this.position.x += speed * dt;
+                this.zIndex = weapon.getParent().zIndex - 1;
+                this.maxzIndex = weapon.getParent().maxzIndex - 1;
+                break;
+            case 3: this.position.y -= speed * dt; this.position.x += speed * dt;
+                this.zIndex = weapon.getParent().zIndex - 1;
+                this.maxzIndex = weapon.getParent().maxzIndex - 1;
+                break;
+            case 4: this.position.y -= speed * dt;
+                this.zIndex = weapon.getParent().zIndex - 1;
+                this.maxzIndex = weapon.getParent().maxzIndex - 1;
+                break;
+            case 5: this.position.y -= speed * dt; this.position.x -= speed * dt;
+                this.zIndex = weapon.getParent().zIndex - 1;
+                this.maxzIndex = weapon.getParent().maxzIndex - 1;
+                break;
+            case 6: this.position.x -= speed * dt;
+                this.zIndex = weapon.getParent().zIndex - 1;
+                this.maxzIndex = weapon.getParent().maxzIndex - 1;
+                break;
             case 7: this.position.y += speed * dt; this.position.x -= speed * dt;
+                this.zIndex = weapon.getParent().zIndex;
+                this.maxzIndex = weapon.getParent().maxzIndex;
         }
     }
 

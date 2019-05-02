@@ -38,6 +38,16 @@ public class Image
     private int height;
     private int[] pixel;
 
+    public boolean isColorChanged() {
+        return colorChanged;
+    }
+
+    public void setColorChanged(boolean colorChanged) {
+        this.colorChanged = colorChanged;
+    }
+
+    private boolean colorChanged;
+
     public boolean isAlpha() {
         return alpha;
     }
@@ -85,5 +95,24 @@ public class Image
         this.width = width;
         this.height = height;
         this.pixel = pixel;
+    }
+
+    public void changeColor(int oldColor, int newColor)
+    {
+        int tempX = 0;
+        int tempY = 0;
+        int tempWidth = this.getWidth();
+        int tempHeight = this.getHeight();
+
+        for(int y = tempY; y < tempHeight; y++)
+        {
+            for(int x = tempX; x < tempWidth; x++)
+            {
+                if(this.getPixel()[x + y * this.getWidth()] == oldColor)
+                {
+                    this.getPixel()[x + y * this.getWidth()] = newColor;
+                }
+            }
+        }
     }
 }

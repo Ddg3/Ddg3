@@ -5,6 +5,8 @@ import com.zach.ddg3.components.WeaponComponent;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 
+import java.util.ArrayList;
+
 public class Explosion extends Object
 {
     WeaponComponent weapon;
@@ -18,7 +20,10 @@ public class Explosion extends Object
         this.damage = damage;
     }
 
-    int damage;
+    private int damage;
+    //Vector knockback = new Vector(0,0);
+    private ArrayList<Object> knockedObjects = new ArrayList<>(1);
+
     public Explosion(String name, int width, int height, String path, int totalFrames, float frameLife, WeaponComponent weapon)
     {
         super(name, width, height, path, totalFrames, frameLife);
@@ -40,6 +45,18 @@ public class Explosion extends Object
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
         this.updateComponents(main, gameManager, dt);
+
+        for(int i = 0; i < knockedObjects.size(); i++)
+        {
+            if (knockedObjects.get(i) != null && knockedObjects.get(i).isKnocked()) {
+                Vector knockback = knockedObjects.get(i).findVector(this.position, knockedObjects.get(i).position);
+                knockedObjects.get(i).applyKnockback(knockback, dt);
+            }
+            if (knockedObjects.get(i) != null && !knockedObjects.get(i).isKnocked())
+            {
+                knockedObjects.remove(i);
+            }
+        }
     }
 
     @Override
@@ -49,6 +66,9 @@ public class Explosion extends Object
         {
             Player player = (Player)other;
             Player ownerP = (Player)owner;
+            knockedObjects.add(other);
+            knockedObjects.get(knockedObjects.indexOf(other)).setKnocked(true);
+
             if(player.getPlayerNumber() != weapon.getPlayerNumber())
             {
                 if(player.isGoose())

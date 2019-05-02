@@ -49,16 +49,19 @@ public class selectionLevel extends GameLevel {
         GameManager.objects.add(fountain);
         fountain.paddingTop = 15;
         fountain.paddingSide = 10;
+        fountain.zIndex = 2;
 
         player1 = new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0);
         player1.setPosition(-240, -220);
-        player1.zIndex = 2;
+        player1.zIndex = 10;
+        player1.maxzIndex = 10;
         GameManager.objects.add(player1);
         player1.visible = false;
 
         player2 = new Player("player2", 63, 68, "/duckSheetLong.png", 24, 0.01f, 1);
         player2.setPosition(-165, 0);
-        player2.zIndex = 2;
+        player2.zIndex = 10;
+        player2.maxzIndex = 10;
         player2.setKeyDropIn(KeyEvent.VK_SPACE);
         player2.setKeyLeft(KeyEvent.VK_LEFT);
         player2.setKeyRight(KeyEvent.VK_RIGHT);
@@ -78,6 +81,7 @@ public class selectionLevel extends GameLevel {
         //walls[0].setzUpdatePointOffset(-50);
         GameManager.objects.add(walls[0]);
         walls[0].paddingTop = 100;
+        walls[0].zIndex = 4;
 
         walls[1] = new Wall("wall2", 265, 203, "/selectionWallHalf.png", 2, 0.1f, false);
         walls[1].setPosition(186, -830);
@@ -85,12 +89,13 @@ public class selectionLevel extends GameLevel {
         walls[1].setFrame(1);
         GameManager.objects.add(walls[1]);
         walls[1].paddingTop = 100;
+        walls[1].zIndex = 4;
 
         doorframe = new Wall("doorframe", 122, 203, "/selectionWallDoorFrame.png", 1, 0.1f, true);
         doorframe.removeComponentBySubtag("wall");
         doorframe.setPosition(-1, -830);
         GameManager.objects.add(doorframe);
-        doorframe.zIndex = 0;
+        doorframe.zIndex = 4;
         doorframe.setzUpdatePointOffset(-25);
 
         door = new Wall("door", 111, 88, "/selectionDoor.png", 1, 0.1f, false);
@@ -120,7 +125,7 @@ public class selectionLevel extends GameLevel {
         archBridge = new Object("archBridge", 640, 124, "/selectionArchBridge.png", 1, 0.1f);
         GameManager.objects.add(archBridge);
         archBridge.setPosition(0, -532);
-        archBridge.zIndex = 2;
+        archBridge.zIndex = 12;
 
 
         int yInd = 0;
@@ -142,41 +147,58 @@ public class selectionLevel extends GameLevel {
             statues[i].paddingTop = 45;
             statues[i].setOffsetCenterY(20);
             GameManager.objects.add(statues[i]);
+            statues[i].zIndex = 6;
         }
 
         sideRails[0] = new Wall("sideRail1", 56, 936, "/sideRail.png", 2, 0.1f, true);
         sideRails[0].setPosition(-300, 50);
         GameManager.objects.add(sideRails[0]);
-        sideRails[0].zIndex = 1;
+        sideRails[0].zIndex = 2;
         sideRails[0].paddingTop = 10;
 
         sideRails[1] = new Wall("sideRail1", 56, 936, "/sideRail.png", 2, 0.1f, true);
         sideRails[1].setPosition(300, 50);
         sideRails[1].setFrame(1);
         GameManager.objects.add(sideRails[1]);
-        sideRails[1].zIndex = 1;
+        sideRails[1].zIndex = 2;
         sideRails[1].paddingTop = 10;
 
-        explosiveGuns = new Object("explosiveGuns", 257, 52, "/explosiveSelections.png", 4, 0f);
+        explosiveGuns = new Object("explosiveGuns", 257, 52, "/explosiveSelections.png", 5, 0f);
         explosiveGuns.setTag("Selection");
         explosiveGuns.addComponent(new AABBComponent(explosiveGuns, "selection"));
         explosiveGuns.setPosition(187, -782);
-        explosiveGuns.zIndex = 0;
+        explosiveGuns.zIndex = 6;
         GameManager.objects.add(explosiveGuns);
 
-        explosiveGuns2 = new Object("explosiveGuns2", 259, 54, "/explosiveSelections2.png", 4, 0f);
+        explosiveGuns2 = new Object("explosiveGuns2", 257, 52, "/explosiveSelections.png", 5, 0f);
         explosiveGuns2.setTag("Selection");
         explosiveGuns2.addComponent(new AABBComponent(explosiveGuns2, "selection"));
         AABBComponent otherC = (AABBComponent) explosiveGuns2.findComponentBySubtag("selection");
         otherC.setDesignatedPlayer(1);
         explosiveGuns2.setPosition(187, -782);
-        explosiveGuns2.zIndex = 0;
+        explosiveGuns2.zIndex = 6;
         GameManager.objects.add(explosiveGuns2);
     }
 
     @Override
     public void update(Main main, float dt)
     {
+        if(!player1.isNearSelect() && !player1.isSelecting())
+        {
+            explosiveGuns.setFrame(0);
+        }
+        else if(!player1.isSelecting())
+            {
+                explosiveGuns.setFrame(4);
+            }
+        if(!player2.isNearSelect())
+        {
+            explosiveGuns2.setFrame(0);
+        }
+        else if(!player2.isSelecting())
+            {
+              explosiveGuns.setFrame(4);
+            }
         if(player1.visible)
         {
             readyUp(door, dt);

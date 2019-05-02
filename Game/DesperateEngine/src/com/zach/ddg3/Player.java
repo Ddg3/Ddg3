@@ -57,7 +57,16 @@ public class Player extends Object
     private int keyShoot = KeyEvent.VK_ENTER;
     private int keyDeselect = KeyEvent.VK_R;
     private boolean keyBoardSelecting = false;
+    private int keyAltShoot = KeyEvent.VK_SHIFT;
+
     private int baseHeight = 68;
+    private int[] skinColors = new int[8];
+    private int skIndex = 1;
+    private boolean rainbow;
+
+    private boolean isRemoved = false;
+    private boolean nearSelect = false;
+    private boolean isTimedOut = false;
 
     private ArrayList<Vector> frameHitboxOffsets = new ArrayList<>(1);
 
@@ -90,11 +99,21 @@ public class Player extends Object
         GameManager.timers.add(playerNumber, timer);
 
         offsetHitboxes();
+
+        skinColors[0] = 0xffFF0000;
+        skinColors[1] = 0xffFF9700;
+        skinColors[2] = 0xffFFFF00;
+        skinColors[3] = 0xff00FF00;
+        skinColors[4] = 0xff00FFFF;
+        skinColors[5] = 0xff0000FF;
+        skinColors[6] = 0xffFF00FF;
+        skinColors[7] = 0xff8400DB;
     }
 
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
+        nearSelect = false;
         selected = false;
         collidingTop = false;
         collidingBottom = false;
@@ -112,11 +131,13 @@ public class Player extends Object
             rTrigger += axes.getRTDelta();
             lTrigger += axes.getLTDelta();
 
-            if(this.isInGame() && !selecting)
+            if(this.isInGame() && !selecting && !isTimedOut)
             {
                 cameraCollision();
                 moveController(dt);
                 look();
+                changeSkin(gameManager);
+                rainbowSkin();
             }
             //System.out.println(offsetPos.x);
            /*this.offsetPos.x = main.getInput().getMouseX() - this.width;
@@ -124,10 +145,11 @@ public class Player extends Object
         }
         else
         {
-            if(!selecting)
+            if(this.isInGame() && !selecting && !isTimedOut)
             {
                 cameraCollision();
                 moveKeyboard(main, dt);
+                //changeSkin(gameManager);
             }
         }
 
@@ -149,6 +171,13 @@ public class Player extends Object
             {
                 time -= 1;
                 tempSecond = second;
+            }
+
+            if(time <= 0 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE)
+            {
+                isTimedOut = true;
+                //changeSprite(77, 62, "/deadGoose.png", 1, 1);
+                //CHANGE THE IMAGE??????
             }
 
             timer.setFrame(time);
@@ -227,6 +256,7 @@ public class Player extends Object
         if(other.getTag().equalsIgnoreCase("Selection") && this.isInGame())
         {
             AABBComponent otherC = (AABBComponent) other.findComponentBySubtag("selection");
+            nearSelect = true;
             if((this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKeyDown(keySelect))
                     && this.isInGame() &&
                     !selecting &&
@@ -248,6 +278,70 @@ public class Player extends Object
         }
     }
 
+    public void changeSkin(GameManager gameManager)
+    {
+        int oldSkindex = skIndex;
+        if(GameManager.gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
+        {
+            if(buttons.isPressed(XInputButton.X))
+            {
+                if(skIndex == 0)
+                {
+                    skIndex = 7;
+                }
+                else
+                    {
+                        skIndex--;
+                    }
+            }
+            if(buttons.isPressed(XInputButton.Y))
+            {
+                if (skIndex == 7)
+                {
+                    skIndex = 0;
+                }
+                else
+                    {
+                      skIndex++;
+                    }
+            }
+            this.getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
+        }
+    }
+
+    public void rainbowSkin()
+    {
+        if(buttons.isPressed(XInputButton.BACK))
+        {
+            if(rainbow)
+            {
+                rainbow = false;
+                return;
+            }
+            else
+            {
+                rainbow = true;
+            }
+        }
+        if(rainbow)
+        {
+            int oldSkindex = skIndex;
+            if(skIndex == 7)
+            {
+                skIndex = 0;
+                this.getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
+                return;
+            }
+            else
+                {
+                    skIndex++;
+                    this.getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
+                }
+
+
+
+        }
+    }
     public void cameraCollision()
     {
         if(this.position.x - (this.width / 2) < GameManager.center.position.x - (GameManager.center.width / 2))
@@ -421,7 +515,7 @@ public class Player extends Object
             {
                 this.position.x += -200f * dt;
             }
-            this.setFrame(6);
+            this.setFrame(6 + this.getFrameOffset());
 
         }
         if (main.getInput().isKey(keyRight))
@@ -430,7 +524,7 @@ public class Player extends Object
             {
                 this.position.x += 200f * dt;
             }
-            this.setFrame(2);
+            this.setFrame(2 + this.getFrameOffset());
         }
 
         if (main.getInput().isKey(keyDown))
@@ -439,7 +533,7 @@ public class Player extends Object
             {
                 this.position.y += 200f * dt;
             }
-            this.setFrame(0);
+            this.setFrame(0 + this.getFrameOffset());
         }
         if (main.getInput().isKey(keyUp))
         {
@@ -447,25 +541,25 @@ public class Player extends Object
             {
                 this.position.y += -200f * dt;
             }
-            this.setFrame(4);
+            this.setFrame(4 + this.getFrameOffset());
         }
 
         //Changes frame of animation on the diagonals if the right thumbstick is not being used
         if (main.getInput().isKey(keyLeft) && main.getInput().isKey(keyUp))
         {
-            this.setFrame(5);
+            this.setFrame(5 + this.getFrameOffset());
         }
         if (main.getInput().isKey(keyLeft) && main.getInput().isKey(keyDown))
         {
-            this.setFrame(7);
+            this.setFrame(7 + this.getFrameOffset());
         }
         if (main.getInput().isKey(keyRight) && main.getInput().isKey(keyDown))
         {
-            this.setFrame(1);
+            this.setFrame(1 + this.getFrameOffset());
         }
         if (main.getInput().isKey(keyRight) && main.getInput().isKey(keyUp))
         {
-            this.setFrame(3);
+            this.setFrame(3 + this.getFrameOffset());
         }
 
         //VERY IMPORTANT
@@ -598,6 +692,7 @@ public class Player extends Object
             isReady = true;
 
             this.changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
+            this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
             frameHitboxOffsets.clear();
             offsetHitboxes();
             offsetHitboxes();
@@ -629,9 +724,14 @@ public class Player extends Object
             this.paddingSide += (widthDifference / 2);
             this.paddingTop += (heightDifference / 2);
             changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
+            this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
             frameHitboxOffsets.clear();
             offsetHitboxes();
             offsetHitboxes();
+            if(mainLevel.getTimePedestals().size() != 0)
+            {
+                mainLevel.getTimePedestals().get(playerNumber).setFrame(1);
+            }
             return;
         }
         else
@@ -651,9 +751,14 @@ public class Player extends Object
                 this.paddingSide += (widthDifference / 2);
                 this.paddingTop += (heightDifference / 2);
                 changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
+                this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
                 frameHitboxOffsets.clear();
                 offsetHitboxes();
                 offsetHitboxes();
+                if(mainLevel.getTimePedestals().size() != 0)
+                {
+                    mainLevel.getTimePedestals().get(playerNumber).setFrame(0);
+                }
                 return;
             }
     }
@@ -670,6 +775,52 @@ public class Player extends Object
         frameHitboxOffsets.add(7, new Vector(0,0));
     }
 
+    public int getKeyAltShoot() {
+        return keyAltShoot;
+    }
+
+    public void setKeyAltShoot(int keyAltShoot) {
+        this.keyAltShoot = keyAltShoot;
+    }
+
+    public boolean isNearSelect() {
+        return nearSelect;
+    }
+
+    public void setNearSelect(boolean nearSelect) {
+        this.nearSelect = nearSelect;
+    }
+    public boolean isSelecting() {
+        return selecting;
+    }
+
+    public void setSelecting(boolean selecting) {
+        this.selecting = selecting;
+    }
+
+    public boolean isRemoved() {
+        return isRemoved;
+    }
+
+    public void setRemoved(boolean removed) {
+        isRemoved = removed;
+    }
+
+    public int[] getSkinColors() {
+        return skinColors;
+    }
+
+    public void setSkinColors(int[] skinColors) {
+        this.skinColors = skinColors;
+    }
+
+    public int getSkIndex() {
+        return skIndex;
+    }
+
+    public void setSkIndex(int skIndex) {
+        this.skIndex = skIndex;
+    }
     public ArrayList<Vector> getFrameHitboxOffsets() {
         return frameHitboxOffsets;
     }

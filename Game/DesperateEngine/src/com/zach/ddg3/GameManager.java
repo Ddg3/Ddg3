@@ -71,8 +71,9 @@ public class GameManager extends AbstractGame
         {
             if((objects.get(i).isActiveOnPlay && isPlaying) || (objects.get(i).isActiveOnPause && !isPlaying))
             {
-                objects.get(i).update(main, this, dt);
                 center.update(main, this, dt);
+                objects.get(i).update(main, this, dt);
+                //center.update(main, this, dt);
             }
             if(objects.get(i).isDead())
             {
@@ -80,6 +81,14 @@ public class GameManager extends AbstractGame
                 i--;
             }
         }
+
+        /*if(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
+        {
+            for(Object obj: mainLevel.getTimePedestals())
+            {
+                obj.update(main, this, dt);
+            }
+        }*/
         Physics.update(main);
 
         gameLevelManager.update(main, dt);
@@ -90,6 +99,10 @@ public class GameManager extends AbstractGame
         }*/
         cameraFollow();
         camera.update(this, main, dt);
+        if(!camera.isStopped())
+        {
+            //cameraFollow();
+        }
         deviceManager.update(main, dt);
 
         //camera.topCamera = gameLevelManager.currLevel.topCamera;
@@ -100,6 +113,24 @@ public class GameManager extends AbstractGame
         fpsCounter.text = "FPS:" + main.getFps();
         fpsCounter.posX = (int)(center.position.x);
         fpsCounter.posY = (int)(center.position.y);
+
+        if(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
+        {
+            if(mainLevel.testText != null)
+            {
+                mainLevel.testText.posX = (int) (center.position.x);
+                mainLevel.testText.posY = (int) (center.position.y + 320);
+            }
+            for(int i = 0; i < mainLevel.getTimePedestals().size(); i++)
+            {
+                Object pedestal =  mainLevel.getTimePedestals().get(i);
+                Object timer = timers.get(i);
+                pedestal.offsetPos.x = mainLevel.testText.posX + (i * pedestal.width);
+                pedestal.offsetPos.y = mainLevel.testText.posY - (pedestal.height / 2) + 8;
+                timer.offsetPos.x = pedestal.offsetPos.x + 55;
+                timer.offsetPos.y = pedestal.offsetPos.y + 17;
+            }
+        }
         /*System.out.println(fpsCounter.posY);
         System.out.println("CamX: " + gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).x);
         System.out.println("CamY: "+ gameLevelManager.currLevel.verticleBounds.get(camera.boundsRange).y);*/
@@ -144,33 +175,9 @@ public class GameManager extends AbstractGame
         }
     }
 
-    /*public void loadLevel(Vector camPosition, Vector playerPosition)
-    {
-        camera.setPosX(camPosition.x);
-        camera.setPosY(camPosition.y);
-
-        for(int i = 0; i < players.size(); i++)
-        {
-            players.get(i).setPosition(playerPosition.x + ((i * 50) - 25), playerPosition.y);
-        }
-    }*/
     @Override
     public void render(Main main, Renderer renderer)
     {
-        /*for(int y = 0; y < levelHeight; y++)
-        {
-            for(int x = 0; x < levelWidth; x++)
-            {
-                if(collision[x + y * levelWidth] == 1)
-                {
-                    renderer.drawFillRectangle(x * 16, y * 16, 16, 16, 0xff0f0f0f);
-                }
-                else
-                    {
-                        renderer.drawFillRectangle(x * 16, y * 16, 16, 16, 0xfff9f9f9);
-                    }
-            }
-        }*/
         for(Object obj: objects)
         {
             //Renders all objects
@@ -188,9 +195,20 @@ public class GameManager extends AbstractGame
         {
             main.getRenderer().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale, renderer.StandardFont);
         }
+        /*if(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
+        {
+            for(int i = 0; i < mainLevel.getTimePedestals().size(); i++)
+            {
+                Object pedestal =  mainLevel.getTimePedestals().get(i);
+                pedestal.render(main, renderer);
+                main.getRenderer().drawImageTile(pedestal.getObjImage(), (int)pedestal.offsetPos.x, (int)pedestal.offsetPos.y, pedestal.getFrame(), 0, 1);
+            }
+            main.getRenderer().drawText(mainLevel.testText.text, mainLevel.testText.posX, mainLevel.testText.posY, mainLevel.testText.color, mainLevel.testText.scale, renderer.StandardFont);
+        }*/
         if(showHitboxes)
-
-        center.render(main, renderer);
+        {
+            center.render(main, renderer);
+        }
     }
 
     public static void removeObjectsByName(String name)
@@ -220,7 +238,10 @@ public class GameManager extends AbstractGame
             if (GameManager.players.size() == 1)
             {
                 if(GameManager.players.get(0).isInGame())
-                GameManager.center.setPosition(players.get(0).position.x, players.get(0).position.y);
+                {
+                    GameManager.center.position.x = (int)players.get(0).position.x;
+                    GameManager.center.position.y = (int)players.get(0).position.y;
+                }
                 else
                     {
                         GameManager.center.setPosition(0, 0);
@@ -230,10 +251,10 @@ public class GameManager extends AbstractGame
             {
                 if(GameManager.players.get(0).isInGame() && GameManager.players.get(1).isInGame())
                 {
-                    float posX = (players.get(0).position.x + players.get(1).position.x) / 2;
-                    float posY = (players.get(0).position.y + players.get(1).position.y) / 2;
+                    int posX = (int)(players.get(0).position.x + players.get(1).position.x) / 2;
+                    int posY = (int)(players.get(0).position.y + players.get(1).position.y) / 2;
 
-                    GameManager.center.setPosition(posX, posY);
+                    GameManager.center.setPosition((int)posX, (int)posY);
                 }
                 else
                     {
