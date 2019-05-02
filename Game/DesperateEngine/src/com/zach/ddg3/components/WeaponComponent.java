@@ -43,6 +43,7 @@ public class WeaponComponent extends Component
     private Vector[] bulletOffsetG = new Vector[8];
 
     private int weaponFrameOffset = 0;
+    private Vector[] bulletOffset = new Vector[8];
 
     public Object getParent() {
         return parent;
