@@ -11,7 +11,7 @@ public class FollowerComponent extends Component
 {
     private Object parent;
     private Object target;
-    private float speed = 2000.0f;
+    private float speed = 2500.0f;
     private Vulture vultureParent;
 
     public FollowerComponent(Object parent, Object target, String subTag)

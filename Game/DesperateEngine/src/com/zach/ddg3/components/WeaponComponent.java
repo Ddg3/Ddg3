@@ -40,6 +40,7 @@ public class WeaponComponent extends Component
     private boolean exploding = false;
 
     private int weaponFrameOffset = 0;
+    private Vector[] bulletOffset = new Vector[8];
 
     public Object getParent() {
         return parent;
@@ -115,20 +116,9 @@ public class WeaponComponent extends Component
             {
                 tempCooldown = shotCooldown;
                 Bullet bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
-                bullet.setPosition(parent.getPositionX(), parent.getPositionY());
+                bullet.setPosition(parent.getPositionX() + bulletOffset[player.getFrame() - parent.getFrameOffset()].getX(), parent.getPositionY() + bulletOffset[player.getFrame() - parent.getFrameOffset()].getY());
                 GameManager.objects.add(bullet);
 
-                switch (player.getFrame() - parent.getFrameOffset())
-                {
-                    case 0: break;
-                    case 1: break;
-                    case 2: break;
-                    case 3: break;
-                    case 4: break;
-                    case 5: break;
-                    case 6: break;
-                    case 7: break;
-                }
                 if(animChangedOnShoot)
                 {
                     parent.setFrameOffset(parent.getTotalFrames() / 2);
@@ -160,6 +150,15 @@ public class WeaponComponent extends Component
                 bulletHeight = 33;
                 bulletFrames = 8;
                 bulletFrameTime = 0.1f;
+
+                bulletOffset[0] = new Vector(-8,2);
+                bulletOffset[1] = new Vector(30,22);
+                bulletOffset[2] = new Vector(32,-2);
+                bulletOffset[3] = new Vector(31,-26);
+                bulletOffset[4] = new Vector(10,-4);
+                bulletOffset[5] = new Vector(-31,-26);
+                bulletOffset[6] = new Vector(-32,-2);
+                bulletOffset[7] = new Vector(-30,22);
                 break;
 
         }

@@ -63,6 +63,7 @@ public class Player extends Object
     private boolean rainbow;
     private boolean isRemoved = false;
     private boolean nearSelect = false;
+    private boolean isTimedOut = false;
 
     private ArrayList<Vector> frameHitboxOffsets = new ArrayList<>(1);
 
@@ -127,7 +128,7 @@ public class Player extends Object
             rTrigger += axes.getRTDelta();
             lTrigger += axes.getLTDelta();
 
-            if(this.isInGame() && !selecting)
+            if(this.isInGame() && !selecting && !isTimedOut)
             {
                 cameraCollision();
                 moveController(dt);
@@ -166,6 +167,12 @@ public class Player extends Object
             {
                 time -= 1;
                 tempSecond = second;
+            }
+
+            if(time <= 57 && !isTimedOut)
+            {
+                isTimedOut = true;
+                //this.changeSprite(77, 62, "/deadGoose.png", 1, 1);
             }
 
             timer.setFrame(time);

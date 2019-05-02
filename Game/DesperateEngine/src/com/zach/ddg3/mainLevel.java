@@ -172,10 +172,10 @@ public class mainLevel extends GameLevel
         testText = new TextObject("" , (int)(GameManager.center.position.x),(int)(GameManager.center.position.y + 320),0xffffffff, 1);
         GameManager.textObjects.add(testText);
 
-        vulture1 = new Vulture(players.get(0), 0);
+        /*vulture1 = new Vulture(players.get(0), 0);
         GameManager.objects.add(vulture1);
         vulture1.setPosition(-110, -290);
-        vulture1.setTargetPosition(new Vector(-110, -290));
+        vulture1.setTargetPosition(new Vector(-110, -290));*/
     }
 
     @Override
