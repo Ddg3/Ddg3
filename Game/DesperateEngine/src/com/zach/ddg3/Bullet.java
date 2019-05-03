@@ -76,6 +76,7 @@ public class Bullet extends Object
         if(weapon.isExploding())
         {
             explode(false);
+            weapon.setExploding(false);
         }
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);

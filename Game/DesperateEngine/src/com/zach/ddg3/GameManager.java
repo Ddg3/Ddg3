@@ -195,16 +195,6 @@ public class GameManager extends AbstractGame
         {
             main.getRenderer().drawText(fpsCounter.text, fpsCounter.posX, fpsCounter.posY, fpsCounter.color, fpsCounter.scale, renderer.StandardFont);
         }
-        /*if(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
-        {
-            for(int i = 0; i < mainLevel.getTimePedestals().size(); i++)
-            {
-                Object pedestal =  mainLevel.getTimePedestals().get(i);
-                pedestal.render(main, renderer);
-                main.getRenderer().drawImageTile(pedestal.getObjImage(), (int)pedestal.offsetPos.x, (int)pedestal.offsetPos.y, pedestal.getFrame(), 0, 1);
-            }
-            main.getRenderer().drawText(mainLevel.testText.text, mainLevel.testText.posX, mainLevel.testText.posY, mainLevel.testText.color, mainLevel.testText.scale, renderer.StandardFont);
-        }*/
         if(showHitboxes)
         {
             center.render(main, renderer);
@@ -251,10 +241,10 @@ public class GameManager extends AbstractGame
             {
                 if(GameManager.players.get(0).isInGame() && GameManager.players.get(1).isInGame())
                 {
-                    float posX = (players.get(0).position.x + players.get(1).position.x) / 2;
-                    float posY = (players.get(0).position.y + players.get(1).position.y) / 2;
+                    int posX = ((int)players.get(0).position.x + (int)players.get(1).position.x) / 2;
+                    int posY = ((int)players.get(0).position.y + (int)players.get(1).position.y) / 2;
 
-                    GameManager.center.setPosition((int)posX, (int)posY);
+                    GameManager.center.setPosition(posX, posY);
                 }
                 else
                     {

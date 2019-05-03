@@ -57,10 +57,13 @@ public class Player extends Object
     private int keyShoot = KeyEvent.VK_ENTER;
     private int keyDeselect = KeyEvent.VK_R;
     private boolean keyBoardSelecting = false;
+    private int keyAltShoot = KeyEvent.VK_SHIFT;
+
     private int baseHeight = 68;
     private int[] skinColors = new int[8];
     private int skIndex = 1;
     private boolean rainbow;
+
     private boolean isRemoved = false;
     private boolean nearSelect = false;
     private boolean isTimedOut = false;
@@ -142,10 +145,11 @@ public class Player extends Object
         }
         else
         {
-            if(!selecting)
+            if(this.isInGame() && !selecting && !isTimedOut)
             {
                 cameraCollision();
                 moveKeyboard(main, dt);
+                //changeSkin(gameManager);
             }
         }
 
@@ -163,16 +167,18 @@ public class Player extends Object
 
         if(GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE)
         {
-            if(tempSecond <= 0)
+            if(tempSecond <= 0 && time > 0)
             {
                 time -= 1;
                 tempSecond = second;
             }
 
-            if(time <= 57 && !isTimedOut)
+            if(time <= 0 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE)
             {
                 isTimedOut = true;
-                //this.changeSprite(77, 62, "/deadGoose.png", 1, 1);
+                changeSprite(102, 81, "/testDeadGoose.png", 16, 0.1f);
+                this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
+                setFrame(0);
             }
 
             timer.setFrame(time);
@@ -301,6 +307,11 @@ public class Player extends Object
                     }
             }
             this.getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
+
+            if(gameManager.gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
+            {
+                selectionLevel.getExplosiveGuns()[playerNumber].getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
+            }
         }
     }
 
@@ -510,7 +521,7 @@ public class Player extends Object
             {
                 this.position.x += -200f * dt;
             }
-            this.setFrame(6);
+            this.setFrame(6 + this.getFrameOffset());
 
         }
         if (main.getInput().isKey(keyRight))
@@ -519,7 +530,7 @@ public class Player extends Object
             {
                 this.position.x += 200f * dt;
             }
-            this.setFrame(2);
+            this.setFrame(2 + this.getFrameOffset());
         }
 
         if (main.getInput().isKey(keyDown))
@@ -528,7 +539,7 @@ public class Player extends Object
             {
                 this.position.y += 200f * dt;
             }
-            this.setFrame(0);
+            this.setFrame(0 + this.getFrameOffset());
         }
         if (main.getInput().isKey(keyUp))
         {
@@ -536,25 +547,25 @@ public class Player extends Object
             {
                 this.position.y += -200f * dt;
             }
-            this.setFrame(4);
+            this.setFrame(4 + this.getFrameOffset());
         }
 
         //Changes frame of animation on the diagonals if the right thumbstick is not being used
         if (main.getInput().isKey(keyLeft) && main.getInput().isKey(keyUp))
         {
-            this.setFrame(5);
+            this.setFrame(5 + this.getFrameOffset());
         }
         if (main.getInput().isKey(keyLeft) && main.getInput().isKey(keyDown))
         {
-            this.setFrame(7);
+            this.setFrame(7 + this.getFrameOffset());
         }
         if (main.getInput().isKey(keyRight) && main.getInput().isKey(keyDown))
         {
-            this.setFrame(1);
+            this.setFrame(1 + this.getFrameOffset());
         }
         if (main.getInput().isKey(keyRight) && main.getInput().isKey(keyUp))
         {
-            this.setFrame(3);
+            this.setFrame(3 + this.getFrameOffset());
         }
 
         //VERY IMPORTANT
@@ -668,7 +679,31 @@ public class Player extends Object
 
             switch (selection.getFrame())
             {
+                case 0:
+                    this.addComponent(new WeaponComponent(this, "rocketLauncher"));
+                    newWidth = 102;
+                    newHeight = 81;
+                    newPath = "/Duck_rocketLauncher.png";
+                    newFrames = 16;
+                    break;
+
                 case 1:
+                    this.addComponent(new WeaponComponent(this, "rocketLauncher"));
+                    newWidth = 102;
+                    newHeight = 81;
+                    newPath = "/Duck_rocketLauncher.png";
+                    newFrames = 16;
+                    break;
+
+                case 2:
+                    this.addComponent(new WeaponComponent(this, "rocketLauncher"));
+                    newWidth = 102;
+                    newHeight = 81;
+                    newPath = "/Duck_rocketLauncher.png";
+                    newFrames = 16;
+                    break;
+
+                case 3:
                     this.addComponent(new WeaponComponent(this, "rocketLauncher"));
                     newWidth = 102;
                     newHeight = 81;
@@ -768,6 +803,21 @@ public class Player extends Object
         frameHitboxOffsets.add(5, new Vector(0,0));
         frameHitboxOffsets.add(6, new Vector((width / 8),0));
         frameHitboxOffsets.add(7, new Vector(0,0));
+    }
+
+    public boolean isTimedOut() {
+        return isTimedOut;
+    }
+
+    public void setTimedOut(boolean timedOut) {
+        isTimedOut = timedOut;
+    }
+    public int getKeyAltShoot() {
+        return keyAltShoot;
+    }
+
+    public void setKeyAltShoot(int keyAltShoot) {
+        this.keyAltShoot = keyAltShoot;
     }
 
     public boolean isNearSelect() {

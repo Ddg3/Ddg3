@@ -250,7 +250,6 @@ public class Object extends GameObject implements Comparable<Object>
         this.height = height;
         this.totalFrames = totalFrames;
         this.frameLife = frameLife;
-        this.frameLife = frameLife;
         tempLife = frameLife;
         this.objImage = new ImageTile(path, width, height);
         /*objImage.setPath(path);
