@@ -11,8 +11,9 @@ public class FollowerComponent extends Component
 {
     private Object parent;
     private Object target;
-    private float speed = 2500.0f;
+    private float speed = 4000.0f;
     private Vulture vultureParent;
+    private Vector toTarget;
 
     public FollowerComponent(Object parent, Object target, String subTag)
     {
@@ -31,12 +32,12 @@ public class FollowerComponent extends Component
     {
         if(subTag == "vulture" && vultureParent.isFollowing())
         {
-            Vector toTarget = parent.findVector(parent.getPosition(), target.getPosition());
+            toTarget = parent.findVector(parent.getPosition(), target.getPosition());
             parent.setPosition(parent.getPositionX() + (toTarget.getX() / (speed * dt)), parent.getPositionY() + (toTarget.getY() / (speed * dt)));
         }
         else if(subTag == "vulture" && vultureParent.isReturning())
         {
-            Vector toTarget = parent.findVector(parent.getPosition(), vultureParent.getTargetPosition());
+            toTarget = parent.findVector(parent.getPosition(), target.getPosition());
             parent.setPosition(parent.getPositionX() + (toTarget.getX() / (speed * dt)), parent.getPositionY() + (toTarget.getY() / (speed * dt)));
         }
     }

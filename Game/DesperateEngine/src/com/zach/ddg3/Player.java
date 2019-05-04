@@ -67,6 +67,7 @@ public class Player extends Object
     private boolean isRemoved = false;
     private boolean nearSelect = false;
     private boolean isTimedOut = false;
+    private boolean isGrabbed = false;
 
     private ArrayList<Vector> frameHitboxOffsets = new ArrayList<>(1);
 
@@ -173,12 +174,14 @@ public class Player extends Object
                 tempSecond = second;
             }
 
-            if(time <= 0 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE)
+            if(time <= 55 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE && !isTimedOut)
             {
                 isTimedOut = true;
+                GameManager.players.remove(this);
                 changeSprite(102, 81, "/testDeadGoose.png", 16, 0.1f);
                 this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
                 setFrame(0);
+                this.zIndex = Integer.MAX_VALUE - 1;
             }
 
             timer.setFrame(time);
@@ -203,7 +206,7 @@ public class Player extends Object
     public void collision(Object other, Main main)
     {
         //System.out.println(other.getTag());
-        if(other.getTag().equalsIgnoreCase("Wall") && this.isInGame())
+        if(other.getTag().equalsIgnoreCase("Wall") && this.isInGame() && !isTimedOut)
         {
             AABBComponent myC = (AABBComponent)this.findComponentBySubtag("player");
             AABBComponent otherC = (AABBComponent)other.findComponentBySubtag("wall");
@@ -257,24 +260,21 @@ public class Player extends Object
         if(other.getTag().equalsIgnoreCase("Selection") && this.isInGame())
         {
             AABBComponent otherC = (AABBComponent) other.findComponentBySubtag("selection");
-            nearSelect = true;
-            if((this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKeyDown(keySelect))
-                    && this.isInGame() &&
-                    !selecting &&
-                    !selected &&
-                    otherC.getDesignatedPlayer()
-                            == playerNumber)
+            if (otherC.getDesignatedPlayer() == playerNumber)
             {
-                selecting = true;
-                selection = other;
-                selection.setFrame(1);
-            }
+                nearSelect = true;
+                if ((this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKeyDown(keySelect)) && this.isInGame() && !selecting && !selected)
+                {
+                    selecting = true;
+                    selection = other;
+                    selection.setFrame(1);
+                }
 
-            if((this.device.getDelta().getButtons().isPressed(XInputButton.B) || main.getInput().isKey(keyDeselect))&& this.isInGame() && selecting)
-            {
-                selection.setFrame(0);
-                selecting = false;
-                selection = null;
+                if ((this.device.getDelta().getButtons().isPressed(XInputButton.B) || main.getInput().isKey(keyDeselect)) && this.isInGame() && selecting) {
+                    selection.setFrame(0);
+                    selecting = false;
+                    selection = null;
+                }
             }
         }
     }
@@ -803,6 +803,14 @@ public class Player extends Object
         frameHitboxOffsets.add(5, new Vector(0,0));
         frameHitboxOffsets.add(6, new Vector((width / 8),0));
         frameHitboxOffsets.add(7, new Vector(0,0));
+    }
+
+    public boolean isGrabbed() {
+        return isGrabbed;
+    }
+
+    public void setGrabbed(boolean grabbed) {
+        isGrabbed = grabbed;
     }
 
     public boolean isTimedOut() {

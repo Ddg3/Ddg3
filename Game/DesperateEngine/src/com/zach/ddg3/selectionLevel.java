@@ -183,7 +183,7 @@ public class selectionLevel extends GameLevel {
         AABBComponent otherC = (AABBComponent) explosiveGuns[1].findComponentBySubtag("selection");
         otherC.setDesignatedPlayer(1);
         explosiveGuns[1].setPosition(187, -782);
-        explosiveGuns[1].zIndex = 6;
+        explosiveGuns[1].zIndex = 5;
         GameManager.objects.add(explosiveGuns[1]);
     }
 
@@ -204,7 +204,7 @@ public class selectionLevel extends GameLevel {
         }
         else if(!player2.isSelecting())
             {
-              explosiveGuns[0].setFrame(4);
+              explosiveGuns[1].setFrame(4);
             }
         if(player1.visible)
         {

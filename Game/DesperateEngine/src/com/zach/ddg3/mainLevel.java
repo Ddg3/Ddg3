@@ -1,5 +1,6 @@
 package com.zach.ddg3;
 
+import com.zach.ddg3.components.WeaponComponent;
 import com.zach.engine.Main;
 import org.omg.CORBA.INTERNAL;
 
@@ -29,9 +30,13 @@ public class mainLevel extends GameLevel
     @Override
     public void init(Main main)
     {
-        /*players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
+        players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
         players.get(0).zIndex = 3;
-        GameManager.objects.add(players.get(0));*/
+        players.get(0).addComponent(new WeaponComponent(players.get(0), "rocketLauncher"));
+        players.get(0).changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
+        players.get(0).setGoose(true);
+        players.get(0).changeSpecies();
+        GameManager.objects.add(players.get(0));
 
         int randGoose = ThreadLocalRandom.current().nextInt(0, 2);
 
@@ -42,7 +47,7 @@ public class mainLevel extends GameLevel
         this.verticleBounds.add(new Vector(-15, -350));
         this.horizBounds.add(new Vector(16, -17));
 
-        for(int i = 0; i < GameManager.players.size(); i++)
+        /*for(int i = 0; i < GameManager.players.size(); i++)
         {
             if(GameManager.players.get(i) != null)
             {
@@ -56,7 +61,7 @@ public class mainLevel extends GameLevel
                     players.get(i).changeSpecies();
                 }
             }
-        }
+        }*/
 
         frontWall = new Wall("frontWall", 398, 116, "/frontWall.png", 1, 0.1f, false);
         frontWall.position.y = -206;
@@ -172,10 +177,10 @@ public class mainLevel extends GameLevel
         testText = new TextObject("" , (int)(GameManager.center.position.x),(int)(GameManager.center.position.y + 320),0xffffffff, 1);
         GameManager.textObjects.add(testText);
 
-        /*vulture1 = new Vulture(players.get(0), 0);
+        vulture1 = new Vulture(players.get(0), 0);
         GameManager.objects.add(vulture1);
         vulture1.setPosition(-110, -290);
-        vulture1.setTargetPosition(new Vector(-110, -290));*/
+        vulture1.setTargetPosition(new Vector(250, -400));
     }
 
     @Override
