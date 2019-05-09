@@ -146,13 +146,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Bullet.java">
+        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Vector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="78" column="37" selection-start-line="78" selection-start-column="37" selection-end-line="78" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="272">
+              <caret line="16" column="39" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -302,11 +299,6 @@
             <path>
               <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
               <item name="DesperateEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesperateEngine" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -329,13 +321,6 @@
               <item name="zach" type="462c0819:PsiDirectoryNode" />
               <item name="ddg3" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesperateEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesperateEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="zach" type="462c0819:PsiDirectoryNode" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -792,7 +777,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/Main.java">
+    <entry file="file://$PROJECT_DIR$/res/explosiveSelections2.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/WeaponComponent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="935">
           <caret line="84" selection-start-line="84" selection-end-line="84" />
