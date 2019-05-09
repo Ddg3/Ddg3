@@ -32,7 +32,7 @@ public class selectionLevel extends GameLevel {
         selectionLevel.explosiveGuns = explosiveGuns;
     }
 
-    private static Object[] explosiveGuns = new Object[2];
+    private static Object[] explosiveGuns = new Object[3];
     private static boolean allReady = false;
 
     @Override
@@ -77,6 +77,13 @@ public class selectionLevel extends GameLevel {
         player2.setKeyShoot(KeyEvent.VK_PAGE_DOWN);
         GameManager.objects.add(player2);
         player2.visible = false;
+
+        /*player3 = new Player("player2", 63, 68, "/duckSheetLong.png", 24, 0.01f, 2);
+        player3.setPosition(-90, 0);
+        player3.zIndex = 10;
+        player3.maxzIndex = 10;
+        GameManager.objects.add(player3);
+        player3.visible = false;*/
 
         floor2 = new Object("floor2", 640, 465, "/selectionGround.png", 1, 0.1f);
         floor2.setPosition(0, -700);
@@ -185,6 +192,15 @@ public class selectionLevel extends GameLevel {
         explosiveGuns[1].setPosition(187, -782);
         explosiveGuns[1].zIndex = 5;
         GameManager.objects.add(explosiveGuns[1]);
+
+        /*explosiveGuns[2] = new Object("explosiveGuns2", 259, 54, "/explosiveSelections2.png", 5, 0f);
+        explosiveGuns[2].setTag("Selection");
+        explosiveGuns[2].addComponent(new AABBComponent(explosiveGuns[2], "selection"));
+        AABBComponent otherC2 = (AABBComponent) explosiveGuns[2].findComponentBySubtag("selection");
+        otherC2.setDesignatedPlayer(2);
+        explosiveGuns[2].setPosition(187, -782);
+        explosiveGuns[2].zIndex = 4;
+        GameManager.objects.add(explosiveGuns[2]);*/
     }
 
     @Override

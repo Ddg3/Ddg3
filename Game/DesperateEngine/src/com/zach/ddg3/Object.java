@@ -4,6 +4,8 @@ import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 import com.zach.engine.gfx.ImageTile;
 
+import javax.xml.soap.Text;
+
 /**
  * Created by Zach on 6/9/2018.
  */
@@ -242,6 +244,17 @@ public class Object extends GameObject implements Comparable<Object>
             {
                 isKnocked = false;
             }
+    }
+
+    public void speak(String text, int color)
+    {
+        Object bubble = new Object(tag + "Bubble", 64, 31, "/speechBubble.png", 1, 1);
+        bubble.setPosition(this.getPositionX(), this.getPositionY() - (this.getHeight() / 2) - 10);
+        bubble.zIndex = Integer.MAX_VALUE - 1;
+        GameManager.objects.add(bubble);
+
+        TextObject textO = new TextObject(text, (int)bubble.offsetPos.x, (int)bubble.offsetPos.y, color, 1);
+        GameManager.textObjects.add(textO);
     }
 
     public void changeSprite(int width, int height, String path, int totalFrames, float frameLife)

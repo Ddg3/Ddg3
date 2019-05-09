@@ -174,7 +174,7 @@ public class Player extends Object
                 tempSecond = second;
             }
 
-            if(time <= 55 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE && !isTimedOut)
+            if(time <= 54 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE && !isTimedOut)
             {
                 isTimedOut = true;
                 GameManager.players.remove(this);

@@ -46,7 +46,7 @@ public class GameManager extends AbstractGame
     {
         //Runs first
         main.getRenderer().setAmbientColor(-1);
-        gameLevelManager.gameState = GameLevelManager.GameState.MAIN_STATE;
+        gameLevelManager.gameState = GameLevelManager.GameState.SELECTION_STATE;
         deviceManager.init(main);
 
         //Acts as invisible camera target for menu levels or static camera levels

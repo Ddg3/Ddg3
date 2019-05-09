@@ -6,6 +6,8 @@ import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 import org.omg.CORBA.INTERNAL;
 
+import java.util.ArrayList;
+
 public class Vulture extends Object
 {
     private Player target;
@@ -18,17 +20,17 @@ public class Vulture extends Object
         isReturning = returning;
     }
 
-    private boolean isReturning;
+    private boolean isReturning = false;
 
-    public Vector getTargetPosition() {
+    public ArrayList<Vector> getTargetPosition() {
         return targetPosition;
     }
 
-    public void setTargetPosition(Vector targetPosition) {
+    public void setTargetPosition(ArrayList<Vector> targetPosition) {
         this.targetPosition = targetPosition;
     }
 
-    private Vector targetPosition;
+    public ArrayList<Vector> targetPosition = new ArrayList<>(1);
 
     public boolean isFollowing() {
         return isFollowing;
@@ -41,6 +43,8 @@ public class Vulture extends Object
     private boolean isFollowing = false;
 
     private Vector toTarget = null;
+
+    private int targetIndex;
 
     public Vulture(Player target, int targetNumber)
     {
@@ -57,19 +61,33 @@ public class Vulture extends Object
     public void update(Main main, GameManager gameManager, float dt)
     {
         follow(dt);
+        if(target.getTime() <= 57 && !isReturning && targetIndex == 0)
+        {
+            isReturning = true;
+            toTarget = this.findVector(getPosition(), targetPosition.get(targetIndex));
+            playInRangeAndBack(1, 7);
+        }
         if(target.isTimedOut() && !isReturning && !target.isRemoved() && !isFollowing)
         {
             toTarget = this.findVector(this.getPosition(), target.getPosition());
             isFollowing = true;
             playInRangeAndBack(1, 7);
         }
-        if(this.getPosition().x <= targetPosition.getX() + 1 && this.getPosition().x >= targetPosition.getX() - 1 && this.getPosition().y <= targetPosition.getY() + 1 && this.getPosition().y >= targetPosition.getY() - 1 && isReturning)
+        if(this.getPosition().x <= targetPosition.get(targetIndex).getX() + 1 && this.getPosition().x >= targetPosition.get(targetIndex).getX() - 1 &&
+                this.getPosition().y <= targetPosition.get(targetIndex).getY() + 1 && this.getPosition().y >= targetPosition.get(targetIndex).getY() - 1 && isReturning)
         {
             isReturning = false;
-            target.setRemoved(true);
-            target.setGrabbed(false);
+            if(targetIndex == 1)
+            {
+                target.setRemoved(true);
+                target.setGrabbed(false);
+            }
             stop();
             setFrame(0);
+            if(targetIndex < targetPosition.size() - 1)
+            {
+                targetIndex++;
+            }
         }
 
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
@@ -99,7 +117,7 @@ public class Vulture extends Object
             isFollowing = false;
             isReturning = true;
             target.setGrabbed(true);
-            toTarget = this.findVector(getPosition(), targetPosition);
+            toTarget = this.findVector(getPosition(), targetPosition.get(targetIndex));
         }
     }
 
