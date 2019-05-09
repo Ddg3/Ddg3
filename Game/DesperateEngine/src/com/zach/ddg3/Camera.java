@@ -62,6 +62,27 @@ public class Camera {
     private boolean leftStopped = false;
     private boolean rightStopped = false;
 
+    public boolean isMovingAlongVector() {
+        return movingAlongVector;
+    }
+
+    public void setMovingAlongVector(boolean movingAlongVector) {
+        this.movingAlongVector = movingAlongVector;
+    }
+
+    private boolean movingAlongVector = false;
+
+    public Vector getPath() {
+        return path;
+    }
+
+    public void setPath(Vector path) {
+        this.path = path;
+    }
+
+    private Vector path;
+    private Vector toTarget;
+
     public Camera(String name) {
         this.targetName = name;
     }
@@ -92,66 +113,77 @@ public class Camera {
         topCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).x;
         bottomCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).y;
 
-        if(gameManager.gameLevelManager.currLevel.horizBounds.size() != 0)
+        if(!movingAlongVector)
         {
-            leftCamera = (int) gameManager.gameLevelManager.currLevel.horizBounds.get(boundsRange).x;
-            rightCamera = (int) gameManager.gameLevelManager.currLevel.horizBounds.get(boundsRange).y;
-        }
+            if (gameManager.gameLevelManager.currLevel.horizBounds.size() != 0) {
+                leftCamera = (int) gameManager.gameLevelManager.currLevel.horizBounds.get(boundsRange).x;
+                rightCamera = (int) gameManager.gameLevelManager.currLevel.horizBounds.get(boundsRange).y;
+            }
 
-        //System.out.println(-target.position.y + " , " + (topCamera + (target.height / 2)) + " with bounds range at: " + boundsRange + " out of " + gameManager.gameLevelManager.currLevel.verticleBounds.size());
-        //System.out.println(posY + " vs. playerpos at " + target.position.y);
-        //System.out.println(posY + ", " + topCamera + ", " + bottomCamera);
-        if (posY >= (topCamera + (target.height / 2)) && boundsRange != 0)
-        {
-            boundsRange--;
-        }
-        if (posY < (bottomCamera - (target.height / 2)) && boundsRange != gameManager.gameLevelManager.currLevel.verticleBounds.size() - 1  )
-        {
-            boundsRange++;
-        }
+            //System.out.println(-target.position.y + " , " + (topCamera + (target.height / 2)) + " with bounds range at: " + boundsRange + " out of " + gameManager.gameLevelManager.currLevel.verticleBounds.size());
+            //System.out.println(posY + " vs. playerpos at " + target.position.y);
+            //System.out.println(posY + ", " + topCamera + ", " + bottomCamera);
+            if (posY >= (topCamera + (target.height / 2)) && boundsRange != 0) {
+                boundsRange--;
+            }
+            if (posY < (bottomCamera - (target.height / 2)) && boundsRange != gameManager.gameLevelManager.currLevel.verticleBounds.size() - 1) {
+                boundsRange++;
+            }
 
-        if (posY < topCamera && posY > bottomCamera)
-        {
-            main.getRenderer().setCameraY((int)posY);
-            //topStopped = false;
-            //bottomStopped = false;
-            stopped = false;
+            if (posY < topCamera && posY > bottomCamera) {
+                main.getRenderer().setCameraY((int) posY);
+                //topStopped = false;
+                //bottomStopped = false;
+                stopped = false;
+            } else if (posY >= topCamera) {
+                main.getRenderer().setCameraY(topCamera);
+                target.position.y = topCamera;
+                //topStopped = true;
+                stopped = true;
+            } else {
+                main.getRenderer().setCameraY(bottomCamera);
+                target.position.y = bottomCamera;
+                //bottomStopped = true;
+                stopped = true;
+            }
+
+            if (posX < leftCamera && posX > rightCamera) {
+                main.getRenderer().setCameraX((int) posX);
+                //leftStopped = false;
+                //rightStopped = false;
+                stopped = false;
+            } else if (posX >= leftCamera) {
+                main.getRenderer().setCameraX(leftCamera);
+                target.position.x = leftCamera;
+                //leftStopped = true;
+                stopped = true;
+            } else if (posX < rightCamera) {
+                main.getRenderer().setCameraX(rightCamera);
+                target.position.x = rightCamera;
+                //rightStopped = true;
+                stopped = true;
+            }
         }
-        else if (posY >= topCamera)
-        {
-            main.getRenderer().setCameraY(topCamera);
-            target.position.y = topCamera;
-            //topStopped = true;
-            stopped = true;
-        } else
+        else
             {
-            main.getRenderer().setCameraY(bottomCamera);
-            target.position.y = bottomCamera;
-            //bottomStopped = true;
-            stopped = true;
-        }
+                moveAlongVector(path, dt, main);
+            }
+    }
 
-        if(posX < leftCamera && posX > rightCamera)
+    public void moveAlongVector(Vector vector, float dt, Main main)
+    {
+        if(toTarget == null)
         {
-            main.getRenderer().setCameraX((int) posX);
-            //leftStopped = false;
-            //rightStopped = false;
-            stopped = false;
+            toTarget = target.findVector(new Vector(posX, posY), vector);
         }
-        else if(posX >= leftCamera)
-        {
-            main.getRenderer().setCameraX(leftCamera);
-            target.position.x = leftCamera;
-            //leftStopped = true;
-            stopped = true;
-        }
-        else if(posX < rightCamera)
-        {
-            main.getRenderer().setCameraX(rightCamera);
-            target.position.x = rightCamera;
-            //rightStopped = true;
-            stopped = true;
-        }
+        this.posX += (int)toTarget.x / (8000 * dt);
+        this.posY += (int)toTarget.y / (8000 * dt);
+
+        main.getRenderer().setCameraY((int) posY);
+        main.getRenderer().setCameraX((int) posX);
+
+        target.position.y = posY;
+        target.position.x = posX;
     }
 
     public boolean isTopStopped() {

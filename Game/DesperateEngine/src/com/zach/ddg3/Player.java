@@ -67,6 +67,7 @@ public class Player extends Object
     private boolean isRemoved = false;
     private boolean nearSelect = false;
     private boolean isTimedOut = false;
+    private boolean isGrabbed = false;
 
     private ArrayList<Vector> frameHitboxOffsets = new ArrayList<>(1);
 
@@ -167,17 +168,20 @@ public class Player extends Object
 
         if(GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE)
         {
-            if(tempSecond <= 0)
+            if(tempSecond <= 0 && time > 0)
             {
                 time -= 1;
                 tempSecond = second;
             }
 
-            if(time <= 0 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE)
+            if(time <= 54 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE && !isTimedOut)
             {
                 isTimedOut = true;
-                //changeSprite(77, 62, "/deadGoose.png", 1, 1);
-                //CHANGE THE IMAGE??????
+                GameManager.players.remove(this);
+                changeSprite(102, 81, "/testDeadGoose.png", 16, 0.1f);
+                this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
+                setFrame(0);
+                this.zIndex = Integer.MAX_VALUE - 1;
             }
 
             timer.setFrame(time);
@@ -202,7 +206,7 @@ public class Player extends Object
     public void collision(Object other, Main main)
     {
         //System.out.println(other.getTag());
-        if(other.getTag().equalsIgnoreCase("Wall") && this.isInGame())
+        if(other.getTag().equalsIgnoreCase("Wall") && this.isInGame() && !isTimedOut)
         {
             AABBComponent myC = (AABBComponent)this.findComponentBySubtag("player");
             AABBComponent otherC = (AABBComponent)other.findComponentBySubtag("wall");
@@ -256,24 +260,21 @@ public class Player extends Object
         if(other.getTag().equalsIgnoreCase("Selection") && this.isInGame())
         {
             AABBComponent otherC = (AABBComponent) other.findComponentBySubtag("selection");
-            nearSelect = true;
-            if((this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKeyDown(keySelect))
-                    && this.isInGame() &&
-                    !selecting &&
-                    !selected &&
-                    otherC.getDesignatedPlayer()
-                            == playerNumber)
+            if (otherC.getDesignatedPlayer() == playerNumber)
             {
-                selecting = true;
-                selection = other;
-                selection.setFrame(1);
-            }
+                nearSelect = true;
+                if ((this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKeyDown(keySelect)) && this.isInGame() && !selecting && !selected)
+                {
+                    selecting = true;
+                    selection = other;
+                    selection.setFrame(1);
+                }
 
-            if((this.device.getDelta().getButtons().isPressed(XInputButton.B) || main.getInput().isKey(keyDeselect))&& this.isInGame() && selecting)
-            {
-                selection.setFrame(0);
-                selecting = false;
-                selection = null;
+                if ((this.device.getDelta().getButtons().isPressed(XInputButton.B) || main.getInput().isKey(keyDeselect)) && this.isInGame() && selecting) {
+                    selection.setFrame(0);
+                    selecting = false;
+                    selection = null;
+                }
             }
         }
     }
@@ -306,6 +307,11 @@ public class Player extends Object
                     }
             }
             this.getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
+
+            if(gameManager.gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
+            {
+                selectionLevel.getExplosiveGuns()[playerNumber].getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
+            }
         }
     }
 
@@ -673,7 +679,31 @@ public class Player extends Object
 
             switch (selection.getFrame())
             {
+                case 0:
+                    this.addComponent(new WeaponComponent(this, "rocketLauncher"));
+                    newWidth = 102;
+                    newHeight = 81;
+                    newPath = "/Duck_rocketLauncher.png";
+                    newFrames = 16;
+                    break;
+
                 case 1:
+                    this.addComponent(new WeaponComponent(this, "rocketLauncher"));
+                    newWidth = 102;
+                    newHeight = 81;
+                    newPath = "/Duck_rocketLauncher.png";
+                    newFrames = 16;
+                    break;
+
+                case 2:
+                    this.addComponent(new WeaponComponent(this, "rocketLauncher"));
+                    newWidth = 102;
+                    newHeight = 81;
+                    newPath = "/Duck_rocketLauncher.png";
+                    newFrames = 16;
+                    break;
+
+                case 3:
                     this.addComponent(new WeaponComponent(this, "rocketLauncher"));
                     newWidth = 102;
                     newHeight = 81;
@@ -775,6 +805,21 @@ public class Player extends Object
         frameHitboxOffsets.add(7, new Vector(0,0));
     }
 
+    public boolean isGrabbed() {
+        return isGrabbed;
+    }
+
+    public void setGrabbed(boolean grabbed) {
+        isGrabbed = grabbed;
+    }
+
+    public boolean isTimedOut() {
+        return isTimedOut;
+    }
+
+    public void setTimedOut(boolean timedOut) {
+        isTimedOut = timedOut;
+    }
     public int getKeyAltShoot() {
         return keyAltShoot;
     }

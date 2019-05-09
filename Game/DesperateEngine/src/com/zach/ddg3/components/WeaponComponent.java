@@ -86,9 +86,11 @@ public class WeaponComponent extends Component
         if (this.explodes)
         {
             Player player = (Player) parent;
-            if((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER) || main.getInput().isKey(player.getKeyAltShoot())) && !exploding)
+            if(!player.isTimedOut())
             {
-                exploding = true;
+                if ((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER) || main.getInput().isKey(player.getKeyAltShoot())) && !exploding) {
+                    exploding = true;
+                }
             }
         }
         if(animChangedOnShoot && tempCooldown <= 0 && parent.getFrameOffset() > 0)
@@ -110,31 +112,28 @@ public class WeaponComponent extends Component
         if(parent.getTag().equalsIgnoreCase("Player"))
         {
             Player player = (Player) parent;
-            if(tempCooldown <= 0 && parent.getFrameOffset() != 0)
+            if(!player.isTimedOut())
             {
-                parent.setFrameOffset(0);
-                parent.setFrame(parent.getFrame() - (parent.getTotalFrames() / 2));
-            }
-            if((player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) || main.getInput().isKey(player.getKeyShoot())) && tempCooldown <= 0)
-            {
-                tempCooldown = shotCooldown;
-                Bullet bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
-                Vector offset;
-                if(!player.isGoose())
-                {
-                    offset = bulletOffsetD[player.getFrame() - parent.getFrameOffset()];
+                if (tempCooldown <= 0 && parent.getFrameOffset() != 0) {
+                    parent.setFrameOffset(0);
+                    parent.setFrame(parent.getFrame() - (parent.getTotalFrames() / 2));
                 }
-                else
-                    {
+                if ((player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) || main.getInput().isKey(player.getKeyShoot())) && tempCooldown <= 0) {
+                    tempCooldown = shotCooldown;
+                    Bullet bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
+                    Vector offset;
+                    if (!player.isGoose()) {
+                        offset = bulletOffsetD[player.getFrame() - parent.getFrameOffset()];
+                    } else {
                         offset = bulletOffsetG[player.getFrame() - parent.getFrameOffset()];
                     }
-                bullet.setPosition(parent.getPositionX() + offset.getX(), parent.getPositionY() + offset.getY());
-                GameManager.objects.add(bullet);
+                    bullet.setPosition(parent.getPositionX() + offset.getX(), parent.getPositionY() + offset.getY());
+                    GameManager.objects.add(bullet);
 
-                if(animChangedOnShoot)
-                {
-                    parent.setFrameOffset(parent.getTotalFrames() / 2);
-                    parent.setFrame(parent.getFrame() + (parent.getFrameOffset()));
+                    if (animChangedOnShoot) {
+                        parent.setFrameOffset(parent.getTotalFrames() / 2);
+                        parent.setFrame(parent.getFrame() + (parent.getFrameOffset()));
+                    }
                 }
             }
         }

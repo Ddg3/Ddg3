@@ -1,5 +1,9 @@
 package com.zach.ddg3;
 
+import com.ivan.xinput.XInputButtons;
+import com.ivan.xinput.XInputDevice;
+import com.ivan.xinput.enums.XInputButton;
+import com.zach.ddg3.components.WeaponComponent;
 import com.zach.engine.Main;
 import org.omg.CORBA.INTERNAL;
 
@@ -25,12 +29,23 @@ public class mainLevel extends GameLevel
     private static ArrayList<TextObject> timers = new ArrayList<TextObject>(1);
     public static TextObject testText;
     private static Vulture vulture1;
+    private static Object kingSwan;
+    private Player gooseWatched;
+    private int swanSpeakIndex = 0;
+    private Player winner;
+
+    public static boolean gameWon = false;
+    private boolean cameraMoved = false;
 
     @Override
     public void init(Main main)
     {
         /*players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
         players.get(0).zIndex = 3;
+        players.get(0).addComponent(new WeaponComponent(players.get(0), "rocketLauncher"));
+        players.get(0).changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
+        players.get(0).setGoose(true);
+        players.get(0).changeSpecies();
         GameManager.objects.add(players.get(0));*/
 
         int randGoose = ThreadLocalRandom.current().nextInt(0, 2);
@@ -61,7 +76,7 @@ public class mainLevel extends GameLevel
         frontWall = new Wall("frontWall", 398, 116, "/frontWall.png", 1, 0.1f, false);
         frontWall.position.y = -206;
         frontWall.zIndex = 1;
-        frontWall.paddingTop = 84;
+        frontWall.paddingTop = 106;
         GameManager.objects.add(frontWall);
 
         /*backWall = new Wall("backWall", 639, 184, "/BackWalls.png", 1, 0.1f, false);
@@ -172,10 +187,18 @@ public class mainLevel extends GameLevel
         testText = new TextObject("" , (int)(GameManager.center.position.x),(int)(GameManager.center.position.y + 320),0xffffffff, 1);
         GameManager.textObjects.add(testText);
 
-        /*vulture1 = new Vulture(players.get(0), 0);
+        vulture1 = new Vulture(players.get(0), 0);
         GameManager.objects.add(vulture1);
-        vulture1.setPosition(-110, -290);
-        vulture1.setTargetPosition(new Vector(-110, -290));*/
+        vulture1.setPosition(-200, -450);
+        vulture1.targetPosition.add(new Vector(-110, -290));
+        vulture1.targetPosition.add(new Vector(250, -450));
+        vulture1.getObjImage().changeColor(players.get(0).getSkinColors()[1], players.get(0).getSkinColors()[players.get(0).getSkIndex()]);
+
+        kingSwan = new Object("kingSwan", 92, 95, "/swanSpeak.png", 4, 0.1f);
+        kingSwan.setPosition(-10,-301);
+        kingSwan.zIndex = 200;
+        kingSwan.setFrame(1);
+        GameManager.objects.add(kingSwan);
     }
 
     @Override
@@ -212,6 +235,23 @@ public class mainLevel extends GameLevel
         {
             pedestalFollow(timePedestals.get(i), i);
         }
+
+        if(GameManager.players.size() <= 1 && winner == null)
+        {
+            for(int i = 0; i < GameManager.players.size(); i++)
+            {
+                if(GameManager.players.get(i) != null)
+                {
+                    winner = GameManager.players.get(i);
+                    break;
+                }
+            }
+        }
+        if(GameManager.players.size() <= 1 && winner != null)
+        {
+            swanSpeak(winner.device);
+        }
+        swanFollow();
     }
 
     public static void pedestalFollow(Object pedestal, int index)
@@ -221,10 +261,66 @@ public class mainLevel extends GameLevel
         GameManager.timers.get(index).visible = true;
         GameManager.timers.get(index).zIndex = Integer.MAX_VALUE;
     }
+
+    public void swanSpeak(XInputDevice device)
+    {
+        GameManager.camera.setPath(kingSwan.position);
+        if(GameManager.camera.getPosX() <= kingSwan.position.x + 1 && GameManager.camera.getPosX() >= kingSwan.position.x - 1 &&
+                GameManager.camera.getPosY() <= kingSwan.position.y + 1 && GameManager.camera.getPosY() >= kingSwan.position.y - 1)
+        {
+            GameManager.camera.setMovingAlongVector(false);
+        }
+        if(!gameWon)
+        {
+            kingSwan.speak("Cease!", 0xff00ff00);
+            swanSpeakIndex++;
+            GameManager.camera.setMovingAlongVector(true);
+            gameWon = true;
+        }
+        if(device.getDelta().getButtons().isPressed(XInputButton.A) && swanSpeakIndex == 1)
+        {
+            kingSwan.speak("Victory is yours, my duckling!", 0xff000000);
+            swanSpeakIndex++;
+        }
+        if(device.getDelta().getButtons().isPressed(XInputButton.A) && swanSpeakIndex == 2)
+        {
+            GameManager.camera.boundsRange = 0;
+            GameManager.gameLevelManager.setGameState(GameLevelManager.GameState.SELECTION_STATE);
+            uninit();
+        }
+    }
+    public void swanFollow()
+    {
+        for(int i = 0; i < players.size(); i++)
+        {
+            if(players.get(i).isGoose())
+            {
+                gooseWatched = players.get(i);
+                break;
+            }
+        }
+        if(gooseWatched.position.x >= kingSwan.position.x - 25 && gooseWatched.position.x <= kingSwan.position.x + 25)
+        {
+            kingSwan.setFrame(1);
+        }
+        else if(gooseWatched.position.x <= kingSwan.position.x - 25)
+        {
+            kingSwan.setFrame(0);
+        }
+        else if(gooseWatched.position.x >= kingSwan.position.x + 25)
+        {
+            kingSwan.setFrame(2);
+        }
+
+    }
     @Override
     public void uninit()
     {
-
+        GameManager.camera.setPosX(0);
+        GameManager.camera.setPosY(0);
+        GameManager.objects.clear();
+        GameManager.textObjects.clear();
+        GameManager.gameLevelManager.currLevel = null;
     }
 
     public static ArrayList<Object> getTimePedestals() {

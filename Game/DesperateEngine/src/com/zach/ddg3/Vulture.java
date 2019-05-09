@@ -6,6 +6,8 @@ import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 import org.omg.CORBA.INTERNAL;
 
+import java.util.ArrayList;
+
 public class Vulture extends Object
 {
     private Player target;
@@ -18,17 +20,17 @@ public class Vulture extends Object
         isReturning = returning;
     }
 
-    private boolean isReturning;
+    private boolean isReturning = false;
 
-    public Vector getTargetPosition() {
+    public ArrayList<Vector> getTargetPosition() {
         return targetPosition;
     }
 
-    public void setTargetPosition(Vector targetPosition) {
+    public void setTargetPosition(ArrayList<Vector> targetPosition) {
         this.targetPosition = targetPosition;
     }
 
-    private Vector targetPosition;
+    public ArrayList<Vector> targetPosition = new ArrayList<>(1);
 
     public boolean isFollowing() {
         return isFollowing;
@@ -40,13 +42,17 @@ public class Vulture extends Object
 
     private boolean isFollowing = false;
 
+    private Vector toTarget = null;
+
+    private int targetIndex;
+
     public Vulture(Player target, int targetNumber)
     {
-        super("vulture" + targetNumber, 53, 90, "/vulture.png", 1, 1);
+        super("vulture" + targetNumber, 144, 90, "/vultureSheet.png", 8, 0.05f);
         this.target = target;
 
-        this.addComponent(new FollowerComponent(this, target, "vulture"));
-        this.addComponent(new AABBComponent(this, "camera"));
+        //this.addComponent(new FollowerComponent(this, target, "vulture"));
+        this.addComponent(new AABBComponent(this, "zUpdater"));
 
         this.zIndex = Integer.MAX_VALUE;
     }
@@ -54,14 +60,34 @@ public class Vulture extends Object
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
-        if(target.getTime() <= 57 && !isReturning && !target.isRemoved())
+        follow(dt);
+        if(target.getTime() <= 57 && !isReturning && targetIndex == 0)
         {
-            isFollowing = true;
+            isReturning = true;
+            toTarget = this.findVector(getPosition(), targetPosition.get(targetIndex));
+            playInRangeAndBack(1, 7);
         }
-        if(this.getPosition() == this.targetPosition && isReturning)
+        if(target.isTimedOut() && !isReturning && !target.isRemoved() && !isFollowing)
+        {
+            toTarget = this.findVector(this.getPosition(), target.getPosition());
+            isFollowing = true;
+            playInRangeAndBack(1, 7);
+        }
+        if(this.getPosition().x <= targetPosition.get(targetIndex).getX() + 1 && this.getPosition().x >= targetPosition.get(targetIndex).getX() - 1 &&
+                this.getPosition().y <= targetPosition.get(targetIndex).getY() + 1 && this.getPosition().y >= targetPosition.get(targetIndex).getY() - 1 && isReturning)
         {
             isReturning = false;
-            target.setRemoved(true);
+            if(targetIndex == 1)
+            {
+                target.setRemoved(true);
+                target.setGrabbed(false);
+            }
+            stop();
+            setFrame(0);
+            if(targetIndex < targetPosition.size() - 1)
+            {
+                targetIndex++;
+            }
         }
 
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
@@ -69,8 +95,20 @@ public class Vulture extends Object
 
         animate(dt);
         updateComponents(main, gameManager, dt);
+
+        if(target.isGrabbed())
+        {
+            target.setPosition(this.position.x, this.position.y + 50);
+        }
     }
 
+    public void follow(float dt)
+    {
+        if(isFollowing || isReturning)
+        {
+            setPosition(getPositionX() + (toTarget.getX() / (4000 * dt)), getPositionY() + (toTarget.getY() / (4000 * dt)));
+        }
+    }
     @Override
     public void collision(Object other, Main main)
     {
@@ -78,6 +116,8 @@ public class Vulture extends Object
         {
             isFollowing = false;
             isReturning = true;
+            target.setGrabbed(true);
+            toTarget = this.findVector(getPosition(), targetPosition.get(targetIndex));
         }
     }
 

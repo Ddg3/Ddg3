@@ -24,8 +24,15 @@ public class selectionLevel extends GameLevel {
     private static Wall[] walls = new Wall[2];
     private static Wall door;
 
-    private static Object explosiveGuns;
-    private static Object explosiveGuns2;
+    public static Object[] getExplosiveGuns() {
+        return explosiveGuns;
+    }
+
+    public static void setExplosiveGuns(Object[] explosiveGuns) {
+        selectionLevel.explosiveGuns = explosiveGuns;
+    }
+
+    private static Object[] explosiveGuns = new Object[3];
     private static boolean allReady = false;
 
     @Override
@@ -70,6 +77,13 @@ public class selectionLevel extends GameLevel {
         player2.setKeyShoot(KeyEvent.VK_PAGE_DOWN);
         GameManager.objects.add(player2);
         player2.visible = false;
+
+        /*player3 = new Player("player2", 63, 68, "/duckSheetLong.png", 24, 0.01f, 2);
+        player3.setPosition(-90, 0);
+        player3.zIndex = 10;
+        player3.maxzIndex = 10;
+        GameManager.objects.add(player3);
+        player3.visible = false;*/
 
         floor2 = new Object("floor2", 640, 465, "/selectionGround.png", 1, 0.1f);
         floor2.setPosition(0, -700);
@@ -163,21 +177,30 @@ public class selectionLevel extends GameLevel {
         sideRails[1].zIndex = 2;
         sideRails[1].paddingTop = 10;
 
-        explosiveGuns = new Object("explosiveGuns", 257, 52, "/explosiveSelections.png", 5, 0f);
-        explosiveGuns.setTag("Selection");
-        explosiveGuns.addComponent(new AABBComponent(explosiveGuns, "selection"));
-        explosiveGuns.setPosition(187, -782);
-        explosiveGuns.zIndex = 6;
-        GameManager.objects.add(explosiveGuns);
+        explosiveGuns[0] = new Object("explosiveGuns", 257, 52, "/explosiveSelections.png", 5, 0f);
+        explosiveGuns[0].setTag("Selection");
+        explosiveGuns[0].addComponent(new AABBComponent(explosiveGuns[0], "selection"));
+        explosiveGuns[0].setPosition(187, -782);
+        explosiveGuns[0].zIndex = 6;
+        GameManager.objects.add(explosiveGuns[0]);
 
-        explosiveGuns2 = new Object("explosiveGuns2", 257, 52, "/explosiveSelections.png", 5, 0f);
-        explosiveGuns2.setTag("Selection");
-        explosiveGuns2.addComponent(new AABBComponent(explosiveGuns2, "selection"));
-        AABBComponent otherC = (AABBComponent) explosiveGuns2.findComponentBySubtag("selection");
+        explosiveGuns[1] = new Object("explosiveGuns1", 259, 54, "/explosiveSelections2.png", 5, 0f);
+        explosiveGuns[1].setTag("Selection");
+        explosiveGuns[1].addComponent(new AABBComponent(explosiveGuns[1], "selection"));
+        AABBComponent otherC = (AABBComponent) explosiveGuns[1].findComponentBySubtag("selection");
         otherC.setDesignatedPlayer(1);
-        explosiveGuns2.setPosition(187, -782);
-        explosiveGuns2.zIndex = 6;
-        GameManager.objects.add(explosiveGuns2);
+        explosiveGuns[1].setPosition(187, -782);
+        explosiveGuns[1].zIndex = 5;
+        GameManager.objects.add(explosiveGuns[1]);
+
+        /*explosiveGuns[2] = new Object("explosiveGuns2", 259, 54, "/explosiveSelections2.png", 5, 0f);
+        explosiveGuns[2].setTag("Selection");
+        explosiveGuns[2].addComponent(new AABBComponent(explosiveGuns[2], "selection"));
+        AABBComponent otherC2 = (AABBComponent) explosiveGuns[2].findComponentBySubtag("selection");
+        otherC2.setDesignatedPlayer(2);
+        explosiveGuns[2].setPosition(187, -782);
+        explosiveGuns[2].zIndex = 4;
+        GameManager.objects.add(explosiveGuns[2]);*/
     }
 
     @Override
@@ -185,19 +208,19 @@ public class selectionLevel extends GameLevel {
     {
         if(!player1.isNearSelect() && !player1.isSelecting())
         {
-            explosiveGuns.setFrame(0);
+            explosiveGuns[0].setFrame(0);
         }
         else if(!player1.isSelecting())
             {
-                explosiveGuns.setFrame(4);
+                explosiveGuns[0].setFrame(4);
             }
         if(!player2.isNearSelect())
         {
-            explosiveGuns2.setFrame(0);
+            explosiveGuns[1].setFrame(0);
         }
         else if(!player2.isSelecting())
             {
-              explosiveGuns.setFrame(4);
+              explosiveGuns[1].setFrame(4);
             }
         if(player1.visible)
         {
