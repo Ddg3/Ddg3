@@ -35,6 +35,7 @@ public class mainLevel extends GameLevel
     private Player winner;
 
     public static boolean gameWon = false;
+    private boolean gameOver = false;
     private boolean cameraMoved = false;
 
     @Override
@@ -249,7 +250,7 @@ public class mainLevel extends GameLevel
         }
         if(GameManager.players.size() <= 1 && winner != null)
         {
-            swanSpeak(winner.device);
+            swanSpeak(winner, main);
         }
         swanFollow();
     }
@@ -262,8 +263,9 @@ public class mainLevel extends GameLevel
         GameManager.timers.get(index).zIndex = Integer.MAX_VALUE;
     }
 
-    public void swanSpeak(XInputDevice device)
+    public void swanSpeak(Player player, Main main)
     {
+        XInputDevice device = player.device;
         GameManager.camera.setPath(kingSwan.position);
         if(GameManager.camera.getPosX() <= kingSwan.position.x + 1 && GameManager.camera.getPosX() >= kingSwan.position.x - 1 &&
                 GameManager.camera.getPosY() <= kingSwan.position.y + 1 && GameManager.camera.getPosY() >= kingSwan.position.y - 1)
@@ -272,17 +274,17 @@ public class mainLevel extends GameLevel
         }
         if(!gameWon)
         {
-            kingSwan.speak("Cease!", 0xff00ff00);
+            kingSwan.speak("Cease!", 0xff000000);
             swanSpeakIndex++;
             GameManager.camera.setMovingAlongVector(true);
             gameWon = true;
         }
-        if(device.getDelta().getButtons().isPressed(XInputButton.A) && swanSpeakIndex == 1)
+        if((device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKey(player.getKeySelect()))&& gameWon)
         {
-            kingSwan.speak("Victory is yours, my duckling!", 0xff000000);
-            swanSpeakIndex++;
+            kingSwan.speak("Victory is yours!", 0xff000000);
+            gameOver = true;
         }
-        if(device.getDelta().getButtons().isPressed(XInputButton.A) && swanSpeakIndex == 2)
+        if((device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKey(player.getKeySelect()))&& gameOver)
         {
             GameManager.camera.boundsRange = 0;
             GameManager.gameLevelManager.setGameState(GameLevelManager.GameState.SELECTION_STATE);

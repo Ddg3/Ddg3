@@ -249,12 +249,15 @@ public class Object extends GameObject implements Comparable<Object>
 
     public void speak(String text, int color)
     {
-        Object bubble = new Object(tag + "Bubble", 64, 31, "/speechBubble.png", 1, 1);
+        GameManager.removeObjectsByName(tag + "Bubble");
+        GameManager.textObjects.remove(GameManager.textObjects.size() - 1);
+
+        Object bubble = new Object("bubble", 64, 31, "/speechBubble.png", 1, 1);
         bubble.setPosition(this.getPositionX(), this.getPositionY() - (this.getHeight() / 2) - 10);
         bubble.zIndex = Integer.MAX_VALUE - 1;
         GameManager.objects.add(bubble);
 
-        TextObject textO = new TextObject(text, (int)bubble.offsetPos.x, (int)bubble.offsetPos.y, color, 1);
+        TextObject textO = new TextObject(text, (int)bubble.offsetPos.x, (int)bubble.offsetPos.y - 320 - bubble.getHeight(), color, 1);
         //textO.posX = (int)(bubble.position.x);
         //textO.posY = (int)(bubble.position.y);
         GameManager.textObjects.add(textO);
