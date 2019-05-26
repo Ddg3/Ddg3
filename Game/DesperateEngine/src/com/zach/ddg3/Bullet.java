@@ -62,7 +62,14 @@ public class Bullet extends Object
             tempAccel = weapon.getAccelRate();
         }
 
-        this.setFrame(direction);
+        if(weapon.isHasDirection())
+        {
+            this.setFrame(direction);
+        }
+        if(weapon.isAnimated())
+        {
+            this.playInRange(0,3);
+        }
         this.addComponent(new AABBComponent(this, "bullet"));
 
         this.paddingTop = this.height / 2;
@@ -90,8 +97,16 @@ public class Bullet extends Object
 
         if(weapon.isSlows())
         {
-            this.speed -= tempSlow;
-            tempSlow += dt;
+            if(this.speed <= 0 && weapon.isAnimated())
+            {
+                this.stop();
+            }
+            else
+            {
+                this.speed -= tempSlow;
+                tempSlow += (dt / 25);
+                this.setFrameLife(this.getFrameLife() + (dt / 30));
+            }
         }
 
         if(weapon.isAccelerates())
@@ -167,11 +182,18 @@ public class Bullet extends Object
     {
         if(other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Bullet") )
         {
-            GameManager.objects.remove(this);
-            if (weapon.isExplodes())
+            if(!weapon.isStopsAtWall())
             {
-                explode(false);
-                //weapon.setExploding(false);
+                GameManager.objects.remove(this);
+                if (weapon.isExplodes())
+                {
+                    explode(false);
+                }
+            }
+            else
+            {
+                this.speed = 0;
+                this.stop();
             }
         }
         else if(other.getTag().equalsIgnoreCase("Player"))

@@ -5,11 +5,13 @@ import com.zach.ddg3.components.AABBComponent;
 import com.zach.engine.Main;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class selectionLevel extends GameLevel {
-    public static Player player1;
-    public static Player player2;
-    public static Player player3;
+    /*public static Player players.get(0);
+    public static Player players.get(1);
+    public static Player player3;*/
+    public static ArrayList<Player> players = new ArrayList<>(1);
 
     private static Wall fountain;
     private static Wall[] statues = new Wall[12];
@@ -36,14 +38,59 @@ public class selectionLevel extends GameLevel {
     private static boolean allReady = false;
 
     @Override
-    public void init(Main main) {
+    public void init(Main main)
+    {
+        GameManager.center.setPosition(0,0);
+        GameManager.camera.setPosX(0);
+        GameManager.camera.setPosY(0);
+        GameManager.camera.boundsRange = 0;
         this.verticleBounds.clear();
         this.horizBounds.clear();
 
-        this.verticleBounds.add(new Vector(350, -360));
+
+        if(GameManager.firstTime)
+        {
+            this.verticleBounds.add(new Vector(350, -360));
+            this.loadPoint = 2;
+
+            players.add(new Player("players.get(0)", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
+            players.get(0).setPosition(-240, -220);
+            players.get(0).zIndex = 10;
+            players.get(0).maxzIndex = 10;
+            GameManager.objects.add(players.get(0));
+            players.get(0).visible = false;
+
+            players.add(new Player("players.get(1)", 63, 68, "/duckSheetLong.png", 24, 0.01f, 1));
+            players.get(1).setPosition(-165, 0);
+            players.get(1).zIndex = 10;
+            players.get(1).maxzIndex = 10;
+            players.get(1).setKeyDropIn(KeyEvent.VK_SPACE);
+            players.get(1).setKeyLeft(KeyEvent.VK_LEFT);
+            players.get(1).setKeyRight(KeyEvent.VK_RIGHT);
+            players.get(1).setKeyDown(KeyEvent.VK_DOWN);
+            players.get(1).setKeyUp(KeyEvent.VK_UP);
+            players.get(1).setKeyShoot(KeyEvent.VK_PAGE_DOWN);
+            GameManager.objects.add(players.get(1));
+            players.get(1).visible = false;
+        }
+        else
+            {
+                for(int i = 0; i < GameManager.players.size(); i++)
+                {
+                    if(GameManager.players.get(i) != null)
+                    {
+                        players.add(GameManager.players.get(i));
+                        players.get(i).setPosition(((i * 50) - 25),0);
+                        GameManager.objects.add(players.get(i));
+                        GameManager.objects.add(GameManager.timers.get(i));
+                    }
+                }
+                this.loadPoint = 1;
+            }
+
         this.verticleBounds.add(new Vector(-720, -750));
         this.verticleBounds.add(new Vector(-750, -1000));
-        this.loadPoint = 2;
+        this.horizBounds.add(new Vector(0,0));
 
         //this.verticleBounds.add(new Vector(-600, -600));
 
@@ -57,33 +104,6 @@ public class selectionLevel extends GameLevel {
         fountain.paddingTop = 15;
         fountain.paddingSide = 10;
         fountain.zIndex = 2;
-
-        player1 = new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0);
-        player1.setPosition(-240, -220);
-        player1.zIndex = 10;
-        player1.maxzIndex = 10;
-        GameManager.objects.add(player1);
-        player1.visible = false;
-
-        player2 = new Player("player2", 63, 68, "/duckSheetLong.png", 24, 0.01f, 1);
-        player2.setPosition(-165, 0);
-        player2.zIndex = 10;
-        player2.maxzIndex = 10;
-        player2.setKeyDropIn(KeyEvent.VK_SPACE);
-        player2.setKeyLeft(KeyEvent.VK_LEFT);
-        player2.setKeyRight(KeyEvent.VK_RIGHT);
-        player2.setKeyDown(KeyEvent.VK_DOWN);
-        player2.setKeyUp(KeyEvent.VK_UP);
-        player2.setKeyShoot(KeyEvent.VK_PAGE_DOWN);
-        GameManager.objects.add(player2);
-        player2.visible = false;
-
-        /*player3 = new Player("player2", 63, 68, "/duckSheetLong.png", 24, 0.01f, 2);
-        player3.setPosition(-90, 0);
-        player3.zIndex = 10;
-        player3.maxzIndex = 10;
-        GameManager.objects.add(player3);
-        player3.visible = false;*/
 
         floor2 = new Object("floor2", 640, 465, "/selectionGround.png", 1, 0.1f);
         floor2.setPosition(0, -700);
@@ -206,31 +226,32 @@ public class selectionLevel extends GameLevel {
     @Override
     public void update(Main main, float dt)
     {
-        if(!player1.isNearSelect() && !player1.isSelecting())
+        //System.out.println(GameManager.players.size());
+        if(!players.get(0).isNearSelect() && !players.get(0).isSelecting())
         {
             explosiveGuns[0].setFrame(0);
         }
-        else if(!player1.isSelecting())
+        else if(!players.get(0).isSelecting())
             {
                 explosiveGuns[0].setFrame(4);
             }
-        if(!player2.isNearSelect())
+        if(!players.get(1).isNearSelect())
         {
             explosiveGuns[1].setFrame(0);
         }
-        else if(!player2.isSelecting())
+        else if(!players.get(1).isSelecting())
             {
               explosiveGuns[1].setFrame(4);
             }
-        if(player1.visible)
+        if(players.get(0).visible)
         {
             readyUp(door, dt);
         }
-        if(!player2.visible)
+        if(!players.get(1).visible)
         {
-            player2.position.y = GameManager.center.position.y - 220;
+            players.get(1).position.y = GameManager.center.position.y - 220;
         }
-        if(player1.isInGame())
+        if(players.get(0).isInGame())
         {
             allReady = true;
         }

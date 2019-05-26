@@ -31,19 +31,24 @@ public class mainLevel extends GameLevel
     private static Vulture vulture1;
     private static Object kingSwan;
     private Player gooseWatched;
-    private int swanSpeakIndex = 0;
     private Player winner;
+
+    public static boolean gameWon = false;
+    private boolean gameOver = false;
+    private boolean levelChanged = false;
+    private static int speakInd = 0;
+    private static boolean buttonPressed = false;
 
     @Override
     public void init(Main main)
     {
-        /*players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
+        players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
         players.get(0).zIndex = 3;
         players.get(0).addComponent(new WeaponComponent(players.get(0), "rocketLauncher"));
         players.get(0).changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
         players.get(0).setGoose(true);
         players.get(0).changeSpecies();
-        GameManager.objects.add(players.get(0));*/
+        GameManager.objects.add(players.get(0));
 
         int randGoose = ThreadLocalRandom.current().nextInt(0, 2);
 
@@ -54,7 +59,7 @@ public class mainLevel extends GameLevel
         this.verticleBounds.add(new Vector(-15, -350));
         this.horizBounds.add(new Vector(16, -17));
 
-        for(int i = 0; i < GameManager.players.size(); i++)
+        /*for(int i = 0; i < GameManager.players.size(); i++)
         {
             if(GameManager.players.get(i) != null)
             {
@@ -62,13 +67,13 @@ public class mainLevel extends GameLevel
                 players.get(i).setPosition(((i * 50) - 25),0);
                 GameManager.objects.add(players.get(i));
                 GameManager.objects.add(GameManager.timers.get(i));
-                if(i == randGoose)
-                {
+                //if(i == randGoose)
+                //{
                     players.get(i).setGoose(true);
                     players.get(i).changeSpecies();
-                }
+                //}
             }
-        }
+        }*/
 
         frontWall = new Wall("frontWall", 398, 116, "/frontWall.png", 1, 0.1f, false);
         frontWall.position.y = -206;
@@ -244,7 +249,7 @@ public class mainLevel extends GameLevel
                 }
             }
         }
-        if(GameManager.players.size() <= 1)
+        if(GameManager.players.size() <= 1 && winner != null)
         {
             swanSpeak(winner.device);
         }
@@ -261,20 +266,40 @@ public class mainLevel extends GameLevel
 
     public void swanSpeak(XInputDevice device)
     {
-        if(swanSpeakIndex == 0)
+        GameManager.camera.setPath(kingSwan.position);
+
+        if(GameManager.camera.getPosX() <= kingSwan.position.x + 1 && GameManager.camera.getPosX() >= kingSwan.position.x - 1 &&
+                GameManager.camera.getPosY() <= kingSwan.position.y + 1 && GameManager.camera.getPosY() >= kingSwan.position.y - 1)
         {
-            kingSwan.speak("Cease!", 0xffffffff);
-            swanSpeakIndex++;
+            GameManager.camera.setMovingAlongVector(false);
         }
-        if(device.getDelta().getButtons().isPressed(XInputButton.A) && swanSpeakIndex == 1)
+        if(speakInd == 0)
         {
-            kingSwan.speak("Victory is yours, my duckling!", 0xffffffff);
-            swanSpeakIndex++;
+            kingSwan.speak("Cease!", 0xff000000);
+            GameManager.camera.setMovingAlongVector(true);
+            gameWon = true;
+            speakInd = 1;
         }
-        if(device.getDelta().getButtons().isPressed(XInputButton.A) && swanSpeakIndex == 2)
+        if(device.getDelta().getButtons().isPressed(XInputButton.A) && speakInd == 1)
+        {
+            kingSwan.speak("Victory is yours, /my duckling!", 0xff000000);
+            gameOver = true;
+            speakInd = 2;
+            buttonPressed = true;
+        }
+        if(!device.getDelta().getButtons().isPressed(XInputButton.A) && buttonPressed)
+        {
+            buttonPressed = false;
+        }
+        /*if(device.getDelta().getButtons().isReleased(XInputButton.A) && gameOver && speakInd == 1)
+        {
+            speakInd = 2;
+        }*/
+        if(device.getDelta().getButtons().isPressed(XInputButton.A) && speakInd == 2 && !buttonPressed)
         {
             GameManager.camera.boundsRange = 0;
-            GameManager.gameLevelManager.setGameState(GameLevelManager.GameState.SELECTION_STATE);
+            GameManager.gameLevelManager.setGameState(GameLevelManager.GameState.TITLE_STATE);
+            GameManager.gameLevelManager.currLevel.loadPoint = Integer.MAX_VALUE;
             uninit();
         }
     }
@@ -305,11 +330,11 @@ public class mainLevel extends GameLevel
     @Override
     public void uninit()
     {
+        GameManager.center.setPosition(0,0);
         GameManager.camera.setPosX(0);
         GameManager.camera.setPosY(0);
         GameManager.objects.clear();
         GameManager.textObjects.clear();
-        GameManager.gameLevelManager.currLevel = null;
     }
 
     public static ArrayList<Object> getTimePedestals() {

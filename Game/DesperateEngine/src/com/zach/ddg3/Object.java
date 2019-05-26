@@ -20,6 +20,15 @@ public class Object extends GameObject implements Comparable<Object>
     public boolean visible = true;
     public boolean target = false;
     private boolean isPlaying = false;
+
+    public float getFrameLife() {
+        return frameLife;
+    }
+
+    public void setFrameLife(float frameLife) {
+        this.frameLife = frameLife;
+    }
+
     private float frameLife;
     private float tempLife;
     private boolean isPlayingInRange = false;
@@ -228,6 +237,7 @@ public class Object extends GameObject implements Comparable<Object>
 
         Vector newV = new Vector(xDelta, yDelta);
         newV.setLength(magnitude);
+        newV.setLength(magnitude);
         newV.setAngle(angle);
         return newV;
 
@@ -248,13 +258,23 @@ public class Object extends GameObject implements Comparable<Object>
 
     public void speak(String text, int color)
     {
-        Object bubble = new Object(tag + "Bubble", 64, 31, "/speechBubble.png", 1, 1);
-        bubble.setPosition(this.getPositionX(), this.getPositionY() - (this.getHeight() / 2) - 10);
-        bubble.zIndex = Integer.MAX_VALUE - 1;
+        GameManager.removeObjectsByName(tag + "Bubble");
+        GameManager.removeTextObjectsByName(tag + "Text");
+
+        Object bubble = new Object(tag + "Bubble", 119, 53, "/speechBubble.png", 1, 1);
+        bubble.setPosition(this.getPositionX() + 10, this.getPositionY() - (this.getHeight() / 2) - 30);
+        bubble.offsetPos = new Vector(-1000, 1000);
+        bubble.zIndex = Integer.MAX_VALUE - 2;
         GameManager.objects.add(bubble);
 
-        TextObject textO = new TextObject(text, (int)bubble.offsetPos.x, (int)bubble.offsetPos.y, color, 1);
-        GameManager.textObjects.add(textO);
+        String textDiv[] = text.split("/", 0);
+        TextObject[] textO = new TextObject[textDiv.length];
+        for(int i = 0; i < textO.length; i++)
+        {
+            textO[i] = new TextObject(textDiv[i], (int)bubble.position.x + 320 - 50, (int)bubble.position.y + 320 + (i * 10) - 155, color, 1);
+            textO[i].tag = (tag + "Text");
+            GameManager.textObjects.add(textO[i]);
+        }
     }
 
     public void changeSprite(int width, int height, String path, int totalFrames, float frameLife)

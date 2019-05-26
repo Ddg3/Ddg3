@@ -6,6 +6,7 @@ import com.zach.engine.gfx.Font;
 public class TextObject
 {
     public String text;
+    public String tag = "";
     public int posX;
     public int posY;
     public int color;

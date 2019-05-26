@@ -15,7 +15,7 @@ public class WeaponComponent extends Component
     private float speed = 50f;
     private float slowRate = 10f;
     private boolean slows = false;
-    private boolean isAnimated = true;
+    private boolean isAnimated = false;
     private float chargeTime = 0;
     private int chargeIntervals = 0;
     private boolean explodes = false;
@@ -28,6 +28,8 @@ public class WeaponComponent extends Component
     private boolean accelerates = false;
     private float accelRate = 0;
     private boolean animChangedOnShoot = false;
+    private boolean stopsAtWall = false;
+    private boolean hasDirection = true;
 
     private boolean parentIsPlayer = false;
     private int playerNumber = Integer.MAX_VALUE;
@@ -118,19 +120,24 @@ public class WeaponComponent extends Component
                     parent.setFrameOffset(0);
                     parent.setFrame(parent.getFrame() - (parent.getTotalFrames() / 2));
                 }
-                if ((player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) || main.getInput().isKey(player.getKeyShoot())) && tempCooldown <= 0) {
+                if ((player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) || main.getInput().isKey(player.getKeyShoot())) && tempCooldown <= 0)
+                {
                     tempCooldown = shotCooldown;
                     Bullet bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
                     Vector offset;
-                    if (!player.isGoose()) {
+                    if (!player.isGoose())
+                    {
                         offset = bulletOffsetD[player.getFrame() - parent.getFrameOffset()];
-                    } else {
-                        offset = bulletOffsetG[player.getFrame() - parent.getFrameOffset()];
                     }
+                    else
+                        {
+                          offset = bulletOffsetG[player.getFrame() - parent.getFrameOffset()];
+                        }
                     bullet.setPosition(parent.getPositionX() + offset.getX(), parent.getPositionY() + offset.getY());
                     GameManager.objects.add(bullet);
 
-                    if (animChangedOnShoot) {
+                    if (animChangedOnShoot)
+                    {
                         parent.setFrameOffset(parent.getTotalFrames() / 2);
                         parent.setFrame(parent.getFrame() + (parent.getFrameOffset()));
                     }
@@ -150,7 +157,6 @@ public class WeaponComponent extends Component
         {
             case "rocketLauncher":
                 speed = 50f;
-                isAnimated = true;
                 explodes = true;
                 accelerates = true;
                 accelRate = 0.1f;
@@ -181,8 +187,60 @@ public class WeaponComponent extends Component
                 bulletOffsetG[7] = new Vector(-30,22);
                 break;
 
+            case "grenadeLauncher":
+                speed = 55f;
+                isAnimated = true;
+                explodes = true;
+                slows = true;
+                slowRate = 0.1f;
+                animChangedOnShoot = true;
+                stopsAtWall = true;
+                hasDirection = false;
+
+                bulletPath = "/grenadeLauncher_Bullet.png";
+                bulletWidth = 14;
+                bulletHeight = 14;
+                bulletFrames = 4;
+                bulletFrameTime = 0.1f;
+
+                bulletOffsetD[0] = new Vector(-8,2);
+                bulletOffsetD[1] = new Vector(30,22);
+                bulletOffsetD[2] = new Vector(32,-2);
+                bulletOffsetD[3] = new Vector(31,-26);
+                bulletOffsetD[4] = new Vector(10,-4);
+                bulletOffsetD[5] = new Vector(-31,-26);
+                bulletOffsetD[6] = new Vector(-32,-2);
+                bulletOffsetD[7] = new Vector(-30,22);
+
+                bulletOffsetG[0] = new Vector(-10,4);
+                bulletOffsetG[1] = new Vector(24,24);
+                bulletOffsetG[2] = new Vector(32,-2);
+                bulletOffsetG[3] = new Vector(31,-26);
+                bulletOffsetG[4] = new Vector(10,-4);
+                bulletOffsetG[5] = new Vector(-31,-26);
+                bulletOffsetG[6] = new Vector(-32,-2);
+                bulletOffsetG[7] = new Vector(-30,22);
+                break;
+
         }
     }
+
+    public boolean isHasDirection() {
+        return hasDirection;
+    }
+
+    public void setHasDirection(boolean hasDirection) {
+        this.hasDirection = hasDirection;
+    }
+
+    public boolean isStopsAtWall() {
+        return stopsAtWall;
+    }
+
+    public void setStopsAtWall(boolean stopsAtWall) {
+        this.stopsAtWall = stopsAtWall;
+    }
+
     public boolean isParentIsPlayer() {
         return parentIsPlayer;
     }

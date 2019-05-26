@@ -174,7 +174,7 @@ public class Player extends Object
                 tempSecond = second;
             }
 
-            if(time <= 54 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE && !isTimedOut)
+            if(time <= 0 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE && !isTimedOut)
             {
                 isTimedOut = true;
                 GameManager.players.remove(this);
@@ -594,7 +594,10 @@ public class Player extends Object
             this.stop();
             this.setInGame(true);
             this.setFrame(1);
-            GameManager.players.add(this);
+            if(!GameManager.firstTime)
+            {
+                GameManager.players.add(this);
+            }
         }
 
         if(this.droppingIn)
@@ -677,16 +680,9 @@ public class Player extends Object
             String newPath = null;
             int newFrames = 0;
 
+            removeComponent("Weapon");
             switch (selection.getFrame())
             {
-                case 0:
-                    this.addComponent(new WeaponComponent(this, "rocketLauncher"));
-                    newWidth = 102;
-                    newHeight = 81;
-                    newPath = "/Duck_rocketLauncher.png";
-                    newFrames = 16;
-                    break;
-
                 case 1:
                     this.addComponent(new WeaponComponent(this, "rocketLauncher"));
                     newWidth = 102;
@@ -696,10 +692,10 @@ public class Player extends Object
                     break;
 
                 case 2:
-                    this.addComponent(new WeaponComponent(this, "rocketLauncher"));
-                    newWidth = 102;
-                    newHeight = 81;
-                    newPath = "/Duck_rocketLauncher.png";
+                    this.addComponent(new WeaponComponent(this, "grenadeLauncher"));
+                    newWidth = 78;
+                    newHeight = 69;
+                    newPath = "/Duck_grenadeLauncher.png";
                     newFrames = 16;
                     break;
 
@@ -742,9 +738,17 @@ public class Player extends Object
             switch (weapon.getSubTag())
             {
                 case "rocketLauncher":
-                    newWidth = 114;
-                    newHeight = 92;
-                    newPath = "/Goose_rocketLauncher.png";
+                newWidth = 114;
+                newHeight = 92;
+                newPath = "/Goose_rocketLauncher.png";
+                newFrames = 16;
+                baseHeight = 100;
+                break;
+
+                case "grenadeLauncher":
+                    newWidth = 91;
+                    newHeight = 93;
+                    newPath = "/Goose_grenadeLauncher.png";
                     newFrames = 16;
                     baseHeight = 100;
                     break;
@@ -772,6 +776,14 @@ public class Player extends Object
                         newWidth = 102;
                         newHeight = 81;
                         newPath = "/Duck_rocketLauncher.png";
+                        newFrames = 16;
+                        baseHeight = 68;
+                        break;
+
+                    case "grenadeLauncher":
+                        newWidth = 78;
+                        newHeight = 69;
+                        newPath = "/Duck_grenadeLauncher.png";
                         newFrames = 16;
                         baseHeight = 68;
                         break;

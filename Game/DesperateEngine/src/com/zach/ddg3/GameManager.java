@@ -28,6 +28,7 @@ public class GameManager extends AbstractGame
     private boolean showFps = true;
     private boolean showHitboxes = false;
     private boolean isPlaying = true;
+    public static boolean firstTime = false;
 
     public static Object center;
     public static Camera camera;
@@ -46,7 +47,7 @@ public class GameManager extends AbstractGame
     {
         //Runs first
         main.getRenderer().setAmbientColor(-1);
-        gameLevelManager.gameState = GameLevelManager.GameState.SELECTION_STATE;
+        gameLevelManager.gameState = GameLevelManager.GameState.MAIN_STATE;
         deviceManager.init(main);
 
         //Acts as invisible camera target for menu levels or static camera levels
@@ -81,23 +82,15 @@ public class GameManager extends AbstractGame
                 i--;
             }
         }
-
-        /*if(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
-        {
-            for(Object obj: mainLevel.getTimePedestals())
-            {
-                obj.update(main, this, dt);
-            }
-        }*/
         Physics.update(main);
 
         gameLevelManager.update(main, dt);
         gameLevelManager.currLevel.update(main, dt);
-        /*for (int i = 0; i < mainLevel.getTimePedestals().size(); i++)
+
+        if(!(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE))
         {
-            mainLevel.pedestalFollow(main, mainLevel.getTimePedestals().get(i), i);
-        }*/
-        cameraFollow();
+            cameraFollow();
+        }
         camera.update(this, main, dt);
         if(!camera.isStopped())
         {
@@ -208,6 +201,16 @@ public class GameManager extends AbstractGame
             if(objects.get(i).getTag() == name)
             {
                 objects.remove(i);
+            }
+        }
+    }
+    public static void removeTextObjectsByName(String name)
+    {
+        for(int i = 0; i < textObjects.size(); i++)
+        {
+            if(textObjects.get(i).tag.equalsIgnoreCase(name))
+            {
+                textObjects.remove(i);
             }
         }
     }
