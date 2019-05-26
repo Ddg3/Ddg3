@@ -251,7 +251,7 @@ public class mainLevel extends GameLevel
         }
         if(GameManager.players.size() <= 1 && winner != null)
         {
-            swanSpeak(winner.device);
+            swanSpeak(winner, main);
         }
         swanFollow();
     }
@@ -264,7 +264,7 @@ public class mainLevel extends GameLevel
         GameManager.timers.get(index).zIndex = Integer.MAX_VALUE;
     }
 
-    public void swanSpeak(XInputDevice device)
+    public void swanSpeak(Player player, Main main)
     {
         GameManager.camera.setPath(kingSwan.position);
 
