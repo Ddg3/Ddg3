@@ -17,6 +17,7 @@ public class GameManager extends AbstractGame
 {
     public static ArrayList<Object> objects = new ArrayList<Object>(1);
     public static ArrayList<Player> players = new ArrayList<Player>(1);
+    public static ArrayList<Player> cameraPlayers = new ArrayList<Player>(1);
     public static ArrayList<TextObject> textObjects = new ArrayList<TextObject>(1);
     private ArrayList<Object> toKillList = new ArrayList<Object>();
     public static ArrayList<Object> timers = new ArrayList<Object>(1);
@@ -28,7 +29,7 @@ public class GameManager extends AbstractGame
     private boolean showFps = true;
     private boolean showHitboxes = false;
     private boolean isPlaying = true;
-    public static boolean firstTime = false;
+    public static boolean firstTime = true;
 
     public static Object center;
     public static Camera camera;
@@ -47,7 +48,7 @@ public class GameManager extends AbstractGame
     {
         //Runs first
         main.getRenderer().setAmbientColor(-1);
-        gameLevelManager.gameState = GameLevelManager.GameState.MAIN_STATE;
+        gameLevelManager.gameState = GameLevelManager.GameState.SELECTION_STATE;
         deviceManager.init(main);
 
         //Acts as invisible camera target for menu levels or static camera levels
@@ -87,7 +88,7 @@ public class GameManager extends AbstractGame
         gameLevelManager.update(main, dt);
         gameLevelManager.currLevel.update(main, dt);
 
-        if(!(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE))
+        if(!(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE && mainLevel.gameWon))
         {
             cameraFollow();
         }
@@ -228,9 +229,9 @@ public class GameManager extends AbstractGame
     }
     public void cameraFollow()
     {
-        if (GameManager.players.size() == 3)
+        if (cameraPlayers.size() == 3)
         {
-            if(GameManager.players.get(0).isInGame() && GameManager.players.get(1).isInGame() && GameManager.players.get(2).isInGame())
+            if(cameraPlayers.get(0).isInGame() && cameraPlayers.get(1).isInGame() && cameraPlayers.get(2).isInGame())
             {
                 float slope1 = (players.get(2).position.y - players.get(1).position.y) / (players.get(2).position.x - players.get(1).position.x);
                 float perpSlope1 = -1 / slope1;
@@ -252,9 +253,9 @@ public class GameManager extends AbstractGame
                 GameManager.center.setPosition(0, 0);
             }
         }
-        else if (GameManager.players.size() == 2)
+        else if (cameraPlayers.size() == 2)
         {
-            if(GameManager.players.get(0).isInGame() && !players.get(0).isTimedOut() && GameManager.players.get(1).isInGame() && !players.get(1).isTimedOut())
+            if(cameraPlayers.get(0).isInGame() && !players.get(0).isTimedOut() && cameraPlayers.get(1).isInGame() && !players.get(1).isTimedOut())
             {
                 int posX = ((int)players.get(0).position.x + (int)players.get(1).position.x) / 2;
                 int posY = ((int)players.get(0).position.y + (int)players.get(1).position.y) / 2;
@@ -266,11 +267,11 @@ public class GameManager extends AbstractGame
                 GameManager.center.setPosition(0, 0);
             }
         }
-        else if (GameManager.players.size() == 1)
+        else if (cameraPlayers.size() == 1)
         {
-            if(GameManager.players.get(0).isInGame() && !players.get(0).isTimedOut())
+            if(cameraPlayers.get(0).isInGame() && !players.get(0).isTimedOut())
             {
-                GameManager.center.position.x = (int)players.get(0).position.x;
+                //GameManager.center.position.x = (int)players.get(0).position.x;
                 GameManager.center.position.y = (int)players.get(0).position.y;
                 }
             else

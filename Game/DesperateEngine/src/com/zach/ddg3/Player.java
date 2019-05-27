@@ -174,10 +174,10 @@ public class Player extends Object
                 tempSecond = second;
             }
 
-            if(time <= 0 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE && !isTimedOut)
+            if(time <= 50 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE && !isTimedOut)
             {
                 isTimedOut = true;
-                GameManager.players.remove(this);
+                GameManager.cameraPlayers.remove(this);
                 changeSprite(102, 81, "/testDeadGoose.png", 16, 0.1f);
                 this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
                 setFrame(0);
@@ -594,9 +594,10 @@ public class Player extends Object
             this.stop();
             this.setInGame(true);
             this.setFrame(1);
-            if(!GameManager.firstTime)
+            if(GameManager.firstTime)
             {
                 GameManager.players.add(this);
+                GameManager.cameraPlayers.add(this);
             }
         }
 

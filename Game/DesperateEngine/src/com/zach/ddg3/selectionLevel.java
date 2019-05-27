@@ -40,27 +40,27 @@ public class selectionLevel extends GameLevel {
     @Override
     public void init(Main main)
     {
-        GameManager.center.setPosition(0,0);
-        GameManager.camera.setPosX(0);
-        GameManager.camera.setPosY(0);
-        GameManager.camera.boundsRange = 0;
+        GameManager.camera.resetCamera();
         this.verticleBounds.clear();
         this.horizBounds.clear();
+        GameManager.cameraPlayers.clear();
 
+        this.verticleBounds.add(new Vector(350, -360));
+        this.verticleBounds.add(new Vector(-720, -750));
+        this.verticleBounds.add(new Vector(-750, -1000));
+        this.horizBounds.add(new Vector(0,0));
+        this.loadPoint = 2;
 
         if(GameManager.firstTime)
         {
-            this.verticleBounds.add(new Vector(350, -360));
-            this.loadPoint = 2;
-
-            players.add(new Player("players.get(0)", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
+            players.add(new Player("player0", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
             players.get(0).setPosition(-240, -220);
             players.get(0).zIndex = 10;
             players.get(0).maxzIndex = 10;
             GameManager.objects.add(players.get(0));
             players.get(0).visible = false;
 
-            players.add(new Player("players.get(1)", 63, 68, "/duckSheetLong.png", 24, 0.01f, 1));
+            players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 1));
             players.get(1).setPosition(-165, 0);
             players.get(1).zIndex = 10;
             players.get(1).maxzIndex = 10;
@@ -75,22 +75,29 @@ public class selectionLevel extends GameLevel {
         }
         else
             {
+                GameManager.camera.boundsRange = 1;
                 for(int i = 0; i < GameManager.players.size(); i++)
                 {
-                    if(GameManager.players.get(i) != null)
-                    {
                         players.add(GameManager.players.get(i));
-                        players.get(i).setPosition(((i * 50) - 25),0);
+                        players.get(i).setPosition(((i * 50) - 25),-600);
                         GameManager.objects.add(players.get(i));
-                        GameManager.objects.add(GameManager.timers.get(i));
-                    }
+                        players.get(i).zIndex = 10;
+                        players.get(i).maxzIndex = 10;
+                        GameManager.cameraPlayers.add(players.get(i));
+                        players.get(i).setTimedOut(false);
+                        players.get(i).setRemoved(false);
+                        players.get(i).setInGame(true);
+                        players.get(i).setTime(60);
+                        players.get(i).setDead(false);
+
+                        if(players.get(i).isGoose())
+                        {
+                            players.get(i).setGoose(false);
+                            players.get(i).changeSpecies();
+                        }
                 }
-                this.loadPoint = 1;
             }
 
-        this.verticleBounds.add(new Vector(-720, -750));
-        this.verticleBounds.add(new Vector(-750, -1000));
-        this.horizBounds.add(new Vector(0,0));
 
         //this.verticleBounds.add(new Vector(-600, -600));
 
@@ -203,6 +210,7 @@ public class selectionLevel extends GameLevel {
         explosiveGuns[0].setPosition(187, -782);
         explosiveGuns[0].zIndex = 6;
         GameManager.objects.add(explosiveGuns[0]);
+        explosiveGuns[0].getObjImage().changeColor(players.get(0).getSkinColors()[1], players.get(0).getSkinColors()[players.get(0).getSkIndex()]);
 
         explosiveGuns[1] = new Object("explosiveGuns1", 259, 54, "/explosiveSelections2.png", 5, 0f);
         explosiveGuns[1].setTag("Selection");
@@ -211,6 +219,7 @@ public class selectionLevel extends GameLevel {
         otherC.setDesignatedPlayer(1);
         explosiveGuns[1].setPosition(187, -782);
         explosiveGuns[1].zIndex = 5;
+        explosiveGuns[1].getObjImage().changeColor(players.get(1).getSkinColors()[1], players.get(1).getSkinColors()[players.get(1).getSkIndex()]);
         GameManager.objects.add(explosiveGuns[1]);
 
         /*explosiveGuns[2] = new Object("explosiveGuns2", 259, 54, "/explosiveSelections2.png", 5, 0f);
@@ -226,34 +235,30 @@ public class selectionLevel extends GameLevel {
     @Override
     public void update(Main main, float dt)
     {
-        //System.out.println(GameManager.players.size());
-        if(!players.get(0).isNearSelect() && !players.get(0).isSelecting())
-        {
-            explosiveGuns[0].setFrame(0);
-        }
-        else if(!players.get(0).isSelecting())
-            {
-                explosiveGuns[0].setFrame(4);
-            }
-        if(!players.get(1).isNearSelect())
-        {
-            explosiveGuns[1].setFrame(0);
-        }
-        else if(!players.get(1).isSelecting())
-            {
-              explosiveGuns[1].setFrame(4);
-            }
         if(players.get(0).visible)
         {
             readyUp(door, dt);
         }
-        if(!players.get(1).visible)
+        if(GameManager.firstTime)
         {
-            players.get(1).position.y = GameManager.center.position.y - 220;
+            if (!players.get(1).visible) {
+                players.get(1).position.y = GameManager.center.position.y - 220;
+            }
         }
         if(players.get(0).isInGame())
         {
             allReady = true;
+        }
+        for(int i = 0; i < players.size(); i++)
+        {
+            if(!players.get(i).isNearSelect() && !players.get(i).isSelecting())
+            {
+                explosiveGuns[i].setFrame(0);
+            }
+            else if(!players.get(i).isSelecting())
+            {
+                explosiveGuns[i].setFrame(4);
+            }
         }
     }
 
@@ -284,5 +289,6 @@ public class selectionLevel extends GameLevel {
         GameManager.objects.clear();
         GameManager.textObjects.clear();
         GameManager.gameLevelManager.currLevel = null;
+        players.clear();
     }
 }
