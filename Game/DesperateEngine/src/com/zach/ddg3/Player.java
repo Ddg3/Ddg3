@@ -701,11 +701,11 @@ public class Player extends Object
                     break;
 
                 case 3:
-                    this.addComponent(new WeaponComponent(this, "rocketLauncher"));
-                    newWidth = 102;
-                    newHeight = 81;
-                    newPath = "/Duck_rocketLauncher.png";
-                    newFrames = 16;
+                    this.addComponent(new WeaponComponent(this, "cannon"));
+                    newWidth = 101;
+                    newHeight = 103;
+                    newPath = "/Duck_cannon.png";
+                    newFrames = 8;
                     break;
             }
             widthDifference = Math.abs(this.width - newWidth);
@@ -753,6 +753,14 @@ public class Player extends Object
                     newFrames = 16;
                     baseHeight = 100;
                     break;
+
+                case "cannon":
+                    this.addComponent(new WeaponComponent(this, "cannon"));
+                    newWidth = 101;
+                    newHeight = 127;
+                    newPath = "/Goose_cannon.png";
+                    newFrames = 8;
+                    break;
             }
             widthDifference = Math.abs(this.width - newWidth);
             heightDifference = Math.abs(this.height - newHeight);
@@ -787,6 +795,14 @@ public class Player extends Object
                         newPath = "/Duck_grenadeLauncher.png";
                         newFrames = 16;
                         baseHeight = 68;
+                        break;
+
+                    case "cannon":
+                        this.addComponent(new WeaponComponent(this, "cannon"));
+                        newWidth = 101;
+                        newHeight = 103;
+                        newPath = "/Duck_cannon.png";
+                        newFrames = 8;
                         break;
                 }
                 widthDifference = Math.abs(this.width - newWidth);

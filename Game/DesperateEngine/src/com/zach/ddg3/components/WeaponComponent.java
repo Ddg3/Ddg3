@@ -156,7 +156,7 @@ public class WeaponComponent extends Component
         switch (weaponName)
         {
             case "rocketLauncher":
-                speed = 50f;
+                speed = 60f;
                 explodes = true;
                 accelerates = true;
                 accelRate = 0.1f;
@@ -222,7 +222,45 @@ public class WeaponComponent extends Component
                 bulletOffsetG[7] = new Vector(-30,22);
                 break;
 
+            case "cannon":
+                speed = 70f;
+                explodes = true;
+                bounces = true;
+                hasDirection = false;
+
+                bulletPath = "/cannon_Bullet.png";
+                bulletWidth = 27;
+                bulletHeight = 27;
+                bulletFrames = 1;
+                bulletFrameTime = 0.1f;
+
+                bulletOffsetD[0] = new Vector(-8,2);
+                bulletOffsetD[1] = new Vector(30,22);
+                bulletOffsetD[2] = new Vector(32,-2);
+                bulletOffsetD[3] = new Vector(31,-26);
+                bulletOffsetD[4] = new Vector(10,-4);
+                bulletOffsetD[5] = new Vector(-31,-26);
+                bulletOffsetD[6] = new Vector(-32,-2);
+                bulletOffsetD[7] = new Vector(-30,22);
+
+                bulletOffsetG[0] = new Vector(-10,4);
+                bulletOffsetG[1] = new Vector(24,24);
+                bulletOffsetG[2] = new Vector(32,-2);
+                bulletOffsetG[3] = new Vector(31,-26);
+                bulletOffsetG[4] = new Vector(10,-4);
+                bulletOffsetG[5] = new Vector(-31,-26);
+                bulletOffsetG[6] = new Vector(-32,-2);
+                bulletOffsetG[7] = new Vector(-30,22);
+                break;
         }
+    }
+
+    public int getBounceCount() {
+        return bounceCount;
+    }
+
+    public void setBounceCount(int bounceCount) {
+        this.bounceCount = bounceCount;
     }
 
     public boolean isHasDirection() {

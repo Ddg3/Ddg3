@@ -40,6 +40,10 @@ public class Bullet extends Object
     private float speed;
     private float tempSlow = 0f;
     private float tempAccel = 0f;
+    private int tempBounces = 0;
+    private boolean colliding = false;
+    private float tempCollisionBuffer = 0;
+    private float collisionBuffer = 0.02f;
 
     public Bullet(String name, int width, int height, String path, int totalFrames, float frameLife, int direction, WeaponComponent weapon)
     {
@@ -114,6 +118,15 @@ public class Bullet extends Object
             this.speed += tempAccel;
             tempAccel += dt;
         }
+
+        if(colliding)
+        {
+            tempCollisionBuffer += dt;
+            if(tempCollisionBuffer >= collisionBuffer)
+            {
+                colliding = false;
+            }
+        }
     }
 
     public void move(float dt)
@@ -182,7 +195,66 @@ public class Bullet extends Object
     {
         if(other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Bullet") )
         {
-            if(!weapon.isStopsAtWall())
+            if(weapon.isBounces())
+            {
+                /*int remainder = 0;
+                if (direction + 4 - 8 > 0)
+                {
+                    remainder = direction + 4 - 8;
+                }
+
+                direction += 4;*/
+
+                if(!colliding)
+                {
+                    switch (direction)
+                    {
+                        case 0:
+                        direction = 4;
+                        break;
+                        case 1:
+                            direction = 5;
+                            break;
+                        case 2:
+                            direction = 6;
+                            break;
+                        case 3:
+                            direction = 7;
+                            break;
+                        case 4:
+                            direction = 0;
+                            break;
+                        case 5:
+                            direction = 1;
+                            break;
+                        case 6:
+                            direction = 2;
+                            break;
+                        case 7:
+                            direction = 3;
+                            break;
+                    }
+                }
+
+                colliding = true;
+
+                if (weapon.getBounceCount() > 0)
+                {
+                    tempBounces++;
+                    if (tempBounces == weapon.getBounceCount())
+                    {
+                        if (weapon.isExplodes())
+                        {
+                            explode(false);
+                        }
+                        else
+                            {
+                                GameManager.objects.remove(this);
+                            }
+                    }
+                }
+            }
+            else if(!weapon.isStopsAtWall())
             {
                 GameManager.objects.remove(this);
                 if (weapon.isExplodes())
@@ -190,6 +262,7 @@ public class Bullet extends Object
                     explode(false);
                 }
             }
+
             else
             {
                 this.speed = 0;
