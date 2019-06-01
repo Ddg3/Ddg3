@@ -44,6 +44,10 @@ public class Bullet extends Object
     private boolean colliding = false;
     private float tempCollisionBuffer = 0;
     private float collisionBuffer = 0.02f;
+    private boolean collidingTop = false;
+    private boolean collidingBottom = false;
+    private boolean collidingLeft = false;
+    private boolean collidingRight = false;
 
     public Bullet(String name, int width, int height, String path, int totalFrames, float frameLife, int direction, WeaponComponent weapon)
     {
@@ -125,6 +129,10 @@ public class Bullet extends Object
             if(tempCollisionBuffer >= collisionBuffer)
             {
                 colliding = false;
+                collidingBottom = false;
+                collidingLeft = false;
+                collidingRight = false;
+                collidingTop = false;
             }
         }
     }
@@ -195,43 +203,95 @@ public class Bullet extends Object
     {
         if(other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Bullet") )
         {
-            if(weapon.isBounces())
-            {
-                /*int remainder = 0;
-                if (direction + 4 - 8 > 0)
+            AABBComponent myC = (AABBComponent)this.findComponentBySubtag("bullet");
+            AABBComponent otherC = (AABBComponent)other.findComponentBySubtag("wall");
+            //System.out.println(Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) + " < " + (myC.getHalfWidth() + otherC.getHalfWidth()));
+            if (Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) < (myC.getHalfWidth() + otherC.getHalfWidth()) - 2) {
+                //Top/bottom collision because X values are closer than Y
+                //Top
+                if (myC.getCenterY() < otherC.getCenterY())
                 {
-                    remainder = direction + 4 - 8;
+                    collidingTop = true;
                 }
 
-                direction += 4;*/
+                //Bottom
+                if (myC.getCenterY() > otherC.getCenterY())
+                {
+                    collidingBottom = true;
+                }
+            }
+            else
+            {
+                //Side collision bc vice versa
+                //Left
+                if (myC.getCenterX() < otherC.getCenterX())
+                {
+                    collidingRight = true;
+                }
 
+                //Right
+                if (myC.getCenterX() > otherC.getCenterX())
+                {
+                    collidingLeft = true;
+                }
+            }
+            if(weapon.isBounces())
+            {
                 if(!colliding)
                 {
                     switch (direction)
                     {
                         case 0:
-                        direction = 4;
-                        break;
+                            direction = 4;
+                            break;
                         case 1:
-                            direction = 5;
+                            if(collidingTop)
+                            {
+                                direction = 3;
+                            }
+                            if(collidingLeft || collidingRight)
+                            {
+                                direction = 7;
+                            }
                             break;
                         case 2:
                             direction = 6;
                             break;
                         case 3:
-                            direction = 7;
+                            if(collidingBottom)
+                            {
+                                direction = 1;
+                            }
+                            if(collidingLeft || collidingRight)
+                            {
+                                direction = 5;
+                            }
                             break;
                         case 4:
                             direction = 0;
                             break;
                         case 5:
-                            direction = 1;
+                            if(collidingBottom)
+                            {
+                                direction = 7;
+                            }
+                            if(collidingLeft || collidingRight)
+                            {
+                                direction = 3;
+                            }
                             break;
                         case 6:
                             direction = 2;
                             break;
                         case 7:
-                            direction = 3;
+                            if(collidingTop)
+                            {
+                                direction = 5;
+                            }
+                            if(collidingLeft || collidingRight)
+                            {
+                                direction = 1;
+                            }
                             break;
                     }
                 }
