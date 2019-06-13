@@ -20,16 +20,28 @@ public class WallTile extends Wall
 
     public enum directions
     {
-        LEFTof,
-        RIGHTof,
-        DOWNof,
-        UPof,
-        BETWEEN_HORIZof,
-        BETWEEN_VERTof,
-        ULCORNERof,
-        LLCORNERof,
-        URCORNERof,
-        LRCORNERof
+        SINGLE(0),
+        LEFTof(1),
+        RIGHTof(3),
+        DOWNof(12),
+        UPof(4),
+        BETWEEN_HORIZof(2),
+        BETWEEN_VERTof(8),
+        ULCORNERof(5),
+        LLCORNERof(13),
+        URCORNERof(7),
+        LRCORNERof(15);
+
+        private int frame;
+
+        public int getFrame() {
+            return frame;
+        }
+
+        private directions(int frame)
+        {
+            this.frame = frame;
+        }
     }
 
     @Override
@@ -77,38 +89,32 @@ public class WallTile extends Wall
 
     public void setWallFrom(directions dir)
     {
-        int direction = 0;
         float posX = this.getPositionX();
         float posY = this.getPositionY();
         int zInd = this.zIndex;
 
-        switch (dir)
-        {
+        switch (dir) {
             case LEFTof:
-                direction = 1;
                 posX -= this.width;
                 break;
             case RIGHTof:
-                direction = 3;
                 posX += this.width;
                 break;
             case UPof:
-                direction = 4;
                 posY -= this.height;
                 zInd -= 1;
                 break;
             case DOWNof:
-                direction = 12;
                 posY += this.height / 2;
                 zInd += 1;
                 break;
-
         }
 
-        WallTile newWall = new WallTile();
-        newWall.position = new Vector(posX, posY);
-        newWall.setFrame(direction);
-        newWall.zIndex = zInd;
-        GameManager.objects.add(newWall);
+        WallTile wall = new WallTile();
+        wall.position = new Vector(posX, posY);
+        wall.zIndex = zInd;
+        wall.setFrame(dir.frame);
+        GameManager.objects.add(wall);
     }
+
 }

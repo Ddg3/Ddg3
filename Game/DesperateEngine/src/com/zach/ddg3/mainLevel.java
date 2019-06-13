@@ -39,12 +39,12 @@ public class mainLevel extends GameLevel
 
     private static int wallInd = 0;
     public WallTile wall;
-
+    public WallTile wall2;
 
     @Override
     public void init(Main main)
     {
-        /*players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
+        players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
         players.get(0).zIndex = 5;
         players.get(0).addComponent(new WeaponComponent(players.get(0), "rocketLauncher"));
         players.get(0).changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
@@ -53,7 +53,7 @@ public class mainLevel extends GameLevel
         GameManager.objects.add(players.get(0));
         GameManager.players.add(players.get(0));
 
-        players.add(new Player("player2", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
+        /*players.add(new Player("player2", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
         players.get(1).zIndex = 5;
         players.get(1).addComponent(new WeaponComponent(players.get(1), "rocketLauncher"));
         /*players.get(1).changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
@@ -74,7 +74,7 @@ public class mainLevel extends GameLevel
         this.verticleBounds.add(new Vector(-15, -350));
         this.horizBounds.add(new Vector(16, -17));
 
-        for(int i = 0; i < GameManager.players.size(); i++)
+        /*for(int i = 0; i < GameManager.players.size(); i++)
         {
             if(GameManager.players.get(i) != null)
             {
@@ -91,7 +91,7 @@ public class mainLevel extends GameLevel
                     players.get(i).changeSpecies();
                 }
             }
-        }
+        }*/
 
         frontWall = new Wall("frontWall", 398, 116, "/frontWall.png", 1, 0.1f, false);
         frontWall.position.y = -206;
@@ -220,7 +220,7 @@ public class mainLevel extends GameLevel
         kingSwan.setFrame(1);
         GameManager.objects.add(kingSwan);
 
-        setWalls(0);
+        setWalls(2);
     }
 
     @Override
@@ -285,16 +285,27 @@ public class mainLevel extends GameLevel
         switch(i)
         {
             case 0:
-                //3LINE
-                setCenterWall(0, -50, true);
+                //3-tile line in the middle
+                setNewWall(WallTile.directions.BETWEEN_HORIZof, 0, -50);
                 wall.setWallFrom(WallTile.directions.LEFTof);
                 wall.setWallFrom(WallTile.directions.RIGHTof);
                 break;
             case 1:
+                //Two 2-tile lines on top and one tile on bottom; extending vertically
+                setNewWall(WallTile.directions.UPof, -120, -120);
+                wall.setWallFrom(WallTile.directions.DOWNof);
 
+                setNewWall(WallTile.directions.UPof, 120, -120);
+                wall.setWallFrom(WallTile.directions.DOWNof);
+
+                setNewWall(WallTile.directions.SINGLE, 0, 110);
                 break;
             case 2:
-
+                //Four tile diamond
+                setNewWall(WallTile.directions.SINGLE, 0, -120);
+                setNewWall(WallTile.directions.SINGLE, -160, 0);
+                setNewWall(WallTile.directions.SINGLE, 160, 0);
+                setNewWall(WallTile.directions.SINGLE, 0, 110);
                 break;
             case 3:
 
@@ -308,21 +319,13 @@ public class mainLevel extends GameLevel
         }
     }
 
-    public void setCenterWall(float posX, float posY, boolean horiz)
+    public void setNewWall(WallTile.directions dir, float posX, float posY)
     {
         wall = new WallTile();
         wall.position = new Vector(posX, posY);
-        if(horiz)
-        {
-            wall.setFrame(2);
-        }
-        else
-            {
-                wall.setFrame(8);
-            }
-        GameManager.objects.add(wall);
         wall.zIndex = 3;
-        wall.paddingSide = -55;
+        wall.setFrame(dir.getFrame());
+        GameManager.objects.add(wall);
     }
     public static void pedestalFollow(Object pedestal, int index)
     {
