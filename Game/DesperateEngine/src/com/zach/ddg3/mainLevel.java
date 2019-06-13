@@ -37,16 +37,30 @@ public class mainLevel extends GameLevel
     private static int speakInd = 0;
     private static boolean buttonPressed = false;
 
+    private static int wallInd = 0;
+    public WallTile wall;
+
+
     @Override
     public void init(Main main)
     {
         /*players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
-        players.get(0).zIndex = 3;
+        players.get(0).zIndex = 5;
         players.get(0).addComponent(new WeaponComponent(players.get(0), "rocketLauncher"));
         players.get(0).changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
         players.get(0).setGoose(true);
         players.get(0).changeSpecies();
-        GameManager.objects.add(players.get(0));*/
+        GameManager.objects.add(players.get(0));
+        GameManager.players.add(players.get(0));
+
+        players.add(new Player("player2", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
+        players.get(1).zIndex = 5;
+        players.get(1).addComponent(new WeaponComponent(players.get(1), "rocketLauncher"));
+        /*players.get(1).changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
+        players.get(1).setGoose(true);
+        players.get(1).changeSpecies();
+        GameManager.objects.add(players.get(1));
+        GameManager.players.add(players.get(1));*/
 
         int randGoose = ThreadLocalRandom.current().nextInt(0, 2);
 
@@ -94,7 +108,7 @@ public class mainLevel extends GameLevel
 
         backGate = new Wall("backGate", 639, 58, "/backFence.png", 1, 0.1f, false);
         backGate.position.y = 130;
-        backGate.zIndex = 3;
+        backGate.zIndex = 7;
         backGate.paddingTop = 30;
         backGate.setOffsetCenterY(35);
         GameManager.objects.add(backGate);
@@ -205,6 +219,8 @@ public class mainLevel extends GameLevel
         kingSwan.zIndex = 200;
         kingSwan.setFrame(1);
         GameManager.objects.add(kingSwan);
+
+        setWalls(0);
     }
 
     @Override
@@ -264,6 +280,50 @@ public class mainLevel extends GameLevel
         }
     }
 
+    public void setWalls(int i)
+    {
+        switch(i)
+        {
+            case 0:
+                //3LINE
+                setCenterWall(0, -50, true);
+                wall.setWallFrom(WallTile.directions.LEFTof);
+                wall.setWallFrom(WallTile.directions.RIGHTof);
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+            case 5:
+
+                break;
+        }
+    }
+
+    public void setCenterWall(float posX, float posY, boolean horiz)
+    {
+        wall = new WallTile();
+        wall.position = new Vector(posX, posY);
+        if(horiz)
+        {
+            wall.setFrame(2);
+        }
+        else
+            {
+                wall.setFrame(8);
+            }
+        GameManager.objects.add(wall);
+        wall.zIndex = 3;
+        wall.paddingSide = -55;
+    }
     public static void pedestalFollow(Object pedestal, int index)
     {
         //GameManager.timers.get(index).offsetPos.x = pedestal.offsetPos.x;

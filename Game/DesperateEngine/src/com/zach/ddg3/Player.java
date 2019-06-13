@@ -60,6 +60,9 @@ public class Player extends Object
     private int keyAltShoot = KeyEvent.VK_SHIFT;
 
     private int baseHeight = 68;
+    private int baseWidth = 63;
+    private int basePaddingTop = 15;
+    private int basePaddingSide = 10;
     private int[] skinColors = new int[8];
     private int skIndex = 1;
     private boolean rainbow;
@@ -174,7 +177,7 @@ public class Player extends Object
                 tempSecond = second;
             }
 
-            if(time <= 50 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE && !isTimedOut)
+            if(time <= 0 && GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE && !isTimedOut)
             {
                 isTimedOut = true;
                 GameManager.cameraPlayers.remove(this);
@@ -708,10 +711,19 @@ public class Player extends Object
                     newFrames = 8;
                     break;
             }
-            widthDifference = Math.abs(this.width - newWidth);
-            heightDifference = Math.abs(this.height - newHeight);
+            widthDifference = newWidth - this.width;
+            heightDifference = newHeight - this.height;
             this.paddingSide += (widthDifference / 2);
             this.paddingTop += (heightDifference / 2);
+
+            if((this.width / 2) - this.paddingSide < (this.baseWidth / 2) - basePaddingSide)
+            {
+                this.paddingSide = basePaddingSide;
+            }
+            if((this.height / 2) - this.paddingTop < (this.baseHeight / 2) - basePaddingTop)
+            {
+                this.paddingTop = basePaddingTop;
+            }
             this.selection.setFrame(0);
             selecting = false;
             this.selection = null;

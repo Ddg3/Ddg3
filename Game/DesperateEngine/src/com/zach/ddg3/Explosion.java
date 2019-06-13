@@ -48,7 +48,8 @@ public class Explosion extends Object
 
         for(int i = 0; i < knockedObjects.size(); i++)
         {
-            if (knockedObjects.get(i) != null && knockedObjects.get(i).isKnocked()) {
+            if (knockedObjects.get(i) != null && knockedObjects.get(i).isKnocked())
+            {
                 Vector knockback = knockedObjects.get(i).findVector(this.position, knockedObjects.get(i).position);
                 knockedObjects.get(i).applyKnockback(knockback, dt);
             }
@@ -64,10 +65,26 @@ public class Explosion extends Object
     {
         if(other.getTag().equalsIgnoreCase("Player"))
         {
+            boolean alreadyExists = false;
             Player player = (Player)other;
             Player ownerP = (Player)owner;
-            knockedObjects.add(other);
-            knockedObjects.get(knockedObjects.indexOf(other)).setKnocked(true);
+
+            /*for(int i = 0; i <= knockedObjects.size(); i++)
+            {
+                if(knockedObjects.size() > 0 && other == knockedObjects.get(i))
+                {
+                    alreadyExists = true;
+                }
+            }
+
+            if(!alreadyExists)
+            {*/
+                knockedObjects.add(other);
+                if(!knockedObjects.get(knockedObjects.indexOf(other)).isKnocked())
+                {
+                    knockedObjects.get(knockedObjects.indexOf(other)).setKnocked(true);
+                }
+            //}
 
             if(player.getPlayerNumber() != weapon.getPlayerNumber())
             {
