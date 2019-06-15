@@ -209,7 +209,7 @@ public class Player extends Object
     public void collision(Object other, Main main)
     {
         //System.out.println(other.getTag());
-        if(other.getTag().equalsIgnoreCase("Wall") && this.isInGame() && !isTimedOut)
+        if((other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Hole"))&& this.isInGame() && !isTimedOut)
         {
             AABBComponent myC = (AABBComponent)this.findComponentBySubtag("player");
             AABBComponent otherC = (AABBComponent)other.findComponentBySubtag("wall");
