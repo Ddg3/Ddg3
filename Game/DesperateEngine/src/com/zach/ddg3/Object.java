@@ -4,7 +4,6 @@ import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 import com.zach.engine.gfx.ImageTile;
 
-import javax.xml.soap.Text;
 
 /**
  * Created by Zach on 6/9/2018.
@@ -245,7 +244,7 @@ public class Object extends GameObject implements Comparable<Object>
 
     public void applyKnockback(Vector knockback, float dt)
     {
-        if((knockback.x / (knockback.getLength() ) != 0 || knockback.y / (knockback.getLength()) != 0) || knockback.getLength() > 100)
+        if((knockback.x / (knockback.getLength() ) > 0 || knockback.y / (knockback.getLength()) > 0) || knockback.getLength() > 100)
         {
             this.position.x += knockback.x / (knockback.getLength());
             this.position.y += knockback.y / (knockback.getLength());

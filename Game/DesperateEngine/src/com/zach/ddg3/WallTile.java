@@ -8,9 +8,7 @@ public class WallTile extends Wall
 {
     private float zUpdatePointHigh;
     private float zUpdatePointLow;
-    private directions direction;
-
-    public WallTile(directions direction)
+    public WallTile()
     {
         super("Wall", 70, 100, "/wallTiles.png", 16, 0.0f, true);
         this.tag = "Wall";
@@ -27,8 +25,7 @@ public class WallTile extends Wall
         RIGHTof(3),
         DOWNof(12),
         UPof(4),
-        BETWEEN_HORIZofR(2),
-        BETWEEN_HORIZofL(2),
+        BETWEEN_HORIZof(2),
         BETWEEN_VERTof(8),
         ULCORNERof(5),
         LLCORNERof(13),
@@ -96,8 +93,7 @@ public class WallTile extends Wall
         float posY = this.getPositionY();
         int zInd = this.zIndex;
 
-        switch (dir)
-        {
+        switch (dir) {
             case LEFTof:
                 posX -= this.width;
                 break;
@@ -112,45 +108,13 @@ public class WallTile extends Wall
                 posY += this.height / 2;
                 zInd += 1;
                 break;
-            case BETWEEN_HORIZofR:
-                posX += this.width;
-                break;
-            case BETWEEN_HORIZofL:
-                posX -= this.width;
-                break;
         }
 
-        WallTile wall = new WallTile(dir);
+        WallTile wall = new WallTile();
         wall.position = new Vector(posX, posY);
         wall.zIndex = zInd;
         wall.setFrame(dir.frame);
         GameManager.objects.add(wall);
     }
 
-    public void setHoleFrom(HoleTile.directions dir)
-    {
-        float posX = this.getPositionX();
-        float posY = this.getPositionY();
-
-        switch (dir) {
-            case LEFTof:
-                posX -= this.width;
-                break;
-            case RIGHTof:
-                posX += this.width;
-                break;
-            case UPof:
-                posY -= this.height;
-                break;
-            case DOWNof:
-                posY += this.height / 2;
-                break;
-        }
-
-        HoleTile hole = new HoleTile();
-        hole.position = new Vector(posX, posY);
-        hole.zIndex = this.zIndex;
-        hole.setFrame(dir.getFrame());
-        GameManager.objects.add(hole);
-    }
 }

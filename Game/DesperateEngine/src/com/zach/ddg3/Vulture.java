@@ -4,7 +4,6 @@ import com.zach.ddg3.components.AABBComponent;
 import com.zach.ddg3.components.FollowerComponent;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
-import org.omg.CORBA.INTERNAL;
 
 import java.util.ArrayList;
 
@@ -61,7 +60,7 @@ public class Vulture extends Object
     public void update(Main main, GameManager gameManager, float dt)
     {
         follow(dt);
-        if(target.getTime() <= 57 && !isReturning && targetIndex == 0)
+        if(target.getTime() <= 0 && !isReturning && targetIndex == 0)
         {
             isReturning = true;
             toTarget = this.findVector(getPosition(), targetPosition.get(targetIndex));

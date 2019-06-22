@@ -5,7 +5,7 @@ import com.ivan.xinput.XInputButtonsDelta;
 import com.ivan.xinput.XInputComponentsDelta;
 import com.ivan.xinput.XInputDevice;
 import com.ivan.xinput.enums.XInputButton;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+//import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.zach.ddg3.components.AABBComponent;
 import com.zach.ddg3.components.WeaponComponent;
 import com.zach.engine.Main;
@@ -54,10 +54,12 @@ public class Player extends Object
     private int keyRight = KeyEvent.VK_D;
     private int keyDropIn = KeyEvent.VK_SPACE;
     private int keySelect = KeyEvent.VK_E;
-    private int keyShoot = KeyEvent.VK_ENTER;
+    //private int keyShoot = KeyEvent.VK_SPACE;
     private int keyDeselect = KeyEvent.VK_R;
+    private int keyColor1 = KeyEvent.VK_Z;
+    private int keyColor2 = KeyEvent.VK_X;
     private boolean keyBoardSelecting = false;
-    private int keyAltShoot = KeyEvent.VK_SHIFT;
+    //private int keyAltShoot = KeyEvent.VK_SHIFT;
 
     private int baseHeight = 68;
     private int baseWidth = 63;
@@ -71,6 +73,18 @@ public class Player extends Object
     private boolean nearSelect = false;
     private boolean isTimedOut = false;
     private boolean isGrabbed = false;
+    private boolean colorKeyUp = true;
+
+    public boolean isKeyBoard() {
+        return isKeyBoard;
+    }
+
+    public void setKeyBoard(boolean keyBoard) {
+        isKeyBoard = keyBoard;
+    }
+
+    private boolean isKeyBoard = true;
+    private Vector toMouse = new Vector(0,0);
 
     private ArrayList<Vector> frameHitboxOffsets = new ArrayList<>(1);
 
@@ -140,20 +154,21 @@ public class Player extends Object
                 cameraCollision();
                 moveController(dt);
                 look();
-                changeSkin(gameManager);
+                changeSkin(gameManager, main);
                 rainbowSkin();
             }
             //System.out.println(offsetPos.x);
            /*this.offsetPos.x = main.getInput().getMouseX() - this.width;
            this.offsetPos.y = main.getInput().getMouseY() + this.height + 180;*/
         }
-        else
+        else if(isKeyBoard)
         {
             if(this.isInGame() && !selecting && !isTimedOut)
             {
                 cameraCollision();
                 moveKeyboard(main, dt);
-                //changeSkin(gameManager);
+                lookKeyboard(main);
+                changeSkin(gameManager, main);
             }
         }
 
@@ -187,7 +202,10 @@ public class Player extends Object
                 this.zIndex = Integer.MAX_VALUE - 1;
             }
 
-            timer.setFrame(time);
+            if(time > 0)
+            {
+                timer.setFrame(time);
+            }
             /*timer.setPosition(this.position.x, this.position.y - 50);
             timer.visible = true;*/
         }
@@ -209,7 +227,7 @@ public class Player extends Object
     public void collision(Object other, Main main)
     {
         //System.out.println(other.getTag());
-        if((other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Hole"))&& this.isInGame() && !isTimedOut)
+        if(other.getTag().equalsIgnoreCase("Wall") && this.isInGame() && !isTimedOut)
         {
             AABBComponent myC = (AABBComponent)this.findComponentBySubtag("player");
             AABBComponent otherC = (AABBComponent)other.findComponentBySubtag("wall");
@@ -282,12 +300,16 @@ public class Player extends Object
         }
     }
 
-    public void changeSkin(GameManager gameManager)
+    public void changeSkin(GameManager gameManager, Main main)
     {
         int oldSkindex = skIndex;
         if(GameManager.gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
         {
-            if(buttons.isPressed(XInputButton.X))
+            if(!colorKeyUp && (isKeyBoard && (main.getInput().isKeyUp(keyColor1) || main.getInput().isKeyUp(keyColor2))))
+            {
+                colorKeyUp = true;
+            }
+            if(buttons.isPressed(XInputButton.X) || (isKeyBoard && main.getInput().isKey(keyColor1) && colorKeyUp))
             {
                 if(skIndex == 0)
                 {
@@ -296,9 +318,10 @@ public class Player extends Object
                 else
                     {
                         skIndex--;
+                        colorKeyUp = false;
                     }
             }
-            if(buttons.isPressed(XInputButton.Y))
+            if(buttons.isPressed(XInputButton.Y)|| (isKeyBoard && main.getInput().isKey(keyColor2) && colorKeyUp))
             {
                 if (skIndex == 7)
                 {
@@ -307,6 +330,7 @@ public class Player extends Object
                 else
                     {
                       skIndex++;
+                        colorKeyUp = false;
                     }
             }
             this.getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
@@ -406,7 +430,7 @@ public class Player extends Object
         {
             if(!collidingRight)
             {
-                this.position.x -= 200f * dt;
+                this.position.x -= 150f * dt;
             }
             if (rStickX < 0.4f && rStickX > -0.4f)
             {
@@ -418,7 +442,7 @@ public class Player extends Object
         {
             if(!collidingLeft)
             {
-                this.position.x += 200f * dt;
+                this.position.x += 150f * dt;
             }
             if (rStickX < 0.4f && rStickX > -0.4f) {
                 this.setFrame(2 + this.getFrameOffset());
@@ -430,7 +454,7 @@ public class Player extends Object
         {
             if(!collidingTop)
             {
-                this.position.y += 200f * dt;
+                this.position.y += 150f * dt;
             }
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(0 + this.getFrameOffset());
@@ -442,7 +466,7 @@ public class Player extends Object
         {
             if(!collidingBottom)
             {
-                this.position.y -= 200f * dt;
+                this.position.y -= 150f * dt;
             }
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(4 + this.getFrameOffset());
@@ -582,9 +606,48 @@ public class Player extends Object
         }*/
     }
 
+    public void lookKeyboard(Main main)
+    {
+        double mousePosX = main.getInput().getMouseX() - 320;
+        double mousePosY = main.getInput().getMouseY() - main.getHeight() / 2;
+        double angle = Math.toDegrees(Math.atan2(mousePosY, mousePosX));
+        if ((angle < -150 && angle > -180) || (angle > 150 && angle < 180)) {
+            //Left
+            this.setFrame(6 + this.getFrameOffset());
+        }
+        if ((angle > -30 && angle < 0) || (angle < 30 && angle > 0)) {
+            //Right
+            this.setFrame(2 + this.getFrameOffset());
+        }
+        if ((angle > 60 && angle < 120)) {
+            //Down
+            this.setFrame(0 + this.getFrameOffset());
+        }
+        if (angle < -60 && angle > -120) {
+            //Up
+            this.setFrame(4 + this.getFrameOffset());
+        }
+        if (angle > -150 && angle < -120) {
+            //Left and Up
+            this.setFrame(5 + this.getFrameOffset());
+        }
+        if (angle < 150 && angle > 120) {
+            //Left and Down
+            this.setFrame(7 + this.getFrameOffset());
+        }
+        if (angle > 30 && angle < 60) {
+            //Right and Down
+            this.setFrame(1 + this.getFrameOffset());
+        }
+        if (angle < -30 && angle > -60) {
+            //Right and Up
+            this.setFrame(3 + this.getFrameOffset());
+        }
+    }
+
     public void dropIn(float dt, Main main)
     {
-        if((this.device.getDelta().getButtons().isPressed(XInputButton.START) || main.getInput().isKey(keyDropIn)) && !this.isInGame() && !this.droppingIn)
+        if((this.device.getDelta().getButtons().isPressed(XInputButton.START) || ( isKeyBoard && main.getInput().isKey(keyDropIn))) && !this.isInGame() && !this.droppingIn)
         {
             this.droppingIn = true;
             this.visible = true;
@@ -677,7 +740,7 @@ public class Player extends Object
                     selection.goToNextFrame();
                 }
             }
-        if(this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKeyDown(keySelect))
+        if(this.device.getDelta().getButtons().isPressed(XInputButton.A) || (isKeyBoard && main.getInput().isKeyDown(keySelect)))
         {
             int newWidth = 0;
             int newHeight = 0;
@@ -774,10 +837,10 @@ public class Player extends Object
                     newFrames = 8;
                     break;
             }
-            widthDifference = Math.abs(this.width - newWidth);
-            heightDifference = Math.abs(this.height - newHeight);
-            this.paddingSide += (widthDifference / 2);
-            this.paddingTop += (heightDifference / 2);
+            widthDifference = newWidth - this.width;
+            heightDifference = newHeight - this.height;
+            this.paddingSide += (int)(widthDifference * 1.5);
+            this.paddingTop += (int)(heightDifference * 1.5);
             changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
             this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
             frameHitboxOffsets.clear();
@@ -817,10 +880,10 @@ public class Player extends Object
                         newFrames = 8;
                         break;
                 }
-                widthDifference = Math.abs(this.width - newWidth);
-                heightDifference = Math.abs(this.height - newHeight);
-                this.paddingSide += (widthDifference / 2);
-                this.paddingTop += (heightDifference / 2);
+                widthDifference = newWidth - this.width;
+                heightDifference = newHeight - this.height;
+                this.paddingSide += (int)(widthDifference * 1.5);
+                this.paddingTop += (int)(heightDifference * 1.5);
                 changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
                 this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
                 frameHitboxOffsets.clear();
@@ -846,6 +909,22 @@ public class Player extends Object
         frameHitboxOffsets.add(7, new Vector(0,0));
     }
 
+    public int getKeyColor1() {
+        return keyColor1;
+    }
+
+    public void setKeyColor1(int keyColor1) {
+        this.keyColor1 = keyColor1;
+    }
+
+    public int getKeyColor2() {
+        return keyColor2;
+    }
+
+    public void setKeyColor2(int keyColor2) {
+        this.keyColor2 = keyColor2;
+    }
+
     public boolean isGrabbed() {
         return isGrabbed;
     }
@@ -861,13 +940,13 @@ public class Player extends Object
     public void setTimedOut(boolean timedOut) {
         isTimedOut = timedOut;
     }
-    public int getKeyAltShoot() {
+    /*public int getKeyAltShoot() {
         return keyAltShoot;
     }
 
     public void setKeyAltShoot(int keyAltShoot) {
         this.keyAltShoot = keyAltShoot;
-    }
+    }*/
 
     public boolean isNearSelect() {
         return nearSelect;
@@ -997,13 +1076,13 @@ public class Player extends Object
         isGoose = goose;
     }
 
-    public int getKeyShoot() {
+    /*public int getKeyShoot() {
         return keyShoot;
     }
 
     public void setKeyShoot(int keyShoot) {
         this.keyShoot = keyShoot;
-    }
+    }*/
     public int getKeyUp() {
         return keyUp;
     }

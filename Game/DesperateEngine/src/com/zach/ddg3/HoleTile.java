@@ -93,11 +93,11 @@ public class HoleTile extends Wall {
                 break;
         }
 
-        WallTile wall = new WallTile(dir);
+        /*WallTile wall = new WallTile(dir);
         wall.position = new Vector(posX, posY);
         wall.zIndex = zInd;
         wall.setFrame(dir.getFrame());
-        GameManager.objects.add(wall);
+        GameManager.objects.add(wall);*/
     }
 
     public void setHoleFrom(HoleTile.directions dir)

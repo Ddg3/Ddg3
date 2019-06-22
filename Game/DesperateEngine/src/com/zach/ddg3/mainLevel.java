@@ -5,9 +5,9 @@ import com.ivan.xinput.XInputDevice;
 import com.ivan.xinput.enums.XInputButton;
 import com.zach.ddg3.components.WeaponComponent;
 import com.zach.engine.Main;
-import org.omg.CORBA.INTERNAL;
+//import org.omg.CORBA.INTERNAL;
 
-import javax.xml.soap.Text;
+//import javax.xml.soap.Text;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -39,21 +39,20 @@ public class mainLevel extends GameLevel
 
     private static int wallInd = 0;
     public WallTile wall;
-    public HoleTile hole;
-    private ArrayList<Integer> wallsetOrder = new ArrayList<Integer>(8);
-    }
+    public WallTile wall2;
+    private Vulture vulture2;
 
     @Override
     public void init(Main main)
     {
-        players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
+        /*players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
         players.get(0).zIndex = 5;
         players.get(0).addComponent(new WeaponComponent(players.get(0), "rocketLauncher"));
         players.get(0).changeSprite(102, 81, "/Duck_rocketLauncher.png", 16, 0.1f);
         players.get(0).setGoose(true);
         players.get(0).changeSpecies();
         GameManager.objects.add(players.get(0));
-        GameManager.players.add(players.get(0));
+        GameManager.players.add(players.get(0));*/
 
         /*players.add(new Player("player2", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
         players.get(1).zIndex = 5;
@@ -76,12 +75,12 @@ public class mainLevel extends GameLevel
         this.verticleBounds.add(new Vector(-15, -350));
         this.horizBounds.add(new Vector(16, -17));
 
-        /*for(int i = 0; i < GameManager.players.size(); i++)
+        for(int i = 0; i < GameManager.players.size(); i++)
         {
             if(GameManager.players.get(i) != null)
             {
                 players.add(GameManager.players.get(i));
-                players.get(i).setPosition(((i * 50) - 25),0);
+                players.get(i).setPosition(((i * 400) -200),0);
                 GameManager.objects.add(players.get(i));
                 GameManager.objects.add(GameManager.timers.get(i));
                 GameManager.cameraPlayers.add(players.get(i));
@@ -93,7 +92,7 @@ public class mainLevel extends GameLevel
                     players.get(i).changeSpecies();
                 }
             }
-        }*/
+        }
 
         frontWall = new Wall("frontWall", 398, 116, "/frontWall.png", 1, 0.1f, false);
         frontWall.position.y = -206;
@@ -209,12 +208,19 @@ public class mainLevel extends GameLevel
         testText = new TextObject("" , (int)(GameManager.center.position.x),(int)(GameManager.center.position.y + 320),0xffffffff, 1);
         GameManager.textObjects.add(testText);
 
-        vulture1 = new Vulture(players.get(0), 0);
+        /*vulture1 = new Vulture(players.get(0), 0);
         GameManager.objects.add(vulture1);
         vulture1.setPosition(-200, -450);
         vulture1.targetPosition.add(new Vector(-110, -290));
         vulture1.targetPosition.add(new Vector(250, -450));
         vulture1.getObjImage().changeColor(players.get(0).getSkinColors()[1], players.get(0).getSkinColors()[players.get(0).getSkIndex()]);
+
+        vulture2 = new Vulture(players.get(1), 0);
+        GameManager.objects.add(vulture2);
+        vulture2.setPosition(-200, -450);
+        vulture2.targetPosition.add(new Vector(-20, -190));
+        vulture2.targetPosition.add(new Vector(250, -450));
+        vulture2.getObjImage().changeColor(players.get(1).getSkinColors()[1], players.get(1).getSkinColors()[players.get(1).getSkIndex()]);*/
 
         kingSwan = new Object("kingSwan", 92, 95, "/swanSpeak.png", 4, 0.1f);
         kingSwan.setPosition(-10,-301);
@@ -222,14 +228,7 @@ public class mainLevel extends GameLevel
         kingSwan.setFrame(1);
         GameManager.objects.add(kingSwan);
 
-        for(int i = 0; i < wallsetOrder.size(); i++)
-        {
-            wallsetOrder.add(i);
-        }
-        java.util.Collections.shuffle(wallsetOrder);
-
-
-        setWalls();
+        //setWalls(2);
     }
 
     @Override
@@ -295,7 +294,7 @@ public class mainLevel extends GameLevel
         {
             case 0:
                 //3-tile line in the middle
-                setNewWall(WallTile.directions.BETWEEN_HORIZofL, 0, -50);
+                setNewWall(WallTile.directions.BETWEEN_HORIZof, 0, -50);
                 wall.setWallFrom(WallTile.directions.LEFTof);
                 wall.setWallFrom(WallTile.directions.RIGHTof);
                 break;
@@ -317,65 +316,24 @@ public class mainLevel extends GameLevel
                 setNewWall(WallTile.directions.SINGLE, 0, 110);
                 break;
             case 3:
-                //3 tile colon
-                setNewWall(WallTile.directions.SINGLE, 0, -120);
-                setNewWall(WallTile.directions.SINGLE, 0, 0);
-                setNewWall(WallTile.directions.SINGLE, 0, 110);
+
                 break;
             case 4:
-                //Choke-point middle
-                setNewWall(WallTile.directions.LEFTof, -285, -20);
-                wall.setWallFrom(WallTile.directions.BETWEEN_HORIZofR);
-                setNewWall(WallTile.directions.BETWEEN_HORIZofR, -145, -20);
-                wall.setWallFrom(WallTile.directions.RIGHTof);
-                setNewWall(WallTile.directions.RIGHTof, 285, -20);
-                wall.setWallFrom(WallTile.directions.BETWEEN_HORIZofL);
-                setNewWall(WallTile.directions.LEFTof, 145, -20);
+
                 break;
             case 5:
-                //Mid pit square
-                setNewHole(HoleTile.directions.ULCORNERof, -35, -70);
-                hole.setHoleFrom(HoleTile.directions.URCORNERof);
-                hole.setHoleFrom(HoleTile.directions.LLCORNERof);
-                setNewHole(HoleTile.directions.LRCORNERof, 35, 0);
-                break;
-            case 6:
-                //2 hole row
-                setNewHole(HoleTile.directions.LEFTof, -100, -70);
-                hole.setHoleRowFrom(3, true, true);
-                setNewHole(HoleTile.directions.LEFTof, -100, 70);
-                hole.setHoleRowFrom(3, true, true);
-                break;
-            case 7:
-                // 8 single holes
-                setNewHole(HoleTile.directions.SINGLE, -80, -70);
-                setNewHole(HoleTile.directions.SINGLE, 80, -70);
-                setNewHole(HoleTile.directions.SINGLE, -80, 70);
-                setNewHole(HoleTile.directions.SINGLE, 80, 70);
-                setNewHole(HoleTile.directions.SINGLE, 240, 70);
-                setNewHole(HoleTile.directions.SINGLE, 240, -70);
-                setNewHole(HoleTile.directions.SINGLE, -240, 70);
-                setNewHole(HoleTile.directions.SINGLE, -240, -70);
+
                 break;
         }
     }
 
     public void setNewWall(WallTile.directions dir, float posX, float posY)
     {
-        wall = new WallTile(dir);
+        wall = new WallTile();
         wall.position = new Vector(posX, posY);
         wall.zIndex = 3;
         wall.setFrame(dir.getFrame());
         GameManager.objects.add(wall);
-    }
-
-    public void setNewHole(HoleTile.directions dir, float posX, float posY)
-    {
-        hole = new HoleTile();
-        hole.position = new Vector(posX, posY);
-        hole.zIndex = 1;
-        hole.setFrame(dir.getFrame());
-        GameManager.objects.add(hole);
     }
     public static void pedestalFollow(Object pedestal, int index)
     {
