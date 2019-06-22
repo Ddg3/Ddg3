@@ -4,7 +4,6 @@ import com.zach.ddg3.components.AABBComponent;
 import com.zach.engine.AbstractGame;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
-import org.omg.CORBA.INTERNAL;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class GameManager extends AbstractGame
     {
         //Runs first
         main.getRenderer().setAmbientColor(-1);
-        gameLevelManager.gameState = GameLevelManager.GameState.MAIN_STATE;
+        gameLevelManager.gameState = GameLevelManager.GameState.SELECTION_STATE;
         deviceManager.init(main);
 
         //Acts as invisible camera target for menu levels or static camera levels
@@ -143,7 +142,7 @@ public class GameManager extends AbstractGame
                     showFps = true;
                 }
         }
-        if(main.getInput().isKeyDown(KeyEvent.VK_F2))
+        if(main.getInput().isKeyDown(KeyEvent.VK_0))
         {
             if(showHitboxes)
             {

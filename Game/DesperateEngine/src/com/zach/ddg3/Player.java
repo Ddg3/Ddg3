@@ -5,7 +5,7 @@ import com.ivan.xinput.XInputButtonsDelta;
 import com.ivan.xinput.XInputComponentsDelta;
 import com.ivan.xinput.XInputDevice;
 import com.ivan.xinput.enums.XInputButton;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+//import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.zach.ddg3.components.AABBComponent;
 import com.zach.ddg3.components.WeaponComponent;
 import com.zach.engine.Main;
@@ -187,7 +187,10 @@ public class Player extends Object
                 this.zIndex = Integer.MAX_VALUE - 1;
             }
 
-            timer.setFrame(time);
+            if(time > 0)
+            {
+                timer.setFrame(time);
+            }
             /*timer.setPosition(this.position.x, this.position.y - 50);
             timer.visible = true;*/
         }
@@ -209,7 +212,7 @@ public class Player extends Object
     public void collision(Object other, Main main)
     {
         //System.out.println(other.getTag());
-        if((other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Hole"))&& this.isInGame() && !isTimedOut)
+        if(other.getTag().equalsIgnoreCase("Wall") && this.isInGame() && !isTimedOut)
         {
             AABBComponent myC = (AABBComponent)this.findComponentBySubtag("player");
             AABBComponent otherC = (AABBComponent)other.findComponentBySubtag("wall");
@@ -406,7 +409,7 @@ public class Player extends Object
         {
             if(!collidingRight)
             {
-                this.position.x -= 200f * dt;
+                this.position.x -= 150f * dt;
             }
             if (rStickX < 0.4f && rStickX > -0.4f)
             {
@@ -418,7 +421,7 @@ public class Player extends Object
         {
             if(!collidingLeft)
             {
-                this.position.x += 200f * dt;
+                this.position.x += 150f * dt;
             }
             if (rStickX < 0.4f && rStickX > -0.4f) {
                 this.setFrame(2 + this.getFrameOffset());
@@ -430,7 +433,7 @@ public class Player extends Object
         {
             if(!collidingTop)
             {
-                this.position.y += 200f * dt;
+                this.position.y += 150f * dt;
             }
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(0 + this.getFrameOffset());
@@ -442,7 +445,7 @@ public class Player extends Object
         {
             if(!collidingBottom)
             {
-                this.position.y -= 200f * dt;
+                this.position.y -= 150f * dt;
             }
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(4 + this.getFrameOffset());
@@ -774,10 +777,10 @@ public class Player extends Object
                     newFrames = 8;
                     break;
             }
-            widthDifference = Math.abs(this.width - newWidth);
-            heightDifference = Math.abs(this.height - newHeight);
-            this.paddingSide += (widthDifference / 2);
-            this.paddingTop += (heightDifference / 2);
+            widthDifference = newWidth - this.width;
+            heightDifference = newHeight - this.height;
+            this.paddingSide += (int)(widthDifference * 1.5);
+            this.paddingTop += (int)(heightDifference * 1.5);
             changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
             this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
             frameHitboxOffsets.clear();
@@ -817,10 +820,10 @@ public class Player extends Object
                         newFrames = 8;
                         break;
                 }
-                widthDifference = Math.abs(this.width - newWidth);
-                heightDifference = Math.abs(this.height - newHeight);
-                this.paddingSide += (widthDifference / 2);
-                this.paddingTop += (heightDifference / 2);
+                widthDifference = newWidth - this.width;
+                heightDifference = newHeight - this.height;
+                this.paddingSide += (int)(widthDifference * 1.5);
+                this.paddingTop += (int)(heightDifference * 1.5);
                 changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
                 this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
                 frameHitboxOffsets.clear();

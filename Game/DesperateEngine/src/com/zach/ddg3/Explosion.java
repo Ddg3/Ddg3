@@ -11,6 +11,7 @@ public class Explosion extends Object
 {
     WeaponComponent weapon;
     Object owner;
+    private float lifeTime = 0.2f;
 
     public int getDamage() {
         return damage;
@@ -36,6 +37,8 @@ public class Explosion extends Object
         this.owner = weapon.getParent();
         this.zIndex = owner.zIndex + 1;
         this.damage = weapon.getDamage();
+        this.paddingSide = 10;
+        this.paddingTop = 10;
     }
 
     @Override
@@ -58,6 +61,14 @@ public class Explosion extends Object
                 knockedObjects.remove(i);
             }
         }
+        if(lifeTime <= 0)
+        {
+            this.removeComponentBySubtag("bullet");
+        }
+        else
+            {
+                lifeTime -= dt;
+            }
     }
 
     @Override

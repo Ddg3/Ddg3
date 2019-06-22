@@ -6,6 +6,8 @@ import com.zach.ddg3.Object;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 
+import java.util.ArrayList;
+
 public class WeaponComponent extends Component
 {
     private float shotCooldown = 1.0f;
@@ -40,12 +42,20 @@ public class WeaponComponent extends Component
     private int bulletFrames = 4;
     private float bulletFrameTime = 0.1f;
     private boolean exploding = false;
+    private boolean isPlanted = false;
+    private boolean planting = false;
+    private boolean detonated = false;
+    private int speedOnBounce = 0;
 
     private Vector[] bulletOffsetD = new Vector[8];
     private Vector[] bulletOffsetG = new Vector[8];
 
     private int weaponFrameOffset = 0;
     private Vector[] bulletOffset = new Vector[8];
+
+    public ArrayList<Bullet> bullets = new ArrayList<>(1);
+    private int bulletMax = Integer.MAX_VALUE;
+    private int firstBulletIndex = 0;
 
     public Object getParent() {
         return parent;
@@ -85,16 +95,35 @@ public class WeaponComponent extends Component
             chargeShoot();
         }
 
-        if (this.explodes)
+        if (this.detonated)
         {
             Player player = (Player) parent;
             if(!player.isTimedOut())
             {
-                if ((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER) || main.getInput().isKey(player.getKeyAltShoot())) && !exploding) {
-                    exploding = true;
+                if ((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER)
+                        || main.getInput().isKey(player.getKeyAltShoot())))
+                if(!exploding)
+                {
+                    {
+                        exploding = true;
+                    }
                 }
             }
         }
+
+        if(isPlanted)
+        {
+            Player player = (Player) parent;
+            if(!player.isTimedOut())
+            {
+                if (player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER)
+                        || main.getInput().isKey(player.getKeyAltShoot()) && !planting)
+                {
+                    planting = true;
+                }
+            }
+        }
+
         if(animChangedOnShoot && tempCooldown <= 0 && parent.getFrameOffset() > 0)
         {
             parent.setFrameOffset(0);
@@ -113,6 +142,8 @@ public class WeaponComponent extends Component
     {
         if(parent.getTag().equalsIgnoreCase("Player"))
         {
+            exploding = false;
+            planting = false;
             Player player = (Player) parent;
             if(!player.isTimedOut())
             {
@@ -134,7 +165,31 @@ public class WeaponComponent extends Component
                           offset = bulletOffsetG[player.getFrame() - parent.getFrameOffset()];
                         }
                     bullet.setPosition(parent.getPositionX() + offset.getX(), parent.getPositionY() + offset.getY());
+                    bullet.getObjImage().changeColor(player.getSkinColors()[1], player.getSkinColors()[player.getSkIndex()]);
                     GameManager.objects.add(bullet);
+                    bullets.add(bullet);
+
+                    /*if(bullets.size() >= bulletMax)
+                    {
+                        if(bullets.get(firstBulletIndex).getWeapon().isExplodes())
+                        {
+                            bullets.get(firstBulletIndex).explode(false);
+                            bullets.remove(firstBulletIndex);
+                            if(firstBulletIndex < bullets.size())
+                            {
+                                GameManager.objects.remove(bullets.get(firstBulletIndex));
+                            }
+                            //firstBulletIndex++;
+                        }
+                    }*/
+
+                    if(bullets.size() >= bulletMax)
+                    {
+                        if(bullets.get(0).getWeapon().isExplodes())
+                        {
+                            bullets.get(0).explode(false);
+                        }
+                    }
 
                     if (animChangedOnShoot)
                     {
@@ -156,15 +211,16 @@ public class WeaponComponent extends Component
         switch (weaponName)
         {
             case "rocketLauncher":
-                speed = 60f;
+                speed = 225f;
                 explodes = true;
                 accelerates = true;
                 accelRate = 0.1f;
+                detonated = true;
                 animChangedOnShoot = true;
 
                 bulletPath = "/rocketLauncher_Bullet.png";
-                bulletWidth = 33;
-                bulletHeight = 33;
+                bulletWidth = 35;
+                bulletHeight = 35;
                 bulletFrames = 8;
                 bulletFrameTime = 0.1f;
 
@@ -188,18 +244,18 @@ public class WeaponComponent extends Component
                 break;
 
             case "grenadeLauncher":
-                speed = 55f;
+                speed = 100f;
                 isAnimated = true;
+                isPlanted = true;
                 explodes = true;
-                slows = true;
-                slowRate = 0.1f;
                 animChangedOnShoot = true;
                 stopsAtWall = true;
                 hasDirection = false;
+                bulletMax = 10;
 
                 bulletPath = "/grenadeLauncher_Bullet.png";
-                bulletWidth = 14;
-                bulletHeight = 14;
+                bulletWidth = 16;
+                bulletHeight = 16;
                 bulletFrames = 4;
                 bulletFrameTime = 0.1f;
 
@@ -223,16 +279,21 @@ public class WeaponComponent extends Component
                 break;
 
             case "cannon":
-                speed = 70f;
+                speed = 75f;
                 explodes = true;
                 bounces = true;
+                detonated = true;
                 hasDirection = false;
+                accelerates = true;
+                accelRate = 0.1f;
+                bulletMax = 5;
+                speedOnBounce = 1;
 
                 bulletPath = "/cannon_Bullet.png";
-                bulletWidth = 27;
-                bulletHeight = 27;
+                bulletWidth = 29;
+                bulletHeight = 29;
                 bulletFrames = 1;
-                bulletFrameTime = 0.1f;
+                bulletFrameTime = 0.2f;
 
                 bulletOffsetD[0] = new Vector(-8,2);
                 bulletOffsetD[1] = new Vector(30,22);
@@ -254,7 +315,42 @@ public class WeaponComponent extends Component
                 break;
         }
     }
+    public int getSpeedOnBounce() {
+        return speedOnBounce;
+    }
 
+    public void setSpeedOnBounce(int speedOnBounce) {
+        this.speedOnBounce = speedOnBounce;
+    }
+    public boolean isDetonated() {
+        return detonated;
+    }
+
+    public void setDetonated(boolean detonated) {
+        this.detonated = detonated;
+    }
+    public boolean isPlanting() {
+        return planting;
+    }
+
+    public void setPlanting(boolean planting) {
+        this.planting = planting;
+    }
+    public int getBulletMax() {
+        return bulletMax;
+    }
+
+    public void setBulletMax(int bulletMax) {
+        this.bulletMax = bulletMax;
+    }
+
+    public boolean isPlanted() {
+        return isPlanted;
+    }
+
+    public void setPlanted(boolean planted) {
+        isPlanted = planted;
+    }
     public int getBounceCount() {
         return bounceCount;
     }

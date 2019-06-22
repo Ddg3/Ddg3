@@ -48,6 +48,7 @@ public class Bullet extends Object
     private boolean collidingBottom = false;
     private boolean collidingLeft = false;
     private boolean collidingRight = false;
+    private boolean planted = false;
 
     public Bullet(String name, int width, int height, String path, int totalFrames, float frameLife, int direction, WeaponComponent weapon)
     {
@@ -93,6 +94,11 @@ public class Bullet extends Object
             explode(false);
             weapon.setExploding(false);
         }
+        if(weapon.isPlanting())
+        {
+            plant();
+            //weapon.setPlanting(false);
+        }
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
         this.updateComponents(main, gameManager, dt);
@@ -120,7 +126,6 @@ public class Bullet extends Object
         if(weapon.isAccelerates())
         {
             this.speed += tempAccel;
-            tempAccel += dt;
         }
 
         if(colliding)
@@ -180,6 +185,7 @@ public class Bullet extends Object
     {
         float tempPosX = this.position.x;
         float tempPosY = this.position.y;
+        weapon.bullets.remove(this);
         GameManager.objects.remove(this);
 
         weapon.setExploding(false);
@@ -192,6 +198,12 @@ public class Bullet extends Object
         }
     }
 
+    public void plant()
+    {
+        this.speed = 0;
+        this.stop();
+    }
+
     @Override
     public void render(Main main, Renderer r)
     {
@@ -201,7 +213,7 @@ public class Bullet extends Object
     @Override
     public void collision(Object other, Main main)
     {
-        if(other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Bullet") )
+        if(other.getTag().equalsIgnoreCase("Wall"))
         {
             AABBComponent myC = (AABBComponent)this.findComponentBySubtag("bullet");
             AABBComponent otherC = (AABBComponent)other.findComponentBySubtag("wall");
@@ -301,14 +313,17 @@ public class Bullet extends Object
                 if (weapon.getBounceCount() > 0)
                 {
                     tempBounces++;
+                    speed += weapon.getSpeedOnBounce();
                     if (tempBounces == weapon.getBounceCount())
                     {
                         if (weapon.isExplodes())
                         {
+                            weapon.bullets.remove(this);
                             explode(false);
                         }
                         else
                             {
+                                weapon.bullets.remove(this);
                                 GameManager.objects.remove(this);
                             }
                     }
@@ -316,17 +331,29 @@ public class Bullet extends Object
             }
             else if(!weapon.isStopsAtWall())
             {
-                GameManager.objects.remove(this);
                 if (weapon.isExplodes())
                 {
                     explode(false);
+                    weapon.bullets.remove(this);
                 }
+                else
+                    {
+                        GameManager.objects.remove(this);
+                    }
             }
 
             else
             {
                 this.speed = 0;
                 this.stop();
+            }
+        }
+        else if(other.getTag().equalsIgnoreCase("Bullet"))
+        {
+            if (weapon.isExplodes())
+            {
+                explode(true);
+                //weapon.setExploding(false);
             }
         }
         else if(other.getTag().equalsIgnoreCase("Player"))
