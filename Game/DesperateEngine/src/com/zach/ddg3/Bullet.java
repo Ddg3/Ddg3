@@ -77,7 +77,7 @@ public class Bullet extends Object
         }
         if(weapon.isAnimated())
         {
-            this.playInRange(0,3);
+            this.playInRange(0, this.getTotalFrames() - 1);
         }
         this.addComponent(new AABBComponent(this, "bullet"));
 

@@ -70,36 +70,6 @@ public class HoleTile extends Wall {
         super.collision(other, main);
     }
 
-    public void setWallFrom(WallTile.directions dir)
-    {
-        float posX = this.getPositionX();
-        float posY = this.getPositionY();
-        int zInd = this.zIndex;
-
-        switch (dir) {
-            case LEFTof:
-                posX -= this.width;
-                break;
-            case RIGHTof:
-                posX += this.width;
-                break;
-            case UPof:
-                posY -= this.height;
-                zInd -= 1;
-                break;
-            case DOWNof:
-                posY += this.height / 2;
-                zInd += 1;
-                break;
-        }
-
-        /*WallTile wall = new WallTile(dir);
-        wall.position = new Vector(posX, posY);
-        wall.zIndex = zInd;
-        wall.setFrame(dir.getFrame());
-        GameManager.objects.add(wall);*/
-    }
-
     public void setHoleFrom(HoleTile.directions dir)
     {
         float posX = this.getPositionX();

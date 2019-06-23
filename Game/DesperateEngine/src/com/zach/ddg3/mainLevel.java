@@ -39,6 +39,7 @@ public class mainLevel extends GameLevel
 
     private static int wallInd = 0;
     public WallTile wall;
+    public HoleTile hole;
     public WallTile wall2;
     private Vulture vulture2;
 
@@ -228,7 +229,7 @@ public class mainLevel extends GameLevel
         kingSwan.setFrame(1);
         GameManager.objects.add(kingSwan);
 
-        //setWalls(2);
+        setWalls(2);
     }
 
     @Override
@@ -292,7 +293,7 @@ public class mainLevel extends GameLevel
     {
         switch(i)
         {
-            case 0:
+            /*case 0:
                 //3-tile line in the middle
                 setNewWall(WallTile.directions.BETWEEN_HORIZof, 0, -50);
                 wall.setWallFrom(WallTile.directions.LEFTof);
@@ -314,14 +315,14 @@ public class mainLevel extends GameLevel
                 setNewWall(WallTile.directions.SINGLE, -160, 0);
                 setNewWall(WallTile.directions.SINGLE, 160, 0);
                 setNewWall(WallTile.directions.SINGLE, 0, 110);
+                break;*/
+            case 0:
+                //setNewHole();
                 break;
-            case 3:
+            case 1:
 
                 break;
-            case 4:
-
-                break;
-            case 5:
+            case 2:
 
                 break;
         }
@@ -334,6 +335,14 @@ public class mainLevel extends GameLevel
         wall.zIndex = 3;
         wall.setFrame(dir.getFrame());
         GameManager.objects.add(wall);
+    }
+    public void setNewHole(HoleTile.directions dir, float posX, float posY)
+    {
+        hole = new HoleTile();
+        hole.position = new Vector(posX, posY);
+        hole.zIndex = 3;
+        hole.setFrame(dir.getFrame());
+        GameManager.objects.add(hole);
     }
     public static void pedestalFollow(Object pedestal, int index)
     {

@@ -261,14 +261,14 @@ public class WeaponComponent extends Component
                 bulletFrames = 4;
                 bulletFrameTime = 0.1f;
 
-                bulletOffsetD[0] = new Vector(-8,2);
-                bulletOffsetD[1] = new Vector(30,22);
-                bulletOffsetD[2] = new Vector(32,-2);
-                bulletOffsetD[3] = new Vector(31,-26);
+                bulletOffsetD[0] = new Vector(-3,4);
+                bulletOffsetD[1] = new Vector(22,22);
+                bulletOffsetD[2] = new Vector(41,-2);
+                bulletOffsetD[3] = new Vector(31,-24);
                 bulletOffsetD[4] = new Vector(10,-4);
-                bulletOffsetD[5] = new Vector(-31,-26);
-                bulletOffsetD[6] = new Vector(-32,-2);
-                bulletOffsetD[7] = new Vector(-30,22);
+                bulletOffsetD[5] = new Vector(-31,-24);
+                bulletOffsetD[6] = new Vector(-41,-2);
+                bulletOffsetD[7] = new Vector(-22,22);
 
                 bulletOffsetG[0] = new Vector(-10,4);
                 bulletOffsetG[1] = new Vector(24,24);
@@ -290,21 +290,22 @@ public class WeaponComponent extends Component
                 accelRate = 0.1f;
                 bulletMax = 5;
                 speedOnBounce = 1;
+                isAnimated = true;
 
                 bulletPath = "/cannon_Bullet.png";
                 bulletWidth = 29;
                 bulletHeight = 29;
-                bulletFrames = 1;
-                bulletFrameTime = 0.2f;
+                bulletFrames = 19;
+                bulletFrameTime = 0.05f;
 
-                bulletOffsetD[0] = new Vector(-8,2);
-                bulletOffsetD[1] = new Vector(30,22);
-                bulletOffsetD[2] = new Vector(32,-2);
-                bulletOffsetD[3] = new Vector(31,-26);
-                bulletOffsetD[4] = new Vector(10,-4);
-                bulletOffsetD[5] = new Vector(-31,-26);
-                bulletOffsetD[6] = new Vector(-32,-2);
-                bulletOffsetD[7] = new Vector(-30,22);
+                bulletOffsetD[0] = new Vector(0,12);
+                bulletOffsetD[1] = new Vector(42,32);
+                bulletOffsetD[2] = new Vector(56,8);
+                bulletOffsetD[3] = new Vector(40,-40);
+                bulletOffsetD[4] = new Vector(2,-18);
+                bulletOffsetD[5] = new Vector(-40,-40);
+                bulletOffsetD[6] = new Vector(-56,8);
+                bulletOffsetD[7] = new Vector(-42,32);
 
                 bulletOffsetG[0] = new Vector(-10,4);
                 bulletOffsetG[1] = new Vector(24,24);

@@ -608,8 +608,8 @@ public class Player extends Object
 
     public void lookKeyboard(Main main)
     {
-        double mousePosX = main.getInput().getMouseX() - 320;
-        double mousePosY = main.getInput().getMouseY() - main.getHeight() / 2;
+        double mousePosX = (main.getInput().getMouseX() - 320);
+        double mousePosY = (main.getInput().getMouseY() - main.getHeight() / 2);
         double angle = Math.toDegrees(Math.atan2(mousePosY, mousePosX));
         if ((angle < -150 && angle > -180) || (angle > 150 && angle < 180)) {
             //Left
