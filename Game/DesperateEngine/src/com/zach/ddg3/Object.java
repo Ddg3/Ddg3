@@ -33,6 +33,7 @@ public class Object extends GameObject implements Comparable<Object>
     private boolean isPlayingInRange = false;
     private boolean isPlayingInRangeAndBack = false;
     private boolean isPlayingToDestroy = false;
+    private boolean isPlayingReversedInRange = false;
     private boolean reversing = false;
     private int minRange = 0;
     private int maxRange = 0;
@@ -160,11 +161,13 @@ public class Object extends GameObject implements Comparable<Object>
             if(endPoint == 0)
             {
                 tempLife -= dt;
-                if (tempLife <= 0 && anim < maxRange) {
+                if (tempLife <= 0 && anim < maxRange)
+                {
                     anim++;
                     tempLife = frameLife;
                 }
-                if (anim == maxRange) {
+                if (anim == maxRange)
+                {
                     anim = minRange;
                 }
             }
@@ -177,6 +180,35 @@ public class Object extends GameObject implements Comparable<Object>
                 }
                 if (anim == endPoint) {
                     stop();
+                }
+            }
+        }
+        if(isPlayingReversedInRange)
+        {
+            if(endPoint == 0)
+            {
+                tempLife -= dt;
+                if (tempLife <= 0 && anim >= minRange)
+                {
+                    anim--;
+                    tempLife = frameLife;
+                }
+                if (anim == minRange)
+                {
+                    anim = maxRange;
+                }
+            }
+            else
+            {
+                tempLife -= dt;
+                if (tempLife <= 0 && anim >= endPoint)
+                {
+                    anim--;
+                    tempLife = frameLife;
+                }
+                if (anim == endPoint)
+                {
+                    anim = maxRange;
                 }
             }
         }
@@ -344,6 +376,13 @@ public class Object extends GameObject implements Comparable<Object>
     {
         setFrame(newFrame);
         isPlaying = true;
+    }
+    public void playReverseInRange(int min, int max)
+    {
+        setFrame(min);
+        minRange = min;
+        maxRange = max;
+        isPlayingReversedInRange = true;
     }
     public void playInRange(int min, int max)
     {

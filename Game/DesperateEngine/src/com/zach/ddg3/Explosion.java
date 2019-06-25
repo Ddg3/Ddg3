@@ -37,8 +37,8 @@ public class Explosion extends Object
         this.owner = weapon.getParent();
         this.zIndex = owner.zIndex + 1;
         this.damage = weapon.getDamage();
-        this.paddingSide = 10;
-        this.paddingTop = 10;
+        this.paddingSide = width / 8;
+        this.paddingTop = height / 8;
     }
 
     @Override

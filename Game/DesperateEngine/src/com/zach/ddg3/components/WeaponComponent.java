@@ -47,6 +47,13 @@ public class WeaponComponent extends Component
     private boolean planting = false;
     private boolean detonated = false;
     private int speedOnBounce = 0;
+    private boolean collides = true;
+    private boolean isChained = false;
+
+    private int explosionWidth = 90;
+    private int explosionHeight = 82;
+    private int explosionFrames = 25;
+    private String explosionPath = "/explosion.png";
 
     private Vector[] bulletOffsetD = new Vector[8];
     private Vector[] bulletOffsetG = new Vector[8];
@@ -254,12 +261,18 @@ public class WeaponComponent extends Component
                 stopsAtWall = true;
                 hasDirection = false;
                 bulletMax = 10;
+                collides = false;
+                isChained = true;
 
                 bulletPath = "/grenadeLauncher_Bullet.png";
                 bulletWidth = 16;
                 bulletHeight = 16;
                 bulletFrames = 4;
                 bulletFrameTime = 0.1f;
+
+                /*explosionWidth /= 2;
+                explosionHeight /= 2;
+                explosionPath = "/smallExplosion.png";*/
 
                 bulletOffsetD[0] = new Vector(-3,4);
                 bulletOffsetD[1] = new Vector(22,22);
@@ -298,6 +311,10 @@ public class WeaponComponent extends Component
                 bulletFrames = 19;
                 bulletFrameTime = 0.05f;
 
+                /*explosionWidth /= 2;
+                explosionHeight /= 2;
+                explosionPath = "/smallExplosion.png";*/
+
                 bulletOffsetD[0] = new Vector(0,12);
                 bulletOffsetD[1] = new Vector(42,32);
                 bulletOffsetD[2] = new Vector(56,8);
@@ -317,6 +334,52 @@ public class WeaponComponent extends Component
                 bulletOffsetG[7] = new Vector(-30,22);
                 break;
         }
+    }
+    public boolean isChained() {
+        return isChained;
+    }
+
+    public void setChained(boolean chained) {
+        isChained = chained;
+    }
+
+    public boolean isCollides() {
+        return collides;
+    }
+
+    public void setCollides(boolean collides) {
+        this.collides = collides;
+    }
+    public int getExplosionWidth() {
+        return explosionWidth;
+    }
+
+    public void setExplosionWidth(int explosionWidth) {
+        this.explosionWidth = explosionWidth;
+    }
+
+    public int getExplosionHeight() {
+        return explosionHeight;
+    }
+
+    public void setExplosionHeight(int explosionHeight) {
+        this.explosionHeight = explosionHeight;
+    }
+
+    public int getExplosionFrames() {
+        return explosionFrames;
+    }
+
+    public void setExplosionFrames(int explosionFrames) {
+        this.explosionFrames = explosionFrames;
+    }
+
+    public String getExplosionPath() {
+        return explosionPath;
+    }
+
+    public void setExplosionPath(String explosionPath) {
+        this.explosionPath = explosionPath;
     }
     public int getSpeedOnBounce() {
         return speedOnBounce;

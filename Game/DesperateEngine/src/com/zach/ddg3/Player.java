@@ -131,6 +131,7 @@ public class Player extends Object
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
+
         nearSelect = false;
         selected = false;
         collidingTop = false;
@@ -830,7 +831,6 @@ public class Player extends Object
                     break;
 
                 case "cannon":
-                    this.addComponent(new WeaponComponent(this, "cannon"));
                     newWidth = 101;
                     newHeight = 127;
                     newPath = "/Goose_cannon.png";
@@ -873,7 +873,6 @@ public class Player extends Object
                         break;
 
                     case "cannon":
-                        this.addComponent(new WeaponComponent(this, "cannon"));
                         newWidth = 101;
                         newHeight = 103;
                         newPath = "/Duck_cannon.png";

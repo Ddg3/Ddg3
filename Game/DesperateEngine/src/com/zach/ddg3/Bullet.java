@@ -49,6 +49,8 @@ public class Bullet extends Object
     private boolean collidingLeft = false;
     private boolean collidingRight = false;
     private boolean planted = false;
+    private float timeCountdown = 0.1f;
+    private boolean counting = false;
 
     public Bullet(String name, int width, int height, String path, int totalFrames, float frameLife, int direction, WeaponComponent weapon)
     {
@@ -77,7 +79,14 @@ public class Bullet extends Object
         }
         if(weapon.isAnimated())
         {
-            this.playInRange(0, this.getTotalFrames() - 1);
+            if(direction >= 0 && direction <= 4)
+            {
+                this.playInRange(0, this.getTotalFrames() - 1);
+            }
+            else
+                {
+                    this.playReverseInRange(0, this.getTotalFrames() - 1);
+                }
         }
         this.addComponent(new AABBComponent(this, "bullet"));
 
@@ -140,6 +149,17 @@ public class Bullet extends Object
                 collidingTop = false;
             }
         }
+
+        if(counting)
+        {
+            timeCountdown -= dt;
+        }
+
+        if(timeCountdown <= 0)
+        {
+            counting = false;
+            explode(false);
+        }
     }
 
     public void move(float dt)
@@ -189,7 +209,7 @@ public class Bullet extends Object
         GameManager.objects.remove(this);
 
         weapon.setExploding(false);
-        Explosion explosion = new Explosion("explosion",90, 82, "/explosion.png", 25, 0.03f, weapon);
+        Explosion explosion = new Explosion("explosion", weapon.getExplosionWidth(), weapon.getExplosionHeight(), weapon.getExplosionPath(), weapon.getExplosionFrames(), 0.03f, weapon);
         explosion.setPosition(tempPosX, tempPosY);
         GameManager.objects.add(explosion);
         if(alreadyHit)
@@ -350,10 +370,28 @@ public class Bullet extends Object
         }
         else if(other.getTag().equalsIgnoreCase("Bullet"))
         {
-            if (weapon.isExplodes())
+            Bullet otherB = (Bullet)other;
+            if (weapon.isExplodes() && otherB.getWeapon().isCollides() && weapon.isCollides())
             {
                 explode(true);
                 //weapon.setExploding(false);
+            }
+            else if(otherB.weapon.getTag() == weapon.getTag())
+            {
+                if(weapon.isStopsAtWall())
+                {
+                    this.speed = 0;
+                    this.stop();
+                    ((Bullet) other).setSpeed(0);
+                    other.stop();
+                }
+            }
+        }
+        else if(other.getTag().equalsIgnoreCase("Explosion"))
+        {
+            if(weapon.isChained() && !counting)
+            {
+                counting = true;
             }
         }
         else if(other.getTag().equalsIgnoreCase("Player"))

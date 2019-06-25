@@ -69,7 +69,7 @@ public class Main implements Runnable
         this.title = title;
     }
 
-    private String title = "DesperateEngine vPleaseWork";
+    private String title = "Duck Duck Goose";
 
     public Main(AbstractGame game)
     {

@@ -369,21 +369,17 @@ public class mainLevel extends GameLevel
             gameWon = true;
             speakInd = 1;
         }
-        if(device.getDelta().getButtons().isPressed(XInputButton.A) && speakInd == 1)
+        if(((!player.isKeyBoard() && device.getDelta().getButtons().isPressed(XInputButton.A)) || main.getInput().isKeyDown(player.getKeySelect())) && speakInd == 1)
         {
             kingSwan.speak("Victory is yours, /my duckling!", 0xff000000);
             speakInd = 2;
             buttonPressed = true;
         }
-        if(!device.getDelta().getButtons().isPressed(XInputButton.A) && buttonPressed)
+        if((!player.isKeyBoard() && (!device.getDelta().getButtons().isPressed(XInputButton.A))) || main.getInput().isKeyUp(player.getKeySelect()) && buttonPressed)
         {
             buttonPressed = false;
         }
-        /*if(device.getDelta().getButtons().isReleased(XInputButton.A) && gameOver && speakInd == 1)
-        {
-            speakInd = 2;
-        }*/
-        if(device.getDelta().getButtons().isPressed(XInputButton.A) && speakInd == 2 && !buttonPressed && GameManager.gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
+        if(((!player.isKeyBoard() && device.getDelta().getButtons().isPressed(XInputButton.A)) || main.getInput().isKeyDown(player.getKeySelect())) && speakInd == 2 && !buttonPressed && GameManager.gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
         {
             if(GameManager.firstTime)
             {
