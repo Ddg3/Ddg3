@@ -168,7 +168,7 @@ public class Player extends Object
             {
                 cameraCollision();
                 moveKeyboard(main, dt);
-                lookKeyboard(main);
+                lookKeyboard(main, gameManager);
                 changeSkin(gameManager, main);
             }
         }
@@ -607,10 +607,10 @@ public class Player extends Object
         }*/
     }
 
-    public void lookKeyboard(Main main)
+    public void lookKeyboard(Main main, GameManager gameManager)
     {
-        double mousePosX = (main.getInput().getMouseX() - 320);
-        double mousePosY = (main.getInput().getMouseY() - main.getHeight() / 2);
+        double mousePosX = ((main.getInput().getMouseX() - main.getWidth() / 2) - this.position.x);
+        double mousePosY = ((main.getInput().getMouseY() - main.getHeight() / 2) - (this.position.y - gameManager.center.position.y));
         double angle = Math.toDegrees(Math.atan2(mousePosY, mousePosX));
         if ((angle < -150 && angle > -180) || (angle > 150 && angle < 180)) {
             //Left
