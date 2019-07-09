@@ -12,6 +12,8 @@ import java.util.ArrayList;
 public class WeaponComponent extends Component
 {
     private float shotCooldown = 1.0f;
+    private float altCooldown = 8.0f;
+    private float tempAltCooldown = 0;
     private boolean isCharged = false;
     private boolean bounces = false;
     private int bounceCount = 0;
@@ -49,6 +51,7 @@ public class WeaponComponent extends Component
     private int speedOnBounce = 0;
     private boolean collides = true;
     private boolean isChained = false;
+    private float timer = 0f;
 
     private int explosionWidth = 90;
     private int explosionHeight = 82;
@@ -178,20 +181,6 @@ public class WeaponComponent extends Component
                     GameManager.objects.add(bullet);
                     bullets.add(bullet);
 
-                    /*if(bullets.size() >= bulletMax)
-                    {
-                        if(bullets.get(firstBulletIndex).getWeapon().isExplodes())
-                        {
-                            bullets.get(firstBulletIndex).explode(false);
-                            bullets.remove(firstBulletIndex);
-                            if(firstBulletIndex < bullets.size())
-                            {
-                                GameManager.objects.remove(bullets.get(firstBulletIndex));
-                            }
-                            //firstBulletIndex++;
-                        }
-                    }*/
-
                     if(bullets.size() >= bulletMax)
                     {
                         if(bullets.get(0).getWeapon().isExplodes())
@@ -205,6 +194,40 @@ public class WeaponComponent extends Component
                         parent.setFrameOffset(parent.getTotalFrames() / 2);
                         parent.setFrame(parent.getFrame() + (parent.getFrameOffset()));
                     }
+                }
+            }
+        }
+    }
+
+    public void altShoot(Main main)
+    {
+        if(parent.getTag().equalsIgnoreCase("Player"))
+        {
+            exploding = false;
+            planting = false;
+            Player player = (Player) parent;
+            if(!player.isTimedOut())
+            {
+                if ((player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) &&
+                        player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER) ||
+                        (player.isKeyBoard() && main.getInput().isButton(MouseEvent.BUTTON1) && player.isKeyBoard() && main.getInput().isButton(MouseEvent.BUTTON3))) && tempCooldown <= 0)
+                {
+                    tempAltCooldown = altCooldown;
+                    Bullet bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
+                    Vector offset;
+                    if (!player.isGoose())
+                    {
+                        offset = bulletOffsetD[player.getFrame() - parent.getFrameOffset()];
+                    }
+                    else
+                    {
+                        offset = bulletOffsetG[player.getFrame() - parent.getFrameOffset()];
+                    }
+                    bullet.setPosition(parent.getPositionX() + offset.getX(), parent.getPositionY() + offset.getY());
+                    bullet.getObjImage().changeColor(player.getSkinColors()[1], player.getSkinColors()[player.getSkIndex()]);
+                    GameManager.objects.add(bullet);
+                    bullets.add(bullet);
+                    bullet.isAlt = true;
                 }
             }
         }
@@ -260,9 +283,11 @@ public class WeaponComponent extends Component
                 animChangedOnShoot = true;
                 stopsAtWall = true;
                 hasDirection = false;
-                bulletMax = 10;
+                bulletMax = 14;
                 collides = false;
                 isChained = true;
+                timer = 10f;
+                shotCooldown = 0.65f;
 
                 bulletPath = "/grenadeLauncher_Bullet.png";
                 bulletWidth = 16;
@@ -334,6 +359,21 @@ public class WeaponComponent extends Component
                 bulletOffsetG[7] = new Vector(-30,22);
                 break;
         }
+    }
+    public float getAltCooldown() {
+        return altCooldown;
+    }
+
+    public void setAltCooldown(float altCooldown) {
+        this.altCooldown = altCooldown;
+    }
+
+    public float getTimer() {
+        return timer;
+    }
+
+    public void setTimer(float timer) {
+        this.timer = timer;
     }
     public boolean isChained() {
         return isChained;

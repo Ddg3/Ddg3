@@ -51,6 +51,8 @@ public class Bullet extends Object
     private boolean planted = false;
     private float timeCountdown = 0.1f;
     private boolean counting = false;
+    private float tempTimer = 0;
+    public static boolean isAlt = false;
 
     public Bullet(String name, int width, int height, String path, int totalFrames, float frameLife, int direction, WeaponComponent weapon)
     {
@@ -58,6 +60,7 @@ public class Bullet extends Object
         this.tag = "Bullet";
         this.direction = direction;
 
+        tempTimer = weapon.getTimer();
         this.weapon = weapon;
         this.owner = weapon.getParent();
 
@@ -159,6 +162,24 @@ public class Bullet extends Object
         {
             counting = false;
             explode(false);
+        }
+
+        if(weapon.getTimer() > 0)
+        {
+            if(tempTimer <= 0)
+            {
+                if(weapon.isExplodes())
+                {
+                    explode(false);
+                }
+            }
+
+            tempTimer -= dt;
+        }
+
+        if(this.speed <= 0)
+        {
+            this.stop();
         }
     }
 

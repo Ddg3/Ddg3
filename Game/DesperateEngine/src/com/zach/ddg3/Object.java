@@ -363,6 +363,7 @@ public class Object extends GameObject implements Comparable<Object>
         isPlaying = false;
         isPlayingInRange = false;
         isPlayingInRangeAndBack = false;
+        isPlayingReversedInRange = false;
         return;
     }
 
