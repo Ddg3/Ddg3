@@ -52,7 +52,23 @@ public class Bullet extends Object
     private float timeCountdown = 0.1f;
     private boolean counting = false;
     private float tempTimer = 0;
-    public static boolean isAlt = false;
+    public boolean isAlt = false;
+    private boolean played = false;
+    private int split = 0;
+    private float splitBuffer = 1f;
+    private float endBuffer = 0.5f;
+    private boolean splitF = false;
+
+    public float getPlantTime() {
+        return plantTime;
+    }
+
+    public void setPlantTime(float plantTime) {
+        this.plantTime = plantTime;
+    }
+
+    private float plantTime = 0;
+    private float tempPlantTime = 0;
 
     public Bullet(String name, int width, int height, String path, int totalFrames, float frameLife, int direction, WeaponComponent weapon)
     {
@@ -76,7 +92,7 @@ public class Bullet extends Object
             tempAccel = weapon.getAccelRate();
         }
 
-        if(weapon.isHasDirection())
+        if(weapon.isHasDirection() && !isAlt)
         {
             this.setFrame(direction);
         }
@@ -95,92 +111,346 @@ public class Bullet extends Object
 
         this.paddingTop = this.height / 2;
         this.paddingSide = this.width / 4;
+
+        if(isAlt)
+        {
+            altInit(weapon.getSubTag());
+        }
+
+        tempPlantTime = plantTime;
     }
 
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
         move(dt);
-        if(weapon.isExploding())
-        {
-            explode(false);
-            weapon.setExploding(false);
-        }
-        if(weapon.isPlanting())
-        {
-            plant();
-            //weapon.setPlanting(false);
-        }
-        this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
-        this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
+        this.offsetPos.x = (int) (this.position.x - (this.width / 2) + 320);
+        this.offsetPos.y = (int) (this.position.y - (this.height / 2) + 180);
         this.updateComponents(main, gameManager, dt);
-        //System.out.println(this.position.y);
+        this.animate(dt);
 
-        if(weapon.isAnimated())
+        if(!isAlt)
         {
-            this.animate(dt);
-        }
+            if (weapon.isExploding()) {
+                explode(false);
+                weapon.setExploding(false);
+            }
+            if (weapon.isPlanting()) {
+                plant();
+                //weapon.setPlanting(false);
+            }
+            //System.out.println(this.position.y);
 
-        if(weapon.isSlows())
-        {
-            if(this.speed <= 0 && weapon.isAnimated())
-            {
+            if (weapon.isSlows()) {
+                if (this.speed <= 0 && weapon.isAnimated()) {
+                    this.stop();
+                } else {
+                    this.speed -= tempSlow;
+                    tempSlow += (dt / 25);
+                    this.setFrameLife(this.getFrameLife() + (dt / 30));
+                }
+            }
+
+            if (weapon.isAccelerates()) {
+                this.speed += tempAccel;
+            }
+
+            if (colliding) {
+                tempCollisionBuffer += dt;
+                if (tempCollisionBuffer >= collisionBuffer) {
+                    colliding = false;
+                    collidingBottom = false;
+                    collidingLeft = false;
+                    collidingRight = false;
+                    collidingTop = false;
+                }
+            }
+
+            if (counting) {
+                timeCountdown -= dt;
+            }
+
+            if (timeCountdown <= 0) {
+                counting = false;
+                explode(false);
+            }
+
+            if (weapon.getTimer() > 0) {
+                if (tempTimer <= 0) {
+                    if (weapon.isExplodes()) {
+                        explode(false);
+                    }
+                }
+
+                tempTimer -= dt;
+            }
+
+            if (this.speed <= 0) {
                 this.stop();
             }
-            else
+        }
+        else
             {
-                this.speed -= tempSlow;
-                tempSlow += (dt / 25);
-                this.setFrameLife(this.getFrameLife() + (dt / 30));
+                alt(weapon.getSubTag(), dt);
+            }
+
+        /*if(tempPlantTime > 0)
+        {
+            tempPlantTime -= dt;
+        }
+
+        if(tempPlantTime <= 0 && plantTime > 0)
+        {
+            plant();
+        }*/
+
+        if(isAlt && weapon.getSubTag() == "cannon")
+        {
+            setFrameLife(0.3f);
+        }
+    }
+
+    public void altInit(String tag)
+    {
+        switch (tag)
+        {
+            case "rocketLauncher":
+                direction = 10;
+                setFrameLife(1f);
+                break;
+            case "grenadeLauncher":
+                play();
+                break;
+            case "cannon":
+                //playInRangeAndBack(0, 4);
+                //play();
+                playTo(0, 4);
+                break;
+        }
+    }
+
+    public void alt(String tag, float dt)
+    {
+        switch (tag)
+        {
+            case "rocketLauncher":
+                homeIn();
+                break;
+            case "grenadeLauncher":
+                mirv(dt);
+                break;
+            case "cannon":
+                //stun();
+                break;
+        }
+    }
+
+    public void homeIn()
+    {
+        setFrameLife(0.3f);
+        Player player = (Player) weapon.getParent();
+        Player target = null;
+        speed = 55f;
+        for(int i = 0; i < GameManager.players.size(); i++)
+        {
+            if(GameManager.players.get(i).getPlayerNumber() != player.getPlayerNumber())
+            {
+                target = GameManager.players.get(i);
+            }
+        }
+        int hDist = (int)(this.position.x - target.getPositionX());
+        int vDist = (int)(this.position.y - target.getPositionY());
+
+        if(direction == 10)
+        {
+            if (hDist >= vDist) {
+                if (hDist < 0) {
+                    direction = 2;
+                } else {
+                    direction = 6;
+                }
+            } else {
+                if (vDist < 0) {
+                    direction = 0;
+                } else {
+                    direction = 4;
+                }
             }
         }
 
-        if(weapon.isAccelerates())
+        switch (direction)
         {
-            this.speed += tempAccel;
+            case 1:
+                direction = 2;
+                break;
+            case 3:
+                direction = 4;
+                break;
+            case 5:
+                direction = 6;
+                break;
+            case 7:
+                direction = 0;
+                break;
         }
-
-        if(colliding)
+        if(direction == 2 || direction == 6)
         {
-            tempCollisionBuffer += dt;
-            if(tempCollisionBuffer >= collisionBuffer)
+            if(hDist < 5 && hDist > -5)
             {
-                colliding = false;
-                collidingBottom = false;
-                collidingLeft = false;
-                collidingRight = false;
-                collidingTop = false;
+                if(vDist < 0)
+                {
+                    direction = 0;
+                    played = false;
+                }
+                else
+                {
+                    direction = 4;
+                    played = false;
+                }
+            }
+        }
+        else if(direction == 0 || direction == 4)
+        {
+            if(vDist < 5 && vDist > -5)
+            {
+                if (hDist < 0)
+                {
+                    direction = 2;
+                    played = false;
+                }
+                else
+                    {
+                        direction = 6;
+                        played = false;
+                    }
             }
         }
 
-        if(counting)
+        switch (direction)
         {
-            timeCountdown -= dt;
+            case 0:
+                if(!played)
+                {
+                    playInRange(2, 4);
+                    played = true;
+                }
+                break;
+            case 2:
+                if(!played)
+                {
+                    playInRange(0, 2);
+                    played = true;
+                }
+                break;
+            case 4:
+                if(!played)
+                {
+                    playInRange(6, 8);
+                    played = true;
+                }
+                break;
+            case 6:
+                if(!played)
+                {
+                    playInRange(4, 6);
+                    played = true;
+                }
+                break;
         }
+    }
 
-        if(timeCountdown <= 0)
+    public void mirv(float dt)
+    {
+        if (this.speed <= 0 && weapon.isAnimated())
         {
-            counting = false;
-            explode(false);
+            this.stop();
         }
-
-        if(weapon.getTimer() > 0)
-        {
-            if(tempTimer <= 0)
+        else
             {
-                if(weapon.isExplodes())
+            this.speed -= tempSlow;
+            tempSlow += (dt / 2);
+            this.setFrameLife(this.getFrameLife() + (dt / 30));
+        }
+
+        if(speed <= 0)
+        {
+            if(split < 2 && !splitF)
+            {
+                for (int i = 0; i < 8; i++) {
+                    Player player = (Player) weapon.getParent();
+                    Bullet bullet = new Bullet("bulletMirv", 16, 16, "/grenadeLauncher_Bullet.png", 4, 0.1f, i, weapon);
+                    bullet.getObjImage().changeColor(player.getSkinColors()[1], player.getSkinColors()[player.getSkIndex()]);
+                    GameManager.objects.add(bullet);
+                    int offsetX = 0;
+                    int offsetY = 0;
+                    switch (i)
+                    {
+                        case 0:
+                            offsetY = 18;
+                            break;
+                        case 1:
+                            offsetY = 16;
+                            offsetX = 16;
+                            break;
+                        case 2:
+                            offsetX = 18;
+                            break;
+                        case 3:
+                            offsetY = -16;
+                            offsetX = 16;
+                            break;
+                        case 4:
+                            offsetY = -18;
+                            break;
+                        case 5:
+                            offsetY = -16;
+                            offsetX = -16;
+                            break;
+                        case 6:
+                            offsetX = -18;
+                            break;
+                        case 7:
+                            offsetY = 16;
+                            offsetX = -16;
+                            break;
+                    }
+                    bullet.setPosition(this.getPositionX() + offsetX, this.getPositionY() + offsetY);
+                    //bullet.setPlantTime(2.0f);
+                }
+                split++;
+                splitF = true;
+            }
+            if(split == 1)
+            {
+                splitBuffer -= dt;
+                if(splitBuffer <= 0)
+                {
+                    splitF = false;
+                }
+            }
+            if(split == 2)
+            {
+                endBuffer -= dt;
+                if(endBuffer <= 0)
                 {
                     explode(false);
                 }
             }
-
-            tempTimer -= dt;
         }
+    }
 
-        if(this.speed <= 0)
-        {
-            this.stop();
-        }
+    public void stun()
+    {
+        float tempPosX = this.position.x;
+        float tempPosY = this.position.y;
+        //weapon.bullets.remove(this);
+        GameManager.objects.remove(this);
+
+        //weapon.setExploding(false);
+        Explosion explosion = new Explosion("stun", 90, 82, "/smokeExplosion.png", 20, 0.03f, weapon);
+        explosion.isStun = true;
+        explosion.setPosition(tempPosX, tempPosY);
+        GameManager.objects.add(explosion);
     }
 
     public void move(float dt)
@@ -288,7 +558,7 @@ public class Bullet extends Object
                     collidingLeft = true;
                 }
             }
-            if(weapon.isBounces())
+            if(weapon.isBounces() && !isAlt)
             {
                 if(!colliding)
                 {
@@ -372,7 +642,11 @@ public class Bullet extends Object
             }
             else if(!weapon.isStopsAtWall())
             {
-                if (weapon.isExplodes())
+                if(isAlt && weapon.getSubTag() == "cannon")
+                {
+                    stun();
+                }
+                else if (weapon.isExplodes())
                 {
                     explode(false);
                     weapon.bullets.remove(this);
@@ -392,7 +666,7 @@ public class Bullet extends Object
         else if(other.getTag().equalsIgnoreCase("Bullet"))
         {
             Bullet otherB = (Bullet)other;
-            if (weapon.isExplodes() && otherB.getWeapon().isCollides() && weapon.isCollides())
+            if (weapon.isExplodes() && otherB.getWeapon().isCollides() && weapon.isCollides() && !isAlt)
             {
                 explode(true);
                 //weapon.setExploding(false);
@@ -430,7 +704,12 @@ public class Bullet extends Object
                         ownerP.setGoose(false);
                         ownerP.changeSpecies();
                     }
-                if (weapon.isExplodes())
+
+                if(isAlt && weapon.getSubTag() == "cannon")
+                {
+                    stun();
+                }
+                else if (weapon.isExplodes())
                 {
                     explode(true);
                     //weapon.setExploding(false);

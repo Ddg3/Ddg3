@@ -350,6 +350,7 @@ public class mainLevel extends GameLevel
         //GameManager.timers.get(index).offsetPos.y = pedestal.offsetPos.y;
         GameManager.timers.get(index).visible = true;
         GameManager.timers.get(index).zIndex = Integer.MAX_VALUE;
+        GameManager.indicators.get(index).zIndex = Integer.MAX_VALUE;
     }
 
     public void swanSpeak(Player player, Main main)

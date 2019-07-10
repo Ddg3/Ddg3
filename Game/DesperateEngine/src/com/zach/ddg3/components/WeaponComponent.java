@@ -58,6 +58,11 @@ public class WeaponComponent extends Component
     private int explosionFrames = 25;
     private String explosionPath = "/explosion.png";
 
+    private int altWidth;
+    private int altHeight;
+    private int altFrames;
+    private String altPath;
+
     private Vector[] bulletOffsetD = new Vector[8];
     private Vector[] bulletOffsetG = new Vector[8];
 
@@ -97,10 +102,12 @@ public class WeaponComponent extends Component
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
+        Player player = (Player) parent;
         if (!this.isCharged)
         {
             shoot(main);
         }
+        altShoot(main);
         if (this.isCharged)
         {
             chargeShoot();
@@ -108,7 +115,7 @@ public class WeaponComponent extends Component
 
         if (this.detonated)
         {
-            Player player = (Player) parent;
+            //Player player = (Player) parent;
             if(!player.isTimedOut())
             {
                 if ((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER)
@@ -124,7 +131,7 @@ public class WeaponComponent extends Component
 
         if(isPlanted)
         {
-            Player player = (Player) parent;
+            //Player player = (Player) parent;
             if(!player.isTimedOut())
             {
                 if (player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER)
@@ -141,6 +148,12 @@ public class WeaponComponent extends Component
         }
 
         tempCooldown -= dt;
+        tempAltCooldown -= dt;
+
+        if(tempAltCooldown <= 0 && !player.getIndicator().visible)
+        {
+            player.getIndicator().visible = true;
+        }
     }
 
     @Override
@@ -208,12 +221,12 @@ public class WeaponComponent extends Component
             Player player = (Player) parent;
             if(!player.isTimedOut())
             {
-                if ((player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) &&
-                        player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER) ||
-                        (player.isKeyBoard() && main.getInput().isButton(MouseEvent.BUTTON1) && player.isKeyBoard() && main.getInput().isButton(MouseEvent.BUTTON3))) && tempCooldown <= 0)
+                if ((player.device.getDelta().getButtons().isPressed(XInputButton.Y) ||
+                        (player.isKeyBoard() && main.getInput().isButton(MouseEvent.BUTTON2))) && tempAltCooldown <= 0)
                 {
                     tempAltCooldown = altCooldown;
-                    Bullet bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
+                    player.getIndicator().visible = false;
+                    Bullet bullet = new Bullet("altBullet" + player.getPlayerNumber(), altWidth, altHeight, altPath, altFrames, 0.05f, player.getFrame() - parent.getFrameOffset(), this);
                     Vector offset;
                     if (!player.isGoose())
                     {
@@ -256,6 +269,11 @@ public class WeaponComponent extends Component
                 bulletFrames = 8;
                 bulletFrameTime = 0.1f;
 
+                altWidth = 74;
+                altHeight = 74;
+                altFrames = 8;
+                altPath = "/missile.png";
+
                 bulletOffsetD[0] = new Vector(-8,2);
                 bulletOffsetD[1] = new Vector(30,22);
                 bulletOffsetD[2] = new Vector(32,-2);
@@ -294,6 +312,12 @@ public class WeaponComponent extends Component
                 bulletHeight = 16;
                 bulletFrames = 4;
                 bulletFrameTime = 0.1f;
+
+                altWidth = 38;
+                altHeight = 45;
+                altFrames = 8;
+                altPath = "/mirv.png";
+
 
                 /*explosionWidth /= 2;
                 explosionHeight /= 2;
@@ -336,6 +360,11 @@ public class WeaponComponent extends Component
                 bulletFrames = 19;
                 bulletFrameTime = 0.05f;
 
+                altWidth = 25;
+                altHeight = 32;
+                altFrames = 6;
+                altPath = "/stunBomb.png";
+
                 /*explosionWidth /= 2;
                 explosionHeight /= 2;
                 explosionPath = "/smallExplosion.png";*/
@@ -360,6 +389,38 @@ public class WeaponComponent extends Component
                 break;
         }
     }
+    public int getAltWidth() {
+        return altWidth;
+    }
+
+    public void setAltWidth(int altWidth) {
+        this.altWidth = altWidth;
+    }
+
+    public int getAltHeight() {
+        return altHeight;
+    }
+
+    public void setAltHeight(int altHeight) {
+        this.altHeight = altHeight;
+    }
+
+    public int getAltFrames() {
+        return altFrames;
+    }
+
+    public void setAltFrames(int altFrames) {
+        this.altFrames = altFrames;
+    }
+
+    public String getAltPath() {
+        return altPath;
+    }
+
+    public void setAltPath(String altPath) {
+        this.altPath = altPath;
+    }
+
     public float getAltCooldown() {
         return altCooldown;
     }

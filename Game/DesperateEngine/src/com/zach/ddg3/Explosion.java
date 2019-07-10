@@ -12,6 +12,7 @@ public class Explosion extends Object
     WeaponComponent weapon;
     Object owner;
     private float lifeTime = 0.2f;
+    public boolean isStun = false;
 
     public int getDamage() {
         return damage;
@@ -76,9 +77,11 @@ public class Explosion extends Object
     {
         if(other.getTag().equalsIgnoreCase("Player"))
         {
-            boolean alreadyExists = false;
-            Player player = (Player)other;
-            Player ownerP = (Player)owner;
+            if (!isStun)
+            {
+                boolean alreadyExists = false;
+                Player player = (Player) other;
+                Player ownerP = (Player) owner;
 
             /*for(int i = 0; i <= knockedObjects.size(); i++)
             {
@@ -91,25 +94,31 @@ public class Explosion extends Object
             if(!alreadyExists)
             {*/
                 knockedObjects.add(other);
-                if(!knockedObjects.get(knockedObjects.indexOf(other)).isKnocked())
-                {
+                if (!knockedObjects.get(knockedObjects.indexOf(other)).isKnocked()) {
                     knockedObjects.get(knockedObjects.indexOf(other)).setKnocked(true);
                 }
-            //}
+                //}
 
-            if(player.getPlayerNumber() != weapon.getPlayerNumber())
-            {
-                if(player.isGoose())
-                    player.depleteTime(damage);
-                else if(ownerP.isGoose())
-                {
-                    player.setGoose(true);
-                    player.changeSpecies();
-                    ownerP.setGoose(false);
-                    ownerP.changeSpecies();
+                if (player.getPlayerNumber() != weapon.getPlayerNumber()) {
+                    if (player.isGoose())
+                        player.depleteTime(damage);
+                    else if (ownerP.isGoose()) {
+                        player.setGoose(true);
+                        player.changeSpecies();
+                        ownerP.setGoose(false);
+                        ownerP.changeSpecies();
+                    }
                 }
+                removeComponentBySubtag("bullet");
             }
-            removeComponentBySubtag("bullet");
+            else
+                {
+                    Player player = (Player) other;
+                    /*if (player.getPlayerNumber() != weapon.getPlayerNumber())
+                    {*/
+                        player.stun();
+                    //}
+                }
         }
     }
 

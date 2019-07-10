@@ -5,6 +5,7 @@ import com.zach.engine.AbstractGame;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
 
+import javax.lang.model.type.ArrayType;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +21,7 @@ public class GameManager extends AbstractGame
     public static ArrayList<TextObject> textObjects = new ArrayList<TextObject>(1);
     private ArrayList<Object> toKillList = new ArrayList<Object>();
     public static ArrayList<Object> timers = new ArrayList<Object>(1);
+    public static ArrayList<Object> indicators = new ArrayList<>(2);
     private int levelWidth;
     private int levelHeight;
     private boolean[] collision;
@@ -46,6 +48,8 @@ public class GameManager extends AbstractGame
     public void init(Main main)
     {
         //Runs first
+        indicators.add(0, null);
+        indicators.add(1, null);
         main.getRenderer().setAmbientColor(-1);
         gameLevelManager.gameState = GameLevelManager.GameState.SELECTION_STATE;
         deviceManager.init(main);
@@ -118,10 +122,13 @@ public class GameManager extends AbstractGame
             {
                 Object pedestal =  mainLevel.getTimePedestals().get(i);
                 Object timer = timers.get(i);
+                Object ind = indicators.get(i);
                 pedestal.offsetPos.x = mainLevel.testText.posX + (i * pedestal.width);
                 pedestal.offsetPos.y = mainLevel.testText.posY - (pedestal.height / 2) + 8;
                 timer.offsetPos.x = pedestal.offsetPos.x + 55;
                 timer.offsetPos.y = pedestal.offsetPos.y + 17;
+                ind.offsetPos.x = pedestal.offsetPos.x + 100;
+                ind.offsetPos.y = pedestal.offsetPos.y + 14;
             }
         }
         /*System.out.println(fpsCounter.posY);
@@ -177,6 +184,12 @@ public class GameManager extends AbstractGame
             obj.render(main, renderer);
             if(showHitboxes)
             obj.renderComponents(main, renderer);
+        }
+        if(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
+        {
+            for (Object ind : indicators) {
+                ind.render(main, renderer);
+            }
         }
         for(TextObject textObj: textObjects)
         {

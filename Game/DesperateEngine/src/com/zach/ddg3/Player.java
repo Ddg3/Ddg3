@@ -75,6 +75,10 @@ public class Player extends Object
     private boolean isGrabbed = false;
     private boolean colorKeyUp = true;
 
+    private boolean isStunned = false;
+    private float stunTimer = 2.5f;
+    private float tempStun = stunTimer;
+
     public boolean isKeyBoard() {
         return isKeyBoard;
     }
@@ -90,10 +94,21 @@ public class Player extends Object
 
     private Object timer = new Object("timer" + playerNumber, 33, 21, "/numbers.png", 61, 0f);
 
+    public Object getIndicator() {
+        return indicator;
+    }
+
+    public void setIndicator(Object indicator) {
+        this.indicator = indicator;
+    }
+
+    private Object indicator;
+
     private int widthDifference = 0;
     private int heightDifference = 0 ;
 
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
+    private Object stars;
 
     public Player(String name, int width, int height, String path, int totalFrames, float frameLife, int playerNumber)
     {
@@ -150,7 +165,7 @@ public class Player extends Object
             rTrigger += axes.getRTDelta();
             lTrigger += axes.getLTDelta();
 
-            if(this.isInGame() && !selecting && !isTimedOut)
+            if(this.isInGame() && !selecting && !isTimedOut && !isStunned)
             {
                 cameraCollision();
                 moveController(dt);
@@ -164,7 +179,7 @@ public class Player extends Object
         }
         else if(isKeyBoard)
         {
-            if(this.isInGame() && !selecting && !isTimedOut)
+            if(this.isInGame() && !selecting && !isTimedOut && !isStunned)
             {
                 cameraCollision();
                 moveKeyboard(main, dt);
@@ -213,6 +228,18 @@ public class Player extends Object
         if(isGoose)
         {
             tempSecond -= dt;
+        }
+
+        if(isStunned)
+        {
+            stars.setFrameLife(0.075f);
+            tempStun -= dt;
+            if(tempStun <= 0)
+            {
+                isStunned = false;
+                tempStun = stunTimer;
+                GameManager.objects.remove(stars);
+            }
         }
     }
 
@@ -298,6 +325,20 @@ public class Player extends Object
                     selection = null;
                 }
             }
+        }
+    }
+
+    public void stun()
+    {
+        if(!isStunned)
+        {
+            isStunned = true;
+
+            stars = new Object("stunStars", 29, 11, "/stunStars.png", 6, 0.075f);
+            stars.position = new Vector(this.position.x, this.position.y - (this.height / 2));
+            stars.zIndex = Integer.MAX_VALUE;
+            stars.playInRange(0,6);
+            GameManager.objects.add(stars);
         }
     }
 
@@ -747,6 +788,9 @@ public class Player extends Object
             int newHeight = 0;
             String newPath = null;
             int newFrames = 0;
+            int indWidth = 0;
+            int indHeight = 0;
+            String indPath = null;
 
             removeComponent("Weapon");
             switch (selection.getFrame())
@@ -757,6 +801,10 @@ public class Player extends Object
                     newHeight = 81;
                     newPath = "/Duck_rocketLauncher.png";
                     newFrames = 16;
+
+                    indWidth = 43;
+                    indHeight = 29;
+                    indPath = "/missileIndicator.png";
                     break;
 
                 case 2:
@@ -765,6 +813,10 @@ public class Player extends Object
                     newHeight = 69;
                     newPath = "/Duck_grenadeLauncher.png";
                     newFrames = 16;
+
+                    indWidth = 36;
+                    indHeight = 43;
+                    indPath = "/mirvIndicator.png";
                     break;
 
                 case 3:
@@ -773,6 +825,10 @@ public class Player extends Object
                     newHeight = 103;
                     newPath = "/Duck_cannon.png";
                     newFrames = 8;
+
+                    indWidth = 23;
+                    indHeight = 30;
+                    indPath = "/stunBombIndicator.png";
                     break;
             }
             widthDifference = newWidth - this.width;
@@ -796,6 +852,9 @@ public class Player extends Object
 
             this.changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
             this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
+            indicator = new Object("indicator" + playerNumber, indWidth, indHeight, indPath, 1, 1);
+            GameManager.objects.add(indicator);
+            GameManager.indicators.set(playerNumber, indicator);
             frameHitboxOffsets.clear();
             offsetHitboxes();
             offsetHitboxes();
