@@ -377,11 +377,15 @@ public class Player extends Object
             }
             this.getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
 
+            GameManager.timePedestals.get(playerNumber).getObjImage().changeColor(skinColors[oldSkindex],
+                    skinColors[skIndex]);
+
             if(gameManager.gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
             {
                 selectionLevel.getExplosiveGuns()[playerNumber].getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
             }
         }
+
     }
 
     public void rainbowSkin()
@@ -650,7 +654,7 @@ public class Player extends Object
 
     public void lookKeyboard(Main main, GameManager gameManager)
     {
-        double mousePosX = ((main.getInput().getMouseX() - main.getWidth() / 2) - this.position.x);
+        double mousePosX = ((main.getInput().getMouseX() - main.getWidth() / 2) - (this.position.x - gameManager.center.position.x));
         double mousePosY = ((main.getInput().getMouseY() - main.getHeight() / 2) - (this.position.y - gameManager.center.position.y));
         double angle = Math.toDegrees(Math.atan2(mousePosY, mousePosX));
         if ((angle < -150 && angle > -180) || (angle > 150 && angle < 180)) {
@@ -905,9 +909,9 @@ public class Player extends Object
             frameHitboxOffsets.clear();
             offsetHitboxes();
             offsetHitboxes();
-            if(mainLevel.getTimePedestals().size() != 0)
+            if(GameManager.timePedestals.size() != 0)
             {
-                mainLevel.getTimePedestals().get(playerNumber).setFrame(1);
+                GameManager.timePedestals.get(playerNumber).setFrame(1);
             }
             return;
         }
@@ -947,9 +951,9 @@ public class Player extends Object
                 frameHitboxOffsets.clear();
                 offsetHitboxes();
                 offsetHitboxes();
-                if(mainLevel.getTimePedestals().size() != 0)
+                if(GameManager.timePedestals.size() != 0)
                 {
-                    mainLevel.getTimePedestals().get(playerNumber).setFrame(0);
+                    GameManager.timePedestals.get(playerNumber).setFrame(0);
                 }
                 return;
             }

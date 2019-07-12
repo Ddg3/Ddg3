@@ -58,6 +58,10 @@ public class Bullet extends Object
     private float splitBuffer = 1f;
     private float endBuffer = 0.5f;
     private boolean splitF = false;
+    private boolean slowing = false;
+    private float slowBuffer = 0.03f;
+    private float tempSlowBuffer = 0f;
+
 
     public float getPlantTime() {
         return plantTime;
@@ -207,6 +211,15 @@ public class Bullet extends Object
         if(isAlt && weapon.getSubTag() == "cannon")
         {
             setFrameLife(0.3f);
+        }
+
+        if(slowing)
+        {
+            tempSlowBuffer -= dt;
+            if(tempSlowBuffer <= 0)
+            {
+                slowing = false;
+            }
         }
     }
 
@@ -560,7 +573,7 @@ public class Bullet extends Object
             }
             if(weapon.isBounces() && !isAlt)
             {
-                if(!colliding)
+                if(!colliding && !slowing)
                 {
                     switch (direction)
                     {
@@ -617,14 +630,24 @@ public class Bullet extends Object
                             }
                             break;
                     }
+                    colliding = true;
+                    speed += weapon.getSpeedOnBounce();
+                    tempBounces++;
+                    if(tempBounces == 1)
+                    {
+                        speed += (weapon.getSpeedOnBounce() * 119);
+                    }
+                    if(tempBounces == 2)
+                    {
+                        speed -= (weapon.getSpeedOnBounce() * 120);
+                        slowing = true;
+                        tempSlowBuffer = slowBuffer;
+                    }
                 }
 
-                colliding = true;
 
                 if (weapon.getBounceCount() > 0)
                 {
-                    tempBounces++;
-                    speed += weapon.getSpeedOnBounce();
                     if (tempBounces == weapon.getBounceCount())
                     {
                         if (weapon.isExplodes())
@@ -666,7 +689,43 @@ public class Bullet extends Object
         else if(other.getTag().equalsIgnoreCase("Bullet"))
         {
             Bullet otherB = (Bullet)other;
-            if (weapon.isExplodes() && otherB.getWeapon().isCollides() && weapon.isCollides() && !isAlt)
+            if(weapon.isBounces() && otherB.weapon.isBounces())
+            {
+                if (!colliding)
+                {
+                    switch (direction)
+                    {
+                        case 0:
+                            direction = 4;
+                            break;
+                        case 1:
+                            direction = 5;
+                            break;
+                        case 2:
+                            direction = 6;
+                            break;
+                        case 3:
+                            direction = 7;
+                            break;
+                        case 4:
+                            direction = 0;
+                            break;
+                        case 5:
+                            direction = 1;
+                            break;
+                        case 6:
+                            direction = 2;
+                            break;
+                        case 7:
+                            direction = 3;
+                            break;
+                    }
+                }
+
+                colliding = true;
+            }
+
+            else if (weapon.isExplodes() && otherB.getWeapon().isCollides() && weapon.isCollides() && !isAlt)
             {
                 explode(true);
                 //weapon.setExploding(false);

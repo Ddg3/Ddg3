@@ -350,7 +350,7 @@ public class WeaponComponent extends Component
                 hasDirection = false;
                 accelerates = true;
                 accelRate = 0.1f;
-                bulletMax = 5;
+                bulletMax = 8;
                 speedOnBounce = 1;
                 isAnimated = true;
 

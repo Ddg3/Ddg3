@@ -4,6 +4,7 @@ import com.zach.ddg3.components.AABBComponent;
 import com.zach.engine.AbstractGame;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
+import javafx.scene.text.TextBoundsType;
 
 import javax.lang.model.type.ArrayType;
 import java.awt.event.KeyEvent;
@@ -16,12 +17,15 @@ import java.util.Collections;
 public class GameManager extends AbstractGame
 {
     public static ArrayList<Object> objects = new ArrayList<Object>(1);
-    public static ArrayList<Player> players = new ArrayList<Player>(1);
+    public static ArrayList<Player> players = new ArrayList<Player>(0);
     public static ArrayList<Player> cameraPlayers = new ArrayList<Player>(1);
     public static ArrayList<TextObject> textObjects = new ArrayList<TextObject>(1);
     private ArrayList<Object> toKillList = new ArrayList<Object>();
     public static ArrayList<Object> timers = new ArrayList<Object>(1);
     public static ArrayList<Object> indicators = new ArrayList<>(2);
+    public static ArrayList<Object> timePedestals = new ArrayList<Object>(1);
+    public static ArrayList<Object> templatePedestals = new ArrayList<Object>(1);
+    public static ArrayList<TextObject> templateText = new ArrayList<TextObject>(1);
     private int levelWidth;
     private int levelHeight;
     private boolean[] collision;
@@ -31,6 +35,8 @@ public class GameManager extends AbstractGame
     private boolean showHitboxes = false;
     private boolean isPlaying = true;
     public static boolean firstTime = true;
+    private int tempPlayers = 0;
+    public static TextObject testText;
 
     public static Object center;
     public static Camera camera;
@@ -66,6 +72,23 @@ public class GameManager extends AbstractGame
 
         fpsCounter = new TextObject("FPS:" + main.getFps() , 0,0,0xffffffff, 1);
         GameManager.textObjects.add(fpsCounter);
+
+        //timePedestals.add(null);
+        //timePedestals.add(null);
+
+        testText = new TextObject("" , (int)(GameManager.center.position.x),(int)(GameManager.center.position.y + 320),0xffffffff, 1);
+        GameManager.textObjects.add(testText);
+
+        templatePedestals.add(0, new Object("tempPed1", 160, 58, "/templateFrame.png", 1,1));
+        templatePedestals.add(1, new Object("tempPed1", 160, 58, "/templateFrame.png", 1,1));
+        GameManager.objects.add(templatePedestals.get(0));
+        GameManager.objects.add(templatePedestals.get(1));
+
+        templateText.add(0, new TextObject("", 0, 0, 0xffffffff, 1));
+        templateText.add(1, new TextObject("", 0, 0, 0xffffffff, 1));
+        textObjects.add(templateText.get(0));
+        textObjects.add(templateText.get(1));
+        //templateText.add(2, new TextObject("PRESS START TO JOIN", 0, 0, 0xffffffff, 1));
     }
 
     @Override
@@ -111,24 +134,94 @@ public class GameManager extends AbstractGame
         fpsCounter.posX = (int)(center.position.x);
         fpsCounter.posY = (int)(center.position.y);
 
+        if(tempPlayers < players.size())
+        {
+            timePedestals.add(tempPlayers, new Object("playerFrame" + (tempPlayers), 160, 58, "/playerFrameNew.png", 2, 0));
+            GameManager.objects.add(timePedestals.get(tempPlayers));
+            timePedestals.get(tempPlayers).zIndex = Integer.MAX_VALUE - 1;
+            timePedestals.get(tempPlayers).getObjImage().changeColor(players.get(tempPlayers).getSkinColors()[1],
+                    players.get(tempPlayers).getSkinColors()[players.get(tempPlayers).getSkIndex()]);
+            tempPlayers++;
+        }
+
         if(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
         {
-            if(mainLevel.testText != null)
+            if(testText != null)
             {
-                mainLevel.testText.posX = (int) (center.position.x);
-                mainLevel.testText.posY = (int) (center.position.y + 320);
+                testText.posX = (int) (center.position.x);
+                testText.posY = (int) (center.position.y + 320 + 4);
             }
-            for(int i = 0; i < mainLevel.getTimePedestals().size(); i++)
+
+            for(int i = 0; i < timePedestals.size(); i++)
             {
-                Object pedestal =  mainLevel.getTimePedestals().get(i);
+                Object pedestal = timePedestals.get(i);
+                pedestal.offsetPos.x = testText.posX + (i * pedestal.width);
+                pedestal.offsetPos.y = testText.posY - (pedestal.height / 2) + 8;
                 Object timer = timers.get(i);
-                Object ind = indicators.get(i);
-                pedestal.offsetPos.x = mainLevel.testText.posX + (i * pedestal.width);
-                pedestal.offsetPos.y = mainLevel.testText.posY - (pedestal.height / 2) + 8;
                 timer.offsetPos.x = pedestal.offsetPos.x + 55;
                 timer.offsetPos.y = pedestal.offsetPos.y + 17;
-                ind.offsetPos.x = pedestal.offsetPos.x + 100;
+                timer.visible = true;
+                timer.zIndex = Integer.MAX_VALUE;
+                Object ind = indicators.get(i);
+                ind.offsetPos.x = pedestal.offsetPos.x+ 100;
                 ind.offsetPos.y = pedestal.offsetPos.y + 14;
+                ind.zIndex = Integer.MAX_VALUE;
+                /*pedestal.update(main, this, dt );
+                timer.update(main, this, dt );
+                ind.update(main, this, dt );
+                pedestal.render(main, main.getRenderer());
+                timer.render(main, main.getRenderer());
+                ind.render(main, main.getRenderer());*/
+            }
+        }
+
+        if(gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
+        {
+            if(testText != null)
+            {
+                testText.posX = (int) (center.position.x);
+                testText.posY = (int) (center.position.y + 320 + 4);
+                for(int i = 0; i < templateText.size(); i++)
+                {
+                    if(templateText.get(i).text == "")
+                    {
+                        templateText.get(i).text = "PRESS START";
+                    }
+                    templateText.get(i).posX = testText.posX + (i * 160) + 38;
+                    templateText.get(i).posY = testText.posY;
+                }
+            }
+
+            for(int i = 0; i < templatePedestals.size(); i++)
+            {
+                Object pedestal = templatePedestals.get(i);
+                pedestal.offsetPos.x = testText.posX + (i * pedestal.width);
+                pedestal.offsetPos.y = testText.posY - (pedestal.height / 2) + 8;
+                pedestal.zIndex = Integer.MAX_VALUE - 2;
+            }
+
+            for(int i = 0; i < timePedestals.size(); i++)
+            {
+                Object pedestal = timePedestals.get(i);
+                pedestal.offsetPos.x = testText.posX + (i * pedestal.width);
+                pedestal.offsetPos.y = testText.posY - (pedestal.height / 2) + 8;
+                Object ind = indicators.get(i);
+                if(ind != null)
+                {
+                    ind.offsetPos.x = pedestal.offsetPos.x + 100;
+                    ind.offsetPos.y = pedestal.offsetPos.y + 14;
+                    ind.zIndex = Integer.MAX_VALUE;
+                }
+                if(templateText.get(i).text == "PRESS START")
+                {
+                    templateText.get(i).text = "";
+                }
+                /*pedestal.update(main, this, dt );
+                timer.update(main, this, dt );
+                ind.update(main, this, dt );
+                pedestal.render(main, main.getRenderer());
+                timer.render(main, main.getRenderer());
+                ind.render(main, main.getRenderer());*/
             }
         }
         /*System.out.println(fpsCounter.posY);

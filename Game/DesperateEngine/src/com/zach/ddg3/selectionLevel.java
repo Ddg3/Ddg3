@@ -97,6 +97,15 @@ public class selectionLevel extends GameLevel {
                             players.get(i).changeSpecies();
                         }
                 }
+
+                for(int i = 0; i < players.size(); i++)
+                {
+                    GameManager.objects.add(GameManager.timePedestals.get(i));
+                }
+                for(int i = 0; i < players.size(); i++)
+                {
+                    GameManager.objects.add(GameManager.indicators.get(i));
+                }
             }
 
 
@@ -231,6 +240,11 @@ public class selectionLevel extends GameLevel {
         explosiveGuns[2].setPosition(187, -782);
         explosiveGuns[2].zIndex = 4;
         GameManager.objects.add(explosiveGuns[2]);*/
+
+        /*for(int i = 0; i < players.size(); i++)
+        {
+            GameManager.objects.add(GameManager.timePedestals.get(i));
+        }*/
     }
 
     @Override
@@ -299,5 +313,10 @@ public class selectionLevel extends GameLevel {
         GameManager.textObjects.clear();
         GameManager.gameLevelManager.currLevel = null;
         players.clear();
+
+        for(int i = 0; i < players.size(); i++)
+        {
+            GameManager.objects.remove(GameManager.timePedestals.get(i));
+        }
     }
 }
