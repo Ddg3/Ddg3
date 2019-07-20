@@ -61,7 +61,7 @@ public class Bullet extends Object
     private boolean slowing = false;
     private float slowBuffer = 0.03f;
     private float tempSlowBuffer = 0f;
-
+    public Vector triggerPoint = new Vector(0,0);
 
     public float getPlantTime() {
         return plantTime;
@@ -537,243 +537,206 @@ public class Bullet extends Object
     @Override
     public void collision(Object other, Main main)
     {
-        if(other.getTag().equalsIgnoreCase("Wall"))
+        if(!weapon.isTriggered)
         {
-            AABBComponent myC = (AABBComponent)this.findComponentBySubtag("bullet");
-            AABBComponent otherC = (AABBComponent)other.findComponentBySubtag("wall");
-            //System.out.println(Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) + " < " + (myC.getHalfWidth() + otherC.getHalfWidth()));
-            if (Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) < (myC.getHalfWidth() + otherC.getHalfWidth()) - 2) {
-                //Top/bottom collision because X values are closer than Y
-                //Top
-                if (myC.getCenterY() < otherC.getCenterY())
-                {
-                    collidingTop = true;
-                }
-
-                //Bottom
-                if (myC.getCenterY() > otherC.getCenterY())
-                {
-                    collidingBottom = true;
-                }
-            }
-            else
+            if (other.getTag().equalsIgnoreCase("Wall"))
             {
-                //Side collision bc vice versa
-                //Left
-                if (myC.getCenterX() < otherC.getCenterX())
-                {
-                    collidingRight = true;
-                }
+                AABBComponent myC = (AABBComponent) this.findComponentBySubtag("bullet");
+                AABBComponent otherC = (AABBComponent) other.findComponentBySubtag("wall");
+                //System.out.println(Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) + " < " + (myC.getHalfWidth() + otherC.getHalfWidth()));
+                if (Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) < (myC.getHalfWidth() + otherC.getHalfWidth()) - 2) {
+                    //Top/bottom collision because X values are closer than Y
+                    //Top
+                    if (myC.getCenterY() < otherC.getCenterY()) {
+                        collidingTop = true;
+                    }
 
-                //Right
-                if (myC.getCenterX() > otherC.getCenterX())
-                {
-                    collidingLeft = true;
-                }
-            }
-            if(weapon.isBounces() && !isAlt)
-            {
-                if(!colliding && !slowing)
-                {
-                    switch (direction)
-                    {
-                        case 0:
-                            direction = 4;
-                            break;
-                        case 1:
-                            if(collidingTop)
-                            {
-                                direction = 3;
-                            }
-                            if(collidingLeft || collidingRight)
-                            {
-                                direction = 7;
-                            }
-                            break;
-                        case 2:
-                            direction = 6;
-                            break;
-                        case 3:
-                            if(collidingBottom)
-                            {
-                                direction = 1;
-                            }
-                            if(collidingLeft || collidingRight)
-                            {
-                                direction = 5;
-                            }
-                            break;
-                        case 4:
-                            direction = 0;
-                            break;
-                        case 5:
-                            if(collidingBottom)
-                            {
-                                direction = 7;
-                            }
-                            if(collidingLeft || collidingRight)
-                            {
-                                direction = 3;
-                            }
-                            break;
-                        case 6:
-                            direction = 2;
-                            break;
-                        case 7:
-                            if(collidingTop)
-                            {
-                                direction = 5;
-                            }
-                            if(collidingLeft || collidingRight)
-                            {
-                                direction = 1;
-                            }
-                            break;
+                    //Bottom
+                    if (myC.getCenterY() > otherC.getCenterY()) {
+                        collidingBottom = true;
                     }
-                    colliding = true;
-                    speed += weapon.getSpeedOnBounce();
-                    tempBounces++;
-                    if(tempBounces == 1)
-                    {
-                        speed += (weapon.getSpeedOnBounce() * 119);
+                } else {
+                    //Side collision bc vice versa
+                    //Left
+                    if (myC.getCenterX() < otherC.getCenterX()) {
+                        collidingRight = true;
                     }
-                    if(tempBounces == 2)
-                    {
-                        speed -= (weapon.getSpeedOnBounce() * 120);
-                        slowing = true;
-                        tempSlowBuffer = slowBuffer;
+
+                    //Right
+                    if (myC.getCenterX() > otherC.getCenterX()) {
+                        collidingLeft = true;
                     }
                 }
-
-
-                if (weapon.getBounceCount() > 0)
-                {
-                    if (tempBounces == weapon.getBounceCount())
-                    {
-                        if (weapon.isExplodes())
-                        {
-                            weapon.bullets.remove(this);
-                            explode(false);
+                if (weapon.isBounces() && !isAlt) {
+                    if (!colliding && !slowing) {
+                        switch (direction) {
+                            case 0:
+                                direction = 4;
+                                break;
+                            case 1:
+                                if (collidingTop) {
+                                    direction = 3;
+                                }
+                                if (collidingLeft || collidingRight) {
+                                    direction = 7;
+                                }
+                                break;
+                            case 2:
+                                direction = 6;
+                                break;
+                            case 3:
+                                if (collidingBottom) {
+                                    direction = 1;
+                                }
+                                if (collidingLeft || collidingRight) {
+                                    direction = 5;
+                                }
+                                break;
+                            case 4:
+                                direction = 0;
+                                break;
+                            case 5:
+                                if (collidingBottom) {
+                                    direction = 7;
+                                }
+                                if (collidingLeft || collidingRight) {
+                                    direction = 3;
+                                }
+                                break;
+                            case 6:
+                                direction = 2;
+                                break;
+                            case 7:
+                                if (collidingTop) {
+                                    direction = 5;
+                                }
+                                if (collidingLeft || collidingRight) {
+                                    direction = 1;
+                                }
+                                break;
                         }
-                        else
-                            {
+
+                        colliding = true;
+                        speed += weapon.getSpeedOnBounce();
+                        tempBounces++;
+                        if (tempBounces == 1) {
+                            speed += (weapon.getSpeedOnBounce() * 119);
+                        }
+                        if (tempBounces == 2) {
+                            speed -= (weapon.getSpeedOnBounce() * 120);
+                            slowing = true;
+                            tempSlowBuffer = slowBuffer;
+                        }
+                    }
+
+
+                    if (weapon.getBounceCount() > 0) {
+                        if (tempBounces == weapon.getBounceCount()) {
+                            if (weapon.isExplodes()) {
+                                weapon.bullets.remove(this);
+                                explode(false);
+                            } else {
                                 weapon.bullets.remove(this);
                                 GameManager.objects.remove(this);
                             }
+                        }
                     }
-                }
-            }
-            else if(!weapon.isStopsAtWall())
-            {
-                if(isAlt && weapon.getSubTag() == "cannon")
-                {
-                    stun();
-                }
-                else if (weapon.isExplodes())
-                {
-                    explode(false);
-                    weapon.bullets.remove(this);
-                }
-                else
-                    {
+                } else if (!weapon.isStopsAtWall()) {
+                    if (isAlt && weapon.getSubTag() == "cannon") {
+                        stun();
+                    } else if (weapon.isExplodes()) {
+                        explode(false);
+                        weapon.bullets.remove(this);
+                    } else {
                         GameManager.objects.remove(this);
                     }
-            }
-
-            else
-            {
-                this.speed = 0;
-                this.stop();
-            }
-        }
-        else if(other.getTag().equalsIgnoreCase("Bullet"))
-        {
-            Bullet otherB = (Bullet)other;
-            if(weapon.isBounces() && otherB.weapon.isBounces())
-            {
-                if (!colliding)
-                {
-                    switch (direction)
-                    {
-                        case 0:
-                            direction = 4;
-                            break;
-                        case 1:
-                            direction = 5;
-                            break;
-                        case 2:
-                            direction = 6;
-                            break;
-                        case 3:
-                            direction = 7;
-                            break;
-                        case 4:
-                            direction = 0;
-                            break;
-                        case 5:
-                            direction = 1;
-                            break;
-                        case 6:
-                            direction = 2;
-                            break;
-                        case 7:
-                            direction = 3;
-                            break;
-                    }
-                }
-
-                colliding = true;
-            }
-
-            else if (weapon.isExplodes() && otherB.getWeapon().isCollides() && weapon.isCollides() && !isAlt)
-            {
-                explode(true);
-                //weapon.setExploding(false);
-            }
-            else if(otherB.weapon.getTag() == weapon.getTag())
-            {
-                if(weapon.isStopsAtWall())
-                {
+                } else {
                     this.speed = 0;
                     this.stop();
-                    ((Bullet) other).setSpeed(0);
-                    other.stop();
                 }
-            }
-        }
-        else if(other.getTag().equalsIgnoreCase("Explosion"))
-        {
-            if(weapon.isChained() && !counting)
-            {
-                counting = true;
-            }
-        }
-        else if(other.getTag().equalsIgnoreCase("Player"))
-        {
-            Player player = (Player)other;
-            Player ownerP = (Player)owner;
-            if(player.getPlayerNumber() != weapon.getPlayerNumber())
-            {
-                if(player.isGoose())
-                player.depleteTime(weapon.getDamage());
-                else if(ownerP.isGoose())
-                    {
+            } else if (other.getTag().equalsIgnoreCase("Bullet")) {
+                Bullet otherB = (Bullet) other;
+                if (weapon.isBounces() && otherB.weapon.isBounces()) {
+                    if (!colliding) {
+                        switch (direction) {
+                            case 0:
+                                direction = 4;
+                                break;
+                            case 1:
+                                direction = 5;
+                                break;
+                            case 2:
+                                direction = 6;
+                                break;
+                            case 3:
+                                direction = 7;
+                                break;
+                            case 4:
+                                direction = 0;
+                                break;
+                            case 5:
+                                direction = 1;
+                                break;
+                            case 6:
+                                direction = 2;
+                                break;
+                            case 7:
+                                direction = 3;
+                                break;
+                        }
+                    }
+
+                    colliding = true;
+                } else if (weapon.isExplodes() && otherB.getWeapon().isCollides() && weapon.isCollides() && !isAlt) {
+                    explode(true);
+                    //weapon.setExploding(false);
+                } else if (otherB.weapon.getTag() == weapon.getTag()) {
+                    if (weapon.isStopsAtWall()) {
+                        this.speed = 0;
+                        this.stop();
+                        ((Bullet) other).setSpeed(0);
+                        other.stop();
+                    }
+                }
+            } else if (other.getTag().equalsIgnoreCase("Explosion")) {
+                if (weapon.isChained() && !counting) {
+                    counting = true;
+                }
+            } else if (other.getTag().equalsIgnoreCase("Player")) {
+                Player player = (Player) other;
+                Player ownerP = (Player) owner;
+                if (player.getPlayerNumber() != weapon.getPlayerNumber()) {
+                    if (player.isGoose())
+                        player.depleteTime(weapon.getDamage());
+                    else if (ownerP.isGoose()) {
                         player.setGoose(true);
                         player.changeSpecies();
                         ownerP.setGoose(false);
                         ownerP.changeSpecies();
                     }
 
-                if(isAlt && weapon.getSubTag() == "cannon")
-                {
-                    stun();
-                }
-                else if (weapon.isExplodes())
-                {
-                    explode(true);
-                    //weapon.setExploding(false);
+                    if (isAlt && weapon.getSubTag() == "cannon") {
+                        stun();
+                    } else if (weapon.isExplodes()) {
+                        explode(true);
+                        //weapon.setExploding(false);
+                    }
                 }
             }
         }
+        else
+            {
+                if(other.getTag().equalsIgnoreCase("Trigger"))
+                {
+                    if ((position.x <= triggerPoint.x + 6 && position.x >= triggerPoint.x - 6) && (position.y <= triggerPoint.y + 6 && position.y >= triggerPoint.y - 6))
+                    {
+                        if (weapon.isExplodes())
+                        {
+                            explode(false);
+                        }
+                        GameManager.objects.remove(other);
+                    }
+                }
+            }
     }
 }

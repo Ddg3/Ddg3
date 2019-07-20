@@ -3,13 +3,13 @@ package com.zach.ddg3;
 import com.ivan.xinput.XInputButtons;
 import com.ivan.xinput.XInputDevice;
 import com.ivan.xinput.enums.XInputButton;
+import com.zach.ddg3.components.AABBComponent;
 import com.zach.ddg3.components.WeaponComponent;
 import com.zach.engine.Main;
 //import org.omg.CORBA.INTERNAL;
 
 //import javax.xml.soap.Text;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class mainLevel extends GameLevel
@@ -30,22 +30,58 @@ public class mainLevel extends GameLevel
     private static Object kingSwan;
     private Player gooseWatched;
     private Player winner;
+    private static boolean flying = false;
+    private boolean running = false;
+    private boolean spitting = false;
+    private static Random random;
+
 
     public static boolean gameWon = false;
     private static int speakInd = 0;
     private static boolean buttonPressed = false;
 
     private static int wallInd = 0;
-    public WallTile wall;
+    public static WallTile wall;
     public HoleTile hole;
-    public WallTile wall2;
+    public static WallTile wall2;
     private Vulture vulture2;
+
+
+    private static Object swanShadow = new Object("shadow", 242, 198, "/swanShadow.png", 1, 1);
+    private static Vector[] dropPoints = new Vector[3];
+    private static WeaponComponent swanWeapon;
+
+    private float hazardTimer = 2f;
+    private static float tempHazardTimer = 3f;
+    private int hazardInd = 0;
+    private ArrayList<Integer> hazardList = new ArrayList<>(1);
+    private static int reticleInd = 0;
+    private float reticleBuffer = 0.05f;
+    private float tempReticleBuffer = 0;
+    private static float dropTimer = 2f;
+    private static float tempDropTimer = dropTimer;
+    private static boolean dropping = false;
+    private static boolean flyingBack = false;
 
     private boolean keyPressed = false;
 
     @Override
     public void init(Main main)
     {
+        GameManager.objects.add(swanShadow);
+        swanShadow.zIndex = Integer.MAX_VALUE - 2;
+        swanShadow.position.y = -700;
+        for(int i = 0; i < 3; i++)
+        {
+            hazardList.add(i);
+        }
+
+        for (int i = 0; i < dropPoints.length; i++)
+        {
+            dropPoints[i] = new Vector(0,0);
+        }
+
+        Collections.shuffle(hazardList);
         /*players.add(new Player("player1", 63, 68, "/duckSheetLong.png", 24, 0.01f, 0));
         players.get(0).zIndex = 5;
         players.get(0).addComponent(new WeaponComponent(players.get(0), "rocketLauncher"));
@@ -206,7 +242,7 @@ public class mainLevel extends GameLevel
         vulture2.getObjImage().changeColor(players.get(1).getSkinColors()[1], players.get(1).getSkinColors()[players.get(1).getSkIndex()]);*/
 
         kingSwan = new Object("kingSwan", 92, 95, "/swanSpeak.png", 4, 0.1f);
-        kingSwan.setPosition(-10,-301);
+        kingSwan.setPosition(0,-301);
         kingSwan.zIndex = 200;
         kingSwan.setFrame(1);
         GameManager.objects.add(kingSwan);
@@ -220,11 +256,16 @@ public class mainLevel extends GameLevel
         }
 
         setWalls(2);
+
+        kingSwan.tag = "Swan";
+        swanWeapon = new WeaponComponent(kingSwan, "rocketLauncher");
+        kingSwan.addComponent(swanWeapon);
     }
 
     @Override
     public void update(Main main, float dt)
     {
+        //kingSwan.animate(dt);
         /*if(testText != null)
         {
             testText.posY = (int) (GameManager.center.position.y + 320);
@@ -272,6 +313,99 @@ public class mainLevel extends GameLevel
         if(players.size() > 0)
         {
             swanFollow();
+        }
+
+        tempHazardTimer -= dt;
+        tempReticleBuffer -= dt;
+
+        if(dropping)
+        {
+            tempDropTimer -= dt;
+
+            if(tempDropTimer <= 0)
+            {
+                dropBomb(dropPoints[reticleInd]);
+                dropTimer /= 1.5f;
+                tempDropTimer = dropTimer;
+
+                if(reticleInd == 2)
+                {
+                    dropping = false;
+                }
+                else
+                    {
+                        reticleInd++;
+                    }
+            }
+        }
+
+        if(tempHazardTimer <= 0)
+        {
+            hazard(0, dt);
+            if(hazardInd == hazardList.size() - 1)
+            {
+                hazardInd = 0;
+            }
+            else
+                {
+                    hazardInd++;
+                }
+            tempHazardTimer = hazardTimer * 10000;
+        }
+
+        if(flying)
+        {
+            if (kingSwan.position.y > -400)
+            {
+                kingSwan.position.y -= 50f * dt;
+            }
+            else
+                {
+                    kingSwan.position.x = swanShadow.position.x;
+                    swanShadow.position.y += 170f * dt;
+
+                    for (int i = 0; i < dropPoints.length; i++)
+                    {
+                        if (swanShadow.position.y <= dropPoints[i].y + 2 && swanShadow.position.y >= dropPoints[i].y - 2)
+                        {
+                            if(tempReticleBuffer <= 0)
+                            {
+                                Object reticle = new Object("reticle", 113, 57, "/reticle.png", 2, 0.01f);
+                                reticle.position.y = swanShadow.position.y;
+                                reticle.position.x = swanShadow.position.x;
+                                GameManager.objects.add(reticle);
+                                reticle.zIndex = 0;
+                                reticle.addComponent(new AABBComponent(reticle, "trigger"));
+                                reticle.tag = "Trigger";
+                                reticle.offsetPos = new Vector(reticle.position.x + 640, reticle.position.y + 360);
+                                tempReticleBuffer = reticleBuffer;
+
+                                if(!dropping)
+                                {
+                                    dropping = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if(swanShadow.position.y > 1200)
+                    {
+                        flying = false;
+                        kingSwan.position.x = 0;
+                        flyingBack = true;
+                    }
+                }
+        }
+        else if(flyingBack)
+        {
+            if (kingSwan.position.y < -301)
+            {
+                kingSwan.position.y += 50f * dt;
+            }
+            else
+                {
+                    flyingBack = false;
+                }
         }
     }
 
@@ -329,6 +463,46 @@ public class mainLevel extends GameLevel
         hole.zIndex = 3;
         hole.setFrame(dir.getFrame());
         GameManager.objects.add(hole);
+    }
+
+    public void hazard(int hazardNum, float dt)
+    {
+        switch (hazardNum)
+        {
+        case 0:
+            if (!flying)
+            {
+                swanShadow.position.y = -500;
+                swanShadow.position.x = 0;
+                kingSwan.changeSprite(121, 96, "/swanFly.png", 10, 0.01f);
+                kingSwan.playInRangeAndBack(0, 9);
+                flying = true;
+
+                random = new Random();
+
+                int randomX = random.nextInt((int) (sideWalls[1].position.x * 2)) + (int) sideWalls[0].position.x;
+                swanShadow.position.x = randomX;
+
+                for (int i = 0; i < dropPoints.length; i++)
+                {
+                    dropPoints[i].x = randomX;
+                    dropPoints[i].y = (i * 120) - 120;
+                }
+            }
+            break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+        }
+    }
+
+    public void dropBomb(Vector position)
+    {
+        swanWeapon.shoot("egg", 78, 90, "/eggBomb.png", 1, 1, 0, position, 425f);
+        swanWeapon.isTriggered = true;
     }
 
     public void swanSpeak(Player player, Main main)

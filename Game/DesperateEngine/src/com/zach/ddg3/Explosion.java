@@ -13,6 +13,7 @@ public class Explosion extends Object
     Object owner;
     private float lifeTime = 0.2f;
     public boolean isStun = false;
+    private Player ownerP;
 
     public int getDamage() {
         return damage;
@@ -81,7 +82,10 @@ public class Explosion extends Object
             {
                 boolean alreadyExists = false;
                 Player player = (Player) other;
-                Player ownerP = (Player) owner;
+                if(weapon.isParentIsPlayer())
+                {
+                    Player ownerP = (Player) owner;
+                }
 
             /*for(int i = 0; i <= knockedObjects.size(); i++)
             {
@@ -102,7 +106,9 @@ public class Explosion extends Object
                 if (player.getPlayerNumber() != weapon.getPlayerNumber()) {
                     if (player.isGoose())
                         player.depleteTime(damage);
-                    else if (ownerP.isGoose()) {
+
+                    else if (weapon.isParentIsPlayer() && ownerP.isGoose())
+                    {
                         player.setGoose(true);
                         player.changeSpecies();
                         ownerP.setGoose(false);
@@ -114,10 +120,10 @@ public class Explosion extends Object
             else
                 {
                     Player player = (Player) other;
-                    /*if (player.getPlayerNumber() != weapon.getPlayerNumber())
-                    {*/
+                    if (player.getPlayerNumber() != weapon.getPlayerNumber())
+                    {
                         player.stun();
-                    //}
+                    }
                 }
         }
     }

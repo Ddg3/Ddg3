@@ -175,7 +175,7 @@ public class GameManager extends AbstractGame
             }
         }
 
-        if(gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
+        else if(gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
         {
             if(testText != null)
             {
@@ -278,10 +278,14 @@ public class GameManager extends AbstractGame
             if(showHitboxes)
             obj.renderComponents(main, renderer);
         }
-        if(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
+        if(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE || gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
         {
-            for (Object ind : indicators) {
-                ind.render(main, renderer);
+            for (Object ind : indicators)
+            {
+                if(ind != null)
+                {
+                    ind.render(main, renderer);
+                }
             }
         }
         for(TextObject textObj: textObjects)
