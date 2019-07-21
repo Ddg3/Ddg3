@@ -620,10 +620,10 @@ public class Bullet extends Object
                         speed += weapon.getSpeedOnBounce();
                         tempBounces++;
                         if (tempBounces == 1) {
-                            speed += (weapon.getSpeedOnBounce() * 119);
+                            speed += (weapon.getSpeedOnBounce() * 144);
                         }
                         if (tempBounces == 2) {
-                            speed -= (weapon.getSpeedOnBounce() * 120);
+                            speed -= (weapon.getSpeedOnBounce() * 145);
                             slowing = true;
                             tempSlowBuffer = slowBuffer;
                         }
@@ -654,10 +654,14 @@ public class Bullet extends Object
                     this.speed = 0;
                     this.stop();
                 }
-            } else if (other.getTag().equalsIgnoreCase("Bullet")) {
+            }
+            else if (other.getTag().equalsIgnoreCase("Bullet"))
+            {
                 Bullet otherB = (Bullet) other;
-                if (weapon.isBounces() && otherB.weapon.isBounces()) {
-                    if (!colliding) {
+                if (weapon.isBounces() && otherB.weapon.isBounces())
+                {
+                    if (!colliding)
+                    {
                         switch (direction) {
                             case 0:
                                 direction = 4;
@@ -687,11 +691,16 @@ public class Bullet extends Object
                     }
 
                     colliding = true;
-                } else if (weapon.isExplodes() && otherB.getWeapon().isCollides() && weapon.isCollides() && !isAlt) {
+                }
+                else if (weapon.isExplodes() && otherB.getWeapon().isCollides() && weapon.isCollides() && !isAlt)
+                {
                     explode(true);
                     //weapon.setExploding(false);
-                } else if (otherB.weapon.getTag() == weapon.getTag()) {
-                    if (weapon.isStopsAtWall()) {
+                }
+                else if (otherB.weapon.getSubTag() == weapon.getSubTag())
+                {
+                    if (weapon.isStopsAtWall())
+                    {
                         this.speed = 0;
                         this.stop();
                         ((Bullet) other).setSpeed(0);

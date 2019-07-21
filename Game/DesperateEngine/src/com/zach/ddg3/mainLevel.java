@@ -51,12 +51,12 @@ public class mainLevel extends GameLevel
     private static Vector[] dropPoints = new Vector[3];
     private static WeaponComponent swanWeapon;
 
-    private float hazardTimer = 2f;
-    private static float tempHazardTimer = 3f;
+    private static float hazardTimer = 30f;
+    private static float tempHazardTimer = 20f;
     private int hazardInd = 0;
     private ArrayList<Integer> hazardList = new ArrayList<>(1);
     private static int reticleInd = 0;
-    private float reticleBuffer = 0.05f;
+    private float reticleBuffer = 0.5f;
     private float tempReticleBuffer = 0;
     private static float dropTimer = 2f;
     private static float tempDropTimer = dropTimer;
@@ -265,7 +265,7 @@ public class mainLevel extends GameLevel
     @Override
     public void update(Main main, float dt)
     {
-        //kingSwan.animate(dt);
+        kingSwan.animate(dt);
         /*if(testText != null)
         {
             testText.posY = (int) (GameManager.center.position.y + 320);
@@ -350,7 +350,7 @@ public class mainLevel extends GameLevel
                 {
                     hazardInd++;
                 }
-            tempHazardTimer = hazardTimer * 10000;
+            tempHazardTimer = hazardTimer;
         }
 
         if(flying)
@@ -393,6 +393,9 @@ public class mainLevel extends GameLevel
                         flying = false;
                         kingSwan.position.x = 0;
                         flyingBack = true;
+                        dropTimer = 2f;
+                        dropping = false;
+                        reticleInd = 0;
                     }
                 }
         }

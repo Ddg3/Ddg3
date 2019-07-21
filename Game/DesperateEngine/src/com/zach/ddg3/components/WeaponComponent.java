@@ -365,7 +365,7 @@ public class WeaponComponent extends Component
                 break;
 
             case "cannon":
-                speed = 90f;
+                speed = 110f;
                 explodes = true;
                 bounces = true;
                 detonated = true;
@@ -375,6 +375,7 @@ public class WeaponComponent extends Component
                 bulletMax = 8;
                 speedOnBounce = 1;
                 isAnimated = true;
+                shotCooldown = 0.5f;
 
                 bulletPath = "/cannon_Bullet.png";
                 bulletWidth = 29;

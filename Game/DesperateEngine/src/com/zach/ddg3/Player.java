@@ -710,6 +710,12 @@ public class Player extends Object
             {
                 GameManager.players.add(this);
                 GameManager.cameraPlayers.add(this);
+                GameManager.timePedestals.set(playerNumber, new Object("playerFrame" + (playerNumber), 160, 58, "/playerFrameNew.png", 2, 0));
+                GameManager.objects.add(GameManager.timePedestals.get(playerNumber));
+                GameManager.timePedestals.get(playerNumber).zIndex = Integer.MAX_VALUE - 1;
+                GameManager.timePedestals.get(playerNumber).getObjImage().changeColor(this.getSkinColors()[1],
+                        this.getSkinColors()[this.getSkIndex()]);
+                //tempPlayers++;
             }
         }
 

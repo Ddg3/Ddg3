@@ -84,7 +84,7 @@ public class Explosion extends Object
                 Player player = (Player) other;
                 if(weapon.isParentIsPlayer())
                 {
-                    Player ownerP = (Player) owner;
+                    ownerP = (Player) owner;
                 }
 
             /*for(int i = 0; i <= knockedObjects.size(); i++)
@@ -103,7 +103,8 @@ public class Explosion extends Object
                 }
                 //}
 
-                if (player.getPlayerNumber() != weapon.getPlayerNumber()) {
+                if (player.getPlayerNumber() != weapon.getPlayerNumber())
+                {
                     if (player.isGoose())
                         player.depleteTime(damage);
 

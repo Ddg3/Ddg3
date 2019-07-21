@@ -53,6 +53,8 @@ public class GameManager extends AbstractGame
     @Override
     public void init(Main main)
     {
+        timePedestals.add(0, null);
+        timePedestals.add(1, null);
         //Runs first
         indicators.add(0, null);
         indicators.add(1, null);
@@ -134,15 +136,15 @@ public class GameManager extends AbstractGame
         fpsCounter.posX = (int)(center.position.x);
         fpsCounter.posY = (int)(center.position.y);
 
-        if(tempPlayers < players.size())
+        /*if(tempPlayers < players.size())
         {
-            timePedestals.add(tempPlayers, new Object("playerFrame" + (tempPlayers), 160, 58, "/playerFrameNew.png", 2, 0));
+            timePedestals.set(tempPlayers, new Object("playerFrame" + (tempPlayers), 160, 58, "/playerFrameNew.png", 2, 0));
             GameManager.objects.add(timePedestals.get(tempPlayers));
             timePedestals.get(tempPlayers).zIndex = Integer.MAX_VALUE - 1;
             timePedestals.get(tempPlayers).getObjImage().changeColor(players.get(tempPlayers).getSkinColors()[1],
                     players.get(tempPlayers).getSkinColors()[players.get(tempPlayers).getSkIndex()]);
             tempPlayers++;
-        }
+        }*/
 
         if(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
         {
@@ -154,18 +156,21 @@ public class GameManager extends AbstractGame
 
             for(int i = 0; i < timePedestals.size(); i++)
             {
-                Object pedestal = timePedestals.get(i);
-                pedestal.offsetPos.x = testText.posX + (i * pedestal.width);
-                pedestal.offsetPos.y = testText.posY - (pedestal.height / 2) + 8;
-                Object timer = timers.get(i);
-                timer.offsetPos.x = pedestal.offsetPos.x + 55;
-                timer.offsetPos.y = pedestal.offsetPos.y + 17;
-                timer.visible = true;
-                timer.zIndex = Integer.MAX_VALUE;
-                Object ind = indicators.get(i);
-                ind.offsetPos.x = pedestal.offsetPos.x+ 100;
-                ind.offsetPos.y = pedestal.offsetPos.y + 14;
-                ind.zIndex = Integer.MAX_VALUE;
+                if(timePedestals.get(i)!= null)
+                {
+                    Object pedestal = timePedestals.get(i);
+                    pedestal.offsetPos.x = testText.posX + (i * pedestal.width);
+                    pedestal.offsetPos.y = testText.posY - (pedestal.height / 2) + 8;
+                    Object timer = timers.get(i);
+                    timer.offsetPos.x = pedestal.offsetPos.x + 55;
+                    timer.offsetPos.y = pedestal.offsetPos.y + 17;
+                    timer.visible = true;
+                    timer.zIndex = Integer.MAX_VALUE;
+                    Object ind = indicators.get(i);
+                    ind.offsetPos.x = pedestal.offsetPos.x + 100;
+                    ind.offsetPos.y = pedestal.offsetPos.y + 14;
+                    ind.zIndex = Integer.MAX_VALUE;
+                }
                 /*pedestal.update(main, this, dt );
                 timer.update(main, this, dt );
                 ind.update(main, this, dt );
@@ -202,19 +207,22 @@ public class GameManager extends AbstractGame
 
             for(int i = 0; i < timePedestals.size(); i++)
             {
-                Object pedestal = timePedestals.get(i);
-                pedestal.offsetPos.x = testText.posX + (i * pedestal.width);
-                pedestal.offsetPos.y = testText.posY - (pedestal.height / 2) + 8;
-                Object ind = indicators.get(i);
-                if(ind != null)
+                if(timePedestals.get(i)!= null)
                 {
-                    ind.offsetPos.x = pedestal.offsetPos.x + 100;
-                    ind.offsetPos.y = pedestal.offsetPos.y + 14;
-                    ind.zIndex = Integer.MAX_VALUE;
-                }
-                if(templateText.get(i).text == "PRESS START")
-                {
-                    templateText.get(i).text = "";
+                    Object pedestal = timePedestals.get(i);
+                    pedestal.offsetPos.x = testText.posX + (i * pedestal.width);
+                    pedestal.offsetPos.y = testText.posY - (pedestal.height / 2) + 8;
+                    Object ind = indicators.get(i);
+                    if (ind != null)
+                    {
+                        ind.offsetPos.x = pedestal.offsetPos.x + 100;
+                        ind.offsetPos.y = pedestal.offsetPos.y + 14;
+                        ind.zIndex = Integer.MAX_VALUE;
+                    }
+                    if (templateText.get(i).text == "PRESS START")
+                    {
+                        templateText.get(i).text = "";
+                    }
                 }
                 /*pedestal.update(main, this, dt );
                 timer.update(main, this, dt );
