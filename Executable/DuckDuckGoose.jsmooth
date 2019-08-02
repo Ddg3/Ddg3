@@ -7,8 +7,8 @@
 <JVMSearchPath>exepath</JVMSearchPath>
 <JVMSearchPath>jview</JVMSearchPath>
 <arguments></arguments>
-<classPath>..\Game\DesperateEngine\out\production\DesperateEngine\com\zach\ddg3\components</classPath>
 <classPath>..\Game\DesperateEngine\out\production\DesperateEngine\com\zach\ddg3</classPath>
+<classPath>..\Game\DesperateEngine\out\production\DesperateEngine\com\zach\ddg3\components</classPath>
 <classPath>..\Game\DesperateEngine\out\production\DesperateEngine\com\zach\engine</classPath>
 <classPath>..\Game\DesperateEngine\out\production\DesperateEngine\com\zach\engine\audio</classPath>
 <classPath>..\Game\DesperateEngine\out\production\DesperateEngine\com\zach\engine\gfx</classPath>
@@ -16,10 +16,10 @@
 <embeddedJar>true</embeddedJar>
 <executableName>DuckDuckGoose.exe</executableName>
 <iconLocation>..\Art\Art\Duck\icon.png</iconLocation>
-<initialMemoryHeap>67108864</initialMemoryHeap>
+<initialMemoryHeap>-1</initialMemoryHeap>
 <jarLocation>..\Game\DesperateEngine\out\artifacts\DesperateEngine_jar\DesperateEngine.jar</jarLocation>
 <mainClassName>com.zach.ddg3.GameManager</mainClassName>
-<maximumMemoryHeap>268435456</maximumMemoryHeap>
+<maximumMemoryHeap>-1</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
 <minimumVersion></minimumVersion>
 <skeletonName>Windowed Wrapper</skeletonName>

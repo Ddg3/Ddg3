@@ -85,7 +85,7 @@ public class Wall extends Object
 
     public void zUpdate(Object target)
     {
-        if (target.getTag().equalsIgnoreCase("Player") || target.getTag().equalsIgnoreCase("Bullet"))
+        if (target.getTag().equalsIgnoreCase("Player") || target.getTag().equalsIgnoreCase("Bullet") || target.getTag().equalsIgnoreCase("Pelican"))
         {
             AABBComponent myC = (AABBComponent) this.findComponentBySubtag("zUpdater");
             this.zUpdatePointHigh = myC.getCenterY() + myC.getHalfHeight();

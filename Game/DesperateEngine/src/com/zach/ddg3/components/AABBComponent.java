@@ -95,7 +95,7 @@ public class AABBComponent extends Component
         lastCenterX = centerX;
         lastCenterY = centerY;
 
-        if(this.subTag == "wall" || this.subTag == "selection" || this.subTag == "bullet" || this.subTag == "camera" || this.subTag == "trigger")
+        if(this.subTag == "wall" || this.subTag == "selection" || this.subTag == "bullet" || this.subTag == "camera" || this.subTag == "trigger" || this.subTag == "pelican")
         {
 
             centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX());
@@ -131,6 +131,7 @@ public class AABBComponent extends Component
             halfWidth = (parent.getWidth() / 2);
             halfHeight = (parent.getHeight() / 2);
         }
+
         Physics.addAABBComponent(this);
     }
 

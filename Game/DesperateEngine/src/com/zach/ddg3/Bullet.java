@@ -23,6 +23,14 @@ public class Bullet extends Object
         this.weapon = weapon;
     }
 
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
     private int direction;
     private Object owner;
     private WeaponComponent weapon;
@@ -711,26 +719,45 @@ public class Bullet extends Object
                 if (weapon.isChained() && !counting) {
                     counting = true;
                 }
-            } else if (other.getTag().equalsIgnoreCase("Player")) {
+            }
+            else if (other.getTag().equalsIgnoreCase("Player"))
+            {
                 Player player = (Player) other;
-                Player ownerP = (Player) owner;
-                if (player.getPlayerNumber() != weapon.getPlayerNumber()) {
-                    if (player.isGoose())
-                        player.depleteTime(weapon.getDamage());
-                    else if (ownerP.isGoose()) {
-                        player.setGoose(true);
-                        player.changeSpecies();
-                        ownerP.setGoose(false);
-                        ownerP.changeSpecies();
-                    }
 
-                    if (isAlt && weapon.getSubTag() == "cannon") {
-                        stun();
-                    } else if (weapon.isExplodes()) {
-                        explode(true);
-                        //weapon.setExploding(false);
+                if(weapon.isParentIsPlayer())
+                {
+                    Player ownerP = (Player) owner;
+                    if (player.getPlayerNumber() != weapon.getPlayerNumber())
+                    {
+                        if (ownerP.isGoose())
+                        {
+                            player.setGoose(true);
+                            player.changeSpecies();
+                            ownerP.setGoose(false);
+                            ownerP.changeSpecies();
+                        }
+
+                        if (weapon.isExplodes())
+                        {
+                            player.depleteTime(weapon.getDamage());
+                            explode(true);
+                        }
                     }
                 }
+                else
+                    {
+                        if (weapon.isExplodes())
+                        {
+                            player.depleteTime(weapon.getDamage());
+                            explode(true);
+                        }
+                    }
+
+                    if (isAlt && weapon.getSubTag() == "cannon")
+                    {
+                        stun();
+                        return;
+                    }
             }
         }
         else

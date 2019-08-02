@@ -209,11 +209,14 @@ public class WeaponComponent extends Component
         }
     }
 
-    public void shoot(String name, int width, int height, String path, int frames, float frameLife, int direction)
+    public void shoot(String name, int width, int height, String path, int frames, float frameLife, int frame, int direction)
     {
-        Bullet bullet = new Bullet(name, width, height, path, frames, frameLife, direction, this);
+        Bullet bullet = new Bullet(name, width, height, path, frames, frameLife, frame, this);
         bullet.setPosition(parent.getPositionX(), parent.getPositionY());
+        bullet.setDirection(direction);
+        bullet.zIndex = parent.zIndex + 1;
         GameManager.objects.add(bullet);
+        bullet.offsetPos = new Vector(bullet.getPositionX() + 640, bullet.getPositionY() + 360);
     }
 
     public void shoot(String name, int width, int height, String path, int frames, float frameLife, int direction, Vector triggerPoint)

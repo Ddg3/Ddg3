@@ -20,6 +20,16 @@ public class Object extends GameObject implements Comparable<Object>
     public boolean target = false;
     private boolean isPlaying = false;
 
+    public boolean isKnockable() {
+        return isKnockable;
+    }
+
+    public void setKnockable(boolean knockable) {
+        isKnockable = knockable;
+    }
+
+    private boolean isKnockable = true;
+
     public float getFrameLife() {
         return frameLife;
     }
@@ -201,14 +211,14 @@ public class Object extends GameObject implements Comparable<Object>
             else
             {
                 tempLife -= dt;
-                if (tempLife <= 0 && anim >= endPoint)
+                if (tempLife <= 0 && anim > endPoint)
                 {
                     anim--;
                     tempLife = frameLife;
                 }
                 if (anim == endPoint)
                 {
-                    anim = maxRange;
+                    stop();
                 }
             }
         }
@@ -397,6 +407,12 @@ public class Object extends GameObject implements Comparable<Object>
         setFrame(start);
         endPoint = end;
         isPlayingInRange = true;
+    }
+    public void playToInReverse(int start, int end)
+    {
+        setFrame(start);
+        endPoint = end;
+        isPlayingReversedInRange = true;
     }
 
     public void playToAndDestroy(int start, int end)

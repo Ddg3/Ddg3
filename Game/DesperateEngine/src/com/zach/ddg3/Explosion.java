@@ -97,10 +97,13 @@ public class Explosion extends Object
 
             if(!alreadyExists)
             {*/
+            if(other.isKnockable())
+            {
                 knockedObjects.add(other);
                 if (!knockedObjects.get(knockedObjects.indexOf(other)).isKnocked()) {
                     knockedObjects.get(knockedObjects.indexOf(other)).setKnocked(true);
                 }
+            }
                 //}
 
                 if (player.getPlayerNumber() != weapon.getPlayerNumber())

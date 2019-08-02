@@ -52,7 +52,7 @@ public class mainLevel extends GameLevel
     private static WeaponComponent swanWeapon;
 
     private static float hazardTimer = 30f;
-    private static float tempHazardTimer = 20f;
+    private static float tempHazardTimer = 2f;
     private int hazardInd = 0;
     private ArrayList<Integer> hazardList = new ArrayList<>(1);
     private static int reticleInd = 0;
@@ -62,12 +62,48 @@ public class mainLevel extends GameLevel
     private static float tempDropTimer = dropTimer;
     private static boolean dropping = false;
     private static boolean flyingBack = false;
+    private static boolean moving = false;
+    private static float spearBuffer = 2f;
+    private static float tempSpearBuffer = spearBuffer;
+    private static boolean rised = false;
+
+    private static Object[] pelicans = new Object[2];
+    private static WeaponComponent[] pelicanWeapons = new WeaponComponent[2];
+    private static int shotIndex = 0;
+    private static boolean moveP = false;
+    private static boolean leaveP = false;
+
+    private static boolean readyShoot = false;
+    private static float pelicanCooldown = 3.5f;
+    private static int tempShotInd = 1;
+    private static float pelicanTempCooldown = pelicanCooldown;
 
     private boolean keyPressed = false;
 
     @Override
     public void init(Main main)
     {
+        pelicans[0] = new Object("pelican0", 53, 83, "/pelican.png", 3, 0.01f);
+        pelicans[1] = new Object("pelican1", 53, 83, "/pelican.png", 3, 0.01f);
+        GameManager.objects.add(pelicans[0]);
+        pelicans[0].setFrame(2);
+        pelicans[0].zIndex = Integer.MAX_VALUE;
+        GameManager.objects.add(pelicans[1]);
+        pelicans[1].setFrame(0);
+        pelicans[1].zIndex = Integer.MAX_VALUE;
+        pelicans[0].position = new Vector(-386, -186);
+        pelicans[1].position = new Vector(386, -186);
+        pelicanWeapons[0] = new WeaponComponent(pelicans[0], "rocketLauncher");
+        pelicanWeapons[1] = new WeaponComponent(pelicans[1], "rocketLauncher");
+        pelicans[0].setKnockable(false);
+        pelicans[1].setKnockable(false);
+        pelicans[0].zIndex = 2;
+        pelicans[1].zIndex = 2;
+        pelicans[0].tag = "Pelican";
+        pelicans[1].tag = "Pelican";
+        pelicans[0].addComponent(new AABBComponent(pelicans[0], "pelican"));
+        pelicans[1].addComponent(new AABBComponent(pelicans[0], "pelican"));
+
         GameManager.objects.add(swanShadow);
         swanShadow.zIndex = Integer.MAX_VALUE - 2;
         swanShadow.position.y = -700;
@@ -168,7 +204,7 @@ public class mainLevel extends GameLevel
         diagonalWalls[0] = new Wall("diagonalWall0", 57, 146, "/halfDoor1.png", 2, 0.1f, false);
         diagonalWalls[0].position.y = -171;
         diagonalWalls[0].position.x = -291;
-        diagonalWalls[0].zIndex = 1;
+        diagonalWalls[0].zIndex = 2;
         diagonalWalls[0].paddingTop = 100;
         diagonalWalls[0].setOffsetCenterX(-30);
         GameManager.objects.add(diagonalWalls[0]);
@@ -192,7 +228,7 @@ public class mainLevel extends GameLevel
         diagonalWalls[3] = new Wall("diagonalWall3", 63, 135, "/halfDoor2.png", 2, 0.1f, false);
         diagonalWalls[3].position.y = -197;
         diagonalWalls[3].position.x = 230;
-        diagonalWalls[3].zIndex = 1;
+        diagonalWalls[3].zIndex = 2;
         diagonalWalls[3].paddingTop = 120;
         diagonalWalls[3].setFrame(1);
         GameManager.objects.add(diagonalWalls[3]);
@@ -212,19 +248,21 @@ public class mainLevel extends GameLevel
 
         for(int i = 0; i < spears.length; i += 2)
         {
-            spears[i] = new Wall("spear" + i, 9, 58, "/spearPole.png", 2, 0.1f, false);
+            spears[i] = new Wall("spear", 9, 58, "/spearPole.png", 46, 0.01f, false);
             spears[i].setPosition(-284 + (i * 7), -146 - (i * 3));
             spears[i].zIndex = 1;
             spears[i].paddingTop = 40;
             spears[i].setOffsetCenterY(-30);
-            GameManager.objects.add(spears[i]);
-            spears[i + 1] = new Wall("spear" + i + 1, 9, 58, "/spearPole.png", 2, 0.1f, false);
+            spears[i + 1] = new Wall("spear", 9, 58, "/spearPole.png", 46, 0.01f, false);
             spears[i + 1].setPosition(283 - (i * 7), -146 - (i * 3));
             spears[i + 1].zIndex = 1;
             spears[i + 1].paddingTop = 40;
             spears[i + 1].setOffsetCenterY(-30);
-            spears[i + 1].setFrame(1);
-            GameManager.objects.add(spears[i + 1]);
+            //spears[i + 1].setFrame(1);
+        }
+        for(int i = 0; i < spears.length; i++)
+        {
+            GameManager.objects.add(spears[i]);
         }
 
         /*vulture1 = new Vulture(players.get(0), 0);
@@ -341,7 +379,7 @@ public class mainLevel extends GameLevel
 
         if(tempHazardTimer <= 0)
         {
-            hazard(0, dt);
+            hazard(1, dt);
             if(hazardInd == hazardList.size() - 1)
             {
                 hazardInd = 0;
@@ -409,6 +447,58 @@ public class mainLevel extends GameLevel
                 {
                     flyingBack = false;
                 }
+        }
+
+        /*if(moving)
+        {
+            tempSpearBuffer -= dt;
+            if(tempSpearBuffer <= 0 && !rised)
+            {
+                moving = false;
+                moveSpears(false, true);
+                tempSpearBuffer = spearBuffer;
+            }
+        }*/
+
+        if(!readyShoot)
+        {
+            if(moveP)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    pelicanMove(true, new Vector(-184, -130), new Vector(184, -130), dt);
+                }
+            }
+        }
+        if(readyShoot)
+        {
+            if(shotIndex < 6)
+            {
+                pelicanTempCooldown -= dt;
+                if (pelicanTempCooldown <= 0)
+                {
+                    if (tempShotInd >= 3)
+                    {
+                        tempShotInd = 1;
+                    }
+
+                    pelicanShoot(tempShotInd, dt);
+                    shotIndex++;
+                    tempShotInd++;
+                    pelicanTempCooldown = pelicanCooldown;
+                }
+            }
+            else
+                {
+                    readyShoot = false;
+                    leaveP = true;
+                }
+        }
+        if(leaveP)
+        {
+            moveSpears(false, true);
+            moveSpears(false, false);
+            pelicanMove(false, new Vector(-446, -256), new Vector(446, -256), dt);
         }
     }
 
@@ -494,11 +584,136 @@ public class mainLevel extends GameLevel
             }
             break;
             case 1:
-
+                moveSpears(true, true);
+                moveSpears(true, false);
+                moveP = true;
                 break;
             case 2:
 
                 break;
+        }
+    }
+
+    public void pelicanMove(boolean enter, Vector targetL, Vector targetR, float dt)
+    {
+        if(enter)
+        {
+            if (pelicans[0].position.x < targetL.x)
+            {
+
+                pelicans[0].position.x += 30 * dt;
+                if (pelicans[0].position.y < targetL.y)
+                {
+                    pelicans[0].position.y += 30 * dt;
+                }
+            }
+            else
+            {
+                readyShoot = true;
+                moveP = false;
+            }
+
+            if (pelicans[1].position.x > targetR.x)
+            {
+                pelicans[1].position.x -= 30 * dt;
+
+                if (pelicans[1].position.y < targetR.y)
+                {
+                    pelicans[1].position.y += 30 * dt;
+                }
+            }
+            else
+            {
+                readyShoot = true;
+                moveP = false;
+            }
+        }
+        else
+            {
+                if (pelicans[0].position.x > targetL.x)
+                {
+                    pelicans[0].position.x -= 30 * dt;
+
+                    if (pelicans[0].position.y > targetL.y)
+                    {
+                        pelicans[0].position.y -= 30 * dt;
+                    }
+                }
+
+                if (pelicans[1].position.x < targetR.x)
+                {
+                    pelicans[1].position.x += 30 * dt;
+
+                    if (pelicans[1].position.y > targetR.y)
+                    {
+                        pelicans[1].position.y -= 30 * dt;
+                    }
+                }
+            }
+    }
+    public void pelicanShoot(int dir, float dt)
+    {
+        for(int i = 0; i < pelicans.length; i++)
+        {
+            if(i == 0)
+            {
+                pelicans[i].setFrame(dir);
+                pelicans[i + 1].setFrame(2 - dir);
+            }
+            int direction = pelicans[i].getFrame();
+
+            switch(direction)
+            {
+                case 0:
+                    direction = 7;
+                    break;
+                case 1:
+                    direction = 0;
+                    break;
+                case 2:
+                    direction = 1;
+                    break;
+            }
+
+            pelicanWeapons[i].shoot("fishBomb",25, 31, "/fishBomb.png", 3, 0.01f, pelicans[i].getFrame(), direction);
+        }
+    }
+    public void ostrichRun()
+    {
+
+    }
+
+    public void moveSpears(boolean lower, boolean left)
+    {
+        int[] spearSet = new int[spears.length / 2];
+
+        if(left)
+        {
+            spearSet[0] = 0;
+            spearSet[1] = 2;
+            spearSet[2] = 4;
+            spearSet[3] = 6;
+        }
+        else
+            {
+                spearSet[0] = 1;
+                spearSet[1] = 3;
+                spearSet[2] = 5;
+                spearSet[3] = 7;
+            }
+        if(!moving)
+        {
+            for (int i = 0; i < spearSet.length; i++)
+            {
+                if(lower)
+                    spears[spearSet[i]].playTo(0, 45);
+                else
+                    {
+                        spears[spearSet[i]].playToInReverse(45, 1);
+                        rised = true;
+                    }
+            }
+            moving = true;
         }
     }
 
