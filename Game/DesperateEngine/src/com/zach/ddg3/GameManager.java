@@ -26,6 +26,8 @@ public class GameManager extends AbstractGame
     public static ArrayList<Object> timePedestals = new ArrayList<Object>(1);
     public static ArrayList<Object> templatePedestals = new ArrayList<Object>(1);
     public static ArrayList<TextObject> templateText = new ArrayList<TextObject>(1);
+    public static ArrayList<TextObject> altReloadText = new ArrayList<>(1);
+    public static ArrayList<Integer> altReloadTime = new ArrayList<>(1);
     private int levelWidth;
     private int levelHeight;
     private boolean[] collision;
@@ -53,15 +55,6 @@ public class GameManager extends AbstractGame
     @Override
     public void init(Main main)
     {
-        timePedestals.add(0, null);
-        timePedestals.add(1, null);
-        //Runs first
-        indicators.add(0, null);
-        indicators.add(1, null);
-        main.getRenderer().setAmbientColor(-1);
-        gameLevelManager.gameState = GameLevelManager.GameState.SELECTION_STATE;
-        deviceManager.init(main);
-
         //Acts as invisible camera target for menu levels or static camera levels
         center = new Object("center", 640, 360, "/centerTest.png", 1, 1f);
         center.target = true;
@@ -72,14 +65,30 @@ public class GameManager extends AbstractGame
         center.setPosition(0,0);
         center.addComponent(new AABBComponent(center, "camera"));
 
+        testText = new TextObject("" , (int)(GameManager.center.position.x),(int)(GameManager.center.position.y + 320),0xffffffff, 1);
+        GameManager.textObjects.add(testText);
+        altReloadTime.add(0, 8);
+        altReloadTime.add(1, 8);
+        altReloadText.add(0, new TextObject("" + altReloadTime.get(0), testText.posX + 110, testText.posY + 5, 0xffffffff, 1));
+        altReloadText.add(1, new TextObject("" + altReloadTime.get(1), testText.posX + 270, testText.posY + 5, 0xffffffff, 1));
+        textObjects.add(altReloadText.get(0));
+        textObjects.add(altReloadText.get(1));
+        altReloadText.get(0).visible = false;
+        altReloadText.get(1).visible = false;
+        timePedestals.add(0, null);
+        timePedestals.add(1, null);
+        //Runs first
+        indicators.add(0, null);
+        indicators.add(1, null);
+        main.getRenderer().setAmbientColor(-1);
+        gameLevelManager.gameState = GameLevelManager.GameState.SELECTION_STATE;
+        deviceManager.init(main);
+
         fpsCounter = new TextObject("FPS:" + main.getFps() , 0,0,0xffffffff, 1);
         GameManager.textObjects.add(fpsCounter);
 
         //timePedestals.add(null);
         //timePedestals.add(null);
-
-        testText = new TextObject("" , (int)(GameManager.center.position.x),(int)(GameManager.center.position.y + 320),0xffffffff, 1);
-        GameManager.textObjects.add(testText);
 
         templatePedestals.add(0, new Object("tempPed1", 160, 58, "/templateFrame.png", 1,1));
         templatePedestals.add(1, new Object("tempPed1", 160, 58, "/templateFrame.png", 1,1));
@@ -152,6 +161,13 @@ public class GameManager extends AbstractGame
             {
                 testText.posX = (int) (center.position.x);
                 testText.posY = (int) (center.position.y + 320 + 4);
+
+                altReloadText.get(0).posX = testText.posX + 110;
+                altReloadText.get(1).posX = testText.posX + 270;
+                altReloadText.get(0).posY = testText.posY + 5;
+                altReloadText.get(1).posY = testText.posY + 5;
+                altReloadText.get(0).text = "" + altReloadTime.get(0);
+                altReloadText.get(1).text = "" + altReloadTime.get(1);
             }
 
             for(int i = 0; i < timePedestals.size(); i++)
@@ -195,6 +211,13 @@ public class GameManager extends AbstractGame
                     templateText.get(i).posX = testText.posX + (i * 160) + 38;
                     templateText.get(i).posY = testText.posY;
                 }
+
+                altReloadText.get(0).posX = testText.posX + 110;
+                altReloadText.get(1).posX = testText.posX + 270;
+                altReloadText.get(0).posY = testText.posY + 2;
+                altReloadText.get(1).posY = testText.posY + 2;
+                altReloadText.get(0).text = "" + altReloadTime.get(0);
+                altReloadText.get(1).text = "" + altReloadTime.get(1);
             }
 
             for(int i = 0; i < templatePedestals.size(); i++)

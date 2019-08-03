@@ -19,6 +19,7 @@ public class mainLevel extends GameLevel
     private static Wall frontWall;
     private static Wall backWall;
     private static Wall[] diagonalWalls = new Wall[4];
+    private static Object[] doorBacks = new Object[2];
     private static Wall[] sideWalls = new Wall[2];
     private static Wall[] spears = new Wall[8];
     private static Object ground;
@@ -35,7 +36,6 @@ public class mainLevel extends GameLevel
     private boolean spitting = false;
     private static Random random;
 
-
     public static boolean gameWon = false;
     private static int speakInd = 0;
     private static boolean buttonPressed = false;
@@ -47,7 +47,7 @@ public class mainLevel extends GameLevel
     private Vulture vulture2;
 
 
-    private static Object swanShadow = new Object("shadow", 242, 198, "/swanShadow.png", 1, 1);
+    private static Object swanShadow = new Object("shadow", 361, 295, "/swanShadow.png", 1, 1);
     private static Vector[] dropPoints = new Vector[3];
     private static WeaponComponent swanWeapon;
 
@@ -62,27 +62,41 @@ public class mainLevel extends GameLevel
     private static float tempDropTimer = dropTimer;
     private static boolean dropping = false;
     private static boolean flyingBack = false;
-    private static boolean moving = false;
+    private static boolean movingL = false;
+    private static boolean movingR = false;
     private static float spearBuffer = 2f;
     private static float tempSpearBuffer = spearBuffer;
-    private static boolean rised = false;
+    private static boolean risedL = false;
+    private static boolean risedR = false;
 
     private static Object[] pelicans = new Object[2];
     private static WeaponComponent[] pelicanWeapons = new WeaponComponent[2];
     private static int shotIndex = 0;
     private static boolean moveP = false;
     private static boolean leaveP = false;
+    private static boolean compAdd = false;
 
     private static boolean readyShoot = false;
     private static float pelicanCooldown = 3.5f;
     private static int tempShotInd = 1;
     private static float pelicanTempCooldown = pelicanCooldown;
 
+    private static Object[] ostrichGens = new Object[2];
+
     private boolean keyPressed = false;
 
     @Override
     public void init(Main main)
     {
+        ostrichGens[0] = new Object("ostrichGenL", 53, 83, "/pelican.png", 3, 0.01f);
+        ostrichGens[1] = new Object("ostrichGenR", 53, 83, "/pelican.png", 3, 0.01f);
+        ostrichGens[0].position = new Vector(-286, -156);
+        ostrichGens[1].position = new Vector(286, -156);
+        ostrichGens[0].addComponent(new WeaponComponent(ostrichGens[0], "ostrichLauncher"));
+        ostrichGens[1].addComponent(new WeaponComponent(ostrichGens[1], "ostrichLauncher"));
+        GameManager.objects.add(ostrichGens[0]);
+        GameManager.objects.add(ostrichGens[1]);
+
         pelicans[0] = new Object("pelican0", 53, 83, "/pelican.png", 3, 0.01f);
         pelicans[1] = new Object("pelican1", 53, 83, "/pelican.png", 3, 0.01f);
         GameManager.objects.add(pelicans[0]);
@@ -219,7 +233,7 @@ public class mainLevel extends GameLevel
         diagonalWalls[2] = new Wall("diagonalWall2", 57, 146, "/halfDoor1.png", 2, 0.1f, false);
         diagonalWalls[2].position.y = -171;
         diagonalWalls[2].position.x = 290;
-        diagonalWalls[2].zIndex = 1;
+        diagonalWalls[2].zIndex = 2;
         diagonalWalls[2].paddingTop = 100;
         diagonalWalls[2].setOffsetCenterX(30);
         diagonalWalls[2].setFrame(1);
@@ -228,10 +242,23 @@ public class mainLevel extends GameLevel
         diagonalWalls[3] = new Wall("diagonalWall3", 63, 135, "/halfDoor2.png", 2, 0.1f, false);
         diagonalWalls[3].position.y = -197;
         diagonalWalls[3].position.x = 230;
-        diagonalWalls[3].zIndex = 2;
+        diagonalWalls[3].zIndex = 1;
         diagonalWalls[3].paddingTop = 120;
         diagonalWalls[3].setFrame(1);
         GameManager.objects.add(diagonalWalls[3]);
+
+        doorBacks[0] = new Object("doorBack0", 51, 84, "/doorBackground.png", 2, 0.01f);
+        doorBacks[0].position.x = -268;
+        doorBacks[0].position.y = -161;
+        doorBacks[0].zIndex = 0;
+        GameManager.objects.add(doorBacks[0]);
+
+        doorBacks[1] = new Object("doorBack1", 51, 84, "/doorBackground.png", 2, 0.01f);
+        doorBacks[1].position.x = 267;
+        doorBacks[1].position.y = -161;
+        doorBacks[1].zIndex = 0;
+        doorBacks[1].setFrame(1);
+        GameManager.objects.add(doorBacks[1]);
 
         sideWalls[0] = new Wall("sideWall0", 16, 392, "/sideWalls.png", 2, 0.1f, false);
         sideWalls[0].position.x = -327;
@@ -388,7 +415,7 @@ public class mainLevel extends GameLevel
                 {
                     hazardInd++;
                 }
-            tempHazardTimer = hazardTimer;
+            tempHazardTimer = hazardTimer * 1000000;
         }
 
         if(flying)
@@ -400,7 +427,7 @@ public class mainLevel extends GameLevel
             else
                 {
                     kingSwan.position.x = swanShadow.position.x;
-                    swanShadow.position.y += 170f * dt;
+                    swanShadow.position.y += 110f * dt;
 
                     for (int i = 0; i < dropPoints.length; i++)
                     {
@@ -466,12 +493,18 @@ public class mainLevel extends GameLevel
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    pelicanMove(true, new Vector(-184, -130), new Vector(184, -130), dt);
+                    pelicanMove(true, new Vector(-184, -150), new Vector(184, -150), dt);
                 }
             }
         }
         if(readyShoot)
         {
+            if(!compAdd)
+            {
+                pelicans[0].addComponent(new AABBComponent(pelicans[0], "wall"));
+                pelicans[1].addComponent(new AABBComponent(pelicans[1], "wall"));
+                compAdd = true;
+            }
             if(shotIndex < 6)
             {
                 pelicanTempCooldown -= dt;
@@ -480,7 +513,7 @@ public class mainLevel extends GameLevel
                     if (tempShotInd >= 3)
                     {
                         tempShotInd = 1;
-                    }
+                }
 
                     pelicanShoot(tempShotInd, dt);
                     shotIndex++;
@@ -496,9 +529,14 @@ public class mainLevel extends GameLevel
         }
         if(leaveP)
         {
-            moveSpears(false, true);
-            moveSpears(false, false);
-            pelicanMove(false, new Vector(-446, -256), new Vector(446, -256), dt);
+            pelicans[0].removeComponentBySubtag("wall");
+            pelicans[1].removeComponentBySubtag("wall");
+            compAdd = false;
+            moveSpears(false, true, movingL, risedL);
+            moveSpears(false, false, movingR, risedR);
+            pelicanMove(false, new Vector(-446, -150), new Vector(446, -150), dt);
+            shotIndex = 0;
+            pelicanTempCooldown = pelicanCooldown;
         }
     }
 
@@ -574,18 +612,19 @@ public class mainLevel extends GameLevel
                 random = new Random();
 
                 int randomX = random.nextInt((int) (sideWalls[1].position.x * 2)) + (int) sideWalls[0].position.x;
+
                 swanShadow.position.x = randomX;
 
                 for (int i = 0; i < dropPoints.length; i++)
                 {
                     dropPoints[i].x = randomX;
-                    dropPoints[i].y = (i * 120) - 120;
+                    dropPoints[i].y = random.nextInt(-150 * 2) + 150;
                 }
             }
             break;
             case 1:
-                moveSpears(true, true);
-                moveSpears(true, false);
+                moveSpears(true, true, movingL, risedL);
+                moveSpears(true, false, movingR, risedR);
                 moveP = true;
                 break;
             case 2:
@@ -600,7 +639,6 @@ public class mainLevel extends GameLevel
         {
             if (pelicans[0].position.x < targetL.x)
             {
-
                 pelicans[0].position.x += 30 * dt;
                 if (pelicans[0].position.y < targetL.y)
                 {
@@ -639,6 +677,11 @@ public class mainLevel extends GameLevel
                         pelicans[0].position.y -= 30 * dt;
                     }
                 }
+                else
+                {
+                    leaveP = false;
+                    pelicanTempCooldown = pelicanCooldown;
+                }
 
                 if (pelicans[1].position.x < targetR.x)
                 {
@@ -649,6 +692,11 @@ public class mainLevel extends GameLevel
                         pelicans[1].position.y -= 30 * dt;
                     }
                 }
+                else
+                    {
+                        leaveP = false;
+                        pelicanTempCooldown = pelicanCooldown;
+                    }
             }
     }
     public void pelicanShoot(int dir, float dt)
@@ -658,7 +706,15 @@ public class mainLevel extends GameLevel
             if(i == 0)
             {
                 pelicans[i].setFrame(dir);
-                pelicans[i + 1].setFrame(2 - dir);
+                switch(dir)
+                {
+                    case 1:
+                        pelicans[i + 1].setFrame(0);
+                        break;
+                    case 2:
+                        pelicans[i + 1].setFrame(1);
+                        break;
+                }
             }
             int direction = pelicans[i].getFrame();
 
@@ -678,12 +734,19 @@ public class mainLevel extends GameLevel
             pelicanWeapons[i].shoot("fishBomb",25, 31, "/fishBomb.png", 3, 0.01f, pelicans[i].getFrame(), direction);
         }
     }
-    public void ostrichRun()
+    public void ostrichRun(boolean left, int amount)
     {
+        if(left)
+        {
 
+        }
+        else
+            {
+                
+            }
     }
 
-    public void moveSpears(boolean lower, boolean left)
+    public void moveSpears(boolean lower, boolean left, boolean moving, boolean rised)
     {
         int[] spearSet = new int[spears.length / 2];
 

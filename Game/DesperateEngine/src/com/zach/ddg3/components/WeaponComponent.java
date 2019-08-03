@@ -13,7 +13,7 @@ public class WeaponComponent extends Component
 {
     private float shotCooldown = 1.0f;
     private float altCooldown = 8.0f;
-    private float tempAltCooldown = altCooldown;
+    private float tempAltCooldown = /*altCooldown*/ 0;
     private boolean isCharged = false;
     private boolean bounces = false;
     private int bounceCount = 0;
@@ -146,9 +146,12 @@ public class WeaponComponent extends Component
             tempCooldown -= dt;
             tempAltCooldown -= dt;
 
+            GameManager.altReloadTime.set(player.getPlayerNumber(), (int)tempAltCooldown);
+
             if (tempAltCooldown <= 0 && !player.getIndicator().visible)
             {
                 player.getIndicator().visible = true;
+                GameManager.altReloadText.get(player.getPlayerNumber()).visible = false;
             }
         }
     }
@@ -266,6 +269,7 @@ public class WeaponComponent extends Component
                     GameManager.objects.add(bullet);
                     bullets.add(bullet);
                     bullet.isAlt = true;
+                    GameManager.altReloadText.get(player.getPlayerNumber()).visible = true;
                 }
             }
         }
@@ -412,6 +416,19 @@ public class WeaponComponent extends Component
                 bulletOffsetG[5] = new Vector(-31,-26);
                 bulletOffsetG[6] = new Vector(-32,-2);
                 bulletOffsetG[7] = new Vector(-30,22);
+                break;
+
+            case "ostrichLauncher":
+                speed = 210f;
+                explodes = true;
+                isAnimated = true;
+                collides = false;
+
+                bulletPath = "/ostrich.png";
+                bulletWidth = 91;
+                bulletHeight = 119;
+                bulletFrames = 7;
+                bulletFrameTime = 0.05f;
                 break;
         }
     }

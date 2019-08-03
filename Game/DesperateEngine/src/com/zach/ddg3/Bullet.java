@@ -285,7 +285,8 @@ public class Bullet extends Object
         if(direction == 10)
         {
             if (hDist >= vDist) {
-                if (hDist < 0) {
+                if (hDist < 0)
+                {
                     direction = 2;
                 } else {
                     direction = 6;
