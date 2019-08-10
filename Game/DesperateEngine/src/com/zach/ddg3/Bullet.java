@@ -548,7 +548,7 @@ public class Bullet extends Object
     {
         if(!weapon.isTriggered)
         {
-            if (other.getTag().equalsIgnoreCase("Wall"))
+            if ((other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Pelican")) && other != this.owner)
             {
                 AABBComponent myC = (AABBComponent) this.findComponentBySubtag("bullet");
                 AABBComponent otherC = (AABBComponent) other.findComponentBySubtag("wall");

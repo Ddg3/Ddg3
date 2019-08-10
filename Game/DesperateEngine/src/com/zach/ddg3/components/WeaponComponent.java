@@ -222,6 +222,16 @@ public class WeaponComponent extends Component
         bullet.offsetPos = new Vector(bullet.getPositionX() + 640, bullet.getPositionY() + 360);
     }
 
+    public void shoot(int direction)
+    {
+        Bullet bullet = new Bullet("bullet", bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, direction, this);
+        bullet.setPosition(parent.getPositionX(), parent.getPositionY());
+        bullet.setDirection(direction);
+        bullet.zIndex = parent.zIndex + 1;
+        GameManager.objects.add(bullet);
+        bullet.offsetPos = new Vector(bullet.getPositionX() + 640, bullet.getPositionY() + 360);
+    }
+
     public void shoot(String name, int width, int height, String path, int frames, float frameLife, int direction, Vector triggerPoint)
     {
         Bullet bullet = new Bullet(name, width, height, path, frames, frameLife, direction, this);
@@ -423,6 +433,7 @@ public class WeaponComponent extends Component
                 explodes = true;
                 isAnimated = true;
                 collides = false;
+                shotCooldown = 0.2f;
 
                 bulletPath = "/ostrich.png";
                 bulletWidth = 91;

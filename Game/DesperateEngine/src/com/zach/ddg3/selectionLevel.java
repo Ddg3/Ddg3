@@ -41,6 +41,8 @@ public class selectionLevel extends GameLevel {
     public void init(Main main)
     {
         GameManager.camera.resetCamera();
+        GameManager.center.position = new Vector(0,0);
+        GameManager.camera.boundsRange = 0;
         this.verticleBounds.clear();
         this.horizBounds.clear();
         GameManager.cameraPlayers.clear();
@@ -49,7 +51,13 @@ public class selectionLevel extends GameLevel {
         this.verticleBounds.add(new Vector(-720, -750));
         this.verticleBounds.add(new Vector(-750, -1000));
         this.horizBounds.add(new Vector(0,0));
+
         this.loadPoint = 2;
+
+        for(int i = 0; i < GameManager.pauseUI.size(); i++)
+        {
+            GameManager.objects.add(GameManager.pauseUI.get(i));
+        }
 
         if(GameManager.firstTime)
         {
@@ -73,6 +81,11 @@ public class selectionLevel extends GameLevel {
             players.get(1).setKeyShoot(KeyEvent.VK_PAGE_DOWN);*/
             GameManager.objects.add(players.get(1));
             players.get(1).visible = false;
+
+            GameManager.objects.add(GameManager.templatePedestals.get(0));
+            GameManager.objects.add(GameManager.templatePedestals.get(1));
+            GameManager.textObjects.add(GameManager.templateText.get(0));
+            GameManager.textObjects.add(GameManager.templateText.get(1));
         }
         else
             {
@@ -311,7 +324,7 @@ public class selectionLevel extends GameLevel {
         GameManager.camera.setPosY(0);
         GameManager.objects.clear();
         GameManager.textObjects.clear();
-        GameManager.gameLevelManager.currLevel = null;
+        //GameManager.gameLevelManager.currLevel = null;
         players.clear();
 
         for(int i = 0; i < players.size(); i++)

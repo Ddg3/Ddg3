@@ -88,8 +88,8 @@ public class titleLevel extends GameLevel
         if(swan.anim == 10)
         {
             GameManager.camera.boundsRange = 0;
-            GameManager.gameLevelManager.setGameState(GameLevelManager.GameState.SELECTION_STATE);
             uninit();
+            GameManager.gameLevelManager.setGameState(GameLevelManager.GameState.SELECTION_STATE);
         }
         if(blinkTimer <= 0)
         {
@@ -114,5 +114,8 @@ public class titleLevel extends GameLevel
     {
         GameManager.objects.clear();
         GameManager.textObjects.clear();
+        horizBounds.clear();
+        verticleBounds.clear();
+        GameManager.gameLevelManager.currLevel.loadPoint = Integer.MAX_VALUE;
     }
 }
