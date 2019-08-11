@@ -5,6 +5,39 @@ import org.omg.CORBA.INTERNAL;
 
 public class Camera {
     private int topCamera;
+
+    public int getTopCamera() {
+        return topCamera;
+    }
+
+    public void setTopCamera(int topCamera) {
+        this.topCamera = topCamera;
+    }
+
+    public int getBottomCamera() {
+        return bottomCamera;
+    }
+
+    public void setBottomCamera(int bottomCamera) {
+        this.bottomCamera = bottomCamera;
+    }
+
+    public int getLeftCamera() {
+        return leftCamera;
+    }
+
+    public void setLeftCamera(int leftCamera) {
+        this.leftCamera = leftCamera;
+    }
+
+    public int getRightCamera() {
+        return rightCamera;
+    }
+
+    public void setRightCamera(int rightCamera) {
+        this.rightCamera = rightCamera;
+    }
+
     private int bottomCamera;
     private int leftCamera;
     private int rightCamera;
@@ -89,7 +122,8 @@ public class Camera {
 
     public void update(GameManager gameManager, Main main, float dt)
     {
-        if (target == null) {
+        if (target == null)
+        {
             //target = gameManager.getObject(targetName);
             target = GameManager.center;
         }
@@ -115,12 +149,15 @@ public class Camera {
         posX = (target.position.x + (target.width / 2)) - main.getWidth() / 2;
         posY = (target.position.y + (target.height / 2)) - main.getHeight() / 2;
 
-        topCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).x;
-        bottomCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).y;
+        if(gameManager.gameLevelManager.currLevel.verticleBounds.size() > 0)
+        {
+            topCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).x;
+            bottomCamera = (int) gameManager.gameLevelManager.currLevel.verticleBounds.get(boundsRange).y;
+        }
 
         if(!movingAlongVector)
         {
-            if (gameManager.gameLevelManager.currLevel.horizBounds.size() != 0)
+            if (gameManager.gameLevelManager.currLevel.horizBounds.size() > 0)
             {
                 leftCamera = (int) gameManager.gameLevelManager.currLevel.horizBounds.get(0).x;
                 rightCamera = (int) gameManager.gameLevelManager.currLevel.horizBounds.get(0).y;
@@ -139,7 +176,8 @@ public class Camera {
                 }
             }
 
-            if (posY < topCamera && posY > bottomCamera) {
+            if (posY < topCamera && posY > bottomCamera)
+            {
                 main.getRenderer().setCameraY((int) posY);
                 //topStopped = false;
                 //bottomStopped = false;

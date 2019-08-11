@@ -1,6 +1,9 @@
 package com.zach.ddg3;
 
+import com.ivan.xinput.XInputDevice;
+import com.ivan.xinput.enums.XInputButton;
 import com.zach.ddg3.components.AABBComponent;
+import com.zach.ddg3.components.WeaponComponent;
 import com.zach.engine.AbstractGame;
 import com.zach.engine.Main;
 import com.zach.engine.Renderer;
@@ -28,6 +31,8 @@ public class GameManager extends AbstractGame
     public static ArrayList<TextObject> templateText = new ArrayList<TextObject>(1);
     public static ArrayList<TextObject> altReloadText = new ArrayList<>(1);
     public static ArrayList<Integer> altReloadTime = new ArrayList<>(1);
+    public static ArrayList<Object> pauseUI = new ArrayList<>(1);
+    private static ArrayList<Object> controlsUI = new ArrayList<>(1);
     private int levelWidth;
     private int levelHeight;
     private boolean[] collision;
@@ -35,7 +40,7 @@ public class GameManager extends AbstractGame
     private static TextObject fpsCounter = null;
     private boolean showFps = true;
     private boolean showHitboxes = false;
-    private boolean isPlaying = true;
+    public static boolean isPlaying = true;
     public static boolean firstTime = true;
     private int tempPlayers = 0;
     public static TextObject testText;
@@ -44,6 +49,11 @@ public class GameManager extends AbstractGame
     public static Camera camera;
     public static GameLevelManager gameLevelManager;
     public static DeviceManager deviceManager;
+
+    public static Player pausePlayer;
+    private int pauseInd = 1;
+    private int controlsInd = 1;
+    private boolean stickSelecting = false;
 
     public GameManager()
     {
@@ -55,6 +65,26 @@ public class GameManager extends AbstractGame
     @Override
     public void init(Main main)
     {
+        pauseUI.add(0, new Object("PAUSED", 136, 55, "/pauseText.png", 1, 1));
+        pauseUI.get(0).zIndex = Integer.MAX_VALUE;
+        pauseUI.get(0).visible = false;
+        pauseUI.add(1, new Object("Resume", 130, 31, "/resumeText.png", 2, 0.01f));
+        pauseUI.get(1).zIndex = Integer.MAX_VALUE;
+        pauseUI.get(1).visible = false;
+        pauseUI.add(2, new Object("Controls", 135, 26, "/controlsText.png", 2, 0.01f));
+        pauseUI.get(2).zIndex = Integer.MAX_VALUE;
+        pauseUI.get(2).visible = false;
+        pauseUI.add(3, new Object("Quit", 126, 32, "/quitText.png", 2, 0.01f));
+        pauseUI.get(3).zIndex = Integer.MAX_VALUE;
+        pauseUI.get(3).visible = false;
+        pauseUI.add(4, new Object("Quit To Desktop", 160, 48, "/quitToText.png", 2, 0.01f));
+        pauseUI.get(4).zIndex = Integer.MAX_VALUE;
+        pauseUI.get(4).visible = false;
+        /*objects.add(pauseUI.get(0));
+        objects.add(pauseUI.get(1));
+        objects.add(pauseUI.get(2));
+        objects.add(pauseUI.get(3));
+        objects.add(pauseUI.get(4));*/
         //Acts as invisible camera target for menu levels or static camera levels
         center = new Object("center", 640, 360, "/centerTest.png", 1, 1f);
         center.target = true;
@@ -81,7 +111,7 @@ public class GameManager extends AbstractGame
         indicators.add(0, null);
         indicators.add(1, null);
         main.getRenderer().setAmbientColor(-1);
-        gameLevelManager.gameState = GameLevelManager.GameState.SELECTION_STATE;
+        gameLevelManager.gameState = GameLevelManager.GameState.TITLE_STATE;
         deviceManager.init(main);
 
         fpsCounter = new TextObject("FPS:" + main.getFps() , 0,0,0xffffffff, 1);
@@ -92,13 +122,8 @@ public class GameManager extends AbstractGame
 
         templatePedestals.add(0, new Object("tempPed1", 160, 58, "/templateFrame.png", 1,1));
         templatePedestals.add(1, new Object("tempPed1", 160, 58, "/templateFrame.png", 1,1));
-        GameManager.objects.add(templatePedestals.get(0));
-        GameManager.objects.add(templatePedestals.get(1));
-
         templateText.add(0, new TextObject("", 0, 0, 0xffffffff, 1));
         templateText.add(1, new TextObject("", 0, 0, 0xffffffff, 1));
-        textObjects.add(templateText.get(0));
-        textObjects.add(templateText.get(1));
         //templateText.add(2, new TextObject("PRESS START TO JOIN", 0, 0, 0xffffffff, 1));
     }
 
@@ -287,15 +312,38 @@ public class GameManager extends AbstractGame
         }
         if(main.getInput().isKeyDown(KeyEvent.VK_ESCAPE))
         {
-            if(isPlaying)
+            /*if(isPlaying)
             {
                 isPlaying = false;
                 return;
-            }
-            else
+            }*/
+        }
+        if(!isPlaying)
+        {
+            pause(pausePlayer, main);
+            for(int i = 0; i < pauseUI.size(); i++)
             {
-                isPlaying = true;
+                if(!pauseUI.get(i).visible)
+                {
+                    pauseUI.get(i).visible = true;
+                }
+                pauseUI.get(i).update(main, this, dt);
+                pauseUI.get(i).render(main, main.getRenderer());
             }
+        }
+        else
+            {
+                for(int i = 0; i < pauseUI.size(); i++)
+                {
+                    if(pauseUI.get(i).visible)
+                    {
+                        pauseUI.get(i).visible = false;
+                    }
+                }
+            }
+        for(int i = 0; i < pauseUI.size(); i++)
+        {
+            pauseUI.get(i).setPosition(center.getPosition().x, center.getPositionY() -100 + (i * 50));
         }
     }
 
@@ -366,6 +414,266 @@ public class GameManager extends AbstractGame
             }
         }
         return null;
+    }
+    public void pause(Player player, Main main)
+    {
+        pauseUI.get(pauseInd).setFrame(1);
+        if(player.isKeyBoard())
+        {
+            if(main.getInput().isKey(player.getKeyUp()))
+            {
+                pauseUI.get(pauseInd).setFrame(0);
+                if(pauseInd == 1)
+                {
+                    pauseInd = pauseUI.size() - 1;
+                }
+                else
+                {
+                    pauseInd--;
+                }
+            }
+            if(main.getInput().isKey(player.getKeyDown()))
+            {
+                pauseUI.get(pauseInd).setFrame(0);
+                if(pauseInd == pauseUI.size() - 1)
+                {
+                    pauseInd = 1;
+                }
+                else
+                {
+                    pauseInd++;
+                }
+            }
+            if(main.getInput().isKey(player.getKeySelect()))
+            {
+                switch(pauseInd)
+                {
+                    case 1:
+                        isPlaying = true;
+                        for(int i = 0; i < pauseUI.size(); i++)
+                        {
+                            pauseUI.get(i).visible = false;
+                        }
+                        break;
+                    case 2:
+                        controlsUI(player, main);
+                        break;
+                    case 3:
+                        gameLevelManager.currLevel.uninit();
+                        gameLevelManager.currLevel = null;
+                        if(gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
+                        {
+                            players.clear();
+                            cameraPlayers.clear();
+                        }
+                        if(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
+                        {
+                            gameLevelManager.setGameState(GameLevelManager.GameState.SELECTION_STATE);
+                        }
+                        else
+                            {
+                                gameLevelManager.setGameState(GameLevelManager.GameState.TITLE_STATE);
+                            }
+                        camera.setPosX(0);
+                        camera.setPosY(0);
+                        isPlaying = true;
+                        center.position.x = 0;
+                        center.position.y = 0;
+                        gameLevelManager.currLevel.horizBounds.clear();
+                        gameLevelManager.currLevel.verticleBounds.clear();
+                        break;
+                    case 4:
+                        main.uninitialize();
+                        break;
+                }
+            }
+            if(main.getInput().isKey(KeyEvent.VK_ESCAPE))
+            {
+                isPlaying = true;
+                for(int i = 0; i < pauseUI.size(); i++)
+                {
+                    pauseUI.get(i).visible = false;
+                }
+            }
+        }
+        if(player.isKeyBoard() || !player.isKeyBoard())
+            {
+                if(player.device.poll())
+                {
+                    player.setlStickY(player.getlStickY() + player.getAxes().getLYDelta());
+                    if(!stickSelecting)
+                    {
+                        if (player.getlStickY() < -0.4)
+                        {
+                            pauseUI.get(pauseInd).setFrame(0);
+                            if (pauseInd == 1)
+                            {
+                                pauseInd = pauseUI.size() - 1;
+                            } else
+                                {
+                                pauseInd--;
+                            }
+
+                            stickSelecting = true;
+                        }
+                        if (player.getlStickY() > 0.4)
+                        {
+                            pauseUI.get(pauseInd).setFrame(0);
+                            if (pauseInd == pauseUI.size() - 1)
+                            {
+                                pauseInd = 1;
+                            } else
+                                {
+                                pauseInd++;
+                            }
+                            stickSelecting = true;
+                        }
+                    }
+                    else
+                        {
+                            if (player.getlStickY() < 0.4f && player.getlStickY() > -0.4f)
+                            {
+                                stickSelecting = false;
+                            }
+                        }
+                    if(player.getButtons().isPressed(XInputButton.A))
+                    {
+                        switch(pauseInd)
+                        {
+                            case 1:
+                                isPlaying = true;
+                                for(int i = 0; i < pauseUI.size(); i++)
+                                {
+                                    pauseUI.get(i).visible = false;
+                                }
+                                break;
+                            case 2:
+                                controlsUI(player, main);
+                                break;
+                            case 3:
+                                gameLevelManager.currLevel.uninit();
+                                if(gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE || gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
+                                {
+                                    players.clear();
+                                    cameraPlayers.clear();
+                                    gameLevelManager.setGameState(GameLevelManager.GameState.TITLE_STATE);
+                                }
+                                /*else if(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
+                                {
+                                    firstTime = false;
+                                    gameLevelManager.setGameState(GameLevelManager.GameState.SELECTION_STATE);
+                                }*/
+                                camera.resetCamera();
+                                gameLevelManager.currLevel.loadPoint = Integer.MAX_VALUE;
+                                camera.setPosX(0);
+                                camera.setPosY(0);
+                                isPlaying = true;
+                                firstTime = true;
+                                center.position.x = 0;
+                                center.position.y = 0;
+                                gameLevelManager.currLevel.horizBounds.clear();
+                                gameLevelManager.currLevel.verticleBounds.clear();
+                                break;
+                            case 4:
+                                main.uninitialize();
+                                break;
+                        }
+                    }
+                    if(player.getButtons().isPressed(XInputButton.START))
+                    {
+                        isPlaying = true;
+                        for(int i = 0; i < pauseUI.size(); i++)
+                        {
+                            pauseUI.get(i).visible = false;
+                        }
+                    }
+                }
+            }
+    }
+    public void controlsUI(Player player, Main main)
+    {
+        if(player.isKeyBoard())
+        {
+            if(main.getInput().isKey(player.getKeyUp()))
+            {
+                controlsUI.get(controlsInd).setFrame(0);
+                if(controlsInd == 1)
+                {
+                    controlsInd = controlsUI.size() - 1;
+                }
+                else
+                {
+                    controlsInd++;
+                }
+                controlsUI.get(controlsInd).setFrame(1);
+            }
+            if(main.getInput().isKey(player.getKeyDown()))
+            {
+                controlsUI.get(controlsInd).setFrame(0);
+                if(controlsInd == controlsUI.size() - 1)
+                {
+                    controlsInd = 1;
+                }
+                else
+                {
+                    controlsInd--;
+                }
+                controlsUI.get(controlsInd).setFrame(1);
+            }
+            if(main.getInput().isKey(player.getKeySelect()))
+            {
+                switch(controlsInd)
+                {
+
+                }
+            }
+            if(main.getInput().isKey(KeyEvent.VK_ESCAPE))
+            {
+                isPlaying = true;
+            }
+        }
+        else
+        {
+            if(player.device.poll())
+            {
+                if(player.getlStickY() < -0.4)
+                {
+                    controlsUI.get(controlsInd).setFrame(0);
+                    if(controlsInd == 1)
+                    {
+                        controlsInd = controlsUI.size() - 1;
+                    }
+                    else
+                    {
+                        controlsInd++;
+                    }
+                    controlsUI.get(controlsInd).setFrame(1);
+                }
+                if(player.getlStickY() > 0.4)
+                {
+                    controlsUI.get(controlsInd).setFrame(0);
+                    if(controlsInd == controlsUI.size() - 1)
+                    {
+                        controlsInd = 1;
+                    }
+                    else
+                    {
+                        controlsInd--;
+                    }
+                    controlsUI.get(controlsInd).setFrame(1);
+                }
+                if(player.getButtons().isPressed(XInputButton.A))
+                {
+                    switch(controlsInd)
+                    {
+                    }
+                }
+                if(player.getButtons().isPressed(XInputButton.START))
+                {
+                    isPlaying = true;
+                }
+            }
+        }
     }
     public void cameraFollow()
     {

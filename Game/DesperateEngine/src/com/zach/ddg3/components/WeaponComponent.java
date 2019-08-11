@@ -8,6 +8,7 @@ import com.zach.engine.Renderer;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class WeaponComponent extends Component
 {
@@ -52,6 +53,7 @@ public class WeaponComponent extends Component
     private boolean collides = true;
     private boolean isChained = false;
     private float timer = 0f;
+    private boolean isOstrich = false;
 
     private int explosionWidth = 90;
     private int explosionHeight = 82;
@@ -85,9 +87,11 @@ public class WeaponComponent extends Component
     }
 
     private Object parent;
+    private Random random;
 
     public WeaponComponent(Object parent, String subTag)
     {
+        random = new Random();
         this.parent = parent;
         this.tag = "Weapon";
         this.subTag = subTag;
@@ -143,7 +147,6 @@ public class WeaponComponent extends Component
                 parent.setFrameOffset(0);
             }
 
-            tempCooldown -= dt;
             tempAltCooldown -= dt;
 
             GameManager.altReloadTime.set(player.getPlayerNumber(), (int)tempAltCooldown);
@@ -154,6 +157,8 @@ public class WeaponComponent extends Component
                 GameManager.altReloadText.get(player.getPlayerNumber()).visible = false;
             }
         }
+
+        tempCooldown -= dt;
     }
 
     @Override
@@ -219,7 +224,24 @@ public class WeaponComponent extends Component
         bullet.setDirection(direction);
         bullet.zIndex = parent.zIndex + 1;
         GameManager.objects.add(bullet);
-        bullet.offsetPos = new Vector(bullet.getPositionX() + 640, bullet.getPositionY() + 360);
+        bullet.offsetPos = new Vector(bullet.getPositionX() + 6400, bullet.getPositionY() + 3600);
+    }
+
+    public void shoot(int direction)
+    {
+        if(tempCooldown <= 0)
+        {
+            Bullet bullet = new Bullet("bullet", bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, direction, this);
+            random = new Random();
+            int randomOffsetX = random.nextInt(20) - 10;
+            int randomOffsetY = random.nextInt(10) - 5;
+            bullet.setPosition(parent.getPositionX() + randomOffsetX, parent.getPositionY() + randomOffsetY);
+            bullet.setDirection(direction);
+            bullet.zIndex = 1;
+            GameManager.objects.add(bullet);
+            bullet.offsetPos = new Vector(bullet.getPositionX() + 6400, bullet.getPositionY() + 3600);
+            tempCooldown = shotCooldown;
+        }
     }
 
     public void shoot(String name, int width, int height, String path, int frames, float frameLife, int direction, Vector triggerPoint)
@@ -237,7 +259,7 @@ public class WeaponComponent extends Component
         GameManager.objects.add(bullet);
         bullet.triggerPoint = triggerPoint;
         bullet.setSpeed(speed);
-        bullet.offsetPos = new Vector(bullet.getPositionX() + 640, bullet.getPositionY() + 360);
+        bullet.offsetPos = new Vector(bullet.getPositionX() + 6400, bullet.getPositionY() + 3600);
     }
 
     public void altShoot(Main main)
@@ -419,19 +441,30 @@ public class WeaponComponent extends Component
                 break;
 
             case "ostrichLauncher":
-                speed = 210f;
+                speed = 90f;
                 explodes = true;
                 isAnimated = true;
                 collides = false;
+                shotCooldown = 0.2f;
+                isOstrich = true;
 
                 bulletPath = "/ostrich.png";
                 bulletWidth = 91;
                 bulletHeight = 119;
                 bulletFrames = 7;
-                bulletFrameTime = 0.05f;
+                bulletFrameTime = 0.15f;
                 break;
         }
     }
+
+    public boolean isOstrich() {
+        return isOstrich;
+    }
+
+    public void setOstrich(boolean ostrich) {
+        isOstrich = ostrich;
+    }
+
     public float getTempAltCooldown() {
         return tempAltCooldown;
     }

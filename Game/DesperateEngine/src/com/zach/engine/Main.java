@@ -86,7 +86,8 @@ public class Main implements Runnable
     }
     public void uninitialize()
     {
-
+        running = false;
+        System.exit(0);
     }
     public void run()
     {

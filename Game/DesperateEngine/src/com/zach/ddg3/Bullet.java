@@ -33,6 +33,11 @@ public class Bullet extends Object
 
     private int direction;
     private Object owner;
+
+    public void setOwner(Object owner) {
+        this.owner = owner;
+    }
+
     private WeaponComponent weapon;
     private int offsetX;
     private int offsetY;
@@ -136,6 +141,10 @@ public class Bullet extends Object
     public void update(Main main, GameManager gameManager, float dt)
     {
         move(dt);
+        if(weapon.isOstrich())
+        {
+            zIndex = 1;
+        }
         this.offsetPos.x = (int) (this.position.x - (this.width / 2) + 320);
         this.offsetPos.y = (int) (this.position.y - (this.height / 2) + 180);
         this.updateComponents(main, gameManager, dt);
@@ -548,7 +557,7 @@ public class Bullet extends Object
     {
         if(!weapon.isTriggered)
         {
-            if (other.getTag().equalsIgnoreCase("Wall"))
+            if ((other.getTag().equalsIgnoreCase("Wall") || other.getTag().equalsIgnoreCase("Pelican")) && other != this.owner)
             {
                 AABBComponent myC = (AABBComponent) this.findComponentBySubtag("bullet");
                 AABBComponent otherC = (AABBComponent) other.findComponentBySubtag("wall");
@@ -576,7 +585,8 @@ public class Bullet extends Object
                         collidingLeft = true;
                     }
                 }
-                if (weapon.isBounces() && !isAlt) {
+                if (weapon.isBounces() && !isAlt)
+                {
                     if (!colliding && !slowing) {
                         switch (direction) {
                             case 0:
@@ -650,21 +660,28 @@ public class Bullet extends Object
                             }
                         }
                     }
-                } else if (!weapon.isStopsAtWall()) {
-                    if (isAlt && weapon.getSubTag() == "cannon") {
+                }
+                else if (!weapon.isStopsAtWall() && !weapon.isOstrich())
+                {
+                    if (isAlt && weapon.getSubTag() == "cannon")
+                    {
                         stun();
-                    } else if (weapon.isExplodes()) {
+                    } else if (weapon.isExplodes())
+                    {
                         explode(false);
                         weapon.bullets.remove(this);
-                    } else {
+                    } else
+                        {
                         GameManager.objects.remove(this);
                     }
-                } else {
+                }
+                else if(!weapon.isOstrich())
+                    {
                     this.speed = 0;
                     this.stop();
                 }
             }
-            else if (other.getTag().equalsIgnoreCase("Bullet"))
+            else if (other.getTag().equalsIgnoreCase("Bullet") && !weapon.isOstrich())
             {
                 Bullet otherB = (Bullet) other;
                 if (weapon.isBounces() && otherB.weapon.isBounces())
@@ -701,7 +718,7 @@ public class Bullet extends Object
 
                     colliding = true;
                 }
-                else if (weapon.isExplodes() && otherB.getWeapon().isCollides() && weapon.isCollides() && !isAlt)
+                else if (weapon.isExplodes() && otherB.getWeapon().isCollides() && weapon.isCollides() && !isAlt && !weapon.isOstrich())
                 {
                     explode(true);
                     //weapon.setExploding(false);
@@ -716,7 +733,7 @@ public class Bullet extends Object
                         other.stop();
                     }
                 }
-            } else if (other.getTag().equalsIgnoreCase("Explosion")) {
+            } else if (other.getTag().equalsIgnoreCase("Explosion") && !weapon.isOstrich()) {
                 if (weapon.isChained() && !counting) {
                     counting = true;
                 }
@@ -760,12 +777,22 @@ public class Bullet extends Object
                         return;
                     }
             }
+
+            if(weapon.isOstrich())
+            {
+                if(other.getTag().equalsIgnoreCase("Trigger"))
+                {
+                    {
+                        explode(false);
+                    }
+                }
+            }
         }
         else
             {
                 if(other.getTag().equalsIgnoreCase("Trigger"))
                 {
-                    if ((position.x <= triggerPoint.x + 6 && position.x >= triggerPoint.x - 6) && (position.y <= triggerPoint.y + 6 && position.y >= triggerPoint.y - 6))
+                    if (((position.x <= triggerPoint.x + 6 && position.x >= triggerPoint.x - 6) && (position.y <= triggerPoint.y + 6 && position.y >= triggerPoint.y - 6)))
                     {
                         if (weapon.isExplodes())
                         {

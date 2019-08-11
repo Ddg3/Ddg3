@@ -25,6 +25,7 @@ public class mainLevel extends GameLevel
     private static Object ground;
     private static Object stands;
     private static Wall backGate;
+    private static Object backGateTrigger;
     private static ArrayList<Object> pointers = new ArrayList<Object>(1);
     private static ArrayList<TextObject> timers = new ArrayList<TextObject>(1);
     private static Vulture vulture1;
@@ -53,8 +54,8 @@ public class mainLevel extends GameLevel
 
     private static float hazardTimer = 30f;
     private static float tempHazardTimer = 2f;
-    private int hazardInd = 0;
-    private ArrayList<Integer> hazardList = new ArrayList<>(1);
+    private static int hazardInd = 0;
+    private static ArrayList<Integer> hazardList = new ArrayList<>(1);
     private static int reticleInd = 0;
     private float reticleBuffer = 0.5f;
     private float tempReticleBuffer = 0;
@@ -82,6 +83,14 @@ public class mainLevel extends GameLevel
     private static float pelicanTempCooldown = pelicanCooldown;
 
     private static Object[] ostrichGens = new Object[2];
+    private static float ostrichTimer = 5f;
+    private static float ostrichTimerOffset = 2f;
+    private static float tempOstrichTimerOffset = ostrichTimerOffset;
+    private static float tempOstrichTimer = ostrichTimer;
+    private static boolean ostrichFinished = false;
+    private static boolean ostrichHazard = false;
+    private static boolean ostrichL = false;
+    private static int ostrichInt = 0;
 
     private boolean keyPressed = false;
 
@@ -90,8 +99,8 @@ public class mainLevel extends GameLevel
     {
         ostrichGens[0] = new Object("ostrichGenL", 53, 83, "/pelican.png", 3, 0.01f);
         ostrichGens[1] = new Object("ostrichGenR", 53, 83, "/pelican.png", 3, 0.01f);
-        ostrichGens[0].position = new Vector(-286, -156);
-        ostrichGens[1].position = new Vector(286, -156);
+        ostrichGens[0].position = new Vector(-296, -176);
+        ostrichGens[1].position = new Vector(296, -176);
         ostrichGens[0].addComponent(new WeaponComponent(ostrichGens[0], "ostrichLauncher"));
         ostrichGens[1].addComponent(new WeaponComponent(ostrichGens[1], "ostrichLauncher"));
         GameManager.objects.add(ostrichGens[0]);
@@ -121,6 +130,12 @@ public class mainLevel extends GameLevel
         GameManager.objects.add(swanShadow);
         swanShadow.zIndex = Integer.MAX_VALUE - 2;
         swanShadow.position.y = -700;
+
+        for(int i = 0; i < GameManager.pauseUI.size(); i++)
+        {
+            GameManager.objects.add(GameManager.pauseUI.get(i));
+        }
+
         for(int i = 0; i < 3; i++)
         {
             hazardList.add(i);
@@ -205,6 +220,15 @@ public class mainLevel extends GameLevel
         backGate.paddingTop = 30;
         backGate.setOffsetCenterY(35);
         GameManager.objects.add(backGate);
+
+        backGateTrigger = new Object("backGateTrigger", 639, 58, "/backFence.png", 1, 0.1f);
+        backGateTrigger.addComponent(new AABBComponent(backGateTrigger, "trigger"));
+        backGateTrigger.position.y = 130;
+        backGateTrigger.zIndex = 7;
+        backGateTrigger.paddingTop = 30;
+        backGateTrigger.setOffsetCenterY(35);
+        backGateTrigger.tag = "Trigger";
+        GameManager.objects.add(backGateTrigger);
 
         ground = new Object("ground", 640, 360, "/ground.png", 1, 0.1f);
         ground.zIndex = 0;
@@ -406,16 +430,8 @@ public class mainLevel extends GameLevel
 
         if(tempHazardTimer <= 0)
         {
-            hazard(1, dt);
-            if(hazardInd == hazardList.size() - 1)
-            {
-                hazardInd = 0;
-            }
-            else
-                {
-                    hazardInd++;
-                }
-            tempHazardTimer = hazardTimer * 1000000;
+            hazard(hazardInd, dt);
+            tempHazardTimer = hazardTimer;
         }
 
         if(flying)
@@ -442,7 +458,7 @@ public class mainLevel extends GameLevel
                                 reticle.zIndex = 0;
                                 reticle.addComponent(new AABBComponent(reticle, "trigger"));
                                 reticle.tag = "Trigger";
-                                reticle.offsetPos = new Vector(reticle.position.x + 640, reticle.position.y + 360);
+                                reticle.offsetPos = new Vector(reticle.position.x + 6400, reticle.position.y + 3600);
                                 tempReticleBuffer = reticleBuffer;
 
                                 if(!dropping)
@@ -538,6 +554,15 @@ public class mainLevel extends GameLevel
             shotIndex = 0;
             pelicanTempCooldown = pelicanCooldown;
         }
+
+        if(ostrichHazard)
+        {
+            tempOstrichTimerOffset -= dt;
+            if(tempOstrichTimerOffset <= 0)
+            {
+                ostrichRun(ostrichL, (WeaponComponent) ostrichGens[ostrichInt].findComponentBySubtag("ostrichLauncher"), dt);
+            }
+        }
     }
 
     public void setWalls(int i)
@@ -598,6 +623,14 @@ public class mainLevel extends GameLevel
 
     public void hazard(int hazardNum, float dt)
     {
+        if(hazardInd == 2)
+        {
+            hazardInd = 0;
+        }
+        else
+        {
+            hazardInd += 1;
+        }
         switch (hazardNum)
         {
         case 0:
@@ -618,7 +651,7 @@ public class mainLevel extends GameLevel
                 for (int i = 0; i < dropPoints.length; i++)
                 {
                     dropPoints[i].x = randomX;
-                    dropPoints[i].y = random.nextInt(-150 * 2) + 150;
+                    dropPoints[i].y = /*random.nextInt(150 * 2) - 150;*/ (100 * i) - 100 + (random.nextInt(40) - 20);
                 }
             }
             break;
@@ -628,7 +661,24 @@ public class mainLevel extends GameLevel
                 moveP = true;
                 break;
             case 2:
-
+                random = new Random();
+                ostrichInt = random.nextInt(2);
+                boolean moving;
+                boolean rised;
+                if(ostrichInt == 0)
+                {
+                    ostrichL = true;
+                    moving = movingL;
+                    rised = risedL;
+                }
+                else
+                    {
+                        ostrichL = false;
+                        moving = movingR;
+                        rised = risedR;
+                    }
+                moveSpears(true, ostrichL, moving, rised);
+                ostrichHazard = true;
                 break;
         }
     }
@@ -734,16 +784,33 @@ public class mainLevel extends GameLevel
             pelicanWeapons[i].shoot("fishBomb",25, 31, "/fishBomb.png", 3, 0.01f, pelicans[i].getFrame(), direction);
         }
     }
-    public void ostrichRun(boolean left, int amount)
+    public void ostrichRun(boolean left, WeaponComponent weapon, float dt)
     {
+        int direction;
+        boolean moving;
+        boolean rising;
         if(left)
         {
-
+            direction = 1;
+            moving = movingL;
+            rising = risedL;
         }
         else
             {
-                
+                direction = 7;
+                moving = movingR;
+                rising = risedR;
             }
+        weapon.shoot(direction);
+        tempOstrichTimer -= dt;
+
+        if(tempOstrichTimer <= 0)
+        {
+            tempOstrichTimer = ostrichTimer;
+            ostrichHazard = false;
+            moveSpears(false, left, moving, rising);
+            tempOstrichTimerOffset = ostrichTimerOffset;
+        }
     }
 
     public void moveSpears(boolean lower, boolean left, boolean moving, boolean rised)

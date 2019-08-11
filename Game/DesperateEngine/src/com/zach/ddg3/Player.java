@@ -21,12 +21,69 @@ public class Player extends Object
     public XInputDevice device;
     private XInputComponentsDelta delta;
     private XInputButtonsDelta buttons;
+
+    public XInputComponentsDelta getDelta() {
+        return delta;
+    }
+
+    public void setDelta(XInputComponentsDelta delta) {
+        this.delta = delta;
+    }
+
+    public XInputButtonsDelta getButtons() {
+        return buttons;
+    }
+
+    public void setButtons(XInputButtonsDelta buttons) {
+        this.buttons = buttons;
+    }
+
+    public XInputAxesDelta getAxes() {
+        return axes;
+    }
+
+    public void setAxes(XInputAxesDelta axes) {
+        this.axes = axes;
+    }
+
     private XInputAxesDelta axes;
 
     private boolean collidingTop = false;
     private boolean collidingBottom = false;
     private boolean collidingLeft = false;
     private boolean collidingRight = false;
+
+    public float getlStickX() {
+        return lStickX;
+    }
+
+    public void setlStickX(float lStickX) {
+        this.lStickX = lStickX;
+    }
+
+    public float getlStickY() {
+        return lStickY;
+    }
+
+    public void setlStickY(float lStickY) {
+        this.lStickY = lStickY;
+    }
+
+    public float getrStickX() {
+        return rStickX;
+    }
+
+    public void setrStickX(float rStickX) {
+        this.rStickX = rStickX;
+    }
+
+    public float getrStickY() {
+        return rStickY;
+    }
+
+    public void setrStickY(float rStickY) {
+        this.rStickY = rStickY;
+    }
 
     private float lStickX = 0f;
     private float lStickY = 0f;
@@ -146,7 +203,6 @@ public class Player extends Object
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
-
         nearSelect = false;
         selected = false;
         collidingTop = false;
@@ -173,6 +229,11 @@ public class Player extends Object
                 changeSkin(gameManager, main);
                 rainbowSkin();
             }
+            if(buttons.isPressed(XInputButton.START) && this.isInGame())
+            {
+                GameManager.pausePlayer = this;
+                GameManager.isPlaying = false;
+            }
             //System.out.println(offsetPos.x);
            /*this.offsetPos.x = main.getInput().getMouseX() - this.width;
            this.offsetPos.y = main.getInput().getMouseY() + this.height + 180;*/
@@ -185,6 +246,11 @@ public class Player extends Object
                 moveKeyboard(main, dt);
                 lookKeyboard(main, gameManager);
                 changeSkin(gameManager, main);
+            }
+            if(main.getInput().isKey(KeyEvent.VK_ESCAPE))
+            {
+                GameManager.pausePlayer = this;
+                GameManager.isPlaying = false;
             }
         }
 
@@ -255,7 +321,7 @@ public class Player extends Object
     public void collision(Object other, Main main)
     {
         //System.out.println(other.getTag());
-        if(other.getTag().equalsIgnoreCase("Wall") && this.isInGame() && !isTimedOut)
+        if((other.getTag().equalsIgnoreCase("Wall") || (other.getTag().equalsIgnoreCase("Pelican") && (AABBComponent) other.findComponentBySubtag("wall") != null)) && this.isInGame() && !isTimedOut)
         {
             AABBComponent myC = (AABBComponent)this.findComponentBySubtag("player");
             AABBComponent otherC = (AABBComponent)other.findComponentBySubtag("wall");
