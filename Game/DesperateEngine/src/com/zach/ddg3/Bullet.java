@@ -75,6 +75,9 @@ public class Bullet extends Object
     private float slowBuffer = 0.03f;
     private float tempSlowBuffer = 0f;
     public Vector triggerPoint = new Vector(0,0);
+    private float explosionBuffer = 0.01f;
+    private float tempExplosionBuffer = explosionBuffer;
+    private boolean exploding = false;
 
     public float getPlantTime() {
         return plantTime;
@@ -152,11 +155,13 @@ public class Bullet extends Object
 
         if(!isAlt)
         {
-            if (weapon.isExploding()) {
+            /*if (weapon.isExploding())
+            {
                 explode(false);
                 weapon.setExploding(false);
-            }
-            if (weapon.isPlanting()) {
+            }*/
+            if (weapon.isPlanting())
+            {
                 plant();
                 //weapon.setPlanting(false);
             }
@@ -196,9 +201,12 @@ public class Bullet extends Object
                 explode(false);
             }
 
-            if (weapon.getTimer() > 0) {
-                if (tempTimer <= 0) {
-                    if (weapon.isExplodes()) {
+            if (weapon.getTimer() > 0)
+            {
+                if (tempTimer <= 0)
+                {
+                    if (weapon.isExplodes())
+                    {
                         explode(false);
                     }
                 }
@@ -238,6 +246,15 @@ public class Bullet extends Object
                 slowing = false;
             }
         }
+        if(weapon.isExploding())
+        {
+            tempExplosionBuffer -= dt / 100;
+            if(tempExplosionBuffer <= 0)
+            {
+                weapon.setExploding(false);
+                tempExplosionBuffer = explosionBuffer;
+            }
+        }
     }
 
     public void altInit(String tag)
@@ -246,6 +263,7 @@ public class Bullet extends Object
         {
             case "rocketLauncher":
                 direction = 10;
+                tempTimer = 8f;
                 setFrameLife(1f);
                 break;
             case "grenadeLauncher":
@@ -264,7 +282,7 @@ public class Bullet extends Object
         switch (tag)
         {
             case "rocketLauncher":
-                homeIn();
+                homeIn(dt);
                 break;
             case "grenadeLauncher":
                 mirv(dt);
@@ -275,8 +293,14 @@ public class Bullet extends Object
         }
     }
 
-    public void homeIn()
+    public void homeIn(float dt)
     {
+        tempTimer -= dt;
+        if(tempTimer <= 0)
+        {
+            explode(false);
+        }
+
         setFrameLife(0.3f);
         Player player = (Player) weapon.getParent();
         Player target = null;
@@ -525,19 +549,20 @@ public class Bullet extends Object
 
     public void explode(boolean alreadyHit)
     {
-        float tempPosX = this.position.x;
-        float tempPosY = this.position.y;
-        weapon.bullets.remove(this);
-        GameManager.objects.remove(this);
+            float tempPosX = this.position.x;
+            float tempPosY = this.position.y;
+            weapon.bullets.remove(this);
+            GameManager.objects.remove(this);
 
-        weapon.setExploding(false);
-        Explosion explosion = new Explosion("explosion", weapon.getExplosionWidth(), weapon.getExplosionHeight(), weapon.getExplosionPath(), weapon.getExplosionFrames(), 0.03f, weapon);
-        explosion.setPosition(tempPosX, tempPosY);
-        GameManager.objects.add(explosion);
-        if(alreadyHit)
-        {
-            explosion.setDamage(0);
-        }
+            //exploding = true;
+            weapon.setExploding(true);
+            Explosion explosion = new Explosion("explosion", weapon.getExplosionWidth(), weapon.getExplosionHeight(), weapon.getExplosionPath(), weapon.getExplosionFrames(), 0.03f, weapon);
+            explosion.setPosition(tempPosX, tempPosY);
+            GameManager.objects.add(explosion);
+            if (alreadyHit)
+            {
+                explosion.setDamage(0);
+            }
     }
 
     public void plant()
@@ -747,7 +772,7 @@ public class Bullet extends Object
                     Player ownerP = (Player) owner;
                     if (player.getPlayerNumber() != weapon.getPlayerNumber())
                     {
-                        if (ownerP.isGoose())
+                        if (ownerP.isGoose() && !owner.isDead() && !player.isDead())
                         {
                             player.setGoose(true);
                             player.changeSpecies();

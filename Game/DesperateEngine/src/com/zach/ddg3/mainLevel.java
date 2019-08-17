@@ -48,7 +48,7 @@ public class mainLevel extends GameLevel
     private Vulture vulture2;
 
 
-    private static Object swanShadow = new Object("shadow", 361, 295, "/swanShadow.png", 1, 1);
+    private static Object swanShadow = new Object("shadow", 393, 292, "/swanShadow.png", 1, 0.01f);
     private static Vector[] dropPoints = new Vector[3];
     private static WeaponComponent swanWeapon;
 
@@ -662,7 +662,7 @@ public class mainLevel extends GameLevel
                 break;
             case 2:
                 random = new Random();
-                ostrichInt = random.nextInt(2);
+                ostrichInt = random.nextInt(1);
                 boolean moving;
                 boolean rised;
                 if(ostrichInt == 0)

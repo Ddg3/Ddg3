@@ -120,14 +120,20 @@ public class WeaponComponent extends Component
                 chargeShoot();
             }
 
-            if (this.detonated) {
+            if (this.detonated)
+            {
                 //Player player = (Player) parent;
                 if (!player.isTimedOut()) {
                     if ((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER)
-                            || (player.isKeyBoard() && main.getInput().isButton(MouseEvent.BUTTON3))))
-                        if (!exploding) {
+                            || (player.isKeyBoard() && main.getInput().isButtonDown(MouseEvent.BUTTON3))))
+                        if (!exploding)
+                        {
                             {
-                                exploding = true;
+                                if(bullets.size() > 0)
+                                {
+                                    exploding = true;
+                                    bullets.get(bullets.size() - 1).explode(false);
+                                }
                             }
                         }
                 }
@@ -201,9 +207,13 @@ public class WeaponComponent extends Component
 
                     if(bullets.size() >= bulletMax)
                     {
-                        if(bullets.get(0).getWeapon().isExplodes())
+                            //bullets.get(0).explode(false);
+                        for(int i = 0; i < bulletMax; i++)
                         {
-                            bullets.get(0).explode(false);
+                            if(bullets.get(0).getWeapon().isExplodes())
+                            {
+                                bullets.get(0).explode(false);
+                            }
                         }
                     }
 

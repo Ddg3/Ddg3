@@ -111,7 +111,7 @@ public class Explosion extends Object
                     if (player.isGoose())
                         player.depleteTime(damage);
 
-                    else if (weapon.isParentIsPlayer() && ownerP.isGoose())
+                    else if (weapon.isParentIsPlayer() && ownerP.isGoose() && !owner.isDead() && !player.isDead())
                     {
                         player.setGoose(true);
                         player.changeSpecies();

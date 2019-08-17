@@ -65,19 +65,19 @@ public class GameManager extends AbstractGame
     @Override
     public void init(Main main)
     {
-        pauseUI.add(0, new Object("PAUSED", 136, 55, "/pauseText.png", 1, 1));
+        pauseUI.add(0, new Object("PAUSED", 331, 95, "/pauseText.png", 1, 1));
         pauseUI.get(0).zIndex = Integer.MAX_VALUE;
         pauseUI.get(0).visible = false;
-        pauseUI.add(1, new Object("Resume", 130, 31, "/resumeText.png", 2, 0.01f));
+        pauseUI.add(1, new Object("Resume", 138, 40, "/resumeText.png", 2, 0.01f));
         pauseUI.get(1).zIndex = Integer.MAX_VALUE;
         pauseUI.get(1).visible = false;
-        pauseUI.add(2, new Object("Controls", 135, 26, "/controlsText.png", 2, 0.01f));
+        pauseUI.add(2, new Object("Controls", 186, 40, "/controlsText.png", 2, 0.01f));
         pauseUI.get(2).zIndex = Integer.MAX_VALUE;
         pauseUI.get(2).visible = false;
-        pauseUI.add(3, new Object("Quit", 126, 32, "/quitText.png", 2, 0.01f));
+        pauseUI.add(3, new Object("Quit", 90, 40, "/quitText.png", 2, 0.01f));
         pauseUI.get(3).zIndex = Integer.MAX_VALUE;
         pauseUI.get(3).visible = false;
-        pauseUI.add(4, new Object("Quit To Desktop", 160, 48, "/quitToText.png", 2, 0.01f));
+        pauseUI.add(4, new Object("Quit To Desktop", 334, 40, "/quitToText.png", 2, 0.01f));
         pauseUI.get(4).zIndex = Integer.MAX_VALUE;
         pauseUI.get(4).visible = false;
         /*objects.add(pauseUI.get(0));
@@ -343,7 +343,10 @@ public class GameManager extends AbstractGame
             }
         for(int i = 0; i < pauseUI.size(); i++)
         {
-            pauseUI.get(i).setPosition(center.getPosition().x, center.getPositionY() -100 + (i * 50));
+            if(i == 0)
+                pauseUI.get(i).setPosition(center.getPosition().x, center.getPositionY() -130);
+            else
+                pauseUI.get(i).setPosition(center.getPosition().x, center.getPositionY() -95 + (i * 55));
         }
     }
 
