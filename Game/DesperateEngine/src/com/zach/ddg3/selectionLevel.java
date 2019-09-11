@@ -58,6 +58,9 @@ public class selectionLevel extends GameLevel {
         {
             GameManager.objects.add(GameManager.pauseUI.get(i));
         }
+
+        GameManager.textObjects.add(GameManager.altReloadText.get(0));
+        GameManager.textObjects.add(GameManager.altReloadText.get(1));
         explosiveGuns = new Object[3];
 
         if(GameManager.firstTime)

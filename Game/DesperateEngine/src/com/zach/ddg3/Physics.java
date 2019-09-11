@@ -24,7 +24,7 @@ public class Physics
                 AABBComponent c1 = aabbList.get(j);
                 if(Math.abs(c0.getCenterX() - c1.getCenterX()) < c0.getHalfWidth() + c1.getHalfWidth())
                 {
-                    if(Math.abs(c0.getCenterY() - c1.getCenterY()) < c0.getHalfHeight() + c1.getHalfHeight())
+                    if(Math.abs(c0.getCenterY() - c1.getCenterY()) < c0.getHalfHeight() + c1.getHalfHeight() && (c0.getNoCollideTag() != c1.getSubTag() && c1.getNoCollideTag() != c0.getSubTag()))
                     {
                         //Colliding on both axes
                         if(c0.getSubTag().equalsIgnoreCase("zUpdater"))

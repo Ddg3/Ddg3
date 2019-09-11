@@ -11,6 +11,7 @@ import javafx.scene.text.TextBoundsType;
 
 import javax.lang.model.type.ArrayType;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -80,6 +81,9 @@ public class GameManager extends AbstractGame
         pauseUI.add(4, new Object("Quit To Desktop", 334, 40, "/quitToText.png", 2, 0.01f));
         pauseUI.get(4).zIndex = Integer.MAX_VALUE;
         pauseUI.get(4).visible = false;
+        pauseUI.add(5, new Object("Overlay", 640, 360, "/pauseOverlay.png", 1, 1));
+        pauseUI.get(5).zIndex = Integer.MAX_VALUE - 1;
+        pauseUI.get(5).visible = false;
         /*objects.add(pauseUI.get(0));
         objects.add(pauseUI.get(1));
         objects.add(pauseUI.get(2));
@@ -150,7 +154,7 @@ public class GameManager extends AbstractGame
         gameLevelManager.update(main, dt);
         gameLevelManager.currLevel.update(main, dt);
 
-        if(!(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE && mainLevel.gameWon))
+        if(!(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE && mainLevel.gameWon) && !mainLevel.starting)
         {
             cameraFollow();
         }
@@ -345,6 +349,8 @@ public class GameManager extends AbstractGame
         {
             if(i == 0)
                 pauseUI.get(i).setPosition(center.getPosition().x, center.getPositionY() -130);
+            else if(i == 5)
+                pauseUI.get(i).setPosition(center.getPosition().x, center.getPositionY());
             else
                 pauseUI.get(i).setPosition(center.getPosition().x, center.getPositionY() -95 + (i * 55));
         }
@@ -423,22 +429,22 @@ public class GameManager extends AbstractGame
         pauseUI.get(pauseInd).setFrame(1);
         if(player.isKeyBoard())
         {
-            if(main.getInput().isKey(player.getKeyUp()))
+            if(main.getInput().isKeyDown(player.getKeyUp()))
             {
                 pauseUI.get(pauseInd).setFrame(0);
                 if(pauseInd == 1)
                 {
-                    pauseInd = pauseUI.size() - 1;
+                    pauseInd = pauseUI.size() - 2;
                 }
                 else
                 {
                     pauseInd--;
                 }
             }
-            if(main.getInput().isKey(player.getKeyDown()))
+            if(main.getInput().isKeyDown(player.getKeyDown()))
             {
                 pauseUI.get(pauseInd).setFrame(0);
-                if(pauseInd == pauseUI.size() - 1)
+                if(pauseInd == pauseUI.size() - 2)
                 {
                     pauseInd = 1;
                 }
@@ -447,7 +453,7 @@ public class GameManager extends AbstractGame
                     pauseInd++;
                 }
             }
-            if(main.getInput().isKey(player.getKeySelect()))
+            if(main.getInput().isKeyDown(player.getKeySelect()) || main.getInput().isButtonDown(MouseEvent.BUTTON1))
             {
                 switch(pauseInd)
                 {
@@ -490,7 +496,7 @@ public class GameManager extends AbstractGame
                         break;
                 }
             }
-            if(main.getInput().isKey(KeyEvent.VK_ESCAPE))
+            if(main.getInput().isKeyDown(KeyEvent.VK_ESCAPE))
             {
                 isPlaying = true;
                 for(int i = 0; i < pauseUI.size(); i++)
@@ -511,7 +517,7 @@ public class GameManager extends AbstractGame
                             pauseUI.get(pauseInd).setFrame(0);
                             if (pauseInd == 1)
                             {
-                                pauseInd = pauseUI.size() - 1;
+                                pauseInd = pauseUI.size() - 2;
                             } else
                                 {
                                 pauseInd--;
@@ -522,7 +528,7 @@ public class GameManager extends AbstractGame
                         if (player.getlStickY() > 0.4)
                         {
                             pauseUI.get(pauseInd).setFrame(0);
-                            if (pauseInd == pauseUI.size() - 1)
+                            if (pauseInd == pauseUI.size() - 2)
                             {
                                 pauseInd = 1;
                             } else

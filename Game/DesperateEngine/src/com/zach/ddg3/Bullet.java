@@ -78,6 +78,37 @@ public class Bullet extends Object
     private float explosionBuffer = 0.01f;
     private float tempExplosionBuffer = explosionBuffer;
     private boolean exploding = false;
+    private float xSpeed = 0;
+    private float mirvTimer = 1f;
+    private float tempMirvTimer = mirvTimer;
+
+    public float getDecelRate() {
+        return decelRate;
+    }
+
+    public void setDecelRate(float decelRate) {
+        this.decelRate = decelRate;
+    }
+
+    private float decelRate = 0;
+
+    public float getxSpeed() {
+        return xSpeed;
+    }
+
+    public void setxSpeed(float xSpeed) {
+        this.xSpeed = xSpeed;
+    }
+
+    public float getySpeed() {
+        return ySpeed;
+    }
+
+    public void setySpeed(float ySpeed) {
+        this.ySpeed = ySpeed;
+    }
+
+    private float ySpeed = 0;
 
     public float getPlantTime() {
         return plantTime;
@@ -102,9 +133,13 @@ public class Bullet extends Object
 
         this.speed = weapon.getSpeed();
 
-        if(weapon.isSlows())
+        if(decelRate == 0)
         {
-            tempSlow = weapon.getSlowRate();
+            decelRate = weapon.getSlowRate();
+        }
+        if(weapon.isSlows() || decelRate > 0)
+        {
+            tempSlow = decelRate;
         }
 
         if(weapon.isAccelerates())
@@ -167,12 +202,17 @@ public class Bullet extends Object
             }
             //System.out.println(this.position.y);
 
-            if (weapon.isSlows()) {
-                if (this.speed <= 0 && weapon.isAnimated()) {
+            if (weapon.isSlows() || tempSlow > 0)
+            {
+                if (this.speed <= 0 && weapon.isAnimated())
+                {
                     this.stop();
-                } else {
+                    this.speed = 0;
+                }
+                else
+                    {
                     this.speed -= tempSlow;
-                    tempSlow += (dt / 25);
+                    //tempSlow += (dt / 25);
                     this.setFrameLife(this.getFrameLife() + (dt / 30));
                 }
             }
@@ -282,7 +322,7 @@ public class Bullet extends Object
         switch (tag)
         {
             case "rocketLauncher":
-                homeIn(dt);
+                smartHomeIn(dt);
                 break;
             case "grenadeLauncher":
                 mirv(dt);
@@ -414,9 +454,63 @@ public class Bullet extends Object
         }
     }
 
+    public void smartHomeIn(float dt)
+    {
+        Player player = (Player) weapon.getParent();
+        Player target = null;
+
+        if(target == null)
+        {
+            for (int i = 0; i < GameManager.players.size(); i++)
+            {
+                if (GameManager.players.get(i).getPlayerNumber() != player.getPlayerNumber())
+                {
+                    target = GameManager.players.get(i);
+                }
+            }
+        }
+        double playerX = target.position.x;
+        double playerY = target.position.y;
+        double angle = Math.toDegrees(Math.atan2(playerY, playerX));
+        if ((angle < -150 && angle > -180) || (angle > 150 && angle < 180)) {
+            //Left
+            this.setFrame(6);
+        }
+        if ((angle > -30 && angle < 0) || (angle < 30 && angle > 0)) {
+            //Right
+            this.setFrame(2);
+        }
+        if ((angle > 60 && angle < 120)) {
+            //Down
+            this.setFrame(0);
+        }
+        if (angle < -60 && angle > -120) {
+            //Up
+            this.setFrame(4);
+        }
+        if (angle > -150 && angle < -120) {
+            //Left and Up
+            this.setFrame(5);
+        }
+        if (angle < 150 && angle > 120) {
+            //Left and Down
+            this.setFrame(7);
+        }
+        if (angle > 30 && angle < 60) {
+            //Right and Down
+            this.setFrame(1);
+        }
+        if (angle < -30 && angle > -60) {
+            //Right and Up
+            this.setFrame(3);
+        }
+        direction = this.getFrame();
+        move(dt);
+    }
+
     public void mirv(float dt)
     {
-        if (this.speed <= 0 && weapon.isAnimated())
+        /*if (this.speed <= 0 && weapon.isAnimated())
         {
             this.stop();
         }
@@ -425,54 +519,65 @@ public class Bullet extends Object
             this.speed -= tempSlow;
             tempSlow += (dt / 2);
             this.setFrameLife(this.getFrameLife() + (dt / 30));
-        }
+        }*/
+        tempMirvTimer -= dt;
 
-        if(speed <= 0)
+        if(tempMirvTimer <= 0)
         {
-            if(split < 2 && !splitF)
+            for (int i = 0; i < 8; i++)
             {
-                for (int i = 0; i < 8; i++) {
-                    Player player = (Player) weapon.getParent();
-                    Bullet bullet = new Bullet("bulletMirv", 16, 16, "/grenadeLauncher_Bullet.png", 4, 0.1f, i, weapon);
-                    bullet.getObjImage().changeColor(player.getSkinColors()[1], player.getSkinColors()[player.getSkIndex()]);
-                    GameManager.objects.add(bullet);
-                    int offsetX = 0;
-                    int offsetY = 0;
-                    switch (i)
-                    {
+                Player player = (Player) weapon.getParent();
+                Bullet bullet = new Bullet("bulletMirv", 16, 16, "/grenadeLauncher_Bullet.png", 4, 0.1f, i, weapon);
+                bullet.getObjImage().changeColor(player.getSkinColors()[1], player.getSkinColors()[player.getSkIndex()]);
+                GameManager.objects.add(bullet);
+                int offsetX = 0;
+                int offsetY = 0;
+                switch (i) {
                         case 0:
-                            offsetY = 18;
+                            offsetY = 30;
+                            bullet.tempSlow = 2f;
                             break;
                         case 1:
-                            offsetY = 16;
-                            offsetX = 16;
+                            offsetY = 24;
+                            offsetX = 24;
+                            bullet.tempSlow = 2f;
                             break;
                         case 2:
-                            offsetX = 18;
+                            offsetX = 30;
+                            bullet.tempSlow = 2f;
                             break;
                         case 3:
-                            offsetY = -16;
-                            offsetX = 16;
+                            offsetY = -24;
+                            offsetX = 24;
+                            bullet.tempSlow = 2f;
                             break;
                         case 4:
-                            offsetY = -18;
+                            offsetY = -30;
+                            bullet.tempSlow = 2f;
                             break;
                         case 5:
-                            offsetY = -16;
-                            offsetX = -16;
+                            offsetY = -24;
+                            offsetX = -24;
+                            bullet.tempSlow = 2f;
                             break;
                         case 6:
-                            offsetX = -18;
+                            offsetX = -30;
+                            bullet.tempSlow = 2f;
                             break;
                         case 7:
-                            offsetY = 16;
-                            offsetX = -16;
+                            offsetY = 24;
+                            offsetX = -24;
+                            bullet.tempSlow = 2f;
                             break;
                     }
+                    bullet.direction = this.direction;
                     bullet.setPosition(this.getPositionX() + offsetX, this.getPositionY() + offsetY);
                     //bullet.setPlantTime(2.0f);
                 }
-                split++;
+
+                explode();
+            }
+                /*split++;
                 splitF = true;
             }
             if(split == 1)
@@ -491,7 +596,7 @@ public class Bullet extends Object
                     explode(false);
                 }
             }
-        }
+        }*/
     }
 
     public void stun()
@@ -508,43 +613,61 @@ public class Bullet extends Object
         GameManager.objects.add(explosion);
     }
 
-    public void move(float dt)
-    {
+    public void move(float dt) {
         //System.out.println(this.position.x + ", " + this.position.y);
-        switch(direction)
+        if (xSpeed == 0 && ySpeed == 0)
         {
-            case 0: this.position.y += speed * dt;
-                this.zIndex = weapon.getParent().zIndex;
-                this.maxzIndex = weapon.getParent().maxzIndex;
-                break;
-            case 1: this.position.y += speed * dt; this.position.x += speed * dt;
-                this.zIndex = weapon.getParent().zIndex;
-                this.maxzIndex = weapon.getParent().maxzIndex;
-                break;
-            case 2: this.position.x += speed * dt;
-                this.zIndex = weapon.getParent().zIndex - 1;
-                this.maxzIndex = weapon.getParent().maxzIndex - 1;
-                break;
-            case 3: this.position.y -= speed * dt; this.position.x += speed * dt;
-                this.zIndex = weapon.getParent().zIndex - 1;
-                this.maxzIndex = weapon.getParent().maxzIndex - 1;
-                break;
-            case 4: this.position.y -= speed * dt;
-                this.zIndex = weapon.getParent().zIndex - 1;
-                this.maxzIndex = weapon.getParent().maxzIndex - 1;
-                break;
-            case 5: this.position.y -= speed * dt; this.position.x -= speed * dt;
-                this.zIndex = weapon.getParent().zIndex - 1;
-                this.maxzIndex = weapon.getParent().maxzIndex - 1;
-                break;
-            case 6: this.position.x -= speed * dt;
-                this.zIndex = weapon.getParent().zIndex - 1;
-                this.maxzIndex = weapon.getParent().maxzIndex - 1;
-                break;
-            case 7: this.position.y += speed * dt; this.position.x -= speed * dt;
-                this.zIndex = weapon.getParent().zIndex;
-                this.maxzIndex = weapon.getParent().maxzIndex;
+            switch (direction) {
+                case 0:
+                    this.position.y += speed * dt;
+                    this.zIndex = weapon.getParent().zIndex;
+                    this.maxzIndex = weapon.getParent().maxzIndex;
+                    break;
+                case 1:
+                    this.position.y += speed * dt;
+                    this.position.x += speed * dt;
+                    this.zIndex = weapon.getParent().zIndex;
+                    this.maxzIndex = weapon.getParent().maxzIndex;
+                    break;
+                case 2:
+                    this.position.x += speed * dt;
+                    this.zIndex = weapon.getParent().zIndex - 1;
+                    this.maxzIndex = weapon.getParent().maxzIndex - 1;
+                    break;
+                case 3:
+                    this.position.y -= speed * dt;
+                    this.position.x += speed * dt;
+                    this.zIndex = weapon.getParent().zIndex - 1;
+                    this.maxzIndex = weapon.getParent().maxzIndex - 1;
+                    break;
+                case 4:
+                    this.position.y -= speed * dt;
+                    this.zIndex = weapon.getParent().zIndex - 1;
+                    this.maxzIndex = weapon.getParent().maxzIndex - 1;
+                    break;
+                case 5:
+                    this.position.y -= speed * dt;
+                    this.position.x -= speed * dt;
+                    this.zIndex = weapon.getParent().zIndex - 1;
+                    this.maxzIndex = weapon.getParent().maxzIndex - 1;
+                    break;
+                case 6:
+                    this.position.x -= speed * dt;
+                    this.zIndex = weapon.getParent().zIndex - 1;
+                    this.maxzIndex = weapon.getParent().maxzIndex - 1;
+                    break;
+                case 7:
+                    this.position.y += speed * dt;
+                    this.position.x -= speed * dt;
+                    this.zIndex = weapon.getParent().zIndex;
+                    this.maxzIndex = weapon.getParent().maxzIndex;
+            }
         }
+        else
+            {
+                this.position.y += ySpeed * dt;
+                this.position.x += xSpeed * dt;
+            }
     }
 
     public void explode(boolean alreadyHit)
@@ -563,6 +686,21 @@ public class Bullet extends Object
             {
                 explosion.setDamage(0);
             }
+    }
+
+    public void explode()
+    {
+        float tempPosX = this.position.x;
+        float tempPosY = this.position.y;
+        weapon.bullets.remove(this);
+        GameManager.objects.remove(this);
+
+        //exploding = true;
+        //weapon.setExploding(true);
+        Object explosion = new Object("explosion", weapon.getExplosionWidth(), weapon.getExplosionHeight(), weapon.getExplosionPath(), weapon.getExplosionFrames(), 0.03f);
+        explosion.setPosition(tempPosX, tempPosY);
+        explosion.playToAndDestroy(0, 18);
+        GameManager.objects.add(explosion);
     }
 
     public void plant()

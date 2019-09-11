@@ -109,8 +109,10 @@ public class Camera {
         return path;
     }
 
-    public void setPath(Vector path) {
+    public void setPath(Vector path)
+    {
         this.path = path;
+        toTarget = null;
     }
 
     private Vector path;

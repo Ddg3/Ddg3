@@ -19,7 +19,7 @@ public class WeaponComponent extends Component
     private boolean bounces = false;
     private int bounceCount = 0;
     private float speed = 50f;
-    private float slowRate = 10f;
+    private float slowRate = 0f;
     private boolean slows = false;
     private boolean isAnimated = false;
     private float chargeTime = 0;
@@ -109,7 +109,7 @@ public class WeaponComponent extends Component
     @Override
     public void update(Main main, GameManager gameManager, float dt)
     {
-        if(parentIsPlayer)
+        if(parentIsPlayer && !mainLevel.starting)
         {
             Player player = (Player) parent;
             if (!this.isCharged) {
@@ -247,6 +247,25 @@ public class WeaponComponent extends Component
             int randomOffsetY = random.nextInt(10) - 5;
             bullet.setPosition(parent.getPositionX() + randomOffsetX, parent.getPositionY() + randomOffsetY);
             bullet.setDirection(direction);
+            bullet.zIndex = 1;
+            GameManager.objects.add(bullet);
+            bullet.offsetPos = new Vector(bullet.getPositionX() + 6400, bullet.getPositionY() + 3600);
+            tempCooldown = shotCooldown;
+        }
+    }
+
+    public void shoot(float xSpeed, float ySpeed)
+    {
+        if(tempCooldown <= 0)
+        {
+            Bullet bullet = new Bullet("bullet", bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, 0, this);
+            random = new Random();
+            int randomOffsetX = random.nextInt(20) - 10;
+            int randomOffsetY = random.nextInt(10) - 5;
+            bullet.setPosition(parent.getPositionX() + randomOffsetX, parent.getPositionY() + randomOffsetY);
+            //bullet.setDirection(0);
+            bullet.setxSpeed(xSpeed);
+            bullet.setySpeed(ySpeed);
             bullet.zIndex = 1;
             GameManager.objects.add(bullet);
             bullet.offsetPos = new Vector(bullet.getPositionX() + 6400, bullet.getPositionY() + 3600);

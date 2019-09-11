@@ -122,6 +122,81 @@ public class Player extends Object
     private int baseWidth = 63;
     private int basePaddingTop = 15;
     private int basePaddingSide = 10;
+
+    public int getPaddingSideHead() {
+        return paddingSideHead;
+    }
+
+    public void setPaddingSideHead(int paddingSideHead) {
+        this.paddingSideHead = paddingSideHead;
+    }
+
+    public int getPaddingTopHead() {
+        return paddingTopHead;
+    }
+
+    public void setPaddingTopHead(int paddingTopHead) {
+        this.paddingTopHead = paddingTopHead;
+    }
+
+    public int[] getOffsetCenterXHead() {
+        return offsetCenterXHead;
+    }
+
+    public void setOffsetCenterXHead(int[] offsetCenterXHead) {
+        this.offsetCenterXHead = offsetCenterXHead;
+    }
+
+    public int[] getOffsetCenterYHead() {
+        return offsetCenterYHead;
+    }
+
+    public void setOffsetCenterYHead(int[] offsetCenterYHead) {
+        this.offsetCenterYHead = offsetCenterYHead;
+    }
+
+    private int paddingTopHead = 46;
+    private int paddingSideHead = 22;
+    private int[] offsetCenterXHead = {0, 3, 6, 0, -1, 0, -6, -4};
+    private int[] offsetCenterYHead = {-17, -17, -17, -22, -18, -22, -17, -17};
+
+    private int[] paddingTopBody = {36, 38, 38, 32, 38, 32, 38, 36};
+    private int[] paddingSideBody = {18, 8, 8, 18, 19,18,8,8};
+    private int[] offsetCenterXBody = {0, -5, -4, -2, -1, 2, 4, 5};
+    private int[] offsetCenterYBody = {12, 12, 12, 10, 11, 10, 12, 12};
+
+    public int[] getPaddingTopBody() {
+        return paddingTopBody;
+    }
+
+    public void setPaddingTopBody(int[] paddingTopBody) {
+        this.paddingTopBody = paddingTopBody;
+    }
+
+    public int[] getPaddingSideBody() {
+        return paddingSideBody;
+    }
+
+    public void setPaddingSideBody(int[] paddingSideBody) {
+        this.paddingSideBody = paddingSideBody;
+    }
+
+    public int[] getOffsetCenterXBody() {
+        return offsetCenterXBody;
+    }
+
+    public void setOffsetCenterXBody(int[] offsetCenterXBody) {
+        this.offsetCenterXBody = offsetCenterXBody;
+    }
+
+    public int[] getOffsetCenterYBody() {
+        return offsetCenterYBody;
+    }
+
+    public void setOffsetCenterYBody(int[] offsetCenterYBody) {
+        this.offsetCenterYBody = offsetCenterYBody;
+    }
+
     private int[] skinColors = new int[8];
     private int skIndex = 1;
     private boolean rainbow;
@@ -179,6 +254,8 @@ public class Player extends Object
         axes = GameManager.deviceManager.axes[playerNumber];
         //GameManager.deviceManager.addComponents(device, delta, buttons, axes);
         this.addComponent(new AABBComponent(this, "player"));
+        this.addComponent(new AABBComponent(this, "head"));
+        this.addComponent(new AABBComponent(this, "body"));
 
         this.paddingTop = 15;
         this.paddingSide = 10;
@@ -221,7 +298,7 @@ public class Player extends Object
             rTrigger += axes.getRTDelta();
             lTrigger += axes.getLTDelta();
 
-            if(this.isInGame() && !selecting && !isTimedOut && !isStunned)
+            if(this.isInGame() && !selecting && !isTimedOut && !isStunned && !mainLevel.starting)
             {
                 cameraCollision();
                 moveController(dt);
@@ -247,7 +324,7 @@ public class Player extends Object
                 lookKeyboard(main, gameManager);
                 changeSkin(gameManager, main);
             }
-            if(main.getInput().isKey(KeyEvent.VK_ESCAPE))
+            if(main.getInput().isKey(KeyEvent.VK_ESCAPE) && this.isInGame())
             {
                 GameManager.pausePlayer = this;
                 GameManager.isPlaying = false;
@@ -266,7 +343,7 @@ public class Player extends Object
         this.updateComponents(main, gameManager, dt);
         this.animate(dt);
 
-        if(GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE)
+        if(GameManager.gameLevelManager.gameState == GameLevelManager.GameState.MAIN_STATE && !mainLevel.starting)
         {
             if(tempSecond <= 0 && time > 0)
             {
@@ -934,6 +1011,8 @@ public class Player extends Object
             frameHitboxOffsets.clear();
             offsetHitboxes();
             offsetHitboxes();
+            WeaponComponent weapon = (WeaponComponent) this.findComponent("Weapon");
+            offsetSubHitboxes((int)(widthDifference / 1.8), heightDifference, weapon.getSubTag());
         }
     }
 
@@ -972,6 +1051,7 @@ public class Player extends Object
                     newFrames = 8;
                     break;
             }
+
             widthDifference = newWidth - this.width;
             heightDifference = newHeight - this.height;
             this.paddingSide += (int)(widthDifference * 1.5);
@@ -981,6 +1061,7 @@ public class Player extends Object
             frameHitboxOffsets.clear();
             offsetHitboxes();
             offsetHitboxes();
+            //offsetSubHitboxes(widthDifference);
             if(GameManager.timePedestals.size() != 0)
             {
                 GameManager.timePedestals.get(playerNumber).setFrame(1);
@@ -1023,6 +1104,7 @@ public class Player extends Object
                 frameHitboxOffsets.clear();
                 offsetHitboxes();
                 offsetHitboxes();
+                //offsetSubHitboxes(widthDifference);
                 if(GameManager.timePedestals.size() != 0)
                 {
                     GameManager.timePedestals.get(playerNumber).setFrame(0);
@@ -1041,6 +1123,40 @@ public class Player extends Object
         frameHitboxOffsets.add(5, new Vector(0,0));
         frameHitboxOffsets.add(6, new Vector((width / 8),0));
         frameHitboxOffsets.add(7, new Vector(0,0));
+    }
+
+    public void offsetSubHitboxes(int widthDiff, int heightDiff, String tag)
+    {
+        for(int i = 0; i < paddingSideBody.length; i++)
+        {
+            paddingSideBody[i] += widthDiff;
+            paddingTopBody[i] += heightDiff;
+        }
+
+        paddingSideHead += widthDiff;
+        paddingTopHead += heightDiff;
+
+        switch (tag)
+        {
+            case "rocketLauncher":
+                offsetCenterXHead = new int[]{0, 0, -15, 0, 0, -1, 14, -1};
+                offsetCenterYHead = new int[]{-17, -17, -17, -16, -18, -16, -17, -17};
+                offsetCenterXBody = new int[]{0, -10, -23, -3, 0, 3, 23, 10};
+                offsetCenterYBody = new int[]{12, 12, 12, 16, 9, 16, 12, 12};
+                break;
+            case "grenadeLauncher":
+                offsetCenterXHead = new int[]{0, 0, -4, -4, 0, 4, 3, -1};
+                offsetCenterYHead = new int[]{-21, -21, -21, -21, -21, -21, -21, -21};
+                offsetCenterXBody = new int[]{0, -10, -12, -6, 0, 6, 12, 10};
+                offsetCenterYBody = new int[]{8, 8, 8, 10, 6, 10, 8, 8};
+                break;
+            case "cannon":
+                offsetCenterXHead = new int[]{0, 0, -4, -4, 0, 4, 3, -1};
+                offsetCenterYHead = new int[]{-38, -38, -38, -38, -38, -38, -38, -38};
+                offsetCenterXBody = new int[]{0, 0, -2, 0, 0, 6, 12, 10};
+                offsetCenterYBody = new int[]{-9, -9, -9, -7, -11, -7, -9, -9};
+                break;
+        }
     }
 
     public int getKeyColor1() {

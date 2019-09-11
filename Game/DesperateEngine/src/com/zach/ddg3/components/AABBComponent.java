@@ -19,6 +19,16 @@ public class AABBComponent extends Component
     private int lastCenterY;
     private int designatedPlayer = 0;
 
+    public String getNoCollideTag() {
+        return noCollideTag;
+    }
+
+    public void setNoCollideTag(String noCollideTag) {
+        this.noCollideTag = noCollideTag;
+    }
+
+    private String noCollideTag = null;
+
     public int getDesignatedPlayer() {
         return designatedPlayer;
     }
@@ -97,7 +107,6 @@ public class AABBComponent extends Component
 
         if(this.subTag == "wall" || this.subTag == "selection" || this.subTag == "bullet" || this.subTag == "camera" || this.subTag == "trigger" || this.subTag == "pelican")
         {
-
             centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX());
             centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY());
 
@@ -108,6 +117,7 @@ public class AABBComponent extends Component
         if(this.subTag == "player")
         {
             Player player = (Player) parent;
+            noCollideTag = "bullet";
 
             if(player.isInGame())
             {
@@ -122,6 +132,48 @@ public class AABBComponent extends Component
 
             halfWidth = (parent.getWidth() / 2) - parent.getPaddingSide();
             halfHeight = (parent.getHeight() / 2) - (parent.getPaddingTop() / 2);
+        }
+        if(this.subTag == "head")
+        {
+            Player player = (Player) parent;
+            noCollideTag = "wall";
+
+            if(player.isInGame())
+            {
+                centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX() + player.getOffsetCenterXHead()[player.getFrame() - player.getFrameOffset()]);
+                centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY() + player.getOffsetCenterYHead()[player.getFrame() - player.getFrameOffset()]);
+            }
+            else
+            {
+                centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX());
+                centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY());
+            }
+
+            halfWidth = (parent.getWidth() / 2) - player.getPaddingSideHead();
+            halfHeight = (parent.getHeight() / 2) - (player.getPaddingTopHead() / 2);
+        }
+
+        if(this.subTag == "body")
+        {
+            Player player = (Player) parent;
+            noCollideTag = "wall";
+
+            if(player.isInGame())
+            {
+                centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX() + player.getOffsetCenterXBody()[player.getFrame() - player.getFrameOffset()]);
+                centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY() + player.getOffsetCenterYBody()[player.getFrame() - player.getFrameOffset()]);
+
+                halfWidth = (parent.getWidth() / 2) - player.getPaddingSideBody()[player.getFrame() - player.getFrameOffset()];
+                halfHeight = (parent.getHeight() / 2) - (player.getPaddingTopBody()[player.getFrame() - player.getFrameOffset()] / 2);
+            }
+            else
+            {
+                centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX());
+                centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY());
+
+                halfWidth = (parent.getWidth() / 2);
+                halfHeight = (parent.getHeight() / 2);
+            }
         }
         if(this.subTag == "zUpdater")
         {
@@ -138,7 +190,7 @@ public class AABBComponent extends Component
     @Override
     public void render(Main main, Renderer renderer)
     {
-        if(this.getSubTag() == "wall" || this.subTag == "selection" || this.getSubTag() == "bullet" || this.getSubTag() == "player")
+        if(this.getSubTag() == "wall" || this.subTag == "selection" || this.getSubTag() == "bullet" || this.getSubTag() == "player" || this.getSubTag() == "head" || this.getSubTag() == "body")
         {
             renderer.drawFillRectangle(centerX - halfWidth + 320, centerY - halfHeight + 180, halfWidth * 2, halfHeight * 2, color);
             renderer.setPixel(centerX + 320, centerY + 180, 0xffff0000);

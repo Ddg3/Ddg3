@@ -97,6 +97,10 @@ public class Wall extends Object
             this.zUpdatePointHigh = myC.getCenterY() + myC.getHalfHeight();
             this.zUpdatePointLow = myC.getCenterY() - myC.getHalfHeight();
             AABBComponent otherC = (AABBComponent) target.findComponent("aabb");
+
+            /*if(target.getTag().equalsIgnoreCase("Player"))
+                otherC = (AABBComponent) target.findComponent("player");*/
+
             //AND NEEDS TO BE COLLIDING
             if (otherC.getCenterY() + otherC.getHalfHeight() < zUpdatePointHigh + zUpdatePointOffset) {
                 //this.zIndex = target.zIndex;

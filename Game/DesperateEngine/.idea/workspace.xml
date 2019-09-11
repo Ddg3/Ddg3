@@ -36,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Bullet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1054">
-              <caret line="85" column="35" selection-start-line="85" selection-start-column="35" selection-end-line="85" selection-end-column="35" />
+            <state relative-caret-position="14688">
+              <caret line="904" column="13" selection-start-line="904" selection-start-column="13" selection-end-line="904" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#546#547#0" expanded="true" />
@@ -46,188 +46,18 @@
                 <element signature="e#667#668#0" expanded="true" />
                 <element signature="e#763#764#0" expanded="true" />
                 <element signature="e#797#798#0" expanded="true" />
-                <element signature="e#16328#16329#0" expanded="true" />
-                <element signature="e#16365#16366#0" expanded="true" />
+                <element signature="e#20331#20332#0" expanded="true" />
+                <element signature="e#20368#20369#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/WeaponComponent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="273" lean-forward="true" selection-start-line="273" selection-end-line="273" />
-              <folding>
-                <element signature="e#17698#17699#0" expanded="true" />
-                <element signature="e#17730#17731#0" expanded="true" />
-                <element signature="e#17777#17778#0" expanded="true" />
-                <element signature="e#17812#17813#0" expanded="true" />
-                <element signature="e#17853#17854#0" expanded="true" />
-                <element signature="e#17891#17892#0" expanded="true" />
-                <element signature="e#17952#17953#0" expanded="true" />
-                <element signature="e#18006#18007#0" expanded="true" />
-                <element signature="e#18037#18038#0" expanded="true" />
-                <element signature="e#18068#18069#0" expanded="true" />
-                <element signature="e#18113#18114#0" expanded="true" />
-                <element signature="e#18153#18154#0" expanded="true" />
-                <element signature="e#18186#18187#0" expanded="true" />
-                <element signature="e#18218#18219#0" expanded="true" />
-                <element signature="e#18265#18266#0" expanded="true" />
-                <element signature="e#18307#18308#0" expanded="true" />
-                <element signature="e#18340#18341#0" expanded="true" />
-                <element signature="e#18372#18373#0" expanded="true" />
-                <element signature="e#18419#18420#0" expanded="true" />
-                <element signature="e#18461#18462#0" expanded="true" />
-                <element signature="e#18495#18496#0" expanded="true" />
-                <element signature="e#18525#18526#0" expanded="true" />
-                <element signature="e#18571#18572#0" expanded="true" />
-                <element signature="e#18609#18610#0" expanded="true" />
-                <element signature="e#18646#18647#0" expanded="true" />
-                <element signature="e#18680#18681#0" expanded="true" />
-                <element signature="e#18733#18734#0" expanded="true" />
-                <element signature="e#18779#18780#0" expanded="true" />
-                <element signature="e#18810#18811#0" expanded="true" />
-                <element signature="e#18838#18839#0" expanded="true" />
-                <element signature="e#18879#18880#0" expanded="true" />
-                <element signature="e#18913#18914#0" expanded="true" />
-                <element signature="e#18946#18947#0" expanded="true" />
-                <element signature="e#18978#18979#0" expanded="true" />
-                <element signature="e#19025#19026#0" expanded="true" />
-                <element signature="e#19060#19061#0" expanded="true" />
-                <element signature="e#19095#19096#0" expanded="true" />
-                <element signature="e#19126#19127#0" expanded="true" />
-                <element signature="e#19175#19176#0" expanded="true" />
-                <element signature="e#19215#19216#0" expanded="true" />
-                <element signature="e#19252#19253#0" expanded="true" />
-                <element signature="e#19289#19290#0" expanded="true" />
-                <element signature="e#19346#19347#0" expanded="true" />
-                <element signature="e#19398#19399#0" expanded="true" />
-                <element signature="e#19437#19438#0" expanded="true" />
-                <element signature="e#19475#19476#0" expanded="true" />
-                <element signature="e#19534#19535#0" expanded="true" />
-                <element signature="e#19588#19589#0" expanded="true" />
-                <element signature="e#19627#19628#0" expanded="true" />
-                <element signature="e#19665#19666#0" expanded="true" />
-                <element signature="e#19724#19725#0" expanded="true" />
-                <element signature="e#19778#19779#0" expanded="true" />
-                <element signature="e#19818#19819#0" expanded="true" />
-                <element signature="e#19854#19855#0" expanded="true" />
-                <element signature="e#19912#19913#0" expanded="true" />
-                <element signature="e#19962#19963#0" expanded="true" />
-                <element signature="e#19998#19999#0" expanded="true" />
-                <element signature="e#20034#20035#0" expanded="true" />
-                <element signature="e#20089#20090#0" expanded="true" />
-                <element signature="e#20139#20140#0" expanded="true" />
-                <element signature="e#20174#20175#0" expanded="true" />
-                <element signature="e#20206#20207#0" expanded="true" />
-                <element signature="e#20257#20258#0" expanded="true" />
-                <element signature="e#20299#20300#0" expanded="true" />
-                <element signature="e#20333#20334#0" expanded="true" />
-                <element signature="e#20364#20365#0" expanded="true" />
-                <element signature="e#20413#20414#0" expanded="true" />
-                <element signature="e#20453#20454#0" expanded="true" />
-                <element signature="e#20485#20486#0" expanded="true" />
-                <element signature="e#20517#20518#0" expanded="true" />
-                <element signature="e#20564#20565#0" expanded="true" />
-                <element signature="e#20606#20607#0" expanded="true" />
-                <element signature="e#20640#20641#0" expanded="true" />
-                <element signature="e#20672#20673#0" expanded="true" />
-                <element signature="e#20719#20720#0" expanded="true" />
-                <element signature="e#20754#20755#0" expanded="true" />
-                <element signature="e#20788#20789#0" expanded="true" />
-                <element signature="e#20822#20823#0" expanded="true" />
-                <element signature="e#20873#20874#0" expanded="true" />
-                <element signature="e#20919#20920#0" expanded="true" />
-                <element signature="e#20958#20959#0" expanded="true" />
-                <element signature="e#20993#20994#0" expanded="true" />
-                <element signature="e#21050#21051#0" expanded="true" />
-                <element signature="e#21098#21099#0" expanded="true" />
-                <element signature="e#21136#21137#0" expanded="true" />
-                <element signature="e#21170#21171#0" expanded="true" />
-                <element signature="e#21225#21226#0" expanded="true" />
-                <element signature="e#21271#21272#0" expanded="true" />
-                <element signature="e#21312#21313#0" expanded="true" />
-                <element signature="e#21349#21350#0" expanded="true" />
-                <element signature="e#21410#21411#0" expanded="true" />
-                <element signature="e#21462#21463#0" expanded="true" />
-                <element signature="e#21498#21499#0" expanded="true" />
-                <element signature="e#21533#21534#0" expanded="true" />
-                <element signature="e#21586#21587#0" expanded="true" />
-                <element signature="e#21634#21635#0" expanded="true" />
-                <element signature="e#21671#21672#0" expanded="true" />
-                <element signature="e#21706#21707#0" expanded="true" />
-                <element signature="e#21761#21762#0" expanded="true" />
-                <element signature="e#21809#21810#0" expanded="true" />
-                <element signature="e#21843#21844#0" expanded="true" />
-                <element signature="e#21875#21876#0" expanded="true" />
-                <element signature="e#21922#21923#0" expanded="true" />
-                <element signature="e#21957#21958#0" expanded="true" />
-                <element signature="e#21991#21992#0" expanded="true" />
-                <element signature="e#22021#22022#0" expanded="true" />
-                <element signature="e#22068#22069#0" expanded="true" />
-                <element signature="e#22106#22107#0" expanded="true" />
-                <element signature="e#22137#22138#0" expanded="true" />
-                <element signature="e#22165#22166#0" expanded="true" />
-                <element signature="e#22206#22207#0" expanded="true" />
-                <element signature="e#22240#22241#0" expanded="true" />
-                <element signature="e#22274#22275#0" expanded="true" />
-                <element signature="e#22305#22306#0" expanded="true" />
-                <element signature="e#22352#22353#0" expanded="true" />
-                <element signature="e#22392#22393#0" expanded="true" />
-                <element signature="e#22427#22428#0" expanded="true" />
-                <element signature="e#22460#22461#0" expanded="true" />
-                <element signature="e#22509#22510#0" expanded="true" />
-                <element signature="e#22546#22547#0" expanded="true" />
-                <element signature="e#22582#22583#0" expanded="true" />
-                <element signature="e#22615#22616#0" expanded="true" />
-                <element signature="e#22666#22667#0" expanded="true" />
-                <element signature="e#22710#22711#0" expanded="true" />
-                <element signature="e#22749#22750#0" expanded="true" />
-                <element signature="e#22787#22788#0" expanded="true" />
-                <element signature="e#22846#22847#0" expanded="true" />
-                <element signature="e#22900#22901#0" expanded="true" />
-                <element signature="e#22935#22936#0" expanded="true" />
-                <element signature="e#22966#22967#0" expanded="true" />
-                <element signature="e#23015#23016#0" expanded="true" />
-                <element signature="e#23055#23056#0" expanded="true" />
-                <element signature="e#23096#23097#0" expanded="true" />
-                <element signature="e#23133#23134#0" expanded="true" />
-                <element signature="e#23194#23195#0" expanded="true" />
-                <element signature="e#23246#23247#0" expanded="true" />
-                <element signature="e#23276#23277#0" expanded="true" />
-                <element signature="e#23305#23306#0" expanded="true" />
-                <element signature="e#23346#23347#0" expanded="true" />
-                <element signature="e#23382#23383#0" expanded="true" />
-                <element signature="e#23421#23422#0" expanded="true" />
-                <element signature="e#23456#23457#0" expanded="true" />
-                <element signature="e#23513#23514#0" expanded="true" />
-                <element signature="e#23561#23562#0" expanded="true" />
-                <element signature="e#23594#23595#0" expanded="true" />
-                <element signature="e#23623#23624#0" expanded="true" />
-                <element signature="e#23668#23669#0" expanded="true" />
-                <element signature="e#23704#23705#0" expanded="true" />
-                <element signature="e#23742#23743#0" expanded="true" />
-                <element signature="e#23776#23777#0" expanded="true" />
-                <element signature="e#23831#23832#0" expanded="true" />
-                <element signature="e#23877#23878#0" expanded="true" />
-                <element signature="e#23912#23913#0" expanded="true" />
-                <element signature="e#23944#23945#0" expanded="true" />
-                <element signature="e#23993#23994#0" expanded="true" />
-                <element signature="e#24035#24036#0" expanded="true" />
-                <element signature="e#24067#24068#0" expanded="true" />
-                <element signature="e#24095#24096#0" expanded="true" />
-                <element signature="e#24138#24139#0" expanded="true" />
-                <element signature="e#24172#24173#0" expanded="true" />
-                <element signature="e#24217#24218#0" expanded="true" />
-                <element signature="e#24258#24259#0" expanded="true" />
-                <element signature="e#24327#24328#0" expanded="true" />
-                <element signature="e#24387#24388#0" expanded="true" />
-                <element signature="e#24423#24424#0" expanded="true" />
-                <element signature="e#24455#24456#0" expanded="true" />
-                <element signature="e#24506#24507#0" expanded="true" />
-                <element signature="e#24548#24549#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="238">
+              <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -242,19 +72,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Explosion.java">
+        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="26" column="41" selection-start-line="26" selection-start-column="41" selection-end-line="26" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4012">
-              <caret line="246" column="47" selection-start-line="246" selection-start-column="47" selection-end-line="246" selection-end-column="47" />
+            <state relative-caret-position="3383">
+              <caret line="208" column="25" selection-start-line="208" selection-start-column="25" selection-end-line="208" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -263,19 +84,62 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/engine/gfx/Image.java">
+        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="850">
-              <caret line="77" selection-start-line="77" selection-end-line="77" />
+            <state relative-caret-position="1700">
+              <caret line="143" column="122" selection-start-line="143" selection-start-column="122" selection-end-line="143" selection-end-column="122" />
+              <folding>
+                <element signature="e#599#600#0" expanded="true" />
+                <element signature="e#634#635#0" expanded="true" />
+                <element signature="e#690#691#0" expanded="true" />
+                <element signature="e#738#739#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/DeviceManager.java">
+        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+            <state relative-caret-position="2125">
+              <caret line="135" selection-start-line="135" selection-end-line="135" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Player.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="496">
+              <caret line="1156" column="79" lean-forward="true" selection-start-line="1156" selection-start-column="79" selection-end-line="1156" selection-end-column="79" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#3300#3301#0" expanded="true" />
+                <element signature="e#3338#3339#0" expanded="true" />
+                <element signature="e#3489#3490#0" expanded="true" />
+                <element signature="e#3526#3527#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Physics.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="31" column="75" selection-start-line="31" selection-start-column="75" selection-end-line="31" selection-end-column="75" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Wall.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1479">
+              <caret line="101" column="74" selection-start-line="101" selection-start-column="74" selection-end-line="101" selection-end-column="74" />
             </state>
           </provider>
         </entry>
@@ -283,8 +147,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="12325">
-              <caret line="737" selection-start-line="737" selection-end-line="737" />
+            <state relative-caret-position="7446">
+              <caret line="451" column="17" selection-start-line="451" selection-start-column="17" selection-end-line="451" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -300,16 +164,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>opac</find>
-      <find>rightStickX</find>
-      <find>animationData.goToFrame</find>
-      <find>player1</find>
-      <find>player3</find>
-      <find>dt</find>
       <find>playerNumber</find>
       <find>myC</find>
       <find>isGoose</find>
-      <find>camera</find>
       <find>explosiveGuns.</find>
       <find>swanSpeakIndex</find>
       <find>gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE</find>
@@ -330,6 +187,13 @@
       <find>backGate</find>
       <find>explode</find>
       <find>weapon.setEx</find>
+      <find>camera</find>
+      <find>cameraFollow</find>
+      <find>altReload</find>
+      <find>isPlaying</find>
+      <find>pause</find>
+      <find>frameHitBox</find>
+      <find>collision</find>
     </findStrings>
     <replaceStrings>
       <replace>rStickX</replace>
@@ -356,7 +220,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/Dasher.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/Weapon.java" />
         <option value="$PROJECT_DIR$/src/com/zach/engine/AbstractGame.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/endGameLevel.java" />
@@ -391,22 +254,23 @@
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/HoleTile.java" />
         <option value="$PROJECT_DIR$/src/com/zach/engine/Input.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/AltBullet.java" />
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/Object.java" />
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java" />
         <option value="$PROJECT_DIR$/src/com/zach/engine/Main.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/titleLevel.java" />
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/Camera.java" />
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/Player.java" />
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java" />
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java" />
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/Wall.java" />
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java" />
         <option value="$PROJECT_DIR$/src/com/zach/engine/Window.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/Explosion.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/Object.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/Camera.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/components/WeaponComponent.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/components/WeaponComponent.java" />
         <option value="$PROJECT_DIR$/src/com/zach/ddg3/Bullet.java" />
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/components/WeaponComponent.java" />
-        <option value="$PROJECT_DIR$/src/com/zach/ddg3/components/WeaponComponent.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/Wall.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/Physics.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java" />
+        <option value="$PROJECT_DIR$/src/com/zach/ddg3/Player.java" />
       </list>
     </option>
   </component>
@@ -417,8 +281,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1948" />
-    <option name="y" value="182" />
+    <option name="x" value="588" />
+    <option name="y" value="202" />
     <option name="width" value="975" />
     <option name="height" value="1090" />
   </component>
@@ -428,6 +292,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -472,13 +338,11 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1566068980928" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1567913782308" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
@@ -652,10 +516,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20628998" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23027718" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Capture Tool" order="3" />
@@ -665,7 +528,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3261317" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49463087" weight="0.25856698" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4986577" weight="0.3894081" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4986577" weight="0.23156802" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
@@ -680,7 +543,7 @@
       <window_info anchor="right" id="Maven Projects" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
       <window_info anchor="right" id="Theme Preview" order="6" />
-      <window_info anchor="right" id="Ant Build" order="7" weight="0.24966443" />
+      <window_info anchor="right" id="Ant Build" order="7" weight="0.24946696" />
       <window_info anchor="right" id="Maven" order="8" weight="0.3295302" />
       <window_info anchor="right" id="Coverage" order="9" side_tool="true" weight="0.32942432" />
     </layout>
@@ -809,28 +672,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Physics.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/AltBullet.java" />
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_191/src.zip!/java/util/ArrayList.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#593#594#0" expanded="true" />
-            <element signature="e#644#645#0" expanded="true" />
-            <element signature="e#683#684#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/stands.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -846,60 +689,10 @@
     <entry file="file://$PROJECT_DIR$/res/topStand.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Camera.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2397">
-          <caret line="188" selection-start-line="188" selection-end-line="188" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Wall.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="92" column="11" selection-start-line="92" selection-start-column="11" selection-end-line="92" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="881">
-          <caret line="777" column="21" selection-start-line="777" selection-start-column="21" selection-end-line="777" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#546#547#0" expanded="true" />
-            <element signature="e#578#579#0" expanded="true" />
-            <element signature="e#625#626#0" expanded="true" />
-            <element signature="e#667#668#0" expanded="true" />
-            <element signature="e#763#764#0" expanded="true" />
-            <element signature="e#797#798#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/titleLevel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="881">
           <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1479">
-          <caret line="126" column="9" selection-start-line="126" selection-start-column="9" selection-end-line="126" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="371" column="17" lean-forward="true" selection-start-line="371" selection-start-column="17" selection-end-line="371" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -947,13 +740,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/Renderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="254" column="165" lean-forward="true" selection-start-line="254" selection-start-column="165" selection-end-line="254" selection-end-column="165" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_191/src.zip!/javax/imageio/ImageIO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
@@ -964,10 +750,62 @@
     <entry file="file://$PROJECT_DIR$/res/swanShadow.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/DeviceManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Object.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="306" column="51" lean-forward="true" selection-start-line="306" selection-start-column="51" selection-end-line="306" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#559#560#0" expanded="true" />
+            <element signature="e#593#594#0" expanded="true" />
+            <element signature="e#644#645#0" expanded="true" />
+            <element signature="e#683#684#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Explosion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="41" column="37" selection-start-line="41" selection-start-column="37" selection-end-line="41" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Camera.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1207">
+          <caret line="114" column="24" selection-start-line="114" selection-start-column="24" selection-end-line="114" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/Renderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3859">
+          <caret line="254" selection-start-line="254" selection-end-line="254" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/gfx/Image.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="85" selection-start-line="85" selection-end-line="85" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Bullet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1054">
-          <caret line="85" column="35" selection-start-line="85" selection-start-column="35" selection-end-line="85" selection-end-column="35" />
+        <state relative-caret-position="14688">
+          <caret line="904" column="13" selection-start-line="904" selection-start-column="13" selection-end-line="904" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#546#547#0" expanded="true" />
@@ -976,9 +814,16 @@
             <element signature="e#667#668#0" expanded="true" />
             <element signature="e#763#764#0" expanded="true" />
             <element signature="e#797#798#0" expanded="true" />
-            <element signature="e#16328#16329#0" expanded="true" />
-            <element signature="e#16365#16366#0" expanded="true" />
+            <element signature="e#20331#20332#0" expanded="true" />
+            <element signature="e#20368#20369#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/WeaponComponent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -989,217 +834,70 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Explosion.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/selectionLevel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="26" column="41" selection-start-line="26" selection-start-column="41" selection-end-line="26" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4012">
-          <caret line="246" column="47" selection-start-line="246" selection-start-column="47" selection-end-line="246" selection-end-column="47" />
+        <state relative-caret-position="3383">
+          <caret line="208" column="25" selection-start-line="208" selection-start-column="25" selection-end-line="208" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/engine/gfx/Image.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/AABBComponent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="77" selection-start-line="77" selection-end-line="77" />
+        <state relative-caret-position="1700">
+          <caret line="143" column="122" selection-start-line="143" selection-start-column="122" selection-end-line="143" selection-end-column="122" />
+          <folding>
+            <element signature="e#599#600#0" expanded="true" />
+            <element signature="e#634#635#0" expanded="true" />
+            <element signature="e#690#691#0" expanded="true" />
+            <element signature="e#738#739#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/DeviceManager.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/mainLevel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+        <state relative-caret-position="2125">
+          <caret line="135" selection-start-line="135" selection-end-line="135" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Physics.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="31" column="75" selection-start-line="31" selection-start-column="75" selection-end-line="31" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Wall.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1479">
+          <caret line="101" column="74" selection-start-line="101" selection-start-column="74" selection-end-line="101" selection-end-column="74" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/GameManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12325">
-          <caret line="737" selection-start-line="737" selection-end-line="737" />
+        <state relative-caret-position="7446">
+          <caret line="451" column="17" selection-start-line="451" selection-start-column="17" selection-end-line="451" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/components/WeaponComponent.java">
+    <entry file="file://$PROJECT_DIR$/src/com/zach/ddg3/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="273" lean-forward="true" selection-start-line="273" selection-end-line="273" />
+        <state relative-caret-position="496">
+          <caret line="1156" column="79" lean-forward="true" selection-start-line="1156" selection-start-column="79" selection-end-line="1156" selection-end-column="79" />
           <folding>
-            <element signature="e#17698#17699#0" expanded="true" />
-            <element signature="e#17730#17731#0" expanded="true" />
-            <element signature="e#17777#17778#0" expanded="true" />
-            <element signature="e#17812#17813#0" expanded="true" />
-            <element signature="e#17853#17854#0" expanded="true" />
-            <element signature="e#17891#17892#0" expanded="true" />
-            <element signature="e#17952#17953#0" expanded="true" />
-            <element signature="e#18006#18007#0" expanded="true" />
-            <element signature="e#18037#18038#0" expanded="true" />
-            <element signature="e#18068#18069#0" expanded="true" />
-            <element signature="e#18113#18114#0" expanded="true" />
-            <element signature="e#18153#18154#0" expanded="true" />
-            <element signature="e#18186#18187#0" expanded="true" />
-            <element signature="e#18218#18219#0" expanded="true" />
-            <element signature="e#18265#18266#0" expanded="true" />
-            <element signature="e#18307#18308#0" expanded="true" />
-            <element signature="e#18340#18341#0" expanded="true" />
-            <element signature="e#18372#18373#0" expanded="true" />
-            <element signature="e#18419#18420#0" expanded="true" />
-            <element signature="e#18461#18462#0" expanded="true" />
-            <element signature="e#18495#18496#0" expanded="true" />
-            <element signature="e#18525#18526#0" expanded="true" />
-            <element signature="e#18571#18572#0" expanded="true" />
-            <element signature="e#18609#18610#0" expanded="true" />
-            <element signature="e#18646#18647#0" expanded="true" />
-            <element signature="e#18680#18681#0" expanded="true" />
-            <element signature="e#18733#18734#0" expanded="true" />
-            <element signature="e#18779#18780#0" expanded="true" />
-            <element signature="e#18810#18811#0" expanded="true" />
-            <element signature="e#18838#18839#0" expanded="true" />
-            <element signature="e#18879#18880#0" expanded="true" />
-            <element signature="e#18913#18914#0" expanded="true" />
-            <element signature="e#18946#18947#0" expanded="true" />
-            <element signature="e#18978#18979#0" expanded="true" />
-            <element signature="e#19025#19026#0" expanded="true" />
-            <element signature="e#19060#19061#0" expanded="true" />
-            <element signature="e#19095#19096#0" expanded="true" />
-            <element signature="e#19126#19127#0" expanded="true" />
-            <element signature="e#19175#19176#0" expanded="true" />
-            <element signature="e#19215#19216#0" expanded="true" />
-            <element signature="e#19252#19253#0" expanded="true" />
-            <element signature="e#19289#19290#0" expanded="true" />
-            <element signature="e#19346#19347#0" expanded="true" />
-            <element signature="e#19398#19399#0" expanded="true" />
-            <element signature="e#19437#19438#0" expanded="true" />
-            <element signature="e#19475#19476#0" expanded="true" />
-            <element signature="e#19534#19535#0" expanded="true" />
-            <element signature="e#19588#19589#0" expanded="true" />
-            <element signature="e#19627#19628#0" expanded="true" />
-            <element signature="e#19665#19666#0" expanded="true" />
-            <element signature="e#19724#19725#0" expanded="true" />
-            <element signature="e#19778#19779#0" expanded="true" />
-            <element signature="e#19818#19819#0" expanded="true" />
-            <element signature="e#19854#19855#0" expanded="true" />
-            <element signature="e#19912#19913#0" expanded="true" />
-            <element signature="e#19962#19963#0" expanded="true" />
-            <element signature="e#19998#19999#0" expanded="true" />
-            <element signature="e#20034#20035#0" expanded="true" />
-            <element signature="e#20089#20090#0" expanded="true" />
-            <element signature="e#20139#20140#0" expanded="true" />
-            <element signature="e#20174#20175#0" expanded="true" />
-            <element signature="e#20206#20207#0" expanded="true" />
-            <element signature="e#20257#20258#0" expanded="true" />
-            <element signature="e#20299#20300#0" expanded="true" />
-            <element signature="e#20333#20334#0" expanded="true" />
-            <element signature="e#20364#20365#0" expanded="true" />
-            <element signature="e#20413#20414#0" expanded="true" />
-            <element signature="e#20453#20454#0" expanded="true" />
-            <element signature="e#20485#20486#0" expanded="true" />
-            <element signature="e#20517#20518#0" expanded="true" />
-            <element signature="e#20564#20565#0" expanded="true" />
-            <element signature="e#20606#20607#0" expanded="true" />
-            <element signature="e#20640#20641#0" expanded="true" />
-            <element signature="e#20672#20673#0" expanded="true" />
-            <element signature="e#20719#20720#0" expanded="true" />
-            <element signature="e#20754#20755#0" expanded="true" />
-            <element signature="e#20788#20789#0" expanded="true" />
-            <element signature="e#20822#20823#0" expanded="true" />
-            <element signature="e#20873#20874#0" expanded="true" />
-            <element signature="e#20919#20920#0" expanded="true" />
-            <element signature="e#20958#20959#0" expanded="true" />
-            <element signature="e#20993#20994#0" expanded="true" />
-            <element signature="e#21050#21051#0" expanded="true" />
-            <element signature="e#21098#21099#0" expanded="true" />
-            <element signature="e#21136#21137#0" expanded="true" />
-            <element signature="e#21170#21171#0" expanded="true" />
-            <element signature="e#21225#21226#0" expanded="true" />
-            <element signature="e#21271#21272#0" expanded="true" />
-            <element signature="e#21312#21313#0" expanded="true" />
-            <element signature="e#21349#21350#0" expanded="true" />
-            <element signature="e#21410#21411#0" expanded="true" />
-            <element signature="e#21462#21463#0" expanded="true" />
-            <element signature="e#21498#21499#0" expanded="true" />
-            <element signature="e#21533#21534#0" expanded="true" />
-            <element signature="e#21586#21587#0" expanded="true" />
-            <element signature="e#21634#21635#0" expanded="true" />
-            <element signature="e#21671#21672#0" expanded="true" />
-            <element signature="e#21706#21707#0" expanded="true" />
-            <element signature="e#21761#21762#0" expanded="true" />
-            <element signature="e#21809#21810#0" expanded="true" />
-            <element signature="e#21843#21844#0" expanded="true" />
-            <element signature="e#21875#21876#0" expanded="true" />
-            <element signature="e#21922#21923#0" expanded="true" />
-            <element signature="e#21957#21958#0" expanded="true" />
-            <element signature="e#21991#21992#0" expanded="true" />
-            <element signature="e#22021#22022#0" expanded="true" />
-            <element signature="e#22068#22069#0" expanded="true" />
-            <element signature="e#22106#22107#0" expanded="true" />
-            <element signature="e#22137#22138#0" expanded="true" />
-            <element signature="e#22165#22166#0" expanded="true" />
-            <element signature="e#22206#22207#0" expanded="true" />
-            <element signature="e#22240#22241#0" expanded="true" />
-            <element signature="e#22274#22275#0" expanded="true" />
-            <element signature="e#22305#22306#0" expanded="true" />
-            <element signature="e#22352#22353#0" expanded="true" />
-            <element signature="e#22392#22393#0" expanded="true" />
-            <element signature="e#22427#22428#0" expanded="true" />
-            <element signature="e#22460#22461#0" expanded="true" />
-            <element signature="e#22509#22510#0" expanded="true" />
-            <element signature="e#22546#22547#0" expanded="true" />
-            <element signature="e#22582#22583#0" expanded="true" />
-            <element signature="e#22615#22616#0" expanded="true" />
-            <element signature="e#22666#22667#0" expanded="true" />
-            <element signature="e#22710#22711#0" expanded="true" />
-            <element signature="e#22749#22750#0" expanded="true" />
-            <element signature="e#22787#22788#0" expanded="true" />
-            <element signature="e#22846#22847#0" expanded="true" />
-            <element signature="e#22900#22901#0" expanded="true" />
-            <element signature="e#22935#22936#0" expanded="true" />
-            <element signature="e#22966#22967#0" expanded="true" />
-            <element signature="e#23015#23016#0" expanded="true" />
-            <element signature="e#23055#23056#0" expanded="true" />
-            <element signature="e#23096#23097#0" expanded="true" />
-            <element signature="e#23133#23134#0" expanded="true" />
-            <element signature="e#23194#23195#0" expanded="true" />
-            <element signature="e#23246#23247#0" expanded="true" />
-            <element signature="e#23276#23277#0" expanded="true" />
-            <element signature="e#23305#23306#0" expanded="true" />
-            <element signature="e#23346#23347#0" expanded="true" />
-            <element signature="e#23382#23383#0" expanded="true" />
-            <element signature="e#23421#23422#0" expanded="true" />
-            <element signature="e#23456#23457#0" expanded="true" />
-            <element signature="e#23513#23514#0" expanded="true" />
-            <element signature="e#23561#23562#0" expanded="true" />
-            <element signature="e#23594#23595#0" expanded="true" />
-            <element signature="e#23623#23624#0" expanded="true" />
-            <element signature="e#23668#23669#0" expanded="true" />
-            <element signature="e#23704#23705#0" expanded="true" />
-            <element signature="e#23742#23743#0" expanded="true" />
-            <element signature="e#23776#23777#0" expanded="true" />
-            <element signature="e#23831#23832#0" expanded="true" />
-            <element signature="e#23877#23878#0" expanded="true" />
-            <element signature="e#23912#23913#0" expanded="true" />
-            <element signature="e#23944#23945#0" expanded="true" />
-            <element signature="e#23993#23994#0" expanded="true" />
-            <element signature="e#24035#24036#0" expanded="true" />
-            <element signature="e#24067#24068#0" expanded="true" />
-            <element signature="e#24095#24096#0" expanded="true" />
-            <element signature="e#24138#24139#0" expanded="true" />
-            <element signature="e#24172#24173#0" expanded="true" />
-            <element signature="e#24217#24218#0" expanded="true" />
-            <element signature="e#24258#24259#0" expanded="true" />
-            <element signature="e#24327#24328#0" expanded="true" />
-            <element signature="e#24387#24388#0" expanded="true" />
-            <element signature="e#24423#24424#0" expanded="true" />
-            <element signature="e#24455#24456#0" expanded="true" />
-            <element signature="e#24506#24507#0" expanded="true" />
-            <element signature="e#24548#24549#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3300#3301#0" expanded="true" />
+            <element signature="e#3338#3339#0" expanded="true" />
+            <element signature="e#3489#3490#0" expanded="true" />
+            <element signature="e#3526#3527#0" expanded="true" />
           </folding>
         </state>
       </provider>

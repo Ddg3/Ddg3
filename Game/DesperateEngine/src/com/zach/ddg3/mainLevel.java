@@ -48,7 +48,7 @@ public class mainLevel extends GameLevel
     private Vulture vulture2;
 
 
-    private static Object swanShadow = new Object("shadow", 393, 292, "/swanShadow.png", 1, 0.01f);
+    private static Object swanShadow = new Object("shadow", 396, 292, "/swanShadow.png", 1, 0.01f);
     private static Vector[] dropPoints = new Vector[3];
     private static WeaponComponent swanWeapon;
 
@@ -92,6 +92,13 @@ public class mainLevel extends GameLevel
     private static boolean ostrichL = false;
     private static int ostrichInt = 0;
 
+    public static boolean starting = false;
+    private static float startOffsetTimer = 1.5f;
+    private static float tempStartOffsetTimer = 0f;
+    private static Object counter;
+    private static int startInd = 0;
+    private static int ostrichYSpeed;
+
     private boolean keyPressed = false;
 
     @Override
@@ -130,6 +137,9 @@ public class mainLevel extends GameLevel
         GameManager.objects.add(swanShadow);
         swanShadow.zIndex = Integer.MAX_VALUE - 2;
         swanShadow.position.y = -700;
+
+        GameManager.textObjects.add(GameManager.altReloadText.get(0));
+        GameManager.textObjects.add(GameManager.altReloadText.get(1));
 
         for(int i = 0; i < GameManager.pauseUI.size(); i++)
         {
@@ -349,18 +359,78 @@ public class mainLevel extends GameLevel
         kingSwan.tag = "Swan";
         swanWeapon = new WeaponComponent(kingSwan, "rocketLauncher");
         kingSwan.addComponent(swanWeapon);
+
+        start();
     }
 
     @Override
     public void update(Main main, float dt)
     {
-        kingSwan.animate(dt);
+        if(starting)
+        {
+            /*if(counter.getFrame() == 3 && counter != null)
+            {
+                GameManager.removeObjectsByName("counter");
+                counter = null;
+            }*/
+                //kingSwan.isActiveOnPause = true;
+                tempStartOffsetTimer -= dt;
+                if(tempStartOffsetTimer <= 0)
+                {
+                    if (startInd == 0)
+                    {
+                        GameManager.camera.setPath(kingSwan.position);
+                        GameManager.camera.setMovingAlongVector(true);
+                        //GameManager.removeObjectsByName("counter");
+                        startInd++;
+                    }
+                    if (GameManager.camera.getPosY() <= kingSwan.position.y + 1 && GameManager.camera.getPosY() >= kingSwan.position.y - 1)
+                    {
+                        if(startInd == 1)
+                        {
+                            tempStartOffsetTimer = startOffsetTimer;
+                            kingSwan.speak("/    B E G I N!", 0xff000000);
+                            GameManager.camera.setMovingAlongVector(false);
+                            startInd++;
+
+                            for(int i = 0; i < players.size(); i++)
+                            {
+                                players.get(i).setFrame(2 + (i * 4));
+                            }
+                        }
+                        if (tempStartOffsetTimer <= 0 && startInd == 2)
+                        {
+                            GameManager.camera.setPath(new Vector(0, 0));
+                            GameManager.camera.setMovingAlongVector(true);
+                            startInd++;
+                        }
+                    }
+
+                    if (GameManager.camera.getPosY() <= 1 && GameManager.camera.getPosY() >= -1 && startInd == 3)
+                    {
+                        //starting = false;
+                        counter.playTo(0, 4);
+                        GameManager.camera.setMovingAlongVector(false);
+                        tempStartOffsetTimer = startOffsetTimer;
+                        startInd++;
+                    }
+                }
+                if(startInd == 4 && counter.getFrame() >= 3)
+                {
+                    GameManager.removeObjectsByName("counter");
+                    counter = null;
+                    starting = false;
+                }
+        }
+        else
+            {
+            kingSwan.animate(dt);
         /*if(testText != null)
         {
             testText.posY = (int) (GameManager.center.position.y + 320);
         }*/
-        //testText.posX = (int)(GameManager.center.position.x + 320);
-        //testText.posY = (int)(GameManager.center.position.y + 160);
+            //testText.posX = (int)(GameManager.center.position.x + 320);
+            //testText.posY = (int)(GameManager.center.position.y + 160);
         /*for (int i = 0; i < players.size(); i++)
         {
             pointers.get(i).setPosition(players.get(i).position.x, players.get(i).position.y - (players.get(i).getBaseHeight() / 2));
@@ -378,78 +448,71 @@ public class mainLevel extends GameLevel
                 timePedestals.get(i).zIndex = Integer.MAX_VALUE;
             }
         }*/
-        //System.out.println(Math.abs(frontWall.getPositionY() - (frontWall.getHeight() / 2)) - (players.get(0).getPositionY() + 320));
+            //System.out.println(Math.abs(frontWall.getPositionY() - (frontWall.getHeight() / 2)) - (players.get(0).getPositionY() + 320));
         /*System.out.println(players.get(0).position.x + ", " + players.get(0).position.y);
         System.out.println(GameManager.camera.boundsRange);
         System.out.println(GameManager.camera.getPosX() + ", " + GameManager.camera.getPosY());*/
 
 
-        if(GameManager.cameraPlayers.size() <= 1 && winner == null)
-        {
-            for(int i = 0; i < GameManager.cameraPlayers.size(); i++)
+            if (GameManager.cameraPlayers.size() <= 1 && winner == null)
             {
-                if(GameManager.cameraPlayers.get(i) != null)
+                for (int i = 0; i < GameManager.cameraPlayers.size(); i++)
                 {
-                    winner = GameManager.cameraPlayers.get(i);
-                    break;
+                    if (GameManager.cameraPlayers.get(i) != null)
+                    {
+                        winner = GameManager.cameraPlayers.get(i);
+                        break;
+                    }
                 }
             }
-        }
-        if(GameManager.cameraPlayers.size() <= 1 && winner != null)
-        {
-            swanSpeak(winner, main);
-        }
-        if(players.size() > 0)
-        {
-            swanFollow();
-        }
-
-        tempHazardTimer -= dt;
-        tempReticleBuffer -= dt;
-
-        if(dropping)
-        {
-            tempDropTimer -= dt;
-
-            if(tempDropTimer <= 0)
+            if (GameManager.cameraPlayers.size() <= 1 && winner != null)
             {
-                dropBomb(dropPoints[reticleInd]);
-                dropTimer /= 1.5f;
-                tempDropTimer = dropTimer;
+                swanSpeak(winner, main);
+            }
+            if (players.size() > 0)
+            {
+                swanFollow();
+            }
 
-                if(reticleInd == 2)
+            tempHazardTimer -= dt;
+            tempReticleBuffer -= dt;
+
+            if (dropping)
+            {
+                tempDropTimer -= dt;
+
+                if (tempDropTimer <= 0)
                 {
-                    dropping = false;
-                }
-                else
+                    kingSwan.position.x = dropPoints[reticleInd].x;
+                    dropBomb(dropPoints[reticleInd]);
+                    dropTimer /= 1.5f;
+                    tempDropTimer = dropTimer;
+
+                    if (reticleInd == 2)
                     {
+                        kingSwan.position.x = 0;
+                        dropping = false;
+                    } else {
                         reticleInd++;
                     }
+                }
             }
-        }
 
-        if(tempHazardTimer <= 0)
-        {
-            hazard(hazardInd, dt);
-            tempHazardTimer = hazardTimer;
-        }
-
-        if(flying)
-        {
-            if (kingSwan.position.y > -400)
-            {
-                kingSwan.position.y -= 50f * dt;
+            if (tempHazardTimer <= 0) {
+                hazard(hazardInd, dt);
+                tempHazardTimer = hazardTimer;
             }
-            else
-                {
+
+            if (flying) {
+                if (kingSwan.position.y > -400) {
+                    kingSwan.position.y -= 50f * dt;
+                } else {
                     kingSwan.position.x = swanShadow.position.x;
                     swanShadow.position.y += 110f * dt;
 
-                    for (int i = 0; i < dropPoints.length; i++)
-                    {
-                        if (swanShadow.position.y <= dropPoints[i].y + 2 && swanShadow.position.y >= dropPoints[i].y - 2)
-                        {
-                            if(tempReticleBuffer <= 0)
+                    for (int i = 0; i < dropPoints.length; i++) {
+                        if (swanShadow.position.y <= dropPoints[i].y + 2 && swanShadow.position.y >= dropPoints[i].y - 2) {
+                            if (tempReticleBuffer <= 0)
                             {
                                 Object reticle = new Object("reticle", 113, 57, "/reticle.png", 2, 0.01f);
                                 reticle.position.y = swanShadow.position.y;
@@ -461,7 +524,7 @@ public class mainLevel extends GameLevel
                                 reticle.offsetPos = new Vector(reticle.position.x + 6400, reticle.position.y + 3600);
                                 tempReticleBuffer = reticleBuffer;
 
-                                if(!dropping)
+                                if (!dropping)
                                 {
                                     dropping = true;
                                 }
@@ -469,7 +532,7 @@ public class mainLevel extends GameLevel
                         }
                     }
 
-                    if(swanShadow.position.y > 1200)
+                    if (swanShadow.position.y > 1200)
                     {
                         flying = false;
                         kingSwan.position.x = 0;
@@ -479,18 +542,13 @@ public class mainLevel extends GameLevel
                         reticleInd = 0;
                     }
                 }
-        }
-        else if(flyingBack)
-        {
-            if (kingSwan.position.y < -301)
-            {
-                kingSwan.position.y += 50f * dt;
-            }
-            else
-                {
+            } else if (flyingBack) {
+                if (kingSwan.position.y < -301) {
+                    kingSwan.position.y += 50f * dt;
+                } else {
                     flyingBack = false;
                 }
-        }
+            }
 
         /*if(moving)
         {
@@ -503,68 +561,66 @@ public class mainLevel extends GameLevel
             }
         }*/
 
-        if(!readyShoot)
-        {
-            if(moveP)
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    pelicanMove(true, new Vector(-184, -150), new Vector(184, -150), dt);
+            if (!readyShoot) {
+                if (moveP) {
+                    for (int i = 0; i < 2; i++) {
+                        pelicanMove(true, new Vector(-184, -150), new Vector(184, -150), dt);
+                    }
                 }
             }
-        }
-        if(readyShoot)
-        {
-            if(!compAdd)
-            {
-                pelicans[0].addComponent(new AABBComponent(pelicans[0], "wall"));
-                pelicans[1].addComponent(new AABBComponent(pelicans[1], "wall"));
-                compAdd = true;
-            }
-            if(shotIndex < 6)
-            {
-                pelicanTempCooldown -= dt;
-                if (pelicanTempCooldown <= 0)
-                {
-                    if (tempShotInd >= 3)
-                    {
-                        tempShotInd = 1;
+            if (readyShoot) {
+                if (!compAdd) {
+                    pelicans[0].addComponent(new AABBComponent(pelicans[0], "wall"));
+                    pelicans[1].addComponent(new AABBComponent(pelicans[1], "wall"));
+                    compAdd = true;
                 }
+                if (shotIndex < 6) {
+                    pelicanTempCooldown -= dt;
+                    if (pelicanTempCooldown <= 0) {
+                        if (tempShotInd >= 3) {
+                            tempShotInd = 1;
+                        }
 
-                    pelicanShoot(tempShotInd, dt);
-                    shotIndex++;
-                    tempShotInd++;
-                    pelicanTempCooldown = pelicanCooldown;
-                }
-            }
-            else
-                {
+                        pelicanShoot(tempShotInd, dt);
+                        shotIndex++;
+                        tempShotInd++;
+                        pelicanTempCooldown = pelicanCooldown;
+                    }
+                } else {
                     readyShoot = false;
                     leaveP = true;
                 }
-        }
-        if(leaveP)
-        {
-            pelicans[0].removeComponentBySubtag("wall");
-            pelicans[1].removeComponentBySubtag("wall");
-            compAdd = false;
-            moveSpears(false, true, movingL, risedL);
-            moveSpears(false, false, movingR, risedR);
-            pelicanMove(false, new Vector(-446, -150), new Vector(446, -150), dt);
-            shotIndex = 0;
-            pelicanTempCooldown = pelicanCooldown;
-        }
+            }
+            if (leaveP) {
+                pelicans[0].removeComponentBySubtag("wall");
+                pelicans[1].removeComponentBySubtag("wall");
+                compAdd = false;
+                moveSpears(false, true, movingL, risedL);
+                moveSpears(false, false, movingR, risedR);
+                pelicanMove(false, new Vector(-446, -150), new Vector(446, -150), dt);
+                shotIndex = 0;
+                pelicanTempCooldown = pelicanCooldown;
+            }
 
-        if(ostrichHazard)
-        {
-            tempOstrichTimerOffset -= dt;
-            if(tempOstrichTimerOffset <= 0)
-            {
-                ostrichRun(ostrichL, (WeaponComponent) ostrichGens[ostrichInt].findComponentBySubtag("ostrichLauncher"), dt);
+            if (ostrichHazard) {
+                tempOstrichTimerOffset -= dt;
+                if (tempOstrichTimerOffset <= 0) {
+                    ostrichRun(ostrichL, (WeaponComponent) ostrichGens[ostrichInt].findComponentBySubtag("ostrichLauncher"), dt);
+                }
             }
         }
     }
 
+    public void start()
+    {
+        counter = new Object("counter", 128, 168, "/startNumbers.png", 5, 1f);
+        starting = true;
+        GameManager.objects.add(counter);
+        counter.setFrame(4);
+        //counter.isActiveOnPause = true;
+        counter.zIndex = Integer.MAX_VALUE - 1;
+        //GameManager.isPlaying = false;
+    }
     public void setWalls(int i)
     {
         switch(i)
@@ -650,7 +706,7 @@ public class mainLevel extends GameLevel
 
                 for (int i = 0; i < dropPoints.length; i++)
                 {
-                    dropPoints[i].x = randomX;
+                    dropPoints[i].x = randomX + (random.nextInt(20) - 10);
                     dropPoints[i].y = /*random.nextInt(150 * 2) - 150;*/ (100 * i) - 100 + (random.nextInt(40) - 20);
                 }
             }
@@ -801,15 +857,19 @@ public class mainLevel extends GameLevel
                 moving = movingR;
                 rising = risedR;
             }
-        weapon.shoot(direction);
+        if(ostrichYSpeed == 0)
+        {
+            ostrichYSpeed = random.nextInt(180) - 90;
+        }
+        weapon.shoot(90f, ostrichYSpeed);
         tempOstrichTimer -= dt;
-
         if(tempOstrichTimer <= 0)
         {
             tempOstrichTimer = ostrichTimer;
             ostrichHazard = false;
             moveSpears(false, left, moving, rising);
             tempOstrichTimerOffset = ostrichTimerOffset;
+            ostrichYSpeed = 0;
         }
     }
 
