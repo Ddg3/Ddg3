@@ -112,6 +112,10 @@ public class titleLevel extends GameLevel
     @Override
     public void uninit()
     {
+        /*while(this.fadeAway != null)
+        {
+            fade();
+        }*/
         GameManager.objects.clear();
         GameManager.textObjects.clear();
         horizBounds.clear();

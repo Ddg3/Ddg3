@@ -983,6 +983,13 @@ public class Player extends Object
                     indHeight = 30;
                     indPath = "/stunBombIndicator.png";
                     break;
+
+                /*case 4:
+                    newWidth = 101;
+                    newHeight = 76;
+                    newPath = "/Duck_sniper.png";
+                    newFrames = 8;
+                    break;*/
             }
             widthDifference = newWidth - this.width;
             heightDifference = newHeight - this.height;
@@ -1026,6 +1033,7 @@ public class Player extends Object
         WeaponComponent weapon = (WeaponComponent) this.findComponent("Weapon");
         if(isGoose)
         {
+            device.setVibration(100,100);
             switch (weapon.getSubTag())
             {
                 case "rocketLauncher":
@@ -1050,6 +1058,12 @@ public class Player extends Object
                     newPath = "/Goose_cannon.png";
                     newFrames = 8;
                     break;
+                /*case "sniper":
+                    newWidth = 101;
+                    newHeight = 76;
+                    newPath = "/Duck_sniper.png";
+                    newFrames = 8;
+                    break;*/
             }
 
             widthDifference = newWidth - this.width;
@@ -1094,6 +1108,12 @@ public class Player extends Object
                         newPath = "/Duck_cannon.png";
                         newFrames = 8;
                         break;
+                    /*case "sniper":
+                        newWidth = 101;
+                        newHeight = 76;
+                        newPath = "/Duck_sniper.png";
+                        newFrames = 8;
+                        break;*/
                 }
                 widthDifference = newWidth - this.width;
                 heightDifference = newHeight - this.height;
@@ -1156,6 +1176,13 @@ public class Player extends Object
                 offsetCenterXBody = new int[]{0, 0, -2, 0, 0, 6, 12, 10};
                 offsetCenterYBody = new int[]{-9, -9, -9, -7, -11, -7, -9, -9};
                 break;
+            case "sniper":
+                offsetCenterXHead = new int[]{0, 0, -15, 0, 0, -1, 14, -1};
+                offsetCenterYHead = new int[]{-17, -17, -17, -16, -18, -16, -17, -17};
+                offsetCenterXBody = new int[]{0, -10, -23, -3, 0, 3, 23, 10};
+                offsetCenterYBody = new int[]{12, 12, 12, 16, 9, 16, 12, 12};
+                break;
+
         }
     }
 

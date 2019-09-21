@@ -26,6 +26,21 @@ public class selectionLevel extends GameLevel {
     private static Wall[] walls = new Wall[2];
     private static Wall door;
 
+    private static Object aButtonDisplay1;
+    private static Object aButtonDisplay2;
+    private static Object xButtonDisplay1;
+    private static Object xButtonDisplay2;
+    private static Object yButtonDisplay1;
+    private static Object yButtonDisplay2;
+    private static Object bButtonDisplay1;
+    private static Object bButtonDisplay2;
+    private static Object stickDisplay1;
+    private static Object stickDisplay2;
+    private static Object rBumperDisplay1;
+    private static Object rBumperDisplay2;
+    private static Object lBumperDisplay1;
+    private static Object lBumperDisplay2;
+
     public static Object[] getExplosiveGuns() {
         return explosiveGuns;
     }
