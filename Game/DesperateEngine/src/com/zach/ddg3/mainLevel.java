@@ -389,7 +389,7 @@ public class mainLevel extends GameLevel
                         if(startInd == 1)
                         {
                             tempStartOffsetTimer = startOffsetTimer;
-                            kingSwan.speak("   B E G I N!", 0xff000000);
+                            kingSwan.speak("/    B E G I N!", 0xff000000);
                             GameManager.camera.setMovingAlongVector(false);
                             startInd++;
 
@@ -461,7 +461,6 @@ public class mainLevel extends GameLevel
                     if (GameManager.cameraPlayers.get(i) != null)
                     {
                         winner = GameManager.cameraPlayers.get(i);
-                        kingSwan.setPosition(0, -300);
                         break;
                     }
                 }
@@ -504,8 +503,7 @@ public class mainLevel extends GameLevel
                 tempHazardTimer = hazardTimer;
             }
 
-            if (flying)
-            {
+            if (flying) {
                 if (kingSwan.position.y > -400) {
                     kingSwan.position.y -= 50f * dt;
                 } else {
@@ -618,7 +616,6 @@ public class mainLevel extends GameLevel
         counter = new Object("counter", 128, 168, "/startNumbers.png", 5, 1f);
         starting = true;
         GameManager.objects.add(counter);
-        startInd = 0;
         counter.setFrame(4);
         //counter.isActiveOnPause = true;
         counter.zIndex = Integer.MAX_VALUE - 1;
@@ -862,7 +859,7 @@ public class mainLevel extends GameLevel
             }
         if(ostrichYSpeed == 0)
         {
-            ostrichYSpeed = random.nextInt(180) - 90;
+            ostrichYSpeed = random.nextInt(30) + 15;
         }
         weapon.shoot(90f, ostrichYSpeed);
         tempOstrichTimer -= dt;
@@ -1005,7 +1002,6 @@ public class mainLevel extends GameLevel
         winner = null;
         gameWon = false;
         speakInd = 0;
-        starting = false;
 
         for(int i = 0; i < players.size(); i++)
         {

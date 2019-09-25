@@ -26,21 +26,6 @@ public class selectionLevel extends GameLevel {
     private static Wall[] walls = new Wall[2];
     private static Wall door;
 
-    private static Object aButtonDisplay1;
-    private static Object aButtonDisplay2;
-    private static Object xButtonDisplay1;
-    private static Object xButtonDisplay2;
-    private static Object yButtonDisplay1;
-    private static Object yButtonDisplay2;
-    private static Object bButtonDisplay1;
-    private static Object bButtonDisplay2;
-    private static Object stickDisplay1;
-    private static Object stickDisplay2;
-    private static Object rBumperDisplay1;
-    private static Object rBumperDisplay2;
-    private static Object lBumperDisplay1;
-    private static Object lBumperDisplay2;
-
     public static Object[] getExplosiveGuns() {
         return explosiveGuns;
     }
@@ -49,8 +34,23 @@ public class selectionLevel extends GameLevel {
         selectionLevel.explosiveGuns = explosiveGuns;
     }
 
-    private static Object[] explosiveGuns = new Object[3];
+    private static Object[] explosiveGuns = new Object[4];
     private static boolean allReady = false;
+
+    private static Object fadeAway = new Object("fadeAway", 640, 360, "/fadeAway.png", 6, 0.3f);
+
+    private static Object aButton1 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
+    private static Object aButton2 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
+    private static Object xButton1 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
+    private static Object xButton2 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
+    private static Object bButton1 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
+    private static Object bButton2 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
+    private static Object yButton1 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
+    private static Object yButton2 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
+    private static Object lbButton1 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
+    private static Object lbButton2 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
+    private static Object rbButton1 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
+    private static Object rbButton2 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
 
     @Override
     public void init(Main main)
@@ -76,7 +76,7 @@ public class selectionLevel extends GameLevel {
 
         GameManager.textObjects.add(GameManager.altReloadText.get(0));
         GameManager.textObjects.add(GameManager.altReloadText.get(1));
-        explosiveGuns = new Object[3];
+        explosiveGuns = new Object[4];
 
         if(GameManager.firstTime)
         {
@@ -246,24 +246,66 @@ public class selectionLevel extends GameLevel {
         sideRails[1].zIndex = 2;
         sideRails[1].paddingTop = 10;
 
-        explosiveGuns[0] = new Object("explosiveGuns", 257, 52, "/explosiveSelections.png", 5, 0f);
+        explosiveGuns[0] = new Object("explosiveGuns0", 143, 33, "/beginnerSelections.png", 4, 0f);
         explosiveGuns[0].setTag("Selection");
         explosiveGuns[0].addComponent(new AABBComponent(explosiveGuns[0], "selection"));
-        explosiveGuns[0].setPosition(187, -782);
+        explosiveGuns[0].setPosition(-187, -772);
         explosiveGuns[0].zIndex = 6;
         GameManager.objects.add(explosiveGuns[0]);
         explosiveGuns[0].getObjImage().changeColor(players.get(0).getSkinColors()[1], players.get(0).getSkinColors()[players.get(0).getSkIndex()]);
 
-        explosiveGuns[1] = new Object("explosiveGuns1", 259, 54, "/explosiveSelections2.png", 5, 0f);
+        explosiveGuns[1] = new Object("explosiveGuns1", 145, 35, "/beginnerSelections2.png", 4, 0f);
         explosiveGuns[1].setTag("Selection");
         explosiveGuns[1].addComponent(new AABBComponent(explosiveGuns[1], "selection"));
         AABBComponent otherC = (AABBComponent) explosiveGuns[1].findComponentBySubtag("selection");
         otherC.setDesignatedPlayer(1);
-        explosiveGuns[1].setPosition(187, -782);
+        explosiveGuns[1].setPosition(-187, -772);
         explosiveGuns[1].zIndex = 5;
         explosiveGuns[1].getObjImage().changeColor(players.get(1).getSkinColors()[1], players.get(1).getSkinColors()[players.get(1).getSkIndex()]);
         GameManager.objects.add(explosiveGuns[1]);
 
+        explosiveGuns[2] = new Object("explosiveGuns2", 186, 52, "/advancedSelections.png", 4, 0f);
+        explosiveGuns[2].setTag("Selection");
+        explosiveGuns[2].addComponent(new AABBComponent(explosiveGuns[2], "selection"));
+        explosiveGuns[2].setPosition(187, -782);
+        explosiveGuns[2].zIndex = 6;
+        GameManager.objects.add(explosiveGuns[2]);
+        explosiveGuns[2].getObjImage().changeColor(players.get(0).getSkinColors()[1], players.get(0).getSkinColors()[players.get(0).getSkIndex()]);
+
+        explosiveGuns[3] = new Object("explosiveGuns3", 190, 54, "/advancedSelections2.png", 4, 0f);
+        explosiveGuns[3].setTag("Selection");
+        explosiveGuns[3].addComponent(new AABBComponent(explosiveGuns[3], "selection"));
+        AABBComponent otherC2 = (AABBComponent) explosiveGuns[3].findComponentBySubtag("selection");
+        otherC2.setDesignatedPlayer(1);
+        explosiveGuns[3].setPosition(187, -782);
+        explosiveGuns[3].zIndex = 5;
+        explosiveGuns[3].getObjImage().changeColor(players.get(1).getSkinColors()[1], players.get(1).getSkinColors()[players.get(1).getSkIndex()]);
+        GameManager.objects.add(explosiveGuns[3]);
+
+        GameManager.objects.add(aButton1);
+        aButton1.position = new Vector(-174, -810);
+        aButton1.zIndex = 100;
+        aButton1.visible = false;
+        GameManager.objects.add(aButton2);
+        aButton2.position = new Vector(187, -824);
+        aButton2.zIndex = 100;
+        aButton2.visible = false;
+
+        GameManager.objects.add(bButton1);
+        bButton1.position = new Vector(-174, -810);
+        bButton1.setFrame(1);
+        bButton1.zIndex = 100;
+        bButton1.visible = false;
+        GameManager.objects.add(bButton2);
+        bButton2.position = new Vector(187, -824);
+        bButton2.setFrame(1);
+        bButton2.zIndex = 100;
+        bButton2.visible = false;
+
+        GameManager.objects.add(xButton1);
+        xButton1.setFrame(2);
+        xButton1.zIndex = 100;
+        xButton1.visible = true;
         /*explosiveGuns[2] = new Object("explosiveGuns2", 259, 54, "/explosiveSelections2.png", 5, 0f);
         explosiveGuns[2].setTag("Selection");
         explosiveGuns[2].addComponent(new AABBComponent(explosiveGuns[2], "selection"));
@@ -277,11 +319,18 @@ public class selectionLevel extends GameLevel {
         {
             GameManager.objects.add(GameManager.timePedestals.get(i));
         }*/
+
+        GameManager.objects.add(fadeAway);
+        fadeAway.zIndex = Integer.MAX_VALUE;
+        fadeAway.setPosition(GameManager.center.position.x, GameManager.center.position.y);
+        fadeAway.playReverseInRange(5, 0);
     }
 
     @Override
     public void update(Main main, float dt)
     {
+        aButton1.visible = false;
+        aButton2.visible = false;
         if(players.get(0).isInGame())
         {
             readyUp(door, dt);
@@ -304,7 +353,18 @@ public class selectionLevel extends GameLevel {
             }
             else if(!players.get(i).isSelecting())
             {
-                explosiveGuns[i].setFrame(4);
+                explosiveGuns[i].setFrame(3);
+                aButton1.visible = true;
+            }
+
+            if(!players.get(i).isNearSelect2() && !players.get(i).isSelecting())
+            {
+                explosiveGuns[i + 2].setFrame(0);
+            }
+            else if(!players.get(i).isSelecting())
+            {
+                explosiveGuns[i + 2].setFrame(3);
+                aButton2.visible = true;
             }
         }
     }
@@ -350,5 +410,101 @@ public class selectionLevel extends GameLevel {
         {
             GameManager.objects.remove(GameManager.timePedestals.get(i));
         }
+    }
+
+    public static Object getaButton1() {
+        return aButton1;
+    }
+
+    public static void setaButton1(Object aButton1) {
+        selectionLevel.aButton1 = aButton1;
+    }
+
+    public static Object getaButton2() {
+        return aButton2;
+    }
+
+    public static void setaButton2(Object aButton2) {
+        selectionLevel.aButton2 = aButton2;
+    }
+
+    public static Object getxButton1() {
+        return xButton1;
+    }
+
+    public static void setxButton1(Object xButton1) {
+        selectionLevel.xButton1 = xButton1;
+    }
+
+    public static Object getxButton2() {
+        return xButton2;
+    }
+
+    public static void setxButton2(Object xButton2) {
+        selectionLevel.xButton2 = xButton2;
+    }
+
+    public static Object getbButton1() {
+        return bButton1;
+    }
+
+    public static void setbButton1(Object bButton1) {
+        selectionLevel.bButton1 = bButton1;
+    }
+
+    public static Object getbButton2() {
+        return bButton2;
+    }
+
+    public static void setbButton2(Object bButton2) {
+        selectionLevel.bButton2 = bButton2;
+    }
+
+    public static Object getyButton1() {
+        return yButton1;
+    }
+
+    public static void setyButton1(Object yButton1) {
+        selectionLevel.yButton1 = yButton1;
+    }
+
+    public static Object getyButton2() {
+        return yButton2;
+    }
+
+    public static void setyButton2(Object yButton2) {
+        selectionLevel.yButton2 = yButton2;
+    }
+
+    public static Object getLbButton1() {
+        return lbButton1;
+    }
+
+    public static void setLbButton1(Object lbButton1) {
+        selectionLevel.lbButton1 = lbButton1;
+    }
+
+    public static Object getLbButton2() {
+        return lbButton2;
+    }
+
+    public static void setLbButton2(Object lbButton2) {
+        selectionLevel.lbButton2 = lbButton2;
+    }
+
+    public static Object getRbButton1() {
+        return rbButton1;
+    }
+
+    public static void setRbButton1(Object rbButton1) {
+        selectionLevel.rbButton1 = rbButton1;
+    }
+
+    public static Object getRbButton2() {
+        return rbButton2;
+    }
+
+    public static void setRbButton2(Object rbButton2) {
+        selectionLevel.rbButton2 = rbButton2;
     }
 }

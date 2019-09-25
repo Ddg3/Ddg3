@@ -19,12 +19,18 @@ public class titleLevel extends GameLevel
     private static Player player1;
     private static float timer = 0.0f;
     private static float posX = 0;
-
     private static float blinkTimer = 1.0f;
+    private static float loadTimer = 0.2f;
+
+    private static Object fadeAway = new Object("fadeAway", 640, 360, "/fadeAway.png", 6, 0.1f);
 
     @Override
     public void init(Main main)
     {
+        GameManager.objects.add(fadeAway);
+        fadeAway.setPosition(0,0);
+        //fadeAway.setFrame(0);
+        fadeAway.zIndex = Integer.MAX_VALUE;
         //this.bottomCamera = 0;
         //this.topCamera = 0;
 
@@ -87,9 +93,20 @@ public class titleLevel extends GameLevel
         }
         if(swan.anim == 10)
         {
-            GameManager.camera.boundsRange = 0;
-            uninit();
-            GameManager.gameLevelManager.setGameState(GameLevelManager.GameState.SELECTION_STATE);
+            if(fadeAway.getFrame() == 0)
+            {
+                fadeAway.playToAndDestroy(0, 6);
+                enterText.visible = false;
+                blinkTimer = 100;
+            }
+            loadTimer -= dt;
+
+            if(fadeAway.getFrame() == 5 && loadTimer <= 0)
+            {
+                GameManager.camera.boundsRange = 0;
+                uninit();
+                GameManager.gameLevelManager.setGameState(GameLevelManager.GameState.SELECTION_STATE);
+            }
         }
         if(blinkTimer <= 0)
         {
@@ -112,10 +129,6 @@ public class titleLevel extends GameLevel
     @Override
     public void uninit()
     {
-        /*while(this.fadeAway != null)
-        {
-            fade();
-        }*/
         GameManager.objects.clear();
         GameManager.textObjects.clear();
         horizBounds.clear();

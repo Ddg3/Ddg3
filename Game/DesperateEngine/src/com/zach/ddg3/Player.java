@@ -203,6 +203,17 @@ public class Player extends Object
 
     private boolean isRemoved = false;
     private boolean nearSelect = false;
+
+    public boolean isNearSelect2() {
+        return nearSelect2;
+    }
+
+    public void setNearSelect2(boolean nearSelect2) {
+        this.nearSelect2 = nearSelect2;
+    }
+
+    private boolean nearSelect2 = false;
+    private int selectIndex = 0;
     private boolean isTimedOut = false;
     private boolean isGrabbed = false;
     private boolean colorKeyUp = true;
@@ -281,6 +292,7 @@ public class Player extends Object
     public void update(Main main, GameManager gameManager, float dt)
     {
         nearSelect = false;
+        nearSelect2 = false;
         selected = false;
         collidingTop = false;
         collidingBottom = false;
@@ -454,15 +466,35 @@ public class Player extends Object
             AABBComponent otherC = (AABBComponent) other.findComponentBySubtag("selection");
             if (otherC.getDesignatedPlayer() == playerNumber)
             {
-                nearSelect = true;
+                if(other.position.x <= 0)
+                {
+                    nearSelect = true;
+                }
+                else
+                {
+                    nearSelect2 = true;
+                }
                 if ((this.device.getDelta().getButtons().isPressed(XInputButton.A) || main.getInput().isKeyDown(keySelect)) && this.isInGame() && !selecting && !selected)
                 {
+                    if(other.position.x <= 0)
+                    {
+                        selectIndex = 0;
+                    }
+                    else
+                        {
+                            selectIndex = 1;
+                        }
+                    selectionLevel.getbButton1().visible = false;
+                    selectionLevel.getbButton2().visible = false;
                     selecting = true;
                     selection = other;
                     selection.setFrame(1);
                 }
 
-                if ((this.device.getDelta().getButtons().isPressed(XInputButton.B) || main.getInput().isKey(keyDeselect)) && this.isInGame() && selecting) {
+                if ((this.device.getDelta().getButtons().isPressed(XInputButton.B) || main.getInput().isKey(keyDeselect)) && this.isInGame() && selecting)
+                {
+                    selectionLevel.getbButton1().visible = false;
+                    selectionLevel.getbButton2().visible = false;
                     selection.setFrame(0);
                     selecting = false;
                     selection = null;
@@ -526,6 +558,7 @@ public class Player extends Object
             if(gameManager.gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
             {
                 selectionLevel.getExplosiveGuns()[playerNumber].getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
+                selectionLevel.getExplosiveGuns()[playerNumber + 2].getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
             }
         }
 
@@ -871,13 +904,21 @@ public class Player extends Object
 
     public void select(Object selection, Main main)
     {
+        if(selectIndex == 0)
+        {
+            selectionLevel.getbButton1().visible = true;
+        }
+        else
+            {
+                selectionLevel.getbButton2().visible = true;
+            }
         //Left
         if(!stickSelecting)
         {
             if (lStickX > 0.4f)
             {
                 if (selection.getFrame() == 1) {
-                    selection.setFrame(3);
+                    selection.setFrame(2);
                     stickSelecting = true;
                     return;
                 } else
@@ -889,7 +930,7 @@ public class Player extends Object
 
             //Right
             if (lStickX < -0.4f) {
-                if (selection.getFrame() == 3)
+                if (selection.getFrame() == 2)
                 {
                     selection.setFrame(1);
                     stickSelecting = true;
@@ -913,7 +954,7 @@ public class Player extends Object
             {
                 if (selection.getFrame() == 1)
                 {
-                    selection.setFrame(3);
+                    selection.setFrame(2);
                     return;
 
                 }
@@ -925,7 +966,7 @@ public class Player extends Object
 
             //Right
             if (main.getInput().isKeyDown(keyRight)) {
-                if (selection.getFrame() == 3)
+                if (selection.getFrame() == 2)
                 {
                     selection.setFrame(1);
                     return;
@@ -949,47 +990,58 @@ public class Player extends Object
             switch (selection.getFrame())
             {
                 case 1:
-                    this.addComponent(new WeaponComponent(this, "rocketLauncher"));
-                    newWidth = 102;
-                    newHeight = 81;
-                    newPath = "/Duck_rocketLauncher.png";
-                    newFrames = 16;
+                    if(selectIndex == 0)
+                    {
+                        this.addComponent(new WeaponComponent(this, "rocketLauncher"));
+                        newWidth = 102;
+                        newHeight = 81;
+                        newPath = "/Duck_rocketLauncher.png";
+                        newFrames = 16;
 
-                    indWidth = 43;
-                    indHeight = 29;
-                    indPath = "/missileIndicator.png";
+                        indWidth = 43;
+                        indHeight = 29;
+                        indPath = "/missileIndicator.png";
+                    }
+                    else
+                        {
+                            this.addComponent(new WeaponComponent(this, "cannon"));
+                            newWidth = 101;
+                            newHeight = 103;
+                            newPath = "/Duck_cannon.png";
+                            newFrames = 8;
+
+                            indWidth = 23;
+                            indHeight = 30;
+                            indPath = "/stunBombIndicator.png";
+                        }
                     break;
 
                 case 2:
-                    this.addComponent(new WeaponComponent(this, "grenadeLauncher"));
-                    newWidth = 78;
-                    newHeight = 69;
-                    newPath = "/Duck_grenadeLauncher.png";
-                    newFrames = 16;
+                    if(selectIndex == 0)
+                    {
+                        this.addComponent(new WeaponComponent(this, "grenadeLauncher"));
+                        newWidth = 78;
+                        newHeight = 69;
+                        newPath = "/Duck_grenadeLauncher.png";
+                        newFrames = 16;
 
-                    indWidth = 36;
-                    indHeight = 43;
-                    indPath = "/mirvIndicator.png";
+                        indWidth = 36;
+                        indHeight = 43;
+                        indPath = "/mirvIndicator.png";
+                    }
+                    else
+                        {
+                            this.addComponent(new WeaponComponent(this, "sniper"));
+                            newWidth = 78;
+                            newHeight = 69;
+                            newPath = "/Duck_grenadeLauncher.png";
+                            newFrames = 16;
+
+                            indWidth = 36;
+                            indHeight = 43;
+                            indPath = "/mirvIndicator.png";
+                        }
                     break;
-
-                case 3:
-                    this.addComponent(new WeaponComponent(this, "cannon"));
-                    newWidth = 101;
-                    newHeight = 103;
-                    newPath = "/Duck_cannon.png";
-                    newFrames = 8;
-
-                    indWidth = 23;
-                    indHeight = 30;
-                    indPath = "/stunBombIndicator.png";
-                    break;
-
-                /*case 4:
-                    newWidth = 101;
-                    newHeight = 76;
-                    newPath = "/Duck_sniper.png";
-                    newFrames = 8;
-                    break;*/
             }
             widthDifference = newWidth - this.width;
             heightDifference = newHeight - this.height;
@@ -1020,6 +1072,8 @@ public class Player extends Object
             offsetHitboxes();
             WeaponComponent weapon = (WeaponComponent) this.findComponent("Weapon");
             offsetSubHitboxes((int)(widthDifference / 1.8), heightDifference, weapon.getSubTag());
+            selectionLevel.getbButton1().visible = false;
+            selectionLevel.getbButton2().visible = false;
         }
     }
 
@@ -1033,7 +1087,6 @@ public class Player extends Object
         WeaponComponent weapon = (WeaponComponent) this.findComponent("Weapon");
         if(isGoose)
         {
-            device.setVibration(100,100);
             switch (weapon.getSubTag())
             {
                 case "rocketLauncher":
@@ -1058,12 +1111,6 @@ public class Player extends Object
                     newPath = "/Goose_cannon.png";
                     newFrames = 8;
                     break;
-                /*case "sniper":
-                    newWidth = 101;
-                    newHeight = 76;
-                    newPath = "/Duck_sniper.png";
-                    newFrames = 8;
-                    break;*/
             }
 
             widthDifference = newWidth - this.width;
@@ -1108,12 +1155,6 @@ public class Player extends Object
                         newPath = "/Duck_cannon.png";
                         newFrames = 8;
                         break;
-                    /*case "sniper":
-                        newWidth = 101;
-                        newHeight = 76;
-                        newPath = "/Duck_sniper.png";
-                        newFrames = 8;
-                        break;*/
                 }
                 widthDifference = newWidth - this.width;
                 heightDifference = newHeight - this.height;
@@ -1176,13 +1217,6 @@ public class Player extends Object
                 offsetCenterXBody = new int[]{0, 0, -2, 0, 0, 6, 12, 10};
                 offsetCenterYBody = new int[]{-9, -9, -9, -7, -11, -7, -9, -9};
                 break;
-            case "sniper":
-                offsetCenterXHead = new int[]{0, 0, -15, 0, 0, -1, 14, -1};
-                offsetCenterYHead = new int[]{-17, -17, -17, -16, -18, -16, -17, -17};
-                offsetCenterXBody = new int[]{0, -10, -23, -3, 0, 3, 23, 10};
-                offsetCenterYBody = new int[]{12, 12, 12, 16, 9, 16, 12, 12};
-                break;
-
         }
     }
 
