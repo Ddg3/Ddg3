@@ -222,6 +222,16 @@ public class Player extends Object
     private float stunTimer = 2.5f;
     private float tempStun = stunTimer;
 
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    private float speed = 150f;
+
     public boolean isKeyBoard() {
         return isKeyBoard;
     }
@@ -380,6 +390,33 @@ public class Player extends Object
             /*timer.setPosition(this.position.x, this.position.y - 50);
             timer.visible = true;*/
         }
+        else if(GameManager.gameLevelManager.gameState == GameLevelManager.GameState.SELECTION_STATE)
+        {
+            if(playerNumber == 0)
+            {
+                if(selectionLevel.getxButton1() != null && GameManager.timePedestals.get(0) != null)
+                {
+                    selectionLevel.getxButton1().setPosition(new Vector(GameManager.center.position.x - 300, GameManager.center.position.y + 114));
+                    selectionLevel.getxButton1().visible = true;
+                }
+                if(selectionLevel.getyButton1() != null && GameManager.timePedestals.get(0) != null)
+                {
+                    selectionLevel.getyButton1().setPosition(new Vector(GameManager.center.position.x - 283, GameManager.center.position.y + 114));
+                    selectionLevel.getyButton1().visible = true;
+                }
+            }
+            else
+                {
+                    if(selectionLevel.getxButton2() != null && GameManager.timePedestals.get(1) != null)
+                    {
+                        selectionLevel.getxButton2().setPosition(new Vector(GameManager.center.position.x - 300, GameManager.center.position.y + 114));
+                    }
+                    if(selectionLevel.getyButton2() != null && GameManager.timePedestals.get(1) != null)
+                    {
+                        selectionLevel.getyButton2().setPosition(new Vector(GameManager.center.position.x - 290, GameManager.center.position.y + 114));
+                    }
+                }
+        }
         if(isGoose)
         {
             tempSecond -= dt;
@@ -517,39 +554,48 @@ public class Player extends Object
         }
     }
 
-    public void changeSkin(GameManager gameManager, Main main)
-    {
+    public void changeSkin(GameManager gameManager, Main main) {
         int oldSkindex = skIndex;
-        if(GameManager.gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
-        {
-            if(!colorKeyUp && (isKeyBoard && (main.getInput().isKeyUp(keyColor1) || main.getInput().isKeyUp(keyColor2))))
-            {
+        if (GameManager.gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE) {
+            if (!colorKeyUp && (isKeyBoard && (main.getInput().isKeyUp(keyColor1) || main.getInput().isKeyUp(keyColor2)))) {
                 colorKeyUp = true;
             }
-            if(buttons.isPressed(XInputButton.X) || (isKeyBoard && main.getInput().isKey(keyColor1) && colorKeyUp))
-            {
-                if(skIndex == 0)
-                {
+            if (buttons.isPressed(XInputButton.X) || (isKeyBoard && main.getInput().isKey(keyColor1) && colorKeyUp)) {
+                if (skIndex == 0) {
                     skIndex = 7;
+                } else {
+                    skIndex--;
+                    colorKeyUp = false;
                 }
-                else
-                    {
-                        skIndex--;
-                        colorKeyUp = false;
-                    }
+                if (playerNumber == 0) {
+                    if (selectionLevel.getxButton1() != null)
+                        GameManager.objects.remove(selectionLevel.getxButton1());
+                } else {
+                    if (selectionLevel.getxButton2() != null)
+                        GameManager.objects.remove(selectionLevel.getxButton2());
+                }
             }
-            if(buttons.isPressed(XInputButton.Y)|| (isKeyBoard && main.getInput().isKey(keyColor2) && colorKeyUp))
-            {
-                if (skIndex == 7)
+        }
+        if (buttons.isPressed(XInputButton.Y) || (isKeyBoard && main.getInput().isKey(keyColor2) && colorKeyUp))
+        {
+            if (skIndex == 7) {
+                skIndex = 0;
+            } else
                 {
-                    skIndex = 0;
-                }
-                else
-                    {
-                      skIndex++;
-                        colorKeyUp = false;
-                    }
+                skIndex++;
+                colorKeyUp = false;
             }
+
+            if (playerNumber == 0)
+            {
+                if (selectionLevel.getyButton1() != null)
+                    GameManager.objects.remove(selectionLevel.getyButton1());
+            } else
+                {
+                if (selectionLevel.getyButton2() != null)
+                    GameManager.objects.remove(selectionLevel.getyButton2());
+            }
+        }
             this.getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
 
             GameManager.timePedestals.get(playerNumber).getObjImage().changeColor(skinColors[oldSkindex],
@@ -560,7 +606,6 @@ public class Player extends Object
                 selectionLevel.getExplosiveGuns()[playerNumber].getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
                 selectionLevel.getExplosiveGuns()[playerNumber + 2].getObjImage().changeColor(skinColors[oldSkindex], skinColors[skIndex]);
             }
-        }
 
     }
 
@@ -652,7 +697,7 @@ public class Player extends Object
         {
             if(!collidingRight)
             {
-                this.position.x -= 150f * dt;
+                this.position.x -= speed * dt;
             }
             if (rStickX < 0.4f && rStickX > -0.4f)
             {
@@ -664,7 +709,7 @@ public class Player extends Object
         {
             if(!collidingLeft)
             {
-                this.position.x += 150f * dt;
+                this.position.x += speed * dt;
             }
             if (rStickX < 0.4f && rStickX > -0.4f) {
                 this.setFrame(2 + this.getFrameOffset());
@@ -676,7 +721,7 @@ public class Player extends Object
         {
             if(!collidingTop)
             {
-                this.position.y += 150f * dt;
+                this.position.y += speed * dt;
             }
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(0 + this.getFrameOffset());
@@ -688,7 +733,7 @@ public class Player extends Object
         {
             if(!collidingBottom)
             {
-                this.position.y -= 150f * dt;
+                this.position.y -= speed * dt;
             }
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(4 + this.getFrameOffset());
@@ -768,7 +813,7 @@ public class Player extends Object
         {
             if(!collidingRight)
             {
-                this.position.x += -200f * dt;
+                this.position.x += -speed * dt;
             }
             this.setFrame(6 + this.getFrameOffset());
 
@@ -777,7 +822,7 @@ public class Player extends Object
         {
             if(!collidingLeft)
             {
-                this.position.x += 200f * dt;
+                this.position.x += speed * dt;
             }
             this.setFrame(2 + this.getFrameOffset());
         }
@@ -786,7 +831,7 @@ public class Player extends Object
         {
             if(!collidingTop)
             {
-                this.position.y += 200f * dt;
+                this.position.y += speed * dt;
             }
             this.setFrame(0 + this.getFrameOffset());
         }
@@ -794,7 +839,7 @@ public class Player extends Object
         {
             if(!collidingBottom)
             {
-                this.position.y += -200f * dt;
+                this.position.y += -speed * dt;
             }
             this.setFrame(4 + this.getFrameOffset());
         }
@@ -1032,14 +1077,14 @@ public class Player extends Object
                     else
                         {
                             this.addComponent(new WeaponComponent(this, "sniper"));
-                            newWidth = 78;
-                            newHeight = 69;
-                            newPath = "/Duck_grenadeLauncher.png";
-                            newFrames = 16;
+                            newWidth = 101;
+                            newHeight = 76;
+                            newPath = "/Duck_sniper.png";
+                            newFrames = 8;
 
-                            indWidth = 36;
-                            indHeight = 43;
-                            indPath = "/mirvIndicator.png";
+                            indWidth = 12;
+                            indHeight = 12;
+                            indPath = "/sniper_Bullet.png";
                         }
                     break;
             }
@@ -1111,6 +1156,13 @@ public class Player extends Object
                     newPath = "/Goose_cannon.png";
                     newFrames = 8;
                     break;
+
+                case "sniper":
+                    newWidth = 108;
+                    newHeight = 92;
+                    newPath = "/Goose_sniper.png";
+                    newFrames = 8;
+                    break;
             }
 
             widthDifference = newWidth - this.width;
@@ -1153,6 +1205,12 @@ public class Player extends Object
                         newWidth = 101;
                         newHeight = 103;
                         newPath = "/Duck_cannon.png";
+                        newFrames = 8;
+                        break;
+                    case "sniper":
+                        newWidth = 101;
+                        newHeight = 76;
+                        newPath = "/Duck_sniper.png";
                         newFrames = 8;
                         break;
                 }

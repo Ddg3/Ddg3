@@ -16,6 +16,7 @@ public class WeaponComponent extends Component
     private float altCooldown = 8.0f;
     private float tempAltCooldown = /*altCooldown*/ 0;
     private boolean isCharged = false;
+    private float chargeTimer = 0;
     private boolean bounces = false;
     private int bounceCount = 0;
     private float speed = 50f;
@@ -36,6 +37,7 @@ public class WeaponComponent extends Component
     private boolean animChangedOnShoot = false;
     private boolean stopsAtWall = false;
     private boolean hasDirection = true;
+    private int dirIncrease = 0;
 
     private boolean parentIsPlayer = false;
     private int playerNumber = Integer.MAX_VALUE;
@@ -59,6 +61,7 @@ public class WeaponComponent extends Component
     private int explosionHeight = 82;
     private int explosionFrames = 25;
     private String explosionPath = "/explosion.png";
+    private float playerBaseSpeed = 150f;
 
     public boolean isTriggered = false;
     public Vector triggerPoint = new Vector(0,0);
@@ -117,7 +120,7 @@ public class WeaponComponent extends Component
             }
             altShoot(main);
             if (this.isCharged) {
-                chargeShoot();
+                chargeShoot(main, dt);
             }
 
             if (this.detonated)
@@ -136,6 +139,40 @@ public class WeaponComponent extends Component
                                 }
                             }
                         }
+                }
+            }
+
+            if(this.dirIncrease > 0)
+            {
+                if (!player.isTimedOut())
+                {
+                    if ((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER)
+                            || (player.isKeyBoard() && main.getInput().isButtonDown(MouseEvent.BUTTON3))))
+                    {
+                        for(int i = 0; i < bullets.size(); i++)
+                        {
+                            if(bullets.get(i).getDirection() < 6)
+                            {
+                                bullets.get(i).setDirection(bullets.get(i).getDirection() + dirIncrease);
+                                bullets.get(i).setFrame(bullets.get(i).getFrame() + dirIncrease);
+                            }
+                            else
+                                {
+                                    switch(bullets.get(i).getDirection())
+                                    {
+                                        case 6:
+                                            bullets.get(i).setDirection(0);
+                                            bullets.get(i).setFrame(0);
+                                            break;
+                                        case 7:
+                                            bullets.get(i).setDirection(1);
+                                            bullets.get(i).setFrame(1);
+                                            break;
+                                    }
+
+                                }
+                        }
+                    }
                 }
             }
 
@@ -326,9 +363,50 @@ public class WeaponComponent extends Component
         }
     }
 
-    public void chargeShoot()
+    public void chargeShoot(Main main, float dt)
     {
+        if(parent.getTag().equalsIgnoreCase("Player"))
+        {
+            exploding = false;
+            Player player = (Player) parent;
+            if (!player.isTimedOut())
+            {
+                if ((player.device.getDelta().getButtons().isPressed(XInputButton.RIGHT_SHOULDER) ||
+                        (player.isKeyBoard() && main.getInput().isButton(MouseEvent.BUTTON1))) && tempCooldown <= 0)
+                {
+                    isCharging = true;
+                }
+            }
+            if(isCharging)
+            {
+                if(player.getSpeed() >= 0)
+                {
+                    player.setSpeed(playerBaseSpeed - (chargeTimer * 15));
+                }
+                chargeTimer += dt;
+            }
+            if ((player.device.getDelta().getButtons().isReleased(XInputButton.RIGHT_SHOULDER) ||
+                    (player.isKeyBoard() && main.getInput().isButtonUp(MouseEvent.BUTTON1))) && tempCooldown <= 0 && isCharging)
+            {
+                Bullet bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
+                Vector offset;
+                if (!player.isGoose()) {
+                    offset = bulletOffsetD[player.getFrame()];
+                } else {
+                    offset = bulletOffsetG[player.getFrame()];
+                }
+                bullet.setPosition(parent.getPositionX() + offset.getX(), parent.getPositionY() + offset.getY());
+                bullet.getObjImage().changeColor(player.getSkinColors()[1], player.getSkinColors()[player.getSkIndex()]);
+                GameManager.objects.add(bullet);
+                bullet.setSpeed(bullet.getSpeed() + (chargeTimer * 90));
+                bullets.add(bullet);
 
+                player.setSpeed(playerBaseSpeed + (chargeTimer * 15));
+                tempCooldown = shotCooldown;
+                isCharging = false;
+                chargeTimer = 0;
+            }
+        }
     }
 
     public void chooseWeapon(String weaponName)
@@ -469,6 +547,43 @@ public class WeaponComponent extends Component
                 bulletOffsetG[7] = new Vector(-30,22);
                 break;
 
+            case "sniper":
+                speed = 130f;
+                explodes = true;
+                dirIncrease = 2;
+                isCharged = true;
+                shotCooldown = 0.4f;
+
+                bulletPath = "/sniper_Bullet.png";
+                bulletWidth = 25;
+                bulletHeight = 25;
+                bulletFrames = 8;
+                bulletFrameTime = 0.1f;
+
+                altWidth = 25;
+                altHeight = 25;
+                altFrames = 8;
+                altPath = "/sniper_Bullet.png";
+
+                bulletOffsetD[0] = new Vector(-8,2);
+                bulletOffsetD[1] = new Vector(30,22);
+                bulletOffsetD[2] = new Vector(32,-2);
+                bulletOffsetD[3] = new Vector(31,-26);
+                bulletOffsetD[4] = new Vector(10,-4);
+                bulletOffsetD[5] = new Vector(-31,-26);
+                bulletOffsetD[6] = new Vector(-32,-2);
+                bulletOffsetD[7] = new Vector(-30,22);
+
+                bulletOffsetG[0] = new Vector(-10,4);
+                bulletOffsetG[1] = new Vector(24,24);
+                bulletOffsetG[2] = new Vector(32,-2);
+                bulletOffsetG[3] = new Vector(31,-26);
+                bulletOffsetG[4] = new Vector(10,-4);
+                bulletOffsetG[5] = new Vector(-31,-26);
+                bulletOffsetG[6] = new Vector(-32,-2);
+                bulletOffsetG[7] = new Vector(-30,22);
+                break;
+
             case "ostrichLauncher":
                 speed = 90f;
                 explodes = true;
@@ -485,6 +600,15 @@ public class WeaponComponent extends Component
                 break;
         }
     }
+
+    public int getDirIncrease() {
+        return dirIncrease;
+    }
+
+    public void setDirIncrease(int dirIncrease) {
+        this.dirIncrease = dirIncrease;
+    }
+
 
     public boolean isOstrich() {
         return isOstrich;

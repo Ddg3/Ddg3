@@ -190,7 +190,7 @@ public class AABBComponent extends Component
     @Override
     public void render(Main main, Renderer renderer)
     {
-        if(this.getSubTag() == "wall" || this.subTag == "selection" || this.getSubTag() == "bullet" || this.getSubTag() == "player" || this.getSubTag() == "head" || this.getSubTag() == "body")
+        if(this.getSubTag() == "wall" || this.subTag == "selection" || this.getSubTag() == "bullet" || this.getSubTag() == "player" || this.getSubTag() == "head" || this.getSubTag() == "body" || this.getSubTag() == "trigger")
         {
             renderer.drawFillRectangle(centerX - halfWidth + 320, centerY - halfHeight + 180, halfWidth * 2, halfHeight * 2, color);
             renderer.setPixel(centerX + 320, centerY + 180, 0xffff0000);

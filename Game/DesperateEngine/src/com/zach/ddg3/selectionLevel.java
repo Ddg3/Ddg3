@@ -17,14 +17,16 @@ public class selectionLevel extends GameLevel {
     private static Wall[] statues = new Wall[12];
     private static Wall[] sideRails = new Wall[2];
     private static Object floor;
+    private static Object floor2;
     private static Wall arch;
     private static Wall archRef;
     private static Object archBridge;
 
-    private static Object floor2;
     private static Wall doorframe;
     private static Wall[] walls = new Wall[2];
     private static Wall door;
+    private static Object bSign;
+    private static Object aSign;
 
     public static Object[] getExplosiveGuns() {
         return explosiveGuns;
@@ -105,6 +107,17 @@ public class selectionLevel extends GameLevel {
             GameManager.objects.add(GameManager.templatePedestals.get(1));
             GameManager.textObjects.add(GameManager.templateText.get(0));
             GameManager.textObjects.add(GameManager.templateText.get(1));
+
+            bSign = new Object("bSign", 119, 110, "/textSigns.png", 2, 0f);
+            bSign.position = new Vector(-174, -980);
+            GameManager.objects.add(bSign);
+            bSign.zIndex = 99;
+
+            aSign = new Object("aSign", 119, 110, "/textSigns.png", 2, 0f);
+            aSign.setFrame(1);
+            aSign.position = new Vector(174, -980);
+            GameManager.objects.add(aSign);
+            aSign.zIndex = 99;
         }
         else
             {
@@ -138,6 +151,17 @@ public class selectionLevel extends GameLevel {
                 {
                     GameManager.objects.add(GameManager.indicators.get(i));
                 }
+
+                bSign = new Object("bSign", 119, 110, "/textSigns.png", 2, 0f);
+                bSign.position = new Vector(-174, -880);
+                GameManager.objects.add(bSign);
+                bSign.zIndex = 99;
+
+                aSign = new Object("aSign", 119, 110, "/textSigns.png", 2, 0f);
+                aSign.setFrame(1);
+                aSign.position = new Vector(174, -880);
+                GameManager.objects.add(aSign);
+                aSign.zIndex = 99;
             }
 
 
@@ -250,7 +274,7 @@ public class selectionLevel extends GameLevel {
         explosiveGuns[0].setTag("Selection");
         explosiveGuns[0].addComponent(new AABBComponent(explosiveGuns[0], "selection"));
         explosiveGuns[0].setPosition(-187, -772);
-        explosiveGuns[0].zIndex = 6;
+        explosiveGuns[0].zIndex = 5;
         GameManager.objects.add(explosiveGuns[0]);
         explosiveGuns[0].getObjImage().changeColor(players.get(0).getSkinColors()[1], players.get(0).getSkinColors()[players.get(0).getSkIndex()]);
 
@@ -260,7 +284,7 @@ public class selectionLevel extends GameLevel {
         AABBComponent otherC = (AABBComponent) explosiveGuns[1].findComponentBySubtag("selection");
         otherC.setDesignatedPlayer(1);
         explosiveGuns[1].setPosition(-187, -772);
-        explosiveGuns[1].zIndex = 5;
+        explosiveGuns[1].zIndex = 4;
         explosiveGuns[1].getObjImage().changeColor(players.get(1).getSkinColors()[1], players.get(1).getSkinColors()[players.get(1).getSkIndex()]);
         GameManager.objects.add(explosiveGuns[1]);
 
@@ -268,7 +292,7 @@ public class selectionLevel extends GameLevel {
         explosiveGuns[2].setTag("Selection");
         explosiveGuns[2].addComponent(new AABBComponent(explosiveGuns[2], "selection"));
         explosiveGuns[2].setPosition(187, -782);
-        explosiveGuns[2].zIndex = 6;
+        explosiveGuns[2].zIndex = 5;
         GameManager.objects.add(explosiveGuns[2]);
         explosiveGuns[2].getObjImage().changeColor(players.get(0).getSkinColors()[1], players.get(0).getSkinColors()[players.get(0).getSkIndex()]);
 
@@ -278,7 +302,7 @@ public class selectionLevel extends GameLevel {
         AABBComponent otherC2 = (AABBComponent) explosiveGuns[3].findComponentBySubtag("selection");
         otherC2.setDesignatedPlayer(1);
         explosiveGuns[3].setPosition(187, -782);
-        explosiveGuns[3].zIndex = 5;
+        explosiveGuns[3].zIndex = 4;
         explosiveGuns[3].getObjImage().changeColor(players.get(1).getSkinColors()[1], players.get(1).getSkinColors()[players.get(1).getSkIndex()]);
         GameManager.objects.add(explosiveGuns[3]);
 
@@ -305,7 +329,12 @@ public class selectionLevel extends GameLevel {
         GameManager.objects.add(xButton1);
         xButton1.setFrame(2);
         xButton1.zIndex = 100;
-        xButton1.visible = true;
+        xButton1.visible = false;
+
+        GameManager.objects.add(yButton1);
+        yButton1.setFrame(3);
+        yButton1.zIndex = 100;
+        yButton1.visible = false;
         /*explosiveGuns[2] = new Object("explosiveGuns2", 259, 54, "/explosiveSelections2.png", 5, 0f);
         explosiveGuns[2].setTag("Selection");
         explosiveGuns[2].addComponent(new AABBComponent(explosiveGuns[2], "selection"));
@@ -331,14 +360,19 @@ public class selectionLevel extends GameLevel {
     {
         aButton1.visible = false;
         aButton2.visible = false;
-        if(players.get(0).isInGame())
+        if(players.get(0).isInGame() && players.get(1).isInGame())
         {
             readyUp(door, dt);
         }
         if(GameManager.firstTime)
         {
-            if (!players.get(1).visible) {
+            if (!players.get(1).visible)
+            {
                 players.get(1).position.y = GameManager.center.position.y - 220;
+            }
+            if(GameManager.camera.boundsRange == 1)
+            {
+                signDrop(dt);
             }
         }
         if(players.get(0).isInGame())
@@ -369,6 +403,15 @@ public class selectionLevel extends GameLevel {
         }
     }
 
+    public void signDrop(float dt)
+    {
+        if(bSign.position.y <= -880)
+        {
+            bSign.position.y += dt * 8;
+            aSign.position.y += dt * 8;
+        }
+    }
+
     public void readyUp(Object other, float dt)
     {
         for(int i = 0; i < GameManager.players.size(); i++)
@@ -384,14 +427,14 @@ public class selectionLevel extends GameLevel {
         {
             //doorframe.zIndex = 2;
             other.zIndex = -1;
-            other.setPosition(other.getPositionX(), other.getPositionY() - 50 * dt);
+            other.setPosition(other.getPositionX(), other.getPositionY() - (20 * dt));
 
         }
         else
             {
                 if(other.getPositionY() <= -780)
                 {
-                    other.setPosition(other.getPositionX(), other.getPositionY() + 50 * dt);
+                    other.setPosition(other.getPositionX(), other.getPositionY() + (20 * dt));
                 }
             }
     }

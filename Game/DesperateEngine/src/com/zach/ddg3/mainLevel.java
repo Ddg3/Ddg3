@@ -23,6 +23,7 @@ public class mainLevel extends GameLevel
     private static Wall[] sideWalls = new Wall[2];
     private static Wall[] spears = new Wall[8];
     private static Object ground;
+    private static Object ground2;
     private static Object stands;
     private static Wall backGate;
     private static Object backGateTrigger;
@@ -98,6 +99,7 @@ public class mainLevel extends GameLevel
     private static Object counter;
     private static int startInd = 0;
     private static int ostrichYSpeed;
+    private static Object ostrichTrigger = new Object("ostrichGenL", 53, 83, "/pelican.png", 3, 0.01f);
 
     private boolean keyPressed = false;
 
@@ -244,6 +246,11 @@ public class mainLevel extends GameLevel
         ground.zIndex = 0;
         GameManager.objects.add(ground);
 
+        ground2 = new Object("ground2", 640, 360, "/ground.png", 1, 0.1f);
+        ground2.zIndex = 0;
+        ground2.position.y = -500;
+        GameManager.objects.add(ground2);
+
         stands = new Object("stands", 690, 280, "/stands.png", 1, 0.1f);
         stands.zIndex = 3;
         stands.position.y = -236;
@@ -359,6 +366,13 @@ public class mainLevel extends GameLevel
         kingSwan.tag = "Swan";
         swanWeapon = new WeaponComponent(kingSwan, "rocketLauncher");
         kingSwan.addComponent(swanWeapon);
+
+        GameManager.objects.add(ostrichTrigger);
+        ostrichTrigger.visible = false;
+        ostrichTrigger.addComponent(new AABBComponent(ostrichTrigger, "trigger"));
+        ostrichTrigger.setTag("Trigger");
+        ostrichTrigger.paddingTop = -300;
+        ostrichTrigger.position.x = sideWalls[1].position.x;
 
         start();
     }

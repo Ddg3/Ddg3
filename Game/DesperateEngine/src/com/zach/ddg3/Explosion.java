@@ -80,7 +80,6 @@ public class Explosion extends Object
         {
             if (!isStun)
             {
-                boolean alreadyExists = false;
                 Player player = (Player) other;
                 if(weapon.isParentIsPlayer())
                 {
@@ -100,9 +99,7 @@ public class Explosion extends Object
             if(other.isKnockable())
             {
                 knockedObjects.add(other);
-                if (!knockedObjects.get(knockedObjects.indexOf(other)).isKnocked()) {
-                    knockedObjects.get(knockedObjects.indexOf(other)).setKnocked(true);
-                }
+                other.setKnocked(true);
             }
                 //}
 
