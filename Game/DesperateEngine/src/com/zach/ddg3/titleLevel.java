@@ -22,11 +22,20 @@ public class titleLevel extends GameLevel
     private static float blinkTimer = 1.0f;
     private static float loadTimer = 0.2f;
 
-    private static Object fadeAway = new Object("fadeAway", 640, 360, "/fadeAway.png", 6, 0.1f);
+    public static Object getFadeAway() {
+        return fadeAway;
+    }
+
+    public static void setFadeAway(Object fadeAway) {
+        titleLevel.fadeAway = fadeAway;
+    }
+
+    private static Object fadeAway = null;
 
     @Override
     public void init(Main main)
     {
+        fadeAway = new Object("fadeAway", 640, 360, "/fadeAway.png", 6, 0.1f);
         GameManager.objects.add(fadeAway);
         fadeAway.setPosition(0,0);
         //fadeAway.setFrame(0);
@@ -55,7 +64,7 @@ public class titleLevel extends GameLevel
         owlGuard.setPosition(-100, -100);
         owlGuard.playTo(0, 4);
 
-        title = new Object("title", 379, 140, "/title.png", 1, 1f);
+        title = new Object("title", 379, 140, "/title2.png", 1, 1f);
         GameManager.objects.add(title);
         title.setPosition(0, 0);
 

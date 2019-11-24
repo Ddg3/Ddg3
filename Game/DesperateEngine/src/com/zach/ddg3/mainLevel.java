@@ -31,6 +31,14 @@ public class mainLevel extends GameLevel
     private static ArrayList<TextObject> timers = new ArrayList<TextObject>(1);
     private static Vulture vulture1;
     private static Object kingSwan;
+    private static Object nest;
+
+    private static ArrayList<Object> debris = new ArrayList<>(1);
+    private static Object[] topStands = new Object[2];
+    private static Object[] bottomStands = new Object[2];
+    private static ArrayList<Object> birds = new ArrayList<>(1);
+
+    private static int debrisCount;
     private Player gooseWatched;
     private Player winner;
     private static boolean flying = false;
@@ -102,6 +110,8 @@ public class mainLevel extends GameLevel
     private static Object ostrichTrigger = new Object("ostrichGenL", 53, 83, "/pelican.png", 3, 0.01f);
 
     private boolean keyPressed = false;
+    private float birdTimer = 3f;
+    private float tempBirdTimer = birdTimer;
 
     @Override
     public void init(Main main)
@@ -246,7 +256,7 @@ public class mainLevel extends GameLevel
         ground.zIndex = 0;
         GameManager.objects.add(ground);
 
-        ground2 = new Object("ground2", 640, 360, "/ground.png", 1, 0.1f);
+        ground2 = new Object("ground2", 640, 360, "/ground2.png", 1, 0.1f);
         ground2.zIndex = 0;
         ground2.position.y = -500;
         GameManager.objects.add(ground2);
@@ -373,6 +383,54 @@ public class mainLevel extends GameLevel
         ostrichTrigger.setTag("Trigger");
         ostrichTrigger.paddingTop = -300;
         ostrichTrigger.position.x = sideWalls[1].position.x;
+
+        nest = new Object("nest", 110, 109, "/nest.png", 1,  1f);
+        nest.setPosition(0, -270);
+        nest.zIndex = 199;
+        GameManager.objects.add(nest);
+
+        topStands[0] = new Object("topStand0", 15, 451, "/topStand.png", 2, 0.01f);
+        topStands[0].setPosition(-332, -20);
+        topStands[0].zIndex = 10;
+        GameManager.objects.add(topStands[0]);
+
+        topStands[1] = new Object("topStand1", 15, 451, "/topStand.png", 2, 0.01f);
+        topStands[1].setPosition(332, -25);
+        topStands[1].zIndex = 10;
+        topStands[1].setFrame(1);
+        GameManager.objects.add(topStands[1]);
+
+        bottomStands[0] = new Object("bottomStand0", 29, 393, "/bottomStand.png", 2, 0.01f);
+        bottomStands[0].setPosition(-325, -25);
+        bottomStands[0].zIndex = 9;
+        GameManager.objects.add(bottomStands[0]);
+
+        bottomStands[1] = new Object("bottomStand1", 29, 393, "/bottomStand.png", 2, 0.01f);
+        bottomStands[1].setPosition(325, -25);
+        bottomStands[1].zIndex = 9;
+        bottomStands[1].setFrame(1);
+        GameManager.objects.add(bottomStands[1]);
+
+        random = new Random();
+
+        //debrisCount = random.nextInt(10);
+        debrisCount = 20;
+
+        for(int i = 0; i < debrisCount; i++)
+        {
+            int randomX = random.nextInt((int) (sideWalls[1].position.x * 2)) + (int) sideWalls[0].position.x;
+            int randomY = random.nextInt(100) - 80;
+            int randomFrame = random.nextInt(3) + 3;
+            debris.add(i, new Object("debris" + i, 28, 26, "/skeletons.png", 6, 0));
+            debris.get(i).setPosition(randomX, randomY);
+            debris.get(i).setFrame(randomFrame);
+            debris.get(i).zIndex = 1;
+        }
+
+        for(int i = 0; i < debris.size(); i++)
+        {
+            GameManager.objects.add(debris.get(i));
+        }
 
         start();
     }
@@ -623,6 +681,22 @@ public class mainLevel extends GameLevel
                 }
             }
         }
+
+        if(tempBirdTimer <= 0)
+        {
+            int side = random.nextInt(2);
+            boolean left = true;
+            if(side == 1)
+                left = false;
+
+            int frame = random.nextInt(3);
+            addBird(left, frame);
+
+            tempBirdTimer = birdTimer;
+        }
+
+        updateBirds();
+        tempBirdTimer -= dt;
     }
 
     public void start()
@@ -634,6 +708,53 @@ public class mainLevel extends GameLevel
         //counter.isActiveOnPause = true;
         counter.zIndex = Integer.MAX_VALUE - 1;
         //GameManager.isPlaying = false;
+    }
+
+    public void addBird(boolean left, int frame)
+    {
+        Object bird = new Object("bird", 85, 91, "/birds.png", 6, 0.01f);
+        int sideOffset = 0;
+        bird.position.x = -500;
+        if(!left)
+        {
+            sideOffset = 3;
+            bird.position.x = 500;
+        }
+
+        bird.setFrame(frame + sideOffset);
+        bird.position.y = random.nextInt(230) - 80;
+        //bird.position.x = random.nextInt((int) (sideWalls[1].position.x * 2)) + (int) sideWalls[0].position.x;
+        GameManager.objects.add(bird);
+        birds.add(bird);
+    }
+
+    public void updateBirds()
+    {
+        for(int i = 0; i < birds.size(); i++)
+        {
+            if(birds.get(i).getFrame() < 3)
+            {
+                if(birds.get(i).position.x < topStands[0].position.x)
+                {
+                    birds.get(i).position.x += 5f;
+                }
+                else
+                    {
+                        birds.remove(i);
+                    }
+            }
+            else
+                {
+                    if(birds.get(i).position.x > topStands[1].position.x)
+                    {
+                        birds.get(i).position.x -= 5f;
+                    }
+                    else
+                    {
+                        birds.remove(i);
+                    }
+                }
+        }
     }
     public void setWalls(int i)
     {

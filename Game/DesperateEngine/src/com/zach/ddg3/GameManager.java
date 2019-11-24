@@ -72,18 +72,18 @@ public class GameManager extends AbstractGame
         pauseUI.add(1, new Object("Resume", 138, 40, "/resumeText.png", 2, 0.01f));
         pauseUI.get(1).zIndex = Integer.MAX_VALUE;
         pauseUI.get(1).visible = false;
-        pauseUI.add(2, new Object("Controls", 186, 40, "/controlsText.png", 2, 0.01f));
+        //pauseUI.add(2, new Object("Controls", 186, 40, "/controlsText.png", 2, 0.01f));
+        //pauseUI.get(2).zIndex = Integer.MAX_VALUE;
+        //pauseUI.get(2).visible = false;
+        pauseUI.add(2, new Object("Quit", 90, 40, "/quitText.png", 2, 0.01f));
         pauseUI.get(2).zIndex = Integer.MAX_VALUE;
         pauseUI.get(2).visible = false;
-        pauseUI.add(3, new Object("Quit", 90, 40, "/quitText.png", 2, 0.01f));
+        pauseUI.add(3, new Object("Quit To Desktop", 334, 40, "/quitToText.png", 2, 0.01f));
         pauseUI.get(3).zIndex = Integer.MAX_VALUE;
         pauseUI.get(3).visible = false;
-        pauseUI.add(4, new Object("Quit To Desktop", 334, 40, "/quitToText.png", 2, 0.01f));
-        pauseUI.get(4).zIndex = Integer.MAX_VALUE;
+        pauseUI.add(4, new Object("Overlay", 640, 360, "/pauseOverlay.png", 1, 1));
+        pauseUI.get(4).zIndex = Integer.MAX_VALUE - 1;
         pauseUI.get(4).visible = false;
-        pauseUI.add(5, new Object("Overlay", 640, 360, "/pauseOverlay.png", 1, 1));
-        pauseUI.get(5).zIndex = Integer.MAX_VALUE - 1;
-        pauseUI.get(5).visible = false;
         /*objects.add(pauseUI.get(0));
         objects.add(pauseUI.get(1));
         objects.add(pauseUI.get(2));
@@ -143,7 +143,7 @@ public class GameManager extends AbstractGame
                 objects.get(i).update(main, this, dt);
                 //center.update(main, this, dt);
             }
-            if(objects.get(i).isDead())
+            if(objects.get(i).isDead() || objects.get(i) == null)
             {
                 objects.remove(i);
                 i--;
@@ -348,11 +348,11 @@ public class GameManager extends AbstractGame
         for(int i = 0; i < pauseUI.size(); i++)
         {
             if(i == 0)
-                pauseUI.get(i).setPosition(center.getPosition().x, center.getPositionY() -130);
-            else if(i == 5)
+                pauseUI.get(i).setPosition(center.getPosition().x, center.getPositionY() -100);
+            else if(i == 4)
                 pauseUI.get(i).setPosition(center.getPosition().x, center.getPositionY());
             else
-                pauseUI.get(i).setPosition(center.getPosition().x, center.getPositionY() -95 + (i * 55));
+                pauseUI.get(i).setPosition(center.getPosition().x, center.getPositionY() -65 + (i * 55));
         }
     }
 
@@ -465,9 +465,6 @@ public class GameManager extends AbstractGame
                         }
                         break;
                     case 2:
-                        controlsUI(player, main);
-                        break;
-                    case 3:
                         gameLevelManager.currLevel.uninit();
                         gameLevelManager.currLevel = null;
                         if(gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE)
@@ -491,7 +488,7 @@ public class GameManager extends AbstractGame
                         gameLevelManager.currLevel.horizBounds.clear();
                         gameLevelManager.currLevel.verticleBounds.clear();
                         break;
-                    case 4:
+                    case 3:
                         main.uninitialize();
                         break;
                 }
@@ -557,9 +554,6 @@ public class GameManager extends AbstractGame
                                 }
                                 break;
                             case 2:
-                                controlsUI(player, main);
-                                break;
-                            case 3:
                                 gameLevelManager.currLevel.uninit();
                                 if(gameLevelManager.getGameState() == GameLevelManager.GameState.SELECTION_STATE || gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE)
                                 {
@@ -583,7 +577,7 @@ public class GameManager extends AbstractGame
                                 gameLevelManager.currLevel.horizBounds.clear();
                                 gameLevelManager.currLevel.verticleBounds.clear();
                                 break;
-                            case 4:
+                            case 3:
                                 main.uninitialize();
                                 break;
                         }

@@ -19,6 +19,16 @@ public class AABBComponent extends Component
     private int lastCenterY;
     private int designatedPlayer = 0;
 
+    public boolean isHeadshot() {
+        return headshot;
+    }
+
+    public void setHeadshot(boolean headshot) {
+        this.headshot = headshot;
+    }
+
+    private boolean headshot = false;
+
     public String getNoCollideTag() {
         return noCollideTag;
     }
@@ -28,6 +38,16 @@ public class AABBComponent extends Component
     }
 
     private String noCollideTag = null;
+
+    public String getNoCollideTag2() {
+        return noCollideTag2;
+    }
+
+    public void setNoCollideTag2(String noCollideTag2) {
+        this.noCollideTag2 = noCollideTag2;
+    }
+
+    private String noCollideTag2 = null;
 
     public int getDesignatedPlayer() {
         return designatedPlayer;
@@ -105,7 +125,7 @@ public class AABBComponent extends Component
         lastCenterX = centerX;
         lastCenterY = centerY;
 
-        if(this.subTag == "wall" || this.subTag == "selection" || this.subTag == "bullet" || this.subTag == "camera" || this.subTag == "trigger" || this.subTag == "pelican")
+        if(this.subTag == "wall" || this.subTag == "selection" || this.subTag == "bullet" || this.subTag == "camera" || this.subTag == "trigger" || this.subTag == "pelican" || this.subTag == "explosion")
         {
             centerX = (int) (parent.getPositionX() + parent.getOffsetCenterX());
             centerY = (int) (parent.getPositionY() + parent.getOffsetCenterY());
@@ -118,6 +138,7 @@ public class AABBComponent extends Component
         {
             Player player = (Player) parent;
             noCollideTag = "bullet";
+            noCollideTag2 = "explosion";
 
             if(player.isInGame())
             {
@@ -190,7 +211,7 @@ public class AABBComponent extends Component
     @Override
     public void render(Main main, Renderer renderer)
     {
-        if(this.getSubTag() == "wall" || this.subTag == "selection" || this.getSubTag() == "bullet" || this.getSubTag() == "player" || this.getSubTag() == "head" || this.getSubTag() == "body" || this.getSubTag() == "trigger")
+        if(this.getSubTag() == "wall" || this.subTag == "selection" || this.getSubTag() == "bullet" || this.getSubTag() == "player" || this.getSubTag() == "head" || this.getSubTag() == "body" || this.getSubTag() == "trigger" || this.getSubTag() == "explosion")
         {
             renderer.drawFillRectangle(centerX - halfWidth + 320, centerY - halfHeight + 180, halfWidth * 2, halfHeight * 2, color);
             renderer.setPixel(centerX + 320, centerY + 180, 0xffff0000);

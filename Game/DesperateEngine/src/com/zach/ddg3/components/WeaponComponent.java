@@ -14,6 +14,15 @@ public class WeaponComponent extends Component
 {
     private float shotCooldown = 1.0f;
     private float altCooldown = 8.0f;
+
+    public float getChargeTimer() {
+        return chargeTimer;
+    }
+
+    public void setChargeTimer(float chargeTimer) {
+        this.chargeTimer = chargeTimer;
+    }
+
     private float tempAltCooldown = /*altCooldown*/ 0;
     private boolean isCharged = false;
     private float chargeTimer = 0;
@@ -56,12 +65,14 @@ public class WeaponComponent extends Component
     private boolean isChained = false;
     private float timer = 0f;
     private boolean isOstrich = false;
+    private boolean isAltCharging = false;
 
     private int explosionWidth = 90;
     private int explosionHeight = 82;
     private int explosionFrames = 25;
     private String explosionPath = "/explosion.png";
     private float playerBaseSpeed = 150f;
+    private Object laserSight = null;
 
     public boolean isTriggered = false;
     public Vector triggerPoint = new Vector(0,0);
@@ -117,10 +128,11 @@ public class WeaponComponent extends Component
             Player player = (Player) parent;
             if (!this.isCharged) {
                 shoot(main);
+                altShoot(main);
             }
-            altShoot(main);
             if (this.isCharged) {
                 chargeShoot(main, dt);
+                altChargeShoot(main);
             }
 
             if (this.detonated)
@@ -171,6 +183,7 @@ public class WeaponComponent extends Component
                                     }
 
                                 }
+                            bullets.get(i).setDirChanges(bullets.get(i).getDirChanges() + 1);
                         }
                     }
                 }
@@ -363,6 +376,93 @@ public class WeaponComponent extends Component
         }
     }
 
+    public void altChargeShoot(Main main)
+    {
+        if(parent.getTag().equalsIgnoreCase("Player"))
+        {
+            exploding = false;
+            planting = false;
+            Player player = (Player) parent;
+            if(!player.isTimedOut())
+            {
+                if ((player.device.getDelta().getButtons().isPressed(XInputButton.Y) ||
+                        (player.isKeyBoard() && main.getInput().isButton(MouseEvent.BUTTON2))) && tempAltCooldown <= 0 && !isAltCharging)
+                {
+                    isAltCharging = true;
+                    laserSight = new Object("laserSight",51, 53, "/laserSight.png", 8, 0.01f);
+                    GameManager.objects.add(laserSight);
+                    player.setSpeed(90f);
+                }
+
+                if(isAltCharging)
+                {
+                    switch (player.getFrame())
+                    {
+                        case 0:
+                            laserSight.setPosition(player.getPositionX() - 10, player.getPositionY() + 60);
+                            laserSight.zIndex = player.zIndex + 1;
+                            break;
+                        case 1:
+                            laserSight.setPosition(player.getPositionX() + 50, player.getPositionY() + 50);
+                            laserSight.zIndex = player.zIndex + 1;
+                            break;
+                        case 2:
+                            laserSight.setPosition(player.getPositionX() + 70, player.getPositionY() - 2);
+                            laserSight.zIndex = player.zIndex + 1;
+                            break;
+                        case 3:
+                            laserSight.setPosition(player.getPositionX() + 56, player.getPositionY() - 55);
+                            laserSight.zIndex = player.zIndex - 1;
+                            break;
+                        case 4:
+                            laserSight.setPosition(player.getPositionX() + 12, player.getPositionY() - 55);
+                            laserSight.zIndex = player.zIndex - 1;
+                            break;
+                        case 5:
+                            laserSight.setPosition(player.getPositionX() - 56, player.getPositionY() - 55);
+                            break;
+                        case 6:
+                            laserSight.setPosition(player.getPositionX() - 70, player.getPositionY() - 2);
+                            break;
+                        case 7:
+                            laserSight.setPosition(player.getPositionX() - 50, player.getPositionY() + 50);
+                            break;
+                    }
+
+                    laserSight.setFrame(player.getFrame());
+                }
+
+                if ((player.device.getDelta().getButtons().isReleased(XInputButton.Y) ||
+                        (player.isKeyBoard() && main.getInput().isButtonUp(MouseEvent.BUTTON2))) && tempAltCooldown <= 0 && isAltCharging)
+                {
+                    GameManager.removeObjectsByName("laserSight");
+                    laserSight = null;
+                    player.setSpeed(playerBaseSpeed);
+                    tempAltCooldown = altCooldown;
+                    player.getIndicator().visible = false;
+                    Bullet bullet = new Bullet("altBullet" + player.getPlayerNumber(), altWidth, altHeight, altPath, altFrames, 0.05f, player.getFrame() - parent.getFrameOffset(), this);
+                    Vector offset;
+                    if (!player.isGoose())
+                    {
+                        offset = bulletOffsetD[player.getFrame() - parent.getFrameOffset()];
+                    }
+                    else
+                    {
+                        offset = bulletOffsetG[player.getFrame() - parent.getFrameOffset()];
+                    }
+                    bullet.setPosition(parent.getPositionX() + offset.getX(), parent.getPositionY() + offset.getY());
+                    bullet.getObjImage().changeColor(player.getSkinColors()[1], player.getSkinColors()[player.getSkIndex()]);
+                    GameManager.objects.add(bullet);
+                    bullets.add(bullet);
+                    bullet.isAlt = true;
+                    bullet.setSpeed(600f);
+                    GameManager.altReloadText.get(player.getPlayerNumber()).visible = true;
+                    isAltCharging = false;
+                }
+            }
+        }
+    }
+
     public void chargeShoot(Main main, float dt)
     {
         if(parent.getTag().equalsIgnoreCase("Player"))
@@ -409,6 +509,10 @@ public class WeaponComponent extends Component
         }
     }
 
+    public void laserSight()
+    {
+
+    }
     public void chooseWeapon(String weaponName)
     {
         switch (weaponName)
@@ -555,15 +659,15 @@ public class WeaponComponent extends Component
                 shotCooldown = 0.4f;
 
                 bulletPath = "/sniper_Bullet.png";
-                bulletWidth = 25;
-                bulletHeight = 25;
+                bulletWidth = 27;
+                bulletHeight = 27;
                 bulletFrames = 8;
                 bulletFrameTime = 0.1f;
 
-                altWidth = 25;
-                altHeight = 25;
+                altWidth = 27;
+                altHeight = 27;
                 altFrames = 8;
-                altPath = "/sniper_Bullet.png";
+                altPath = "/scopeBullet.png";
 
                 bulletOffsetD[0] = new Vector(-8,2);
                 bulletOffsetD[1] = new Vector(30,22);

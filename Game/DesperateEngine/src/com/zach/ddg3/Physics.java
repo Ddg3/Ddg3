@@ -39,6 +39,14 @@ public class Physics
                         {
                             c0.getParent().collision(c1.getParent(), main);
                             c1.getParent().collision(c0.getParent(), main);
+                            if(c0.getSubTag() == "head" && c1.getSubTag() == "bullet")
+                            {
+                                c0.setHeadshot(true);
+                            }
+                            else if(c1.getSubTag() == "head" && c0.getSubTag() == "bullet")
+                            {
+                                c1.setHeadshot(true);
+                            }
                         }
                     }
                 }

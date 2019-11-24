@@ -39,7 +39,8 @@ public class selectionLevel extends GameLevel {
     private static Object[] explosiveGuns = new Object[4];
     private static boolean allReady = false;
 
-    private static Object fadeAway = new Object("fadeAway", 640, 360, "/fadeAway.png", 6, 0.3f);
+    private static Object fadeAway = null;
+    private static float loadTimer = 1f;
 
     private static Object aButton1 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
     private static Object aButton2 = new Object("uiButton", 28, 28, "/buttonsUI.png", 8, 0.01f);
@@ -335,6 +336,16 @@ public class selectionLevel extends GameLevel {
         yButton1.setFrame(3);
         yButton1.zIndex = 100;
         yButton1.visible = false;
+
+        GameManager.objects.add(xButton2);
+        xButton2.setFrame(2);
+        xButton2.zIndex = 100;
+        xButton2.visible = false;
+
+        GameManager.objects.add(yButton2);
+        yButton2.setFrame(3);
+        yButton2.zIndex = 100;
+        yButton2.visible = false;
         /*explosiveGuns[2] = new Object("explosiveGuns2", 259, 54, "/explosiveSelections2.png", 5, 0f);
         explosiveGuns[2].setTag("Selection");
         explosiveGuns[2].addComponent(new AABBComponent(explosiveGuns[2], "selection"));
@@ -348,11 +359,12 @@ public class selectionLevel extends GameLevel {
         {
             GameManager.objects.add(GameManager.timePedestals.get(i));
         }*/
-
+        fadeAway = new Object("fadeAway", 640, 360, "/fadeAwayReverse.png", 6, 0.3f);
         GameManager.objects.add(fadeAway);
         fadeAway.zIndex = Integer.MAX_VALUE;
-        fadeAway.setPosition(GameManager.center.position.x, GameManager.center.position.y);
-        fadeAway.playReverseInRange(5, 0);
+        //fadeAway.setPosition(GameManager.center.position.x, GameManager.center.position.y);
+        fadeAway.setPosition(0, 0);
+        fadeAway.setFrame(0);
     }
 
     @Override
@@ -364,6 +376,21 @@ public class selectionLevel extends GameLevel {
         {
             readyUp(door, dt);
         }
+
+        if(loadTimer >= 0 && fadeAway.getFrame() == 0)
+        {
+            loadTimer-= dt;
+        }
+        else
+            {
+                fadeAway.play();
+                loadTimer = 1.5f;
+            }
+        if(fadeAway.getFrame() == 5)
+        {
+            GameManager.objects.remove(fadeAway);
+        }
+
         if(GameManager.firstTime)
         {
             if (!players.get(1).visible)

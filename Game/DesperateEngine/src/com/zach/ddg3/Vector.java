@@ -24,8 +24,32 @@ public class Vector
 
     public void addVector(Vector v1)
     {
-        this.x += v1.x;
+        /*this.x += v1.x;
         this.y += v1.y;
+        this.length += v1.length;*/
+
+        float newX = v1.x + this.x;
+        float newY = v1.y + this.y;
+        double angle = Math.tan(newY/newX);
+        double magnitude = Math.sqrt((newX * newX) + (newY * newY));
+        this.x = newX;
+        this.y = newY;
+
+        this.setLength(magnitude);
+        this.setAngle(angle);
+    }
+
+    public void subtractVector(Vector v1)
+    {
+        float newX = this.x - v1.x;
+        float newY = this.y - v1.y;
+        double angle = Math.tan(newY/newX);
+        double magnitude = Math.sqrt((newX * newX) + (newY * newY));
+        this.x = newX;
+        this.y = newY;
+
+        this.setLength(magnitude);
+        this.setAngle(angle);
     }
 
     public float getX() {

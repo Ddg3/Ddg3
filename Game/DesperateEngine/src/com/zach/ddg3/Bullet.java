@@ -79,8 +79,19 @@ public class Bullet extends Object
     private float tempExplosionBuffer = explosionBuffer;
     private boolean exploding = false;
     private float xSpeed = 0;
-    private float mirvTimer = 1f;
+    private float mirvTimer = 0.6f;
     private float tempMirvTimer = mirvTimer;
+    public float explosionTimer = 0;
+
+    public int getDirChanges() {
+        return dirChanges;
+    }
+
+    public void setDirChanges(int dirChanges) {
+        this.dirChanges = dirChanges;
+    }
+
+    private int dirChanges = 0;
 
     public float getDecelRate() {
         return decelRate;
@@ -190,6 +201,17 @@ public class Bullet extends Object
 
         if(!isAlt)
         {
+            if(explosionTimer > 0)
+            {
+                if(speed <= 0)
+                {
+                    explosionTimer -= dt;
+                    if(explosionTimer <= 0)
+                    {
+                        explode(false);
+                    }
+                }
+            }
             /*if (weapon.isExploding())
             {
                 explode(false);
@@ -314,6 +336,9 @@ public class Bullet extends Object
                 //play();
                 playTo(0, 4);
                 break;
+            case "sniper":
+                speed = 300f;
+                break;
         }
     }
 
@@ -332,7 +357,6 @@ public class Bullet extends Object
                 break;
         }
     }
-
     public void homeIn(float dt)
     {
         tempTimer -= dt;
@@ -461,51 +485,61 @@ public class Bullet extends Object
 
         if(target == null)
         {
-            for (int i = 0; i < GameManager.players.size(); i++)
-            {
-                if (GameManager.players.get(i).getPlayerNumber() != player.getPlayerNumber())
-                {
+            for (int i = 0; i < GameManager.players.size(); i++) {
+                if (GameManager.players.get(i).getPlayerNumber() != player.getPlayerNumber()) {
                     target = GameManager.players.get(i);
                 }
             }
         }
-        double playerX = target.position.x;
-        double playerY = target.position.y;
-        double angle = Math.toDegrees(Math.atan2(playerY, playerX));
-        if ((angle < -150 && angle > -180) || (angle > 150 && angle < 180)) {
-            //Left
-            this.setFrame(6);
+
+        if(target != null)
+        {
+            double playerX = target.position.x;
+            double playerY = target.position.y;
+            double angle = Math.toDegrees(Math.atan2(playerY - this.getPositionY(), playerX - this.getPositionX()));
+            System.out.println(angle);
+            if ((angle < -150 && angle > -180) || (angle > 150 && angle < 180)) {
+                //Left
+                this.setFrame(6);
+            }
+            if ((angle > -30 && angle < 0) || (angle < 30 && angle > 0)) {
+                //Right
+                this.setFrame(2);
+            }
+            if ((angle > 60 && angle < 120)) {
+                //Down
+                this.setFrame(0);
+            }
+            if (angle < -60 && angle > -120) {
+                //Up
+                this.setFrame(4);
+            }
+            if (angle > -150 && angle < -120) {
+                //Left and Up
+                this.setFrame(5);
+            }
+            if (angle < 150 && angle > 120) {
+                //Left and Down
+                this.setFrame(7);
+            }
+            if (angle > 30 && angle < 60) {
+                //Right and Down
+                this.setFrame(1);
+            }
+            if (angle < -30 && angle > -60) {
+                //Right and Up
+                this.setFrame(3);
+            }
+            direction = this.getFrame();
+            move(dt);
         }
-        if ((angle > -30 && angle < 0) || (angle < 30 && angle > 0)) {
-            //Right
-            this.setFrame(2);
+        else
+            {
+            direction = player.getFrame();
+            move(dt);
         }
-        if ((angle > 60 && angle < 120)) {
-            //Down
-            this.setFrame(0);
-        }
-        if (angle < -60 && angle > -120) {
-            //Up
-            this.setFrame(4);
-        }
-        if (angle > -150 && angle < -120) {
-            //Left and Up
-            this.setFrame(5);
-        }
-        if (angle < 150 && angle > 120) {
-            //Left and Down
-            this.setFrame(7);
-        }
-        if (angle > 30 && angle < 60) {
-            //Right and Down
-            this.setFrame(1);
-        }
-        if (angle < -30 && angle > -60) {
-            //Right and Up
-            this.setFrame(3);
-        }
-        direction = this.getFrame();
-        move(dt);
+
+        this.speed = 20f;
     }
 
     public void mirv(float dt)
@@ -532,44 +566,47 @@ public class Bullet extends Object
                 GameManager.objects.add(bullet);
                 int offsetX = 0;
                 int offsetY = 0;
-                switch (i) {
+                switch (i)
+                {
                         case 0:
                             offsetY = 30;
-                            bullet.tempSlow = 2f;
+                            bullet.tempSlow = 1.6f;
                             break;
                         case 1:
                             offsetY = 24;
                             offsetX = 24;
-                            bullet.tempSlow = 2f;
+                            bullet.tempSlow = 1.6f;
                             break;
                         case 2:
                             offsetX = 30;
-                            bullet.tempSlow = 2f;
+                            bullet.tempSlow = 1.6f;
                             break;
                         case 3:
                             offsetY = -24;
                             offsetX = 24;
-                            bullet.tempSlow = 2f;
+                            bullet.tempSlow = 1.6f;
                             break;
                         case 4:
                             offsetY = -30;
-                            bullet.tempSlow = 2f;
+                            bullet.tempSlow = 1.6f;
                             break;
                         case 5:
                             offsetY = -24;
                             offsetX = -24;
-                            bullet.tempSlow = 2f;
+                            bullet.tempSlow = 1.6f;
                             break;
                         case 6:
                             offsetX = -30;
-                            bullet.tempSlow = 2f;
+                            bullet.tempSlow = 1.6f;
                             break;
                         case 7:
                             offsetY = 24;
                             offsetX = -24;
-                            bullet.tempSlow = 2f;
+                            bullet.tempSlow = 1.6f;
                             break;
                     }
+                    bullet.explosionTimer = 0.5f;
+                    bullet.speed = 160f;
                     bullet.direction = this.direction;
                     bullet.setPosition(this.getPositionX() + offsetX, this.getPositionY() + offsetY);
                     //bullet.setPlantTime(2.0f);
@@ -897,7 +934,8 @@ public class Bullet extends Object
                     }
                 }
             } else if (other.getTag().equalsIgnoreCase("Explosion") && !weapon.isOstrich()) {
-                if (weapon.isChained() && !counting) {
+                if (weapon.isChained() && !counting)
+                {
                     counting = true;
                 }
             }
@@ -917,11 +955,41 @@ public class Bullet extends Object
                             ownerP.setGoose(false);
                             ownerP.changeSpecies();
                         }
-
-                        if (weapon.isExplodes())
+                        if(isAlt && weapon.getSubTag() == "sniper")
                         {
-                            player.depleteTime(weapon.getDamage());
-                            explode(true);
+                            AABBComponent myC = (AABBComponent) this.findComponentBySubtag("bullet");
+                            AABBComponent head = (AABBComponent) other.findComponentBySubtag("head");
+                            /*AABBComponent body = (AABBComponent) other.findComponentBySubtag("body");
+                            if (head != null || body != null)
+                            {
+                                if (Math.abs(myC.getLastCenterX() - head.getLastCenterX()) < (myC.getHalfWidth() + head.getHalfWidth()) - 2)
+                                {
+                                    if ((myC.getCenterY() < head.getCenterY()) || (myC.getCenterY() > head.getCenterY()) || (myC.getCenterX() < head.getCenterX()) || (myC.getCenterX() > head.getCenterX()))
+                                    {
+                                        player.stun();
+                                        player.depleteTime(6 + (2 * dirChanges));
+                                        explode(true);
+                                    }
+                                }*/
+                            if (head.isHeadshot())
+                            {
+                                player.stun();
+                                player.depleteTime(6 + (2 * dirChanges));
+                                explode(true);
+                                head.setHeadshot(false);
+                            }
+                                else
+                                    {
+                                        explode(false);
+                                    }
+                        }
+                        else
+                            {
+                            if (weapon.isExplodes())
+                            {
+                                player.depleteTime(weapon.getDamage());
+                                explode(true);
+                            }
                         }
                     }
                 }

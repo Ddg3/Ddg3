@@ -165,6 +165,25 @@ public class Player extends Object
     private int[] offsetCenterXBody = {0, -5, -4, -2, -1, 2, 4, 5};
     private int[] offsetCenterYBody = {12, 12, 12, 10, 11, 10, 12, 12};
 
+    private int[] offsetCenterXBodyG = {0, -5, -4, -2, -1, 2, 4, 5};
+    private int[] offsetCenterYBodyG = {12, 12, 12, 10, 11, 10, 12, 12};
+
+    public int[] getOffsetCenterXBodyG() {
+        return offsetCenterXBodyG;
+    }
+
+    public void setOffsetCenterXBodyG(int[] offsetCenterXBodyG) {
+        this.offsetCenterXBodyG = offsetCenterXBodyG;
+    }
+
+    public int[] getOffsetCenterYBodyG() {
+        return offsetCenterYBodyG;
+    }
+
+    public void setOffsetCenterYBodyG(int[] offsetCenterYBodyG) {
+        this.offsetCenterYBodyG = offsetCenterYBodyG;
+    }
+
     public int[] getPaddingTopBody() {
         return paddingTopBody;
     }
@@ -359,6 +378,10 @@ public class Player extends Object
         {
             select(selection, main);
         }
+        else if(isKnocked())
+            {
+                //updateKnockback();
+            }
 
         this.offsetPos.x = (int)(this.position.x - (this.width / 2) + 320);
         this.offsetPos.y = (int)(this.position.y - (this.height / 2) + 180);
@@ -409,11 +432,13 @@ public class Player extends Object
                 {
                     if(selectionLevel.getxButton2() != null && GameManager.timePedestals.get(1) != null)
                     {
-                        selectionLevel.getxButton2().setPosition(new Vector(GameManager.center.position.x - 300, GameManager.center.position.y + 114));
+                        selectionLevel.getxButton2().setPosition(new Vector(GameManager.center.position.x - 135, GameManager.center.position.y + 114));
+                        selectionLevel.getxButton2().visible = true;
                     }
                     if(selectionLevel.getyButton2() != null && GameManager.timePedestals.get(1) != null)
                     {
-                        selectionLevel.getyButton2().setPosition(new Vector(GameManager.center.position.x - 290, GameManager.center.position.y + 114));
+                        selectionLevel.getyButton2().setPosition(new Vector(GameManager.center.position.x - 118, GameManager.center.position.y + 114));
+                        selectionLevel.getyButton2().visible = true;
                     }
                 }
         }
@@ -426,6 +451,8 @@ public class Player extends Object
         {
             stars.setFrameLife(0.075f);
             tempStun -= dt;
+            stars.position = new Vector(this.position.x, this.position.y - (this.height / 2));
+
             if(tempStun <= 0)
             {
                 isStunned = false;
@@ -1082,9 +1109,9 @@ public class Player extends Object
                             newPath = "/Duck_sniper.png";
                             newFrames = 8;
 
-                            indWidth = 12;
-                            indHeight = 12;
-                            indPath = "/sniper_Bullet.png";
+                            indWidth = 29;
+                            indHeight = 33;
+                            indPath = "/scopeIndicator.png";
                         }
                     break;
             }
@@ -1119,6 +1146,7 @@ public class Player extends Object
             offsetSubHitboxes((int)(widthDifference / 1.8), heightDifference, weapon.getSubTag());
             selectionLevel.getbButton1().visible = false;
             selectionLevel.getbButton2().visible = false;
+            weapon.setTempAltCooldown(0);
         }
     }
 
@@ -1270,10 +1298,16 @@ public class Player extends Object
                 offsetCenterYBody = new int[]{8, 8, 8, 10, 6, 10, 8, 8};
                 break;
             case "cannon":
-                offsetCenterXHead = new int[]{0, 0, -4, -4, 0, 4, 3, -1};
+                offsetCenterXHead = new int[]{0, 10, 4, 0, 0, 0, -4, -10};
                 offsetCenterYHead = new int[]{-38, -38, -38, -38, -38, -38, -38, -38};
-                offsetCenterXBody = new int[]{0, 0, -2, 0, 0, 6, 12, 10};
+                offsetCenterXBody = new int[]{0, 2, -4, 0, 0, 0, 4, -2};
                 offsetCenterYBody = new int[]{-9, -9, -9, -7, -11, -7, -9, -9};
+                break;
+            case "sniper":
+                offsetCenterXHead = new int[]{0, -1, -14, -1, 0, 0, 14, -1};
+                offsetCenterYHead = new int[]{-17, -17, -17, -16, -17, -17, -17, -17};
+                offsetCenterXBody = new int[]{0, -10, -23, -3, 0, 3, 23, 10};
+                offsetCenterYBody = new int[]{12, 12, 12, 16, 9, 16, 12, 12};
                 break;
         }
     }

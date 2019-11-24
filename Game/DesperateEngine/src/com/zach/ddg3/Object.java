@@ -20,6 +20,16 @@ public class Object extends GameObject implements Comparable<Object>
     public boolean target = false;
     private boolean isPlaying = false;
 
+    public boolean isTempKnocked() {
+        return tempKnocked;
+    }
+
+    public void setTempKnocked(boolean tempKnocked) {
+        this.tempKnocked = tempKnocked;
+    }
+
+    private boolean tempKnocked = false;
+
     public boolean isKnockable() {
         return isKnockable;
     }
@@ -50,6 +60,26 @@ public class Object extends GameObject implements Comparable<Object>
     private int endPoint = 0;
     private boolean inGame = true;
     private int frameOffset = 0;
+
+    public float getKnockbackCap() {
+        return knockbackCap;
+    }
+
+    public void setKnockbackCap(float knockbackCap) {
+        this.knockbackCap = knockbackCap;
+    }
+
+    private float knockbackCap = 1000f;
+
+    public Vector getKnockback() {
+        return knockback;
+    }
+
+    public void setKnockback(Vector knockback) {
+        this.knockback = knockback;
+    }
+
+    private Vector knockback = new Vector(0,0);
 
     public boolean isKnocked() {
         return isKnocked;
@@ -278,7 +308,6 @@ public class Object extends GameObject implements Comparable<Object>
 
         Vector newV = new Vector(xDelta, yDelta);
         newV.setLength(magnitude);
-        newV.setLength(magnitude);
         newV.setAngle(angle);
         return newV;
 
@@ -286,15 +315,54 @@ public class Object extends GameObject implements Comparable<Object>
 
     public void applyKnockback(Vector knockback, float dt)
     {
+        //System.out.println(knockback.y / knockback.getLength());
         if((knockback.x / (knockback.getLength() ) > 0 || knockback.y / (knockback.getLength()) > 0) || knockback.getLength() > 100)
         {
-            this.position.x += knockback.x / (knockback.getLength());
-            this.position.y += knockback.y / (knockback.getLength());
+            this.position.x += knockback.x / (knockback.getLength() * 2);
+            this.position.y += knockback.y / (knockback.getLength() * 2);
         }
         else
+        {
+            isKnocked = false;
+        }
+    }
+
+    public void addKnockback(Vector v1)
+    {
+        this.knockback.addVector(v1);
+    }
+
+    public void updateKnockback()
+    {
+        //System.out.println(knockback.);
+        System.out.println("Final Knockback: " + this.knockback.x + ", " + this.knockback.y);
+        //if((this.knockback.x / (this.knockback.getLength() ) > 0 || this.knockback.y / (this.knockback.getLength()) > 0) /*|| knockback.getLength() > 100*/)
+       // {
+            //if(((knockback.x / (knockback.getLength()) <= knockbackCap && (knockback.x / (knockback.getLength()) > (-1 * knockbackCap))) && ((knockback.y / (knockback.getLength()) <= knockbackCap)) && (knockback.y / (knockback.getLength()) > (-1 * knockbackCap))))
+            //{
+            if(this.knockback.x < knockbackCap && this.knockback.x > -knockbackCap)
             {
-                isKnocked = false;
+                this.position.x += this.knockback.x / (this.knockback.getLength());
             }
+                /*else if(this.knockback.x > knockbackCap)
+                {
+                    //this.position.x += knockbackCap;
+                }*/
+            if(this.knockback.y < knockbackCap && this.knockback.y > -knockbackCap)
+            {
+                this.position.y += this.knockback.y / (this.knockback.getLength());
+            }
+            //}
+      //  }
+        else
+        {
+            isKnocked = false;
+            tempKnocked = false;
+            this.knockback.x = 0;
+            this.knockback.y = 0;
+        }
+
+        //this.knockback = findVector(this.position, otherPos);
     }
 
     public void speak(String text, int color)

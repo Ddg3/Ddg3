@@ -14,6 +14,7 @@ public class Explosion extends Object
     private float lifeTime = 0.2f;
     public boolean isStun = false;
     private Player ownerP;
+    private Vector lastKnockback = new Vector(0,0);
 
     public int getDamage() {
         return damage;
@@ -33,7 +34,7 @@ public class Explosion extends Object
 
         this.playToAndDestroy(0, totalFrames);
         this.tag = "Explosion";
-        this.addComponent(new AABBComponent(this, "bullet"));
+        this.addComponent(new AABBComponent(this, "explosion"));
 
         this.weapon = weapon;
         this.owner = weapon.getParent();
@@ -53,19 +54,62 @@ public class Explosion extends Object
 
         for(int i = 0; i < knockedObjects.size(); i++)
         {
+            /*if (knockedObjects.get(i) != null && knockedObjects.get(i).isTempKnocked())
+            {
+                knockedObjects.get(i).setKnocked(true);
+                Vector knockback = knockedObjects.get(i).findVector(this.position, knockedObjects.get(i).position);
+                knockback.subtractVector(lastKnockback);
+                System.out.println(knockback.x + ", " + knockback.y);
+                knockedObjects.get(i).applyKnockback(knockback);
+                //knockedObjects.remove(i);
+                lastKnockback = knockback;
+            }
+            if (knockedObjects.get(i) != null && !knockedObjects.get(i).isTempKnocked())
+            {
+                knockedObjects.remove(i);
+                System.out.println("Removed");
+            }*/
+
             if (knockedObjects.get(i) != null && knockedObjects.get(i).isKnocked())
             {
                 Vector knockback = knockedObjects.get(i).findVector(this.position, knockedObjects.get(i).position);
-                knockedObjects.get(i).applyKnockback(knockback, dt);
+                Vector deltaKB = knockback;
+                deltaKB.subtractVector(lastKnockback);
+                knockedObjects.get(i).getKnockback().addVector(deltaKB);
+                //System.out.println(knockedObjects.get(i).getKnockback().x + ", " + knockedObjects.get(i).getKnockback().y);
+                if((knockedObjects.get(i).getKnockback().x < knockedObjects.get(i).getKnockbackCap() && knockedObjects.get(i).getKnockback().y < knockedObjects.get(i).getKnockbackCap())
+                         && (-knockedObjects.get(i).getKnockback().x > -knockedObjects.get(i).getKnockbackCap() && -knockedObjects.get(i).getKnockback().y > -knockedObjects.get(i).getKnockbackCap()))
+                {
+                    knockedObjects.get(i).applyKnockback(knockback, dt);
+                }
+
+                else
+                    {
+                        knockedObjects.get(i).setKnockback(new Vector(0,0));
+                        //knockedObjects.get(i).setKnocked(false);
+                        knockedObjects.remove(i);
+                    }
+
+                lastKnockback = deltaKB;
             }
-            if (knockedObjects.get(i) != null && !knockedObjects.get(i).isKnocked())
+            try {
+                if (knockedObjects.get(i) != null && !knockedObjects.get(i).isKnocked()) {
+                    knockedObjects.remove(i);
+                }
+            }
+            catch(IndexOutOfBoundsException e)
             {
-                knockedObjects.remove(i);
+
             }
         }
         if(lifeTime <= 0)
         {
-            this.removeComponentBySubtag("bullet");
+            this.removeComponentBySubtag("explosion");
+            for(int i = 0; i < knockedObjects.size(); i++)
+            {
+                //knockedObjects.get(i).setKnocked(false);
+                //knockedObjects.remove(i);
+            }
         }
         else
             {
@@ -96,11 +140,14 @@ public class Explosion extends Object
 
             if(!alreadyExists)
             {*/
-            if(other.isKnockable())
-            {
-                knockedObjects.add(other);
-                other.setKnocked(true);
-            }
+                if(other.isKnockable())
+                {
+                    knockedObjects.add(other);
+                    if (!knockedObjects.get(knockedObjects.indexOf(other)).isKnocked())
+                    {
+                        knockedObjects.get(knockedObjects.indexOf(other)).setKnocked(true);
+                    }
+                }
                 //}
 
                 if (player.getPlayerNumber() != weapon.getPlayerNumber())
@@ -116,7 +163,7 @@ public class Explosion extends Object
                         ownerP.changeSpecies();
                     }
                 }
-                removeComponentBySubtag("bullet");
+                removeComponentBySubtag("explosion");
             }
             else
                 {
