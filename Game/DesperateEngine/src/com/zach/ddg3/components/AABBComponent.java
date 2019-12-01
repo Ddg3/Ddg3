@@ -19,6 +19,8 @@ public class AABBComponent extends Component
     private int lastCenterY;
     private int designatedPlayer = 0;
 
+    private int[] offsetCenterYBody = {12, 12, 12, 10, 11, 10, 12, 12};
+
     public boolean isHeadshot() {
         return headshot;
     }
@@ -157,6 +159,7 @@ public class AABBComponent extends Component
         if(this.subTag == "head")
         {
             Player player = (Player) parent;
+
             noCollideTag = "wall";
 
             if(player.isInGame())

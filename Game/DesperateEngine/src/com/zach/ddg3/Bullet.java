@@ -762,28 +762,34 @@ public class Bullet extends Object
                 AABBComponent myC = (AABBComponent) this.findComponentBySubtag("bullet");
                 AABBComponent otherC = (AABBComponent) other.findComponentBySubtag("wall");
                 //System.out.println(Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) + " < " + (myC.getHalfWidth() + otherC.getHalfWidth()));
-                if (Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) < (myC.getHalfWidth() + otherC.getHalfWidth()) - 2) {
-                    //Top/bottom collision because X values are closer than Y
-                    //Top
-                    if (myC.getCenterY() < otherC.getCenterY()) {
-                        collidingTop = true;
-                    }
+                try {
+                    if (Math.abs(myC.getLastCenterX() - otherC.getLastCenterX()) < (myC.getHalfWidth() + otherC.getHalfWidth()) - 2) {
+                        //Top/bottom collision because X values are closer than Y
+                        //Top
+                        if (myC.getCenterY() < otherC.getCenterY()) {
+                            collidingTop = true;
+                        }
 
-                    //Bottom
-                    if (myC.getCenterY() > otherC.getCenterY()) {
-                        collidingBottom = true;
-                    }
-                } else {
-                    //Side collision bc vice versa
-                    //Left
-                    if (myC.getCenterX() < otherC.getCenterX()) {
-                        collidingRight = true;
-                    }
+                        //Bottom
+                        if (myC.getCenterY() > otherC.getCenterY()) {
+                            collidingBottom = true;
+                        }
+                    } else {
+                        //Side collision bc vice versa
+                        //Left
+                        if (myC.getCenterX() < otherC.getCenterX()) {
+                            collidingRight = true;
+                        }
 
-                    //Right
-                    if (myC.getCenterX() > otherC.getCenterX()) {
-                        collidingLeft = true;
+                        //Right
+                        if (myC.getCenterX() > otherC.getCenterX()) {
+                            collidingLeft = true;
+                        }
                     }
+                }
+                catch(java.lang.NullPointerException e)
+                {
+
                 }
                 if (weapon.isBounces() && !isAlt)
                 {

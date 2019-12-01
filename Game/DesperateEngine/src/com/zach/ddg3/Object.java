@@ -335,7 +335,7 @@ public class Object extends GameObject implements Comparable<Object>
     public void updateKnockback()
     {
         //System.out.println(knockback.);
-        System.out.println("Final Knockback: " + this.knockback.x + ", " + this.knockback.y);
+        //System.out.println("Final Knockback: " + this.knockback.x + ", " + this.knockback.y);
         //if((this.knockback.x / (this.knockback.getLength() ) > 0 || this.knockback.y / (this.knockback.getLength()) > 0) /*|| knockback.getLength() > 100*/)
        // {
             //if(((knockback.x / (knockback.getLength()) <= knockbackCap && (knockback.x / (knockback.getLength()) > (-1 * knockbackCap))) && ((knockback.y / (knockback.getLength()) <= knockbackCap)) && (knockback.y / (knockback.getLength()) > (-1 * knockbackCap))))

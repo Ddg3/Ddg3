@@ -62,7 +62,7 @@ public class mainLevel extends GameLevel
     private static WeaponComponent swanWeapon;
 
     private static float hazardTimer = 30f;
-    private static float tempHazardTimer = 2f;
+    private static float tempHazardTimer = 10f;
     private static int hazardInd = 0;
     private static ArrayList<Integer> hazardList = new ArrayList<>(1);
     private static int reticleInd = 0;
@@ -110,8 +110,11 @@ public class mainLevel extends GameLevel
     private static Object ostrichTrigger = new Object("ostrichGenL", 53, 83, "/pelican.png", 3, 0.01f);
 
     private boolean keyPressed = false;
-    private float birdTimer = 3f;
-    private float tempBirdTimer = birdTimer;
+    private static float birdTimer = 10f;
+    private static int birdCounter = 0;
+    private static float tempBirdTimer = birdTimer;
+    private static float[] leftBirdY = {-160f, -160f};
+    private static float[] rightBirdY = {-160f, -160f};
 
     @Override
     public void init(Main main)
@@ -358,7 +361,7 @@ public class mainLevel extends GameLevel
         vulture2.getObjImage().changeColor(players.get(1).getSkinColors()[1], players.get(1).getSkinColors()[players.get(1).getSkIndex()]);*/
 
         kingSwan = new Object("kingSwan", 92, 95, "/swanSpeak.png", 4, 0.1f);
-        kingSwan.setPosition(0,-301);
+        kingSwan.setPosition(-10,-313);
         kingSwan.zIndex = 200;
         kingSwan.setFrame(1);
         GameManager.objects.add(kingSwan);
@@ -427,10 +430,10 @@ public class mainLevel extends GameLevel
             debris.get(i).zIndex = 1;
         }
 
-        for(int i = 0; i < debris.size(); i++)
+        /*for(int i = 0; i < debris.size(); i++)
         {
             GameManager.objects.add(debris.get(i));
-        }
+        }*/
 
         start();
     }
@@ -451,6 +454,11 @@ public class mainLevel extends GameLevel
                 {
                     if (startInd == 0)
                     {
+                        for(int i = 0; i < players.size(); i++)
+                        {
+                            GameManager.timers.get(i).setFrame(players.get(i).getTime());
+                        }
+
                         GameManager.camera.setPath(kingSwan.position);
                         GameManager.camera.setMovingAlongVector(true);
                         //GameManager.removeObjectsByName("counter");
@@ -461,7 +469,7 @@ public class mainLevel extends GameLevel
                         if(startInd == 1)
                         {
                             tempStartOffsetTimer = startOffsetTimer;
-                            kingSwan.speak("/    B E G I N!", 0xff000000);
+                            kingSwan.speak("/    B E G I N !", 0xff000000);
                             GameManager.camera.setMovingAlongVector(false);
                             startInd++;
 
@@ -496,7 +504,8 @@ public class mainLevel extends GameLevel
         }
         else
             {
-            kingSwan.animate(dt);
+            //kingSwan.animate(dt);
+                kingSwan.setFrame(kingSwan.getFrame() + 1);
         /*if(testText != null)
         {
             testText.posY = (int) (GameManager.center.position.y + 320);
@@ -532,6 +541,10 @@ public class mainLevel extends GameLevel
                 {
                     if (GameManager.cameraPlayers.get(i) != null)
                     {
+                        kingSwan.setPosition(-10,-313);
+                        flyingBack = false;
+                        flying = false;
+                        tempHazardTimer = 100f;
                         winner = GameManager.cameraPlayers.get(i);
                         break;
                     }
@@ -575,12 +588,13 @@ public class mainLevel extends GameLevel
                 tempHazardTimer = hazardTimer;
             }
 
-            if (flying) {
+            if (flying)
+            {
                 if (kingSwan.position.y > -400) {
-                    kingSwan.position.y -= 50f * dt;
+                    kingSwan.position.y -= 0.4f;
                 } else {
                     kingSwan.position.x = swanShadow.position.x;
-                    swanShadow.position.y += 110f * dt;
+                    swanShadow.position.y += 110 * dt;
 
                     for (int i = 0; i < dropPoints.length; i++) {
                         if (swanShadow.position.y <= dropPoints[i].y + 2 && swanShadow.position.y >= dropPoints[i].y - 2) {
@@ -614,11 +628,15 @@ public class mainLevel extends GameLevel
                         reticleInd = 0;
                     }
                 }
-            } else if (flyingBack) {
-                if (kingSwan.position.y < -301) {
-                    kingSwan.position.y += 50f * dt;
-                } else {
-                    flyingBack = false;
+            } else if (flyingBack)
+            {
+                if (kingSwan.position.y < -312) {
+                    kingSwan.position.y += 0.4f;
+                } else
+                    {
+                        kingSwan.changeSprite(92, 95, "/swanSpeak.png", 4, 0.1f);
+                        kingSwan.position.x -= 8;
+                        flyingBack = false;
                 }
             }
 
@@ -685,13 +703,19 @@ public class mainLevel extends GameLevel
         if(tempBirdTimer <= 0)
         {
             int side = random.nextInt(2);
+            int layer = random.nextInt(2);
             boolean left = true;
+            boolean top = true;
             if(side == 1)
                 left = false;
 
-            int frame = random.nextInt(3);
-            addBird(left, frame);
+            if(layer == 1)
+                top = false;
 
+            int frame = random.nextInt(3);
+            addBird(left, top, frame);
+
+            //birdTimer -= 1f;
             tempBirdTimer = birdTimer;
         }
 
@@ -710,21 +734,49 @@ public class mainLevel extends GameLevel
         //GameManager.isPlaying = false;
     }
 
-    public void addBird(boolean left, int frame)
+    public void addBird(boolean left, boolean top, int frame)
     {
         Object bird = new Object("bird", 85, 91, "/birds.png", 6, 0.01f);
         int sideOffset = 0;
-        bird.position.x = -500;
+        if(left)
+        {
+            bird.position.x = -500;
+            if(top)
+            {
+                bird.position.y = leftBirdY[0];
+                leftBirdY[0] += 40;
+            }
+            else
+                {
+                    bird.position.y = leftBirdY[1];
+                    leftBirdY[1] += 40;
+                }
+        }
         if(!left)
         {
             sideOffset = 3;
             bird.position.x = 500;
+            if (top) {
+                bird.position.y = rightBirdY[0];
+                rightBirdY[0] += 40;
+            } else {
+                bird.position.y = rightBirdY[1];
+                rightBirdY[1] += 40;
+            }
         }
 
         bird.setFrame(frame + sideOffset);
-        bird.position.y = random.nextInt(230) - 80;
+        //bird.position.y = random.nextInt(300) - 90;
+        bird.offsetPos = new Vector(-800, -800);
         //bird.position.x = random.nextInt((int) (sideWalls[1].position.x * 2)) + (int) sideWalls[0].position.x;
         GameManager.objects.add(bird);
+        if(top)
+            bird.zIndex = 11;
+        else
+            {
+                bird.zIndex = 9;
+            }
+
         birds.add(bird);
     }
 
@@ -732,27 +784,81 @@ public class mainLevel extends GameLevel
     {
         for(int i = 0; i < birds.size(); i++)
         {
+            int offset = 0;
+            int baseFrame = birds.get(i).getFrame();
+            if(baseFrame > 2)
+                baseFrame -= 3;
+
+            switch(baseFrame)
+            {
+                case 0:
+                    if(birds.get(i).getzIndex() == 11)
+                        offset = -30;
+                    else
+                        offset = -20;
+                    break;
+                case 1:
+                    if(birds.get(i).getzIndex() == 11)
+                        offset = -10;
+                    else
+                        offset = 0;
+                    break;
+                case 2:
+                    if(birds.get(i).getzIndex() == 11)
+                        offset = -15;
+                    else
+                        offset = -10;
+                    break;
+            }
+
             if(birds.get(i).getFrame() < 3)
             {
-                if(birds.get(i).position.x < topStands[0].position.x)
+                if(birds.get(i).zIndex == 11)
                 {
-                    birds.get(i).position.x += 5f;
+                    if (birds.get(i).position.x < topStands[0].position.x + offset)
+                    {
+                        birds.get(i).position.x += 0.5f;
+                    }
+                    else
+                        {
+                        birds.remove(i);
+                    }
                 }
                 else
                     {
-                        birds.remove(i);
+                        if (birds.get(i).position.x < bottomStands[0].position.x + offset)
+                        {
+                            birds.get(i).position.x += 0.5f;
+                        } else
+                        {
+                            birds.remove(i);
+                        }
                     }
             }
             else
                 {
-                    if(birds.get(i).position.x > topStands[1].position.x)
+                    if(birds.get(i).zIndex == 11)
                     {
-                        birds.get(i).position.x -= 5f;
+                        if (birds.get(i).position.x > topStands[1].position.x - offset)
+                        {
+                            birds.get(i).position.x -= 0.5f;
+                        }
+                        else
+                            {
+                            birds.remove(i);
+                        }
                     }
                     else
-                    {
-                        birds.remove(i);
-                    }
+                        {
+                            if (birds.get(i).position.x > bottomStands[1].position.x - offset)
+                            {
+                                birds.get(i).position.x -= 0.5f;
+                            }
+                            else
+                            {
+                                birds.remove(i);
+                            }
+                        }
                 }
         }
     }
@@ -829,8 +935,10 @@ public class mainLevel extends GameLevel
             {
                 swanShadow.position.y = -500;
                 swanShadow.position.x = 0;
-                kingSwan.changeSprite(121, 96, "/swanFly.png", 10, 0.01f);
-                kingSwan.playInRangeAndBack(0, 9);
+                kingSwan.changeSprite(121, 96, "/swanFly.png", 10, 0.03f);
+                kingSwan.position.x += 5;
+                //kingSwan.playInRangeAndBack(0, 9);
+                kingSwan.playInRange(0, 8);
                 flying = true;
 
                 random = new Random();

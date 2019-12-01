@@ -314,6 +314,18 @@ public class GameManager extends AbstractGame
                 showHitboxes = true;
             }
         }
+        if(main.getInput().isKeyDown(KeyEvent.VK_9))
+        {
+            for(int i = 0; i < players.size(); i++)
+            {
+                if(players.get(i).isGoose())
+                    players.get(i).setGoose(false);
+                else
+                    players.get(i).setGoose(true);
+
+                players.get(i).changeSpecies();
+            }
+        }
         if(main.getInput().isKeyDown(KeyEvent.VK_ESCAPE))
         {
             /*if(isPlaying)

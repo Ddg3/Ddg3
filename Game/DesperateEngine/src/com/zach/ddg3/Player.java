@@ -123,6 +123,11 @@ public class Player extends Object
     private int basePaddingTop = 15;
     private int basePaddingSide = 10;
 
+    private int baseHeightG = 77;
+    private int baseWidthG = 81;
+    private int basePaddingTopG = 15;
+    private int basePaddingSideG = 10;
+
     public int getPaddingSideHead() {
         return paddingSideHead;
     }
@@ -165,24 +170,23 @@ public class Player extends Object
     private int[] offsetCenterXBody = {0, -5, -4, -2, -1, 2, 4, 5};
     private int[] offsetCenterYBody = {12, 12, 12, 10, 11, 10, 12, 12};
 
-    private int[] offsetCenterXBodyG = {0, -5, -4, -2, -1, 2, 4, 5};
-    private int[] offsetCenterYBodyG = {12, 12, 12, 10, 11, 10, 12, 12};
+    private int tempPaddingTopHead = 46;
+    private int tempPaddingSideHead = 22;
+    private int[] tempPaddingTopBody = {36, 38, 38, 32, 38, 32, 38, 36};
+    private int[] tempPaddingSideBody = {18, 8, 8, 18, 19,18,8,8};
 
-    public int[] getOffsetCenterXBodyG() {
-        return offsetCenterXBodyG;
-    }
+    private int tempGooseWidth = 114;
+    private int tempGooseHeight = 92;
 
-    public void setOffsetCenterXBodyG(int[] offsetCenterXBodyG) {
-        this.offsetCenterXBodyG = offsetCenterXBodyG;
-    }
+    private int paddingTopHeadG = 48;
+    private int paddingSideHeadG = 46;
+    private int[] paddingSideBodyG = new int[]{38, 32, 28, 34, 40, 34, 28, 32};
+    private int[] paddingTopBodyG = new int[]{58, 60, 64, 58, 60, 58, 64, 60};
 
-    public int[] getOffsetCenterYBodyG() {
-        return offsetCenterYBodyG;
-    }
-
-    public void setOffsetCenterYBodyG(int[] offsetCenterYBodyG) {
-        this.offsetCenterYBodyG = offsetCenterYBodyG;
-    }
+    private int tempPaddingSideHeadG = 48;
+    private int tempPaddingTopHeadG = 46;
+    private int[] tempPaddingSideBodyG = new int[]{38, 32, 28, 34, 40, 34, 28, 32};
+    private int[] tempPaddingTopBodyG = new int[]{58, 60, 64, 58, 60, 58, 64, 60};
 
     public int[] getPaddingTopBody() {
         return paddingTopBody;
@@ -404,6 +408,7 @@ public class Player extends Object
                 this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
                 setFrame(0);
                 this.zIndex = Integer.MAX_VALUE - 1;
+                timer.setFrame(0);
             }
 
             if(time > 0)
@@ -946,6 +951,7 @@ public class Player extends Object
             this.droppingIn = true;
             this.visible = true;
             this.playInRangeAndBack(8, 22);
+            this.zIndex = Integer.MAX_VALUE - 1;
         }
 
         if(this.position.y >= GameManager.center.position.y && droppingIn)
@@ -954,6 +960,7 @@ public class Player extends Object
             this.stop();
             this.setInGame(true);
             this.setFrame(1);
+            this.zIndex = 5;
             if(GameManager.firstTime)
             {
                 GameManager.players.add(this);
@@ -1057,6 +1064,8 @@ public class Player extends Object
             int indWidth = 0;
             int indHeight = 0;
             String indPath = null;
+            int gooseWidth = 0;
+            int gooseHeight = 0;
 
             removeComponent("Weapon");
             switch (selection.getFrame())
@@ -1070,6 +1079,9 @@ public class Player extends Object
                         newPath = "/Duck_rocketLauncher.png";
                         newFrames = 16;
 
+                        gooseWidth = 114;
+                        gooseHeight = 92;
+
                         indWidth = 43;
                         indHeight = 29;
                         indPath = "/missileIndicator.png";
@@ -1081,6 +1093,9 @@ public class Player extends Object
                             newHeight = 103;
                             newPath = "/Duck_cannon.png";
                             newFrames = 8;
+
+                            gooseWidth = 101;
+                            gooseHeight = 127;
 
                             indWidth = 23;
                             indHeight = 30;
@@ -1097,6 +1112,9 @@ public class Player extends Object
                         newPath = "/Duck_grenadeLauncher.png";
                         newFrames = 16;
 
+                        gooseWidth = 91;
+                        gooseHeight = 93;
+
                         indWidth = 36;
                         indHeight = 43;
                         indPath = "/mirvIndicator.png";
@@ -1108,6 +1126,9 @@ public class Player extends Object
                             newHeight = 76;
                             newPath = "/Duck_sniper.png";
                             newFrames = 8;
+
+                            gooseWidth = 108;
+                            gooseHeight = 92;
 
                             indWidth = 29;
                             indHeight = 33;
@@ -1128,6 +1149,16 @@ public class Player extends Object
             {
                 this.paddingTop = basePaddingTop;
             }
+
+            int gooseWidthDifference = tempGooseWidth - gooseWidth;
+            int gooseHeightDifference = tempGooseHeight - gooseHeight;
+            tempGooseWidth -= gooseWidthDifference;
+            tempGooseHeight -= gooseHeightDifference;
+            offsetGoosePadding((int)(gooseWidthDifference / 1.8), gooseHeightDifference);
+            setGooseTempPaddingValues();
+
+            //System.out.println(gooseWidthDifference +", "+ gooseHeightDifference);
+
             this.selection.setFrame(0);
             selecting = false;
             this.selection = null;
@@ -1143,7 +1174,9 @@ public class Player extends Object
             offsetHitboxes();
             offsetHitboxes();
             WeaponComponent weapon = (WeaponComponent) this.findComponent("Weapon");
-            offsetSubHitboxes((int)(widthDifference / 1.8), heightDifference, weapon.getSubTag());
+            offsetPadding((int)(widthDifference / 1.8), heightDifference);
+            setTempPaddingValues();
+            offsetSubHitboxes(weapon.getSubTag());
             selectionLevel.getbButton1().visible = false;
             selectionLevel.getbButton2().visible = false;
             weapon.setTempAltCooldown(0);
@@ -1195,14 +1228,25 @@ public class Player extends Object
 
             widthDifference = newWidth - this.width;
             heightDifference = newHeight - this.height;
-            this.paddingSide += (int)(widthDifference * 1.5);
-            this.paddingTop += (int)(heightDifference * 1.5);
+            this.paddingSide += (widthDifference / 2);
+            this.paddingTop += (heightDifference / 2);
+
+            if((this.width / 2) - this.paddingSide < (this.baseWidthG / 2) - basePaddingSideG)
+            {
+                this.paddingSide = basePaddingSideG;
+            }
+            if((this.height / 2) - this.paddingTop < (this.baseHeightG / 2) - basePaddingTopG)
+            {
+                this.paddingTop = basePaddingTopG;
+            }
+
             changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
             this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
             frameHitboxOffsets.clear();
             offsetHitboxes();
             offsetHitboxes();
             //offsetSubHitboxes(widthDifference);
+            offsetSubHitboxes(weapon.getSubTag());
             if(GameManager.timePedestals.size() != 0)
             {
                 GameManager.timePedestals.get(playerNumber).setFrame(1);
@@ -1242,16 +1286,25 @@ public class Player extends Object
                         newFrames = 8;
                         break;
                 }
-                widthDifference = newWidth - this.width;
-                heightDifference = newHeight - this.height;
-                this.paddingSide += (int)(widthDifference * 1.5);
-                this.paddingTop += (int)(heightDifference * 1.5);
+                widthDifference = this.width - newWidth;
+                heightDifference = this.height - newHeight;
+                this.paddingSide += (widthDifference / 2);
+                this.paddingTop += (heightDifference / 2);
+
+                if((this.width / 2) - this.paddingSide < (this.baseWidth / 2) - basePaddingSide)
+                {
+                    this.paddingSide = basePaddingSide;
+                }
+                if((this.height / 2) - this.paddingTop < (this.baseHeight / 2) - basePaddingTop)
+                {
+                    this.paddingTop = basePaddingTop;
+                }
                 changeSprite(newWidth, newHeight, newPath, newFrames, 0.1f);
                 this.getObjImage().changeColor(skinColors[1], skinColors[skIndex]);
                 frameHitboxOffsets.clear();
                 offsetHitboxes();
                 offsetHitboxes();
-                //offsetSubHitboxes(widthDifference);
+                offsetSubHitboxes(weapon.getSubTag());
                 if(GameManager.timePedestals.size() != 0)
                 {
                     GameManager.timePedestals.get(playerNumber).setFrame(0);
@@ -1272,7 +1325,35 @@ public class Player extends Object
         frameHitboxOffsets.add(7, new Vector(0,0));
     }
 
-    public void offsetSubHitboxes(int widthDiff, int heightDiff, String tag)
+    public void setTempPaddingValues()
+    {
+        tempPaddingTopHead = paddingTopHead;
+        tempPaddingSideHead = paddingSideHead;
+        tempPaddingTopBody = paddingTopBody;
+        tempPaddingSideBody = paddingSideBody;
+    }
+    public void setGooseTempPaddingValues()
+    {
+        tempPaddingTopHeadG = paddingTopHeadG;
+        tempPaddingSideHeadG = paddingSideHeadG;
+        tempPaddingTopBodyG = paddingTopBodyG;
+        tempPaddingSideBodyG = paddingSideBodyG;
+    }
+    public void setPaddingValuesToTemps()
+    {
+        paddingTopHead = tempPaddingTopHead;
+        paddingSideHead = tempPaddingSideHead;
+        paddingTopBody = tempPaddingTopBody;
+        paddingSideBody = tempPaddingSideBody;
+    }
+    public void setGoosePaddingValuesToTemps()
+    {
+        paddingTopHeadG = tempPaddingTopHeadG;
+        paddingSideHeadG = tempPaddingSideHeadG;
+        paddingTopBodyG = tempPaddingTopBodyG;
+        paddingSideBodyG = tempPaddingSideBodyG;
+    }
+    public void offsetPadding(int widthDiff, int heightDiff)
     {
         for(int i = 0; i < paddingSideBody.length; i++)
         {
@@ -1282,34 +1363,124 @@ public class Player extends Object
 
         paddingSideHead += widthDiff;
         paddingTopHead += heightDiff;
+    }
 
-        switch (tag)
+    public void offsetGoosePadding(int widthDiff, int heightDiff)
+    {
+        for(int i = 0; i < paddingSideBodyG.length; i++)
         {
-            case "rocketLauncher":
-                offsetCenterXHead = new int[]{0, 0, -15, 0, 0, -1, 14, -1};
-                offsetCenterYHead = new int[]{-17, -17, -17, -16, -18, -16, -17, -17};
-                offsetCenterXBody = new int[]{0, -10, -23, -3, 0, 3, 23, 10};
-                offsetCenterYBody = new int[]{12, 12, 12, 16, 9, 16, 12, 12};
-                break;
-            case "grenadeLauncher":
-                offsetCenterXHead = new int[]{0, 0, -4, -4, 0, 4, 3, -1};
-                offsetCenterYHead = new int[]{-21, -21, -21, -21, -21, -21, -21, -21};
-                offsetCenterXBody = new int[]{0, -10, -12, -6, 0, 6, 12, 10};
-                offsetCenterYBody = new int[]{8, 8, 8, 10, 6, 10, 8, 8};
-                break;
-            case "cannon":
-                offsetCenterXHead = new int[]{0, 10, 4, 0, 0, 0, -4, -10};
-                offsetCenterYHead = new int[]{-38, -38, -38, -38, -38, -38, -38, -38};
-                offsetCenterXBody = new int[]{0, 2, -4, 0, 0, 0, 4, -2};
-                offsetCenterYBody = new int[]{-9, -9, -9, -7, -11, -7, -9, -9};
-                break;
-            case "sniper":
-                offsetCenterXHead = new int[]{0, -1, -14, -1, 0, 0, 14, -1};
-                offsetCenterYHead = new int[]{-17, -17, -17, -16, -17, -17, -17, -17};
-                offsetCenterXBody = new int[]{0, -10, -23, -3, 0, 3, 23, 10};
-                offsetCenterYBody = new int[]{12, 12, 12, 16, 9, 16, 12, 12};
-                break;
+            paddingSideBodyG[i] -= widthDiff;
+            paddingTopBodyG[i] -= heightDiff;
         }
+
+        paddingSideHeadG -= widthDiff;
+        paddingTopHeadG -= heightDiff;
+    }
+
+    public void setPaddingToGoose()
+    {
+        paddingTopHead = paddingTopHeadG;
+        paddingSideHead = paddingSideHeadG;
+        for(int i = 0; i < paddingTopBody.length; i++)
+        {
+            /*paddingTopBody[i] = paddingTopBodyG[i];
+            System.out.println(paddingTopBody[i]);
+            paddingSideBody[i] = paddingSideBodyG[i];
+            System.out.println(paddingSideBody[i]);*/
+            //System.out.print(paddingTopBodyG[i] + ", ");
+            //paddingSideBody = new int[]{38, 32, 28, 34, 40, 34, 28, 32};
+            //paddingTopBody = new int[]{58, 60, 64, 58, 60, 58, 64, 60};
+        }
+        //System.out.println();
+        paddingTopBody = paddingTopBodyG;
+        paddingSideBody = paddingSideBodyG;
+    }
+
+    public void offsetSubHitboxes(String tag)
+    {
+        if(!isGoose)
+        {
+            setPaddingValuesToTemps();
+            switch (tag)
+            {
+                case "rocketLauncher":
+                    offsetCenterXHead = new int[]{0, 0, -15, 0, 0, -1, 14, -1};
+                    offsetCenterYHead = new int[]{-17, -17, -17, -16, -18, -16, -17, -17};
+                    offsetCenterXBody = new int[]{0, -10, -23, -3, 0, 3, 23, 10};
+                    offsetCenterYBody = new int[]{12, 12, 12, 16, 9, 16, 12, 12};
+                    break;
+                case "grenadeLauncher":
+                    offsetCenterXHead = new int[]{-1, -1, -4, -4, 0, 4, 3, -1};
+                    offsetCenterYHead = new int[]{-21, -21, -21, -21, -21, -21, -21, -21};
+                    offsetCenterXBody = new int[]{0, -10, -12, -6, 0, 6, 12, 10};
+                    offsetCenterYBody = new int[]{8, 8, 8, 10, 6, 10, 8, 8};
+                    break;
+                case "cannon":
+                    offsetCenterXHead = new int[]{0, 10, 4, 0, 0, 0, -4, -10};
+                    offsetCenterYHead = new int[]{-38, -38, -38, -38, -38, -38, -38, -38};
+                    offsetCenterXBody = new int[]{0, 2, -4, 0, 0, 0, 4, -2};
+                    offsetCenterYBody = new int[]{-9, -9, -9, -7, -11, -7, -9, -9};
+                    break;
+                case "sniper":
+                    offsetCenterXHead = new int[]{0, -1, -14, -1, 0, 0, 14, -1};
+                    offsetCenterYHead = new int[]{-17, -17, -17, -16, -17, -17, -17, -17};
+                    offsetCenterXBody = new int[]{0, -10, -23, -3, 0, 3, 23, 10};
+                    offsetCenterYBody = new int[]{12, 12, 12, 16, 9, 16, 12, 12};
+                    break;
+            }
+        }
+        else
+            {
+                setGoosePaddingValuesToTemps();
+                setPaddingToGoose();
+                switch (tag)
+                {
+                    case "rocketLauncher":
+                        /*paddingSideHead = 48;
+                        paddingTopHead = 46;
+                        paddingSideBody = new int[]{38, 32, 28, 34, 40, 34, 28, 32};
+                        paddingTopBody = new int[]{58, 60, 64, 58, 60, 58, 64, 60};*/
+
+                        offsetCenterXHead = new int[]{-1, -1, -3, 0, -1, 0, 3, 0};
+                        offsetCenterYHead = new int[]{-20, -20, -21, -21, -21, -21, -21, -20};
+                        offsetCenterXBody = new int[]{-1, -10, -23, -10, -1, 10, 23, 10};
+                        offsetCenterYBody = new int[]{12, 12, 16, 19, 13, 19, 16, 12};
+                        break;
+                    case "grenadeLauncher":
+                        /*paddingSideHead = 36;
+                        paddingTopHead = 44;
+                        paddingSideBody = new int[]{28, 32, 16, 34, 40, 34, 28, 32};
+                        paddingTopBody = new int[]{58, 60, 64, 58, 60, 58, 64, 60};*/
+
+                        offsetCenterXHead = new int[]{0, 0, -4, -4, 0, 4, 3, -1};
+                        offsetCenterYHead = new int[]{-21, -21, -21, -21, -21, -21, -21, -21};
+                        offsetCenterXBody = new int[]{0, -10, -12, -6, 0, 6, 12, 10};
+                        offsetCenterYBody = new int[]{8, 8, 8, 10, 6, 10, 8, 8};
+                        break;
+                    case "cannon":
+                        /*paddingSideHead = 48;
+                        paddingTopHead = 46;
+                        paddingSideBody = new int[]{38, 32, 28, 34, 40, 34, 28, 32};
+                        paddingTopBody = new int[]{58, 60, 64, 58, 60, 58, 64, 60};*/
+
+                        offsetCenterXHead = new int[]{0, 10, 4, 0, 0, 0, -4, -10};
+                        offsetCenterYHead = new int[]{-38, -38, -38, -38, -38, -38, -38, -38};
+                        offsetCenterXBody = new int[]{0, 2, -4, 0, 0, 0, 4, -2};
+                        offsetCenterYBody = new int[]{-9, -9, -9, -7, -11, -7, -9, -9};
+                        break;
+                    case "sniper":
+                        /*paddingSideHead = 48;
+                        paddingTopHead = 46;
+                        paddingSideBody = new int[]{38, 32, 28, 34, 40, 34, 28, 32};
+                        paddingTopBody = new int[]{58, 60, 64, 58, 60, 58, 64, 60};*/
+
+                        offsetCenterXHead = new int[]{0, -1, -14, -1, 0, 0, 14, -1};
+                        offsetCenterYHead = new int[]{-17, -17, -17, -16, -17, -17, -17, -17};
+                        offsetCenterXBody = new int[]{0, -10, -23, -3, 0, 3, 23, 10};
+                        offsetCenterYBody = new int[]{12, 12, 12, 16, 9, 16, 12, 12};
+                        break;
+                }
+            }
     }
 
     public int getKeyColor1() {
