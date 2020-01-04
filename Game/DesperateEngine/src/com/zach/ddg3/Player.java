@@ -1446,28 +1446,31 @@ public class Player extends Object
                         offsetCenterXBody = new int[]{-1, -10, -23, -10, -1, 10, 23, 10};
                         offsetCenterYBody = new int[]{12, 12, 16, 19, 13, 19, 16, 12};
                         break;
+
                     case "grenadeLauncher":
                         /*paddingSideHead = 36;
                         paddingTopHead = 44;
                         paddingSideBody = new int[]{28, 32, 16, 34, 40, 34, 28, 32};
                         paddingTopBody = new int[]{58, 60, 64, 58, 60, 58, 64, 60};*/
 
-                        offsetCenterXHead = new int[]{0, 0, -4, -4, 0, 4, 3, -1};
-                        offsetCenterYHead = new int[]{-21, -21, -21, -21, -21, -21, -21, -21};
+                        offsetCenterXHead = new int[]{0, 1, 8, 0, 0, 0, -9, -1};
+                        offsetCenterYHead = new int[]{-23, -23, -23, -23, -23, -23, -23, -23};
                         offsetCenterXBody = new int[]{0, -10, -12, -6, 0, 6, 12, 10};
-                        offsetCenterYBody = new int[]{8, 8, 8, 10, 6, 10, 8, 8};
+                        offsetCenterYBody = new int[]{13, 13, 15, 16, 14, 16, 15, 13};
                         break;
+
                     case "cannon":
                         /*paddingSideHead = 48;
                         paddingTopHead = 46;
                         paddingSideBody = new int[]{38, 32, 28, 34, 40, 34, 28, 32};
                         paddingTopBody = new int[]{58, 60, 64, 58, 60, 58, 64, 60};*/
 
-                        offsetCenterXHead = new int[]{0, 10, 4, 0, 0, 0, -4, -10};
-                        offsetCenterYHead = new int[]{-38, -38, -38, -38, -38, -38, -38, -38};
+                        offsetCenterXHead = new int[]{0, 19, 17, 0, 0, 0, -17, -19};
+                        offsetCenterYHead = new int[]{-40, -40, -40, -40, -40, -40, -40, -40};
                         offsetCenterXBody = new int[]{0, 2, -4, 0, 0, 0, 4, -2};
-                        offsetCenterYBody = new int[]{-9, -9, -9, -7, -11, -7, -9, -9};
+                        offsetCenterYBody = new int[]{-6, -4, -2, -3, -4, -3, -2, -4};
                         break;
+
                     case "sniper":
                         /*paddingSideHead = 48;
                         paddingTopHead = 46;
