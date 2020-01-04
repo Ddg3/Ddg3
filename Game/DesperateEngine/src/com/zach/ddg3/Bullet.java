@@ -82,6 +82,7 @@ public class Bullet extends Object
     private float mirvTimer = 0.6f;
     private float tempMirvTimer = mirvTimer;
     public float explosionTimer = 0;
+    private boolean missileDirChanged = false;
 
     public int getDirChanges() {
         return dirChanges;
@@ -132,6 +133,16 @@ public class Bullet extends Object
     private float plantTime = 0;
     private float tempPlantTime = 0;
 
+    private boolean fullyCharged = false;
+    private int currMissileDir = 100;
+    private float missileDirBuffer = 0.1f;
+    private float tempMissileDirBuffer = missileDirBuffer;
+    private float missileLife = 9f;
+
+    public void setFullyCharged(boolean fullyCharged) {
+        this.fullyCharged = fullyCharged;
+    }
+
     public Bullet(String name, int width, int height, String path, int totalFrames, float frameLife, int direction, WeaponComponent weapon)
     {
         super(name, width, height, path, totalFrames, frameLife);
@@ -144,6 +155,10 @@ public class Bullet extends Object
 
         this.speed = weapon.getSpeed();
 
+        if(this.getObjImage().getPath() == "/owlGuard.png")
+        {
+            fullyCharged = true;
+        }
         if(decelRate == 0)
         {
             decelRate = weapon.getSlowRate();
@@ -158,19 +173,26 @@ public class Bullet extends Object
             tempAccel = weapon.getAccelRate();
         }
 
-        if(weapon.isHasDirection() && !isAlt)
+        if((weapon.isHasDirection() && !isAlt) || fullyCharged)
         {
             this.setFrame(direction);
         }
         if(weapon.isAnimated())
         {
-            if(direction >= 0 && direction <= 4)
+            System.out.println(fullyCharged);
+            if(!fullyCharged)
             {
-                this.playInRange(0, this.getTotalFrames() - 1);
+                if (direction >= 0 && direction <= 4)
+                {
+                    this.playInRange(0, this.getTotalFrames() - 1);
+                } else
+                    {
+                    this.playReverseInRange(0, this.getTotalFrames() - 1);
+                }
             }
             else
                 {
-                    this.playReverseInRange(0, this.getTotalFrames() - 1);
+                    playInRange(direction * 8, (direction * 8) + 8);
                 }
         }
         this.addComponent(new AABBComponent(this, "bullet"));
@@ -327,6 +349,10 @@ public class Bullet extends Object
                 direction = 10;
                 tempTimer = 8f;
                 setFrameLife(1f);
+
+                Player player = (Player) weapon.getParent();
+                playInRange((player.getFrame() - player.getFrameOffset()) * 2, ((player.getFrame() - player.getFrameOffset()) * 2) + 2);
+                //setFrame(player.getFrame() - player.getFrameOffset());
                 break;
             case "grenadeLauncher":
                 play();
@@ -355,138 +381,79 @@ public class Bullet extends Object
             case "cannon":
                 //stun();
                 break;
+            case "sniper":
+                int newDir = 0;
+                switch(direction)
+                {
+                    case 2:
+                        newDir = 1;
+                        break;
+                    case 4:
+                        newDir = 2;
+                        break;
+                    case 6:
+                        newDir = 3;
+                        break;
+                }
+                playInRange(newDir * 2, (newDir * 2) + 2);
+                break;
         }
     }
-    public void homeIn(float dt)
+    public void leaveTrail()
     {
-        tempTimer -= dt;
-        if(tempTimer <= 0)
-        {
-            explode(false);
-        }
-
-        setFrameLife(0.3f);
-        Player player = (Player) weapon.getParent();
-        Player target = null;
-        speed = 55f;
-        for(int i = 0; i < GameManager.players.size(); i++)
-        {
-            if(GameManager.players.get(i).getPlayerNumber() != player.getPlayerNumber())
-            {
-                target = GameManager.players.get(i);
-            }
-        }
-        int hDist = (int)(this.position.x - target.getPositionX());
-        int vDist = (int)(this.position.y - target.getPositionY());
-
-        if(direction == 10)
-        {
-            if (hDist >= vDist) {
-                if (hDist < 0)
-                {
-                    direction = 2;
-                } else {
-                    direction = 6;
-                }
-            } else {
-                if (vDist < 0) {
-                    direction = 0;
-                } else {
-                    direction = 4;
-                }
-            }
-        }
-
-        switch (direction)
-        {
-            case 1:
-                direction = 2;
-                break;
-            case 3:
-                direction = 4;
-                break;
-            case 5:
-                direction = 6;
-                break;
-            case 7:
-                direction = 0;
-                break;
-        }
-        if(direction == 2 || direction == 6)
-        {
-            if(hDist < 5 && hDist > -5)
-            {
-                if(vDist < 0)
-                {
-                    direction = 0;
-                    played = false;
-                }
-                else
-                {
-                    direction = 4;
-                    played = false;
-                }
-            }
-        }
-        else if(direction == 0 || direction == 4)
-        {
-            if(vDist < 5 && vDist > -5)
-            {
-                if (hDist < 0)
-                {
-                    direction = 2;
-                    played = false;
-                }
-                else
-                    {
-                        direction = 6;
-                        played = false;
-                    }
-            }
-        }
-
-        switch (direction)
+        int offsetX = 0;
+        int offsetY = 0;
+        switch(direction)
         {
             case 0:
-                if(!played)
-                {
-                    playInRange(2, 4);
-                    played = true;
-                }
+                offsetY = -45;
                 break;
             case 2:
-                if(!played)
-                {
-                    playInRange(0, 2);
-                    played = true;
-                }
+                offsetX = -45;
                 break;
             case 4:
-                if(!played)
-                {
-                    playInRange(6, 8);
-                    played = true;
-                }
+                offsetY = 45;
                 break;
             case 6:
-                if(!played)
-                {
-                    playInRange(4, 6);
-                    played = true;
-                }
+                offsetX = 45;
                 break;
         }
+
+        int newDir = 0;
+        switch(direction)
+        {
+            case 2:
+                newDir = 1;
+                break;
+            case 4:
+                newDir = 2;
+                break;
+            case 6:
+                newDir = 3;
+                break;
+        }
+        Object trail = new Object("trail", 95, 95, "/sniperUltTrail.png", 16, 0.15f);
+        trail.setPosition(this.getPositionX() + offsetX, this.getPositionY() + offsetY);
+        trail.playToAndDestroy(newDir * 4, (newDir * 4) + 4);
+        GameManager.objects.add(trail);
     }
 
     public void smartHomeIn(float dt)
     {
+        missileLife -= dt;
+        if(missileLife <= 0)
+        {
+            explode(false);
+        }
         Player player = (Player) weapon.getParent();
         Player target = null;
 
         if(target == null)
         {
-            for (int i = 0; i < GameManager.players.size(); i++) {
-                if (GameManager.players.get(i).getPlayerNumber() != player.getPlayerNumber()) {
+            for (int i = 0; i < GameManager.players.size(); i++)
+            {
+                if (GameManager.players.get(i).getPlayerNumber() != player.getPlayerNumber())
+                {
                     target = GameManager.players.get(i);
                 }
             }
@@ -498,39 +465,54 @@ public class Bullet extends Object
             double playerY = target.position.y;
             double angle = Math.toDegrees(Math.atan2(playerY - this.getPositionY(), playerX - this.getPositionX()));
             System.out.println(angle);
-            if ((angle < -150 && angle > -180) || (angle > 150 && angle < 180)) {
-                //Left
-                this.setFrame(6);
-            }
-            if ((angle > -30 && angle < 0) || (angle < 30 && angle > 0)) {
-                //Right
-                this.setFrame(2);
-            }
-            if ((angle > 60 && angle < 120)) {
-                //Down
-                this.setFrame(0);
-            }
-            if (angle < -60 && angle > -120) {
-                //Up
-                this.setFrame(4);
-            }
-            if (angle > -150 && angle < -120) {
-                //Left and Up
-                this.setFrame(5);
-            }
-            if (angle < 150 && angle > 120) {
-                //Left and Down
-                this.setFrame(7);
-            }
-            if (angle > 30 && angle < 60) {
-                //Right and Down
-                this.setFrame(1);
-            }
-            if (angle < -30 && angle > -60) {
-                //Right and Up
-                this.setFrame(3);
-            }
-            direction = this.getFrame();
+            int newDir = 0;
+                if ((angle < -150 && angle > -180) || (angle > 150 && angle < 180)) {
+                    //Left
+                    newDir = 6;
+                }
+                if ((angle > -30 && angle < 0) || (angle < 30 && angle > 0)) {
+                    //Right
+                    newDir = 2;
+                }
+                if ((angle > 60 && angle < 120)) {
+                    //Down
+                    newDir = 0;
+                }
+                if (angle < -60 && angle > -120) {
+                    //Up
+                    newDir = 4;
+                }
+                if (angle > -150 && angle < -120) {
+                    //Left and Up
+                    newDir = 5;
+                }
+                if (angle < 150 && angle > 120) {
+                    //Left and Down
+                    newDir = 7;
+                }
+                if (angle > 30 && angle < 60) {
+                    //Right and Down
+                    newDir = 1;
+                }
+                if (angle < -30 && angle > -60) {
+                    //Right and Up
+                    newDir = 3;
+                }
+                if(currMissileDir == 100)
+                {
+                    currMissileDir = (player.getFrame() - player.getFrameOffset()) * 2;
+                    playInRange(currMissileDir, currMissileDir + 2);
+                }
+                if(newDir != currMissileDir)
+                {
+                    currMissileDir = newDir;
+                    if(tempMissileDirBuffer <= 0)
+                    {
+                        playInRange(currMissileDir * 2, (currMissileDir * 2) + 2);
+                        tempMissileDirBuffer = missileDirBuffer;
+                    }
+                } tempMissileDirBuffer -= dt;
+            direction = currMissileDir;
             move(dt);
         }
         else
@@ -855,12 +837,15 @@ public class Bullet extends Object
                     }
 
 
-                    if (weapon.getBounceCount() > 0) {
-                        if (tempBounces == weapon.getBounceCount()) {
+                    if (weapon.getBounceCount() > 0)
+                    {
+                        if (tempBounces == weapon.getBounceCount())
+                        {
                             if (weapon.isExplodes()) {
                                 weapon.bullets.remove(this);
                                 explode(false);
-                            } else {
+                            } else
+                                {
                                 weapon.bullets.remove(this);
                                 GameManager.objects.remove(this);
                             }
@@ -872,14 +857,20 @@ public class Bullet extends Object
                     if (isAlt && weapon.getSubTag() == "cannon")
                     {
                         stun();
-                    } else if (weapon.isExplodes())
+                    }
+                    else if (weapon.isExplodes())
                     {
+                        if(isAlt && weapon.getTag() == "sniper")
+                        {
+                            leaveTrail();
+                        }
                         explode(false);
                         weapon.bullets.remove(this);
-                    } else
-                        {
-                        GameManager.objects.remove(this);
                     }
+                    else
+                        {
+                            GameManager.objects.remove(this);
+                        }
                 }
                 else if(!weapon.isOstrich())
                     {
@@ -981,11 +972,13 @@ public class Bullet extends Object
                             {
                                 player.stun();
                                 player.depleteTime(6 + (2 * dirChanges));
+                                leaveTrail();
                                 explode(true);
                                 head.setHeadshot(false);
                             }
                                 else
                                     {
+                                        leaveTrail();
                                         explode(false);
                                     }
                         }

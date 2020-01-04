@@ -81,7 +81,7 @@ public class Explosion extends Object
                          && (-knockedObjects.get(i).getKnockback().x > -knockedObjects.get(i).getKnockbackCap() && -knockedObjects.get(i).getKnockback().y > -knockedObjects.get(i).getKnockbackCap()))
                 {
                     knockedObjects.get(i).applyKnockback(knockback, dt);
-                }
+               }
 
                 else
                     {

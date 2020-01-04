@@ -261,6 +261,7 @@ public class mainLevel extends GameLevel
 
         ground2 = new Object("ground2", 640, 360, "/ground2.png", 1, 0.1f);
         ground2.zIndex = 0;
+        ground2.position.x = -50;
         ground2.position.y = -500;
         GameManager.objects.add(ground2);
 
@@ -436,7 +437,7 @@ public class mainLevel extends GameLevel
         }*/
 
         start();
-    }
+}
 
     @Override
     public void update(Main main, float dt)
@@ -725,8 +726,8 @@ public class mainLevel extends GameLevel
 
     public void start()
     {
-        counter = new Object("counter", 128, 168, "/startNumbers.png", 5, 1f);
         starting = true;
+        counter = new Object("counter", 144, 158, "/scopeBullet.png", 5, 1f);
         GameManager.objects.add(counter);
         counter.setFrame(4);
         //counter.isActiveOnPause = true;

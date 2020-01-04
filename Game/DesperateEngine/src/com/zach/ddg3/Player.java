@@ -48,6 +48,7 @@ public class Player extends Object
 
     private XInputAxesDelta axes;
 
+    private boolean lockedEven = false;
     private boolean collidingTop = false;
     private boolean collidingBottom = false;
     private boolean collidingLeft = false;
@@ -245,6 +246,8 @@ public class Player extends Object
     private float stunTimer = 2.5f;
     private float tempStun = stunTimer;
 
+    private boolean rumbling;
+    private float tempRumbleTimer = 0;
     public float getSpeed() {
         return speed;
     }
@@ -355,6 +358,15 @@ public class Player extends Object
             {
                 GameManager.pausePlayer = this;
                 GameManager.isPlaying = false;
+            }
+            if(rumbling)
+            {
+                tempRumbleTimer -= dt;
+                if(tempRumbleTimer <= 0)
+                {
+                    rumbling = false;
+                    device.setVibration(0,0);
+                }
             }
             //System.out.println(offsetPos.x);
            /*this.offsetPos.x = main.getInput().getMouseX() - this.width;
@@ -467,6 +479,18 @@ public class Player extends Object
         }
     }
 
+    public void lockTurning(boolean even)
+    {
+        if(even)
+        {
+            lockedEven = true;
+        }
+    }
+
+    public void unlockTurning()
+    {
+        lockedEven = false;
+    }
     @Override
     public void render(Main main, Renderer r)
     {
@@ -778,34 +802,36 @@ public class Player extends Object
             collidingTop = false;
         }
 
-        //Changes frame of animation on the diagonals if the right thumbstick is not being used
-        if (lStickX > 0.4f && lStickY < -0.4f)
+        if(!lockedEven)
         {
-            if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f)
-            {
-                this.setFrame(5 + this.getFrameOffset());
+            //Changes frame of animation on the diagonals if the right thumbstick is not being used
+            if (lStickX > 0.4f && lStickY < -0.4f) {
+                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
+                    this.setFrame(5 + this.getFrameOffset());
+                }
             }
-        }
-        if (lStickX > 0.4f && lStickY > 0.4f) {
-            if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(7 + this.getFrameOffset());
+            if (lStickX > 0.4f && lStickY > 0.4f) {
+                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
+                    this.setFrame(7 + this.getFrameOffset());
+                }
             }
-        }
-        if (lStickY > 0.4f && lStickX < -0.4f) {
-            if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(1 + this.getFrameOffset());
+            if (lStickY > 0.4f && lStickX < -0.4f) {
+                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
+                    this.setFrame(1 + this.getFrameOffset());
+                }
             }
-        }
-        if (lStickY < -0.4f && lStickX < -0.4f) {
-            if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(3 + this.getFrameOffset());
+            if (lStickY < -0.4f && lStickX < -0.4f) {
+                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
+                    this.setFrame(3 + this.getFrameOffset());
+                }
             }
         }
     }
 
     public void look()
     {
-        if (rStickX > 0.4f) {
+        if (rStickX > 0.4f)
+        {
             //Left
             this.setFrame(6 + this.getFrameOffset());
         }
@@ -821,6 +847,8 @@ public class Player extends Object
             //Up
             this.setFrame(4 + this.getFrameOffset());
         }
+        if(!lockedEven)
+        {
         if (rStickX > 0.4f && rStickY < -0.4f) {
             //Left and Up
             this.setFrame(5 + this.getFrameOffset());
@@ -836,6 +864,7 @@ public class Player extends Object
         if (rStickY < -0.4f && rStickX < -0.4f) {
             //Right and Up
             this.setFrame(3 + this.getFrameOffset());
+        }
         }
     }
 
@@ -876,22 +905,21 @@ public class Player extends Object
             this.setFrame(4 + this.getFrameOffset());
         }
 
-        //Changes frame of animation on the diagonals if the right thumbstick is not being used
-        if (main.getInput().isKey(keyLeft) && main.getInput().isKey(keyUp))
+        if(!lockedEven)
         {
-            this.setFrame(5 + this.getFrameOffset());
-        }
-        if (main.getInput().isKey(keyLeft) && main.getInput().isKey(keyDown))
-        {
-            this.setFrame(7 + this.getFrameOffset());
-        }
-        if (main.getInput().isKey(keyRight) && main.getInput().isKey(keyDown))
-        {
-            this.setFrame(1 + this.getFrameOffset());
-        }
-        if (main.getInput().isKey(keyRight) && main.getInput().isKey(keyUp))
-        {
-            this.setFrame(3 + this.getFrameOffset());
+            //Changes frame of animation on the diagonals if the right thumbstick is not being used
+            if (main.getInput().isKey(keyLeft) && main.getInput().isKey(keyUp)) {
+                this.setFrame(5 + this.getFrameOffset());
+            }
+            if (main.getInput().isKey(keyLeft) && main.getInput().isKey(keyDown)) {
+                this.setFrame(7 + this.getFrameOffset());
+            }
+            if (main.getInput().isKey(keyRight) && main.getInput().isKey(keyDown)) {
+                this.setFrame(1 + this.getFrameOffset());
+            }
+            if (main.getInput().isKey(keyRight) && main.getInput().isKey(keyUp)) {
+                this.setFrame(3 + this.getFrameOffset());
+            }
         }
 
         //VERY IMPORTANT
@@ -926,24 +954,32 @@ public class Player extends Object
             //Up
             this.setFrame(4 + this.getFrameOffset());
         }
-        if (angle > -150 && angle < -120) {
-            //Left and Up
-            this.setFrame(5 + this.getFrameOffset());
-        }
-        if (angle < 150 && angle > 120) {
-            //Left and Down
-            this.setFrame(7 + this.getFrameOffset());
-        }
-        if (angle > 30 && angle < 60) {
-            //Right and Down
-            this.setFrame(1 + this.getFrameOffset());
-        }
-        if (angle < -30 && angle > -60) {
-            //Right and Up
-            this.setFrame(3 + this.getFrameOffset());
+        if(!lockedEven)
+        {
+            if (angle > -150 && angle < -120) {
+                //Left and Up
+                this.setFrame(5 + this.getFrameOffset());
+            }
+            if (angle < 150 && angle > 120) {
+                //Left and Down
+                this.setFrame(7 + this.getFrameOffset());
+            }
+            if (angle > 30 && angle < 60) {
+                //Right and Down
+                this.setFrame(1 + this.getFrameOffset());
+            }
+            if (angle < -30 && angle > -60) {
+                //Right and Up
+                this.setFrame(3 + this.getFrameOffset());
+            }
         }
     }
 
+    public void rumble(int power, float time)
+    {
+        device.setVibration(power, power);
+        rumbling = true;
+    }
     public void dropIn(float dt, Main main)
     {
         if((this.device.getDelta().getButtons().isPressed(XInputButton.START) || ( isKeyBoard && main.getInput().isKey(keyDropIn))) && !this.isInGame() && !this.droppingIn)
@@ -1467,8 +1503,8 @@ public class Player extends Object
 
                         offsetCenterXHead = new int[]{0, 19, 17, 0, 0, 0, -17, -19};
                         offsetCenterYHead = new int[]{-40, -40, -40, -40, -40, -40, -40, -40};
-                        offsetCenterXBody = new int[]{0, 2, -4, 0, 0, 0, 4, -2};
-                        offsetCenterYBody = new int[]{-6, -4, -2, -3, -4, -3, -2, -4};
+                        offsetCenterXBody = new int[]{0, 6, -4, -3, 0, -3, 4, -6};
+                        offsetCenterYBody = new int[]{-6, -4, -2, -1, -4, -1, -2, -4};
                         break;
 
                     case "sniper":
@@ -1477,10 +1513,10 @@ public class Player extends Object
                         paddingSideBody = new int[]{38, 32, 28, 34, 40, 34, 28, 32};
                         paddingTopBody = new int[]{58, 60, 64, 58, 60, 58, 64, 60};*/
 
-                        offsetCenterXHead = new int[]{0, -1, -14, -1, 0, 0, 14, -1};
-                        offsetCenterYHead = new int[]{-17, -17, -17, -16, -17, -17, -17, -17};
-                        offsetCenterXBody = new int[]{0, -10, -23, -3, 0, 3, 23, 10};
-                        offsetCenterYBody = new int[]{12, 12, 12, 16, 9, 16, 12, 12};
+                        offsetCenterXHead = new int[]{0, -1, -1, -1, 0, 0, 1 -1};
+                        offsetCenterYHead = new int[]{-16, -16, -16, -24, -16, -24, -16, -16};
+                        offsetCenterXBody = new int[]{0, -10, -23, -6, 0, 6, 21, 10};
+                        offsetCenterYBody = new int[]{19, 19, 23, 19, 19, 19, 23, 19};
                         break;
                 }
             }
