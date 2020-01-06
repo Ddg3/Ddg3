@@ -1,0 +1,46 @@
+Peregrine Boss Fight:
+
+Entrance: 
+Boss throws V-patterns and lines of bird-bullets at player
+Repeats until player does enough damage
+
+Second Phase: 
+
+4 turrets rise from the ground
+
+Each turret is commanded by a bird; the turrets are firing at the player
+
+(V- attacks/lines continue)
+
+The player(s) must shoot the bird off of the turret, allowing them to command it
+
+The turret(s) being commanded must fire at both wings
+
+(Excess turrets deal extra damage)
+
+Damage Phase:
+
+All attacks stop and turrets fall back into the ground
+
+The boss is stunned for 20 seconds, allowing for damage output
+
+Third Phase:
+
+Falcon swoops through the stage and takes the player to an empty location
+
+An X of birds swoops horizontally through a random y-position
+
+The boss swoops down on a random x-position at the shown y-position
+
+If the player shoots the bosses head during this swoop,
+new birds will swoop down and this repeats 3 times
+at which point the next damage phase begins
+if the boss is missed, players take damage and it swoops down again
+
+Damage Phase 2:
+
+Damage until dead
+
+
+
+
