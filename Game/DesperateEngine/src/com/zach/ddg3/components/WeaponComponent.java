@@ -81,6 +81,16 @@ public class WeaponComponent extends Component
     private int altHeight;
     private int altFrames;
     private String altPath;
+    private float altFrameLife;
+
+    private String chargedBulletPath;
+    private int chargedBulletWidth;
+    private int chargedBulletHeight;
+    private int chargedBulletFrames;
+    private float chargedBulletFrameTime;
+
+    private float chargeMaxTime = 2.5f;
+    private boolean fullyCharged = false;
 
     private Vector[] bulletOffsetD = new Vector[8];
     private Vector[] bulletOffsetG = new Vector[8];
@@ -166,7 +176,7 @@ public class WeaponComponent extends Component
                             if(bullets.get(i).getDirection() < 6)
                             {
                                 bullets.get(i).setDirection(bullets.get(i).getDirection() + dirIncrease);
-                                bullets.get(i).setFrame(bullets.get(i).getFrame() + dirIncrease);
+                                //bullets.get(i).setFrame(bullets.get(i).getFrame() + dirIncrease);
                             }
                             else
                                 {
@@ -174,11 +184,11 @@ public class WeaponComponent extends Component
                                     {
                                         case 6:
                                             bullets.get(i).setDirection(0);
-                                            bullets.get(i).setFrame(0);
+                                            //bullets.get(i).setFrame(0);
                                             break;
                                         case 7:
                                             bullets.get(i).setDirection(1);
-                                            bullets.get(i).setFrame(1);
+                                            //bullets.get(i).setFrame(1);
                                             break;
                                     }
 
@@ -209,6 +219,7 @@ public class WeaponComponent extends Component
 
             if (tempAltCooldown <= 0 && !player.getIndicator().visible)
             {
+                player.rumble(1, 0.2f);
                 player.getIndicator().visible = true;
                 GameManager.altReloadText.get(player.getPlayerNumber()).visible = false;
             }
@@ -355,7 +366,7 @@ public class WeaponComponent extends Component
                 {
                     tempAltCooldown = altCooldown;
                     player.getIndicator().visible = false;
-                    Bullet bullet = new Bullet("altBullet" + player.getPlayerNumber(), altWidth, altHeight, altPath, altFrames, 0.05f, player.getFrame() - parent.getFrameOffset(), this);
+                    Bullet bullet = new Bullet("altBullet" + player.getPlayerNumber(), altWidth, altHeight, altPath, altFrames, altFrameLife, player.getFrame() - parent.getFrameOffset(), this);
                     Vector offset;
                     if (!player.isGoose())
                     {
@@ -392,6 +403,7 @@ public class WeaponComponent extends Component
                     laserSight = new Object("laserSight",51, 53, "/laserSight.png", 8, 0.01f);
                     GameManager.objects.add(laserSight);
                     player.setSpeed(90f);
+                    player.lockTurning(true);
                 }
 
                 if(isAltCharging)
@@ -458,6 +470,7 @@ public class WeaponComponent extends Component
                     bullet.setSpeed(600f);
                     GameManager.altReloadText.get(player.getPlayerNumber()).visible = true;
                     isAltCharging = false;
+                    player.unlockTurning();
                 }
             }
         }
@@ -483,12 +496,26 @@ public class WeaponComponent extends Component
                 {
                     player.setSpeed(playerBaseSpeed - (chargeTimer * 15));
                 }
-                chargeTimer += dt;
+
+                if(chargeTimer < chargeMaxTime)
+                    chargeTimer += dt;
+                else if(!fullyCharged)
+                    {
+                        fullyCharged = true;
+                    }
             }
             if ((player.device.getDelta().getButtons().isReleased(XInputButton.RIGHT_SHOULDER) ||
                     (player.isKeyBoard() && main.getInput().isButtonUp(MouseEvent.BUTTON1))) && tempCooldown <= 0 && isCharging)
             {
-                Bullet bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
+                Bullet bullet = null;
+                if(!fullyCharged)
+                {
+                    bullet = new Bullet("bullet" + player.getPlayerNumber(), bulletWidth, bulletHeight, bulletPath, bulletFrames, bulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
+                }
+                else
+                    {
+                        bullet = new Bullet("bullet" + player.getPlayerNumber(), chargedBulletWidth, chargedBulletHeight, chargedBulletPath, chargedBulletFrames, chargedBulletFrameTime, player.getFrame() - parent.getFrameOffset(), this);
+                    }
                 Vector offset;
                 if (!player.isGoose()) {
                     offset = bulletOffsetD[player.getFrame()];
@@ -501,10 +528,15 @@ public class WeaponComponent extends Component
                 bullet.setSpeed(bullet.getSpeed() + (chargeTimer * 90));
                 bullets.add(bullet);
 
+                if(fullyCharged)
+                {
+                    bullet.setFullyCharged(true);
+                }
                 player.setSpeed(playerBaseSpeed + (chargeTimer * 15));
                 tempCooldown = shotCooldown;
                 isCharging = false;
                 chargeTimer = 0;
+                fullyCharged = false;
             }
         }
     }
@@ -534,6 +566,7 @@ public class WeaponComponent extends Component
                 altWidth = 74;
                 altHeight = 74;
                 altFrames = 8;
+                altFrameLife = 0.15f;
                 altPath = "/missile.png";
 
                 bulletOffsetD[0] = new Vector(-8,2);
@@ -578,6 +611,7 @@ public class WeaponComponent extends Component
                 altWidth = 38;
                 altHeight = 45;
                 altFrames = 8;
+                altFrameLife = 0.05f;
                 altPath = "/mirv.png";
 
 
@@ -594,13 +628,13 @@ public class WeaponComponent extends Component
                 bulletOffsetD[6] = new Vector(-41,-2);
                 bulletOffsetD[7] = new Vector(-22,22);
 
-                bulletOffsetG[0] = new Vector(-10,4);
+                bulletOffsetG[0] = new Vector(0,4);
                 bulletOffsetG[1] = new Vector(24,24);
-                bulletOffsetG[2] = new Vector(32,-2);
-                bulletOffsetG[3] = new Vector(31,-26);
+                bulletOffsetG[2] = new Vector(41,-2);
+                bulletOffsetG[3] = new Vector(40,-26);
                 bulletOffsetG[4] = new Vector(10,-4);
-                bulletOffsetG[5] = new Vector(-31,-26);
-                bulletOffsetG[6] = new Vector(-32,-2);
+                bulletOffsetG[5] = new Vector(-40,-26);
+                bulletOffsetG[6] = new Vector(-41,-2);
                 bulletOffsetG[7] = new Vector(-30,22);
                 break;
 
@@ -626,6 +660,7 @@ public class WeaponComponent extends Component
                 altWidth = 25;
                 altHeight = 32;
                 altFrames = 6;
+                altFrameLife = 0.06f;
                 altPath = "/stunBomb.png";
 
                 /*explosionWidth /= 2;
@@ -641,14 +676,15 @@ public class WeaponComponent extends Component
                 bulletOffsetD[6] = new Vector(-56,8);
                 bulletOffsetD[7] = new Vector(-42,32);
 
-                bulletOffsetG[0] = new Vector(-10,4);
-                bulletOffsetG[1] = new Vector(24,24);
-                bulletOffsetG[2] = new Vector(32,-2);
+                bulletOffsetG[0] = new Vector(0,17);
+                bulletOffsetG[1] = new Vector(37,33);
+                bulletOffsetG[2] = new Vector(47,13);
                 bulletOffsetG[3] = new Vector(31,-26);
-                bulletOffsetG[4] = new Vector(10,-4);
+                bulletOffsetG[4] = new Vector(3,-4);
+                bulletOffsetG[4] = new Vector(3,-4);
                 bulletOffsetG[5] = new Vector(-31,-26);
-                bulletOffsetG[6] = new Vector(-32,-2);
-                bulletOffsetG[7] = new Vector(-30,22);
+                bulletOffsetG[6] = new Vector(-47,13);
+                bulletOffsetG[7] = new Vector(-37,33);
                 break;
 
             case "sniper":
@@ -657,17 +693,26 @@ public class WeaponComponent extends Component
                 dirIncrease = 2;
                 isCharged = true;
                 shotCooldown = 0.4f;
+                hasDirection = false;
+                isAnimated = true;
 
-                bulletPath = "/sniper_Bullet.png";
-                bulletWidth = 27;
-                bulletHeight = 27;
-                bulletFrames = 8;
-                bulletFrameTime = 0.1f;
+                bulletPath = "/sniperBulletNew.png";
+                bulletWidth = 7;
+                bulletHeight = 7;
+                bulletFrames = 12;
+                bulletFrameTime = 0.05f;
 
-                altWidth = 27;
-                altHeight = 27;
+                chargedBulletPath = "/owlGuard.png";
+                chargedBulletWidth = 19;
+                chargedBulletHeight = 19;
+                chargedBulletFrames = 64;
+                chargedBulletFrameTime = 0.1f;
+
+                altWidth = 108;
+                altHeight = 108;
                 altFrames = 8;
-                altPath = "/scopeBullet.png";
+                altFrameLife = 0.05f;
+                altPath = "/weaponSelectBox1.png";
 
                 bulletOffsetD[0] = new Vector(-8,2);
                 bulletOffsetD[1] = new Vector(30,22);

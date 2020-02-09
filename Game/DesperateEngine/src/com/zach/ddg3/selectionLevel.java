@@ -94,13 +94,13 @@ public class selectionLevel extends GameLevel {
             players.get(1).setPosition(-165, 0);
             players.get(1).zIndex = 10;
             players.get(1).maxzIndex = 10;
-            players.get(1).setKeyBoard(false);
-            /*players.get(1).setKeyDropIn(KeyEvent.VK_SPACE);
+            //players.get(1).setKeyBoard(false);
+            players.get(1).setKeyDropIn(KeyEvent.VK_SPACE);
             players.get(1).setKeyLeft(KeyEvent.VK_LEFT);
             players.get(1).setKeyRight(KeyEvent.VK_RIGHT);
             players.get(1).setKeyDown(KeyEvent.VK_DOWN);
             players.get(1).setKeyUp(KeyEvent.VK_UP);
-            players.get(1).setKeyShoot(KeyEvent.VK_PAGE_DOWN);*/
+            //players.get(1).setKeyShoot(KeyEvent.VK_PAGE_DOWN);
             GameManager.objects.add(players.get(1));
             players.get(1).visible = false;
 
