@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <jsmoothproject>
 <arguments></arguments>
-<classPath>..\Game\DesperateEngine\out\production\DesperateEngine\com\zach\ddg3</classPath>
-<classPath>..\Game\DesperateEngine\out\production\DesperateEngine\com\zach\ddg3\components</classPath>
-<classPath>..\Game\DesperateEngine\out\production\DesperateEngine\com\zach\engine</classPath>
-<classPath>..\Game\DesperateEngine\out\production\DesperateEngine\com\zach\engine\audio</classPath>
-<classPath>..\Game\DesperateEngine\out\production\DesperateEngine\com\zach\engine\gfx</classPath>
 <currentDirectory>C:\Users\zachl\OneDrive\Desktop\GameProject\DDG\Executable</currentDirectory>
 <embeddedJar>true</embeddedJar>
 <executableName>DuckDuckGoose.exe</executableName>
-<iconLocation>..\Art\Art\Duck\icon.png</iconLocation>
+<iconLocation>..\Ddg3-master\Art\Art\Duck\icon.png</iconLocation>
 <initialMemoryHeap>-1</initialMemoryHeap>
-<jarLocation>..\Game\DesperateEngine\out\artifacts\DesperateEngine_jar\DesperateEngine.jar</jarLocation>
+<jarLocation>..\Ddg3-master\Game\DesperateEngine\out\artifacts\DesperateEngine_jar\DesperateEngine.jar</jarLocation>
 <mainClassName>com.zach.ddg3.GameManager</mainClassName>
 <maximumMemoryHeap>-1</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
