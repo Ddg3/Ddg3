@@ -340,6 +340,8 @@ public class Player extends Object
             lStickY += axes.getLYDelta();
             rStickX += axes.getRXDelta();
             rStickY += axes.getRYDelta();
+            //System.out.println("X: " + lStickX);
+            //System.out.println("Y: " + lStickY);
 
             rTrigger += axes.getRTDelta();
             lTrigger += axes.getLTDelta();
@@ -751,54 +753,54 @@ public class Player extends Object
     public void moveController(float dt)
     {
         //Left
-        if (lStickX > 0.4f)
+        if (lStickX > 0.6f)
         {
             if(!collidingRight)
             {
                 this.position.x -= speed * dt;
             }
-            if (rStickX < 0.4f && rStickX > -0.4f)
+            if (rStickX < 0.6f && rStickX > -0.6f)
             {
                 this.setFrame(6 + this.getFrameOffset());
             }
         }
         //Right
-        if (lStickX < -0.4f)
+        if (lStickX < -0.6f)
         {
             if(!collidingLeft)
             {
                 this.position.x += speed * dt;
             }
-            if (rStickX < 0.4f && rStickX > -0.4f) {
+            if (rStickX < 0.6f && rStickX > -0.6f) {
                 this.setFrame(2 + this.getFrameOffset());
             }
         }
 
         //Down
-        if (lStickY > 0.4f)
+        if (lStickY > 0.6f)
         {
             if(!collidingTop)
             {
                 this.position.y += speed * dt;
             }
-            if (rStickY < 0.4f && rStickY > -0.4f) {
+            if (rStickY < 0.6f && rStickY > -0.6f) {
                 this.setFrame(0 + this.getFrameOffset());
             }
         }
 
         //Up
-        if (lStickY < -0.4f)
+        if (lStickY < -0.6f)
         {
             if(!collidingBottom)
             {
                 this.position.y -= speed * dt;
             }
-            if (rStickY < 0.4f && rStickY > -0.4f) {
+            if (rStickY < 0.6f && rStickY > -0.6f) {
                 this.setFrame(4 + this.getFrameOffset());
             }
         }
 
-        if(lStickY < 0.4f && lStickY > -0.4f)
+        if(lStickY < 0.6f && lStickY > -0.6f)
         {
             //Idle on Y
             collidingTop = false;
@@ -807,23 +809,23 @@ public class Player extends Object
         if(!lockedEven)
         {
             //Changes frame of animation on the diagonals if the right thumbstick is not being used
-            if (lStickX > 0.4f && lStickY < -0.4f) {
-                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
+            if (lStickX > 0.6f && lStickY < -0.6f) {
+                if (rStickX < 0.6f && rStickX > -0.6f && rStickY < 0.6f && rStickY > -0.6f) {
                     this.setFrame(5 + this.getFrameOffset());
                 }
             }
-            if (lStickX > 0.4f && lStickY > 0.4f) {
-                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
+            if (lStickX > 0.6f && lStickY > 0.6f) {
+                if (rStickX < 0.6f && rStickX > -0.6f && rStickY < 0.6f && rStickY > -0.6f) {
                     this.setFrame(7 + this.getFrameOffset());
                 }
             }
-            if (lStickY > 0.4f && lStickX < -0.4f) {
-                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
+            if (lStickY > 0.6f && lStickX < -0.6f) {
+                if (rStickX < 0.6f && rStickX > -0.6f && rStickY < 0.6f && rStickY > -0.6f) {
                     this.setFrame(1 + this.getFrameOffset());
                 }
             }
-            if (lStickY < -0.4f && lStickX < -0.4f) {
-                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
+            if (lStickY < -0.6f && lStickX < -0.6f) {
+                if (rStickX < 0.6f && rStickX > -0.6f && rStickY < 0.6f && rStickY > -0.6f) {
                     this.setFrame(3 + this.getFrameOffset());
                 }
             }

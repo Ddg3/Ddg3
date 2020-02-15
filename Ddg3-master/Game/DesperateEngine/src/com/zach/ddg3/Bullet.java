@@ -513,7 +513,6 @@ public class Bullet extends Object
             double playerX = target.position.x;
             double playerY = target.position.y;
             double angle = Math.toDegrees(Math.atan2(playerY - this.getPositionY(), playerX - this.getPositionX()));
-            System.out.println(angle);
             int newDir = 0;
                 if ((angle < -150 && angle > -180) || (angle > 150 && angle < 180)) {
                     //Left
