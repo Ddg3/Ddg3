@@ -444,12 +444,6 @@ public class mainLevel extends GameLevel
     {
         if(starting)
         {
-            /*if(counter.getFrame() == 3 && counter != null)
-            {
-                GameManager.removeObjectsByName("counter");
-                counter = null;
-            }*/
-                //kingSwan.isActiveOnPause = true;
                 tempStartOffsetTimer -= dt;
                 if(tempStartOffsetTimer <= 0)
                 {
@@ -487,9 +481,9 @@ public class mainLevel extends GameLevel
                         }
                     }
 
-                    if (GameManager.camera.getPosY() <= 1 && GameManager.camera.getPosY() >= -1 && startInd == 3)
+                    if (GameManager.camera.getPosY() >= 0 && startInd == 3)
                     {
-                        //starting = false;
+                        GameManager.camera.setPosY(0);
                         counter.playTo(0, 4);
                         GameManager.camera.setMovingAlongVector(false);
                         tempStartOffsetTimer = startOffsetTimer;
@@ -501,6 +495,7 @@ public class mainLevel extends GameLevel
                     GameManager.removeObjectsByName("counter");
                     counter = null;
                     starting = false;
+                    startInd = 0;
                 }
         }
         else

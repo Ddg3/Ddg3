@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DesperateEngine:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DesperateEngine_jar</output-path>
+    <root id="archive" name="DesperateEngine.jar">
+      <element id="module-output" name="DesperateEngine" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../jxinput-0.8.jar" path-in-jar="/" />
+      <element id="library" level="project" name="res" />
+    </root>
+  </artifact>
+</component>

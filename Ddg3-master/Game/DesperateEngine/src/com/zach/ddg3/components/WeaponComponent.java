@@ -351,6 +351,8 @@ public class WeaponComponent extends Component
             bullet.setxSpeed(xSpeed);
             bullet.setySpeed(ySpeed);
             bullet.zIndex = 1;
+            bullet.setPaddingSide(30);
+            bullet.setPaddingTop(30);
             GameManager.objects.add(bullet);
             bullet.offsetPos = new Vector(bullet.getPositionX() + 6400, bullet.getPositionY() + 3600);
             tempCooldown = shotCooldown;
@@ -487,7 +489,7 @@ public class WeaponComponent extends Component
                             break;
                     }
                     muzzleFlash.getObjImage().changeColor(player.getSkinColors()[1], player.getSkinColors()[player.getSkIndex()]);
-                    GameManager.objects.add(muzzleFlash);
+                    //GameManager.objects.add(muzzleFlash);
                     muzzleFlash.zIndex = 10;
                     muzzleFlash.playToAndDestroy((player.getFrame() / 2) * 11, ((player.getFrame() / 2) * 11) + 11);
                     GameManager.removeObjectsByName("laserSight");
@@ -577,8 +579,7 @@ public class WeaponComponent extends Component
                 bullet.setSpeed(bullet.getSpeed() + chargeMarkSpeeds[chargeIndex]);
                 bullets.add(bullet);
 
-                if(fullyCharged)
-                {
+                if(fullyCharged) {
                     bullet.setFullyCharged(true);
                 }
                 bullet.setChargeIndex(chargeIndex);
@@ -596,10 +597,6 @@ public class WeaponComponent extends Component
         }
     }
 
-    public void laserSight()
-    {
-
-    }
     public void chooseWeapon(String weaponName)
     {
         switch (weaponName)
