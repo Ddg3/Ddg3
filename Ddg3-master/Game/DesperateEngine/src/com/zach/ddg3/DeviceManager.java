@@ -31,15 +31,13 @@ public class DeviceManager extends GameLevel
     @Override
     public void update(Main main, float dt)
     {
-        for(int i = 0; i < GameManager.players.size(); i++){
-            if(devices[i].poll()) {
-                if(!devices[i].isConnected() && GameManager.players.get(i).isInGame()) {
-                    GameManager.isPlaying = false;
-                }
-                GameManager.players.get(i).setlStickX(GameManager.players.get(i).getlStickX() + axes[i].getLXDelta());
-                GameManager.players.get(i).setlStickY(GameManager.players.get(i).getlStickY() + axes[i].getLYDelta());
-                GameManager.players.get(i).setrStickX(GameManager.players.get(i).getrStickX() + axes[i].getRXDelta());
-                GameManager.players.get(i).setrStickY(GameManager.players.get(i).getrStickY() + axes[i].getRYDelta());
+        //Checks if any device is disconnected
+        //if so it calls u a silly goose
+        for(int i = 0; i < devices.length; i++)
+        {
+            if(!devices[i].isConnected())
+            {
+                //System.out.println("Device " + i + " is disconnected, silly goose!");
             }
         }
     }

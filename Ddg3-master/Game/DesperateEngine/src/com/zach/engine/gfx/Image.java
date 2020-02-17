@@ -82,11 +82,7 @@ public class Image
 
             image.flush();
         }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        catch(NullPointerException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

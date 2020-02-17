@@ -18,6 +18,9 @@ public class Player extends Object
     public XInputDevice device;
     private XInputComponentsDelta delta;
     private XInputButtonsDelta buttons;
+    private XInputComponents components;
+    public XInputButtons buttonStates;
+    public XInputAxes axesStates;
 
     public XInputComponentsDelta getDelta() {
         return delta;
@@ -283,12 +286,11 @@ public class Player extends Object
     private int widthDifference = 0;
     private int heightDifference = 0 ;
 
+    private float tempLastPosX;
+    private float tempLastPosY;
+
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
     private Object stars;
-
-    XInputComponents components;
-    XInputButtons buttonStates;
-    XInputAxes axesStates;
 
     public Player(String name, int width, int height, String path, int totalFrames, float frameLife, int playerNumber)
     {
@@ -344,7 +346,6 @@ public class Player extends Object
             lStickY = axesStates.ly;
             rStickX = axesStates.rx;
             rStickY = axesStates.ry;
-            System.out.println("X: " + lStickX + ", Y: " + lStickY);
 
             if(this.isInGame() && !selecting && !isTimedOut && !isStunned && !mainLevel.starting)
             {
@@ -480,6 +481,8 @@ public class Player extends Object
                 GameManager.objects.remove(stars);
             }
         }
+        tempLastPosX = position.x;
+        tempLastPosY = position.y;
     }
 
     public void lockTurning(boolean even)
@@ -753,50 +756,50 @@ public class Player extends Object
     public void moveController(float dt)
     {
         //Left
-        if (lStickX > 0.4f)
+        if (lStickX < -0.4f)
         {
             if(!collidingRight)
             {
-                this.position.x += speed * dt;
+                this.position.x -= speed * dt;
             }
             if (rStickX < 0.4f && rStickX > -0.4f)
             {
-                this.setFrame(2 + this.getFrameOffset());
+                this.setFrame(6 + this.getFrameOffset());
             }
         }
         //Right
-        if (lStickX < -0.4f)
+        if (lStickX > 0.4f)
         {
             if(!collidingLeft)
             {
-                this.position.x -= speed * dt;
+                this.position.x += speed * dt;
             }
             if (rStickX < 0.4f && rStickX > -0.4f) {
-                this.setFrame(6 + this.getFrameOffset());
+                this.setFrame(2 + this.getFrameOffset());
             }
         }
 
         //Down
-        if (lStickY > 0.4f)
-        {
-            if(!collidingTop)
-            {
-                this.position.y -= speed * dt;
-            }
-            if (rStickY < 0.4f && rStickY > -0.4f) {
-                this.setFrame(4 + this.getFrameOffset());
-            }
-        }
-
-        //Up
         if (lStickY < -0.4f)
         {
-            if(!collidingBottom)
+            if(!collidingTop)
             {
                 this.position.y += speed * dt;
             }
             if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(0 + this.getFrameOffset());
+            }
+        }
+
+        //Up
+        if (lStickY > 0.4f)
+        {
+            if(!collidingBottom)
+            {
+                this.position.y -= speed * dt;
+            }
+            if (rStickY < 0.4f && rStickY > -0.4f) {
+                this.setFrame(4 + this.getFrameOffset());
             }
         }
 
@@ -809,24 +812,24 @@ public class Player extends Object
         if(!lockedEven)
         {
             //Changes frame of animation on the diagonals if the right thumbstick is not being used
-            if (lStickX > 0.4f && lStickY < -0.4f) {
-                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
-                    this.setFrame(1 + this.getFrameOffset());
-                }
-            }
-            if (lStickX > 0.4f && lStickY > 0.4f) {
-                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
-                    this.setFrame(3 + this.getFrameOffset());
-                }
-            }
-            if (lStickY > 0.4f && lStickX < -0.4f) {
+            if (lStickX < -0.4f && lStickY > 0.4f) {
                 if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
                     this.setFrame(5 + this.getFrameOffset());
                 }
             }
-            if (lStickY < -0.4f && lStickX < -0.4f) {
+            if (lStickX < -0.4f && lStickY < -0.4f) {
                 if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
                     this.setFrame(7 + this.getFrameOffset());
+                }
+            }
+            if (lStickY < -0.4f && lStickX > 0.4f) {
+                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
+                    this.setFrame(1 + this.getFrameOffset());
+                }
+            }
+            if (lStickY > 0.4f && lStickX > 0.4f) {
+                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
+                    this.setFrame(3 + this.getFrameOffset());
                 }
             }
         }
@@ -834,40 +837,40 @@ public class Player extends Object
 
     public void look()
     {
-        if (rStickX > 0.4f)
+        if (rStickX < -0.4f)
         {
             //Left
-            this.setFrame(2 + this.getFrameOffset());
-        }
-        if (rStickX < -0.4f) {
-            //Right
             this.setFrame(6 + this.getFrameOffset());
         }
-        if (rStickY > 0.4f) {
-            //Down
-            this.setFrame(4 + this.getFrameOffset());
+        if (rStickX > 0.4f) {
+            //Right
+            this.setFrame(2 + this.getFrameOffset());
         }
         if (rStickY < -0.4f) {
-            //Up
+            //Down
             this.setFrame(0 + this.getFrameOffset());
+        }
+        if (rStickY > 0.4f) {
+            //Up
+            this.setFrame(4 + this.getFrameOffset());
         }
         if(!lockedEven)
         {
-        if (rStickX > 0.4f && rStickY < -0.4f) {
+        if (rStickX < -0.4f && rStickY > 0.4f) {
             //Left and Up
-            this.setFrame(1 + this.getFrameOffset());
-        }
-        if (rStickX > 0.4f && rStickY > 0.4f) {
-            //Left and Down
-            this.setFrame(3 + this.getFrameOffset());
-        }
-        if (rStickY > 0.4f && rStickX < -0.4f) {
-            //Right and Down
             this.setFrame(5 + this.getFrameOffset());
         }
-        if (rStickY < -0.4f && rStickX < -0.4f) {
-            //Right and Up
+        if (rStickX < -0.4f && rStickY < -0.4f) {
+            //Left and Down
             this.setFrame(7 + this.getFrameOffset());
+        }
+        if (rStickY < -0.4f && rStickX > 0.4f) {
+            //Right and Down
+            this.setFrame(1 + this.getFrameOffset());
+        }
+        if (rStickY > 0.4f && rStickX > 0.4f) {
+            //Right and Up
+            this.setFrame(3 + this.getFrameOffset());
         }
         }
     }

@@ -586,7 +586,7 @@ public class mainLevel extends GameLevel
 
             if (flying)
             {
-                if (kingSwan.position.y > -400) {
+                if (kingSwan.position.y > -600) {
                     kingSwan.position.y -= 0.4f;
                 } else {
                     kingSwan.position.x = swanShadow.position.x;
