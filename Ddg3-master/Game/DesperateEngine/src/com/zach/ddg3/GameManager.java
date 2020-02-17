@@ -33,6 +33,7 @@ public class GameManager extends AbstractGame
     public static ArrayList<TextObject> altReloadText = new ArrayList<>(1);
     public static ArrayList<Integer> altReloadTime = new ArrayList<>(1);
     public static ArrayList<Object> pauseUI = new ArrayList<>(1);
+    public static ArrayList<XInputDevice> devices = new ArrayList<>(1);
     private static ArrayList<Object> controlsUI = new ArrayList<>(1);
     private int levelWidth;
     private int levelHeight;
@@ -140,7 +141,7 @@ public class GameManager extends AbstractGame
     @Override
     public void update(Main main, float dt)
     {
-        //Runs ALWAYS in case u couldn't tell
+        //deviceManager.update(main, dt);
         if(!creditRolling)
             center.update(main, this, dt);
 
@@ -170,7 +171,6 @@ public class GameManager extends AbstractGame
         {
             //cameraFollow();
         }
-        deviceManager.update(main, dt);
 
         //camera.topCamera = gameLevelManager.currLevel.topCamera;
         //camera.bottomCamera = gameLevelManager.currLevel.bottomCamera;
@@ -342,6 +342,14 @@ public class GameManager extends AbstractGame
         }
         if(!isPlaying)
         {
+            if(players.get(0).getlStickX() != 0){
+                for(int i = 0; i < players.size(); i++){
+                    players.get(i).setlStickX(0);
+                    players.get(i).setlStickY(0);
+                    players.get(i).setrStickX(0);
+                    players.get(i).setrStickY(0);
+                }
+            }
             if(!creditRolling) {
                 pause(pausePlayer, main);
                 for (int i = 0; i < pauseUI.size(); i++) {
@@ -590,10 +598,10 @@ public class GameManager extends AbstractGame
             {
                 if(player.device.poll())
                 {
-                    player.setlStickY(player.getlStickY() + player.getAxes().getLYDelta());
+                    player.setlStickY(player.axesStates.ly);
                     if(!stickSelecting)
                     {
-                        if (player.getlStickY() < -0.4)
+                        if (player.getlStickY() > 0.4)
                         {
                             pauseUI.get(pauseInd).setFrame(0);
                             if (pauseInd == 1)
@@ -606,7 +614,7 @@ public class GameManager extends AbstractGame
 
                             stickSelecting = true;
                         }
-                        if (player.getlStickY() > 0.4)
+                        if (player.getlStickY() < -0.4)
                         {
                             pauseUI.get(pauseInd).setFrame(0);
                             if (pauseInd == pauseUI.size() - 2)

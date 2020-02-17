@@ -1,9 +1,6 @@
 package com.zach.ddg3;
 
-import com.ivan.xinput.XInputAxesDelta;
-import com.ivan.xinput.XInputButtonsDelta;
-import com.ivan.xinput.XInputComponentsDelta;
-import com.ivan.xinput.XInputDevice;
+import com.ivan.xinput.*;
 import com.ivan.xinput.enums.XInputButton;
 //import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.zach.ddg3.components.AABBComponent;
@@ -289,6 +286,10 @@ public class Player extends Object
     private int color = (int)(Math.random() * Integer.MAX_VALUE);
     private Object stars;
 
+    XInputComponents components;
+    XInputButtons buttonStates;
+    XInputAxes axesStates;
+
     public Player(String name, int width, int height, String path, int totalFrames, float frameLife, int playerNumber)
     {
         super(name, width, height, path, totalFrames, frameLife);
@@ -298,6 +299,9 @@ public class Player extends Object
         delta = GameManager.deviceManager.deltas[playerNumber];
         buttons = GameManager.deviceManager.buttons[playerNumber];
         axes = GameManager.deviceManager.axes[playerNumber];
+        components = device.getComponents();
+        buttonStates = components.getButtons();
+        axesStates = components.getAxes();
         //GameManager.deviceManager.addComponents(device, delta, buttons, axes);
         this.addComponent(new AABBComponent(this, "player"));
         this.addComponent(new AABBComponent(this, "head"));
@@ -336,15 +340,11 @@ public class Player extends Object
 
         if(device.poll())
         {
-            lStickX += axes.getLXDelta();
-            lStickY += axes.getLYDelta();
-            rStickX += axes.getRXDelta();
-            rStickY += axes.getRYDelta();
-            //System.out.println("X: " + lStickX);
-            //System.out.println("Y: " + lStickY);
-
-            rTrigger += axes.getRTDelta();
-            lTrigger += axes.getLTDelta();
+            lStickX = axesStates.lx;
+            lStickY = axesStates.ly;
+            rStickX = axesStates.rx;
+            rStickY = axesStates.ry;
+            System.out.println("X: " + lStickX + ", Y: " + lStickY);
 
             if(this.isInGame() && !selecting && !isTimedOut && !isStunned && !mainLevel.starting)
             {
@@ -377,7 +377,7 @@ public class Player extends Object
         }
         else if(isKeyBoard)
         {
-            if(this.isInGame() && !selecting && !isTimedOut && !isStunned)
+            if(this.isInGame() && !selecting && !isTimedOut && !isStunned && !mainLevel.starting)
             {
                 cameraCollision();
                 moveKeyboard(main, dt);
@@ -753,54 +753,54 @@ public class Player extends Object
     public void moveController(float dt)
     {
         //Left
-        if (lStickX > 0.6f)
+        if (lStickX > 0.4f)
         {
             if(!collidingRight)
             {
-                this.position.x -= speed * dt;
+                this.position.x += speed * dt;
             }
-            if (rStickX < 0.6f && rStickX > -0.6f)
+            if (rStickX < 0.4f && rStickX > -0.4f)
             {
-                this.setFrame(6 + this.getFrameOffset());
+                this.setFrame(2 + this.getFrameOffset());
             }
         }
         //Right
-        if (lStickX < -0.6f)
+        if (lStickX < -0.4f)
         {
             if(!collidingLeft)
             {
-                this.position.x += speed * dt;
+                this.position.x -= speed * dt;
             }
-            if (rStickX < 0.6f && rStickX > -0.6f) {
-                this.setFrame(2 + this.getFrameOffset());
+            if (rStickX < 0.4f && rStickX > -0.4f) {
+                this.setFrame(6 + this.getFrameOffset());
             }
         }
 
         //Down
-        if (lStickY > 0.6f)
+        if (lStickY > 0.4f)
         {
             if(!collidingTop)
             {
-                this.position.y += speed * dt;
-            }
-            if (rStickY < 0.6f && rStickY > -0.6f) {
-                this.setFrame(0 + this.getFrameOffset());
-            }
-        }
-
-        //Up
-        if (lStickY < -0.6f)
-        {
-            if(!collidingBottom)
-            {
                 this.position.y -= speed * dt;
             }
-            if (rStickY < 0.6f && rStickY > -0.6f) {
+            if (rStickY < 0.4f && rStickY > -0.4f) {
                 this.setFrame(4 + this.getFrameOffset());
             }
         }
 
-        if(lStickY < 0.6f && lStickY > -0.6f)
+        //Up
+        if (lStickY < -0.4f)
+        {
+            if(!collidingBottom)
+            {
+                this.position.y += speed * dt;
+            }
+            if (rStickY < 0.4f && rStickY > -0.4f) {
+                this.setFrame(0 + this.getFrameOffset());
+            }
+        }
+
+        if(lStickY < 0.4f && lStickY > -0.4f)
         {
             //Idle on Y
             collidingTop = false;
@@ -809,24 +809,24 @@ public class Player extends Object
         if(!lockedEven)
         {
             //Changes frame of animation on the diagonals if the right thumbstick is not being used
-            if (lStickX > 0.6f && lStickY < -0.6f) {
-                if (rStickX < 0.6f && rStickX > -0.6f && rStickY < 0.6f && rStickY > -0.6f) {
-                    this.setFrame(5 + this.getFrameOffset());
-                }
-            }
-            if (lStickX > 0.6f && lStickY > 0.6f) {
-                if (rStickX < 0.6f && rStickX > -0.6f && rStickY < 0.6f && rStickY > -0.6f) {
-                    this.setFrame(7 + this.getFrameOffset());
-                }
-            }
-            if (lStickY > 0.6f && lStickX < -0.6f) {
-                if (rStickX < 0.6f && rStickX > -0.6f && rStickY < 0.6f && rStickY > -0.6f) {
+            if (lStickX > 0.4f && lStickY < -0.4f) {
+                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
                     this.setFrame(1 + this.getFrameOffset());
                 }
             }
-            if (lStickY < -0.6f && lStickX < -0.6f) {
-                if (rStickX < 0.6f && rStickX > -0.6f && rStickY < 0.6f && rStickY > -0.6f) {
+            if (lStickX > 0.4f && lStickY > 0.4f) {
+                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
                     this.setFrame(3 + this.getFrameOffset());
+                }
+            }
+            if (lStickY > 0.4f && lStickX < -0.4f) {
+                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
+                    this.setFrame(5 + this.getFrameOffset());
+                }
+            }
+            if (lStickY < -0.4f && lStickX < -0.4f) {
+                if (rStickX < 0.4f && rStickX > -0.4f && rStickY < 0.4f && rStickY > -0.4f) {
+                    this.setFrame(7 + this.getFrameOffset());
                 }
             }
         }
@@ -837,37 +837,37 @@ public class Player extends Object
         if (rStickX > 0.4f)
         {
             //Left
-            this.setFrame(6 + this.getFrameOffset());
+            this.setFrame(2 + this.getFrameOffset());
         }
         if (rStickX < -0.4f) {
             //Right
-            this.setFrame(2 + this.getFrameOffset());
+            this.setFrame(6 + this.getFrameOffset());
         }
         if (rStickY > 0.4f) {
             //Down
-            this.setFrame(0 + this.getFrameOffset());
+            this.setFrame(4 + this.getFrameOffset());
         }
         if (rStickY < -0.4f) {
             //Up
-            this.setFrame(4 + this.getFrameOffset());
+            this.setFrame(0 + this.getFrameOffset());
         }
         if(!lockedEven)
         {
         if (rStickX > 0.4f && rStickY < -0.4f) {
             //Left and Up
-            this.setFrame(5 + this.getFrameOffset());
+            this.setFrame(1 + this.getFrameOffset());
         }
         if (rStickX > 0.4f && rStickY > 0.4f) {
             //Left and Down
-            this.setFrame(7 + this.getFrameOffset());
+            this.setFrame(3 + this.getFrameOffset());
         }
         if (rStickY > 0.4f && rStickX < -0.4f) {
             //Right and Down
-            this.setFrame(1 + this.getFrameOffset());
+            this.setFrame(5 + this.getFrameOffset());
         }
         if (rStickY < -0.4f && rStickX < -0.4f) {
             //Right and Up
-            this.setFrame(3 + this.getFrameOffset());
+            this.setFrame(7 + this.getFrameOffset());
         }
         }
     }

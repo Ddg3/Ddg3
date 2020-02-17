@@ -160,8 +160,8 @@ public class WeaponComponent extends Component
             {
                 //Player player = (Player) parent;
                 if (!player.isTimedOut()) {
-                    if ((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER)
-                            || (player.isKeyBoard() && main.getInput().isButtonDown(MouseEvent.BUTTON3))))
+                    if ((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER) && player.device.poll())
+                            || (player.isKeyBoard() && main.getInput().isButtonDown(MouseEvent.BUTTON3)))
                         if (!exploding)
                         {
                             {
@@ -180,8 +180,8 @@ public class WeaponComponent extends Component
             {
                 if (!player.isTimedOut())
                 {
-                    if ((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER)
-                            || (player.isKeyBoard() && main.getInput().isButtonDown(MouseEvent.BUTTON3))))
+                    if ((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER) && player.device.poll())
+                            || (player.isKeyBoard() && main.getInput().isButtonDown(MouseEvent.BUTTON3)))
                     {
                         for(int i = 0; i < bullets.size(); i++)
                         {
@@ -224,7 +224,7 @@ public class WeaponComponent extends Component
             if (isPlanted) {
                 //Player player = (Player) parent;
                 if (!player.isTimedOut()) {
-                    if (player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER)
+                    if ((player.device.getDelta().getButtons().isPressed(XInputButton.LEFT_SHOULDER) && player.device.poll())
                             || (player.isKeyBoard() && main.getInput().isButton(MouseEvent.BUTTON3)) && !planting) {
                         planting = true;
                     }
