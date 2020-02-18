@@ -61,13 +61,13 @@ public class mainLevel extends GameLevel
     private static Vector[] dropPoints = new Vector[3];
     private static WeaponComponent swanWeapon;
 
-    private static float hazardTimer = 30f;
+    private static float hazardTimer = 25f;
     private static float tempHazardTimer = 10f;
     private static int hazardInd = 0;
     private static ArrayList<Integer> hazardList = new ArrayList<>(1);
     private static int reticleInd = 0;
-    private float reticleBuffer = 0.5f;
-    private float tempReticleBuffer = 0;
+    private static float reticleBuffer = 0.2f;
+    private static float tempReticleBuffer = 0;
     private static float dropTimer = 2f;
     private static float tempDropTimer = dropTimer;
     private static boolean dropping = false;
@@ -113,8 +113,8 @@ public class mainLevel extends GameLevel
     private static float birdTimer = 10f;
     private static int birdCounter = 0;
     private static float tempBirdTimer = birdTimer;
-    private static float[] leftBirdY = {-180f, -180f};
-    private static float[] rightBirdY = {-180f, -180f};
+    private static float[] leftBirdY = {-240f, -240f};
+    private static float[] rightBirdY = {-240f, -240f};
 
     @Override
     public void init(Main main)
@@ -261,13 +261,14 @@ public class mainLevel extends GameLevel
 
         ground2 = new Object("ground2", 640, 360, "/ground2.png", 1, 0.1f);
         ground2.zIndex = 0;
-        ground2.position.x = -10;
+        ground2.position.x = 0;
         ground2.position.y = -500;
         GameManager.objects.add(ground2);
 
         stands = new Object("stands", 690, 280, "/stands.png", 1, 0.1f);
         stands.zIndex = 3;
         stands.position.y = -236;
+        stands.addComponent(new AABBComponent(stands, "wall"));
         GameManager.objects.add(stands);
 
         diagonalWalls[0] = new Wall("diagonalWall0", 57, 146, "/halfDoor1.png", 2, 0.1f, false);
@@ -454,7 +455,7 @@ public class mainLevel extends GameLevel
                             GameManager.timers.get(i).setFrame(players.get(i).getTime());
                         }
 
-                        GameManager.camera.setPath(kingSwan.position);
+                        GameManager.camera.setPath(new Vector(0, kingSwan.position.y));
                         GameManager.camera.setMovingAlongVector(true);
                         //GameManager.removeObjectsByName("counter");
                         startInd++;
@@ -483,7 +484,6 @@ public class mainLevel extends GameLevel
 
                     if (GameManager.camera.getPosY() >= 0 && startInd == 3)
                     {
-                        GameManager.camera.setPosY(0);
                         counter.playTo(0, 4);
                         GameManager.camera.setMovingAlongVector(false);
                         tempStartOffsetTimer = startOffsetTimer;
@@ -587,7 +587,7 @@ public class mainLevel extends GameLevel
             if (flying)
             {
                 if (kingSwan.position.y > -600) {
-                    kingSwan.position.y -= 0.4f;
+                    kingSwan.position.y -= 30 * dt;
                 } else {
                     kingSwan.position.x = swanShadow.position.x;
                     swanShadow.position.y += 110 * dt;
@@ -1241,7 +1241,9 @@ public class mainLevel extends GameLevel
         winner = null;
         gameWon = false;
         speakInd = 0;
-
+        hazardInd = 0;
+        tempHazardTimer = 10f;
+        birdCounter = 0;
         for(int i = 0; i < players.size(); i++)
         {
             GameManager.objects.remove(GameManager.timePedestals.get(i));

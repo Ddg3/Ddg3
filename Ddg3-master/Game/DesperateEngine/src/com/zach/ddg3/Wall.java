@@ -91,7 +91,7 @@ public class Wall extends Object
             Bullet bullet = (Bullet) target;
             isOstrich = bullet.getWeapon().isOstrich();
         }*/
-        if (target.getTag().equalsIgnoreCase("Player") || (target.getTag().equalsIgnoreCase("Bullet")/* && !isOstrich*/) || target.getTag().equalsIgnoreCase("Pelican"))
+        if ((target.getTag().equalsIgnoreCase("Player") && ((Player)target).isInGame()) || (target.getTag().equalsIgnoreCase("Bullet")/* && !isOstrich*/) || target.getTag().equalsIgnoreCase("Pelican"))
         {
             AABBComponent myC = (AABBComponent) this.findComponentBySubtag("zUpdater");
             this.zUpdatePointHigh = myC.getCenterY() + myC.getHalfHeight();

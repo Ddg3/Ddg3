@@ -243,12 +243,11 @@ public class Camera {
 
     public void moveAlongVector(Vector vector, float dt, Main main)
     {
-        if(toTarget == null)
-        {
+        if(toTarget == null) {
             toTarget = target.findVector(new Vector(posX, posY), vector);
         }
-        this.posX += (int)toTarget.x / (8000 * dt);
-        this.posY += (int)toTarget.y / (8000 * dt);
+        this.posX += (int)toTarget.x / (800000 * dt);
+        this.posY += (int)toTarget.y / (800000 * dt);
 
         main.getRenderer().setCameraY((int) posY);
         main.getRenderer().setCameraX((int) posX);

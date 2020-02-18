@@ -453,10 +453,13 @@ public class selectionLevel extends GameLevel {
 
         if(allReady)
         {
-            //doorframe.zIndex = 2;
-            other.zIndex = -1;
-            other.setPosition(other.getPositionX(), other.getPositionY() - (20 * dt));
-
+                other.zIndex = -1;
+                other.setPosition(other.getPositionX(), other.getPositionY() - (20 * dt));
+                if(other.position.y > - 900) {
+                    for (int i = 0; i < players.size(); i++) {
+                        players.get(i).rumble(8000, 0.01f);
+                    }
+                }
         }
         else
             {

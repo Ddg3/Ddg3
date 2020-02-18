@@ -33,11 +33,18 @@ public class DeviceManager extends GameLevel
     {
         //Checks if any device is disconnected
         //if so it calls u a silly goose
-        for(int i = 0; i < devices.length; i++)
+        for(int i = 0; i < GameManager.players.size(); i++)
         {
-            if(!devices[i].isConnected())
+            if(!devices[i].isConnected() && GameManager.players.get(i).isInGame())
             {
-                //System.out.println("Device " + i + " is disconnected, silly goose!");
+                GameManager.isPlaying = false;
+                GameManager.pausePlayer = GameManager.players.get(i);
+
+                GameManager.pauseUI.get(0).visible = true;
+                GameManager.pauseUI.get(1).visible = true;
+                GameManager.pauseUI.get(2).visible = true;
+                GameManager.pauseUI.get(3).visible = true;
+                GameManager.pauseUI.get(4).visible = true;
             }
         }
     }

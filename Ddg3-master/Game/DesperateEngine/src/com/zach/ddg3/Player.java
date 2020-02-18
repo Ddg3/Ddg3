@@ -256,7 +256,7 @@ public class Player extends Object
         this.speed = speed;
     }
 
-    private float speed = 150f;
+    private float speed = 140f;
 
     public boolean isKeyBoard() {
         return isKeyBoard;
@@ -362,6 +362,11 @@ public class Player extends Object
             {
                 GameManager.pausePlayer = this;
                 GameManager.isPlaying = false;
+                GameManager.pauseUI.get(0).visible = true;
+                GameManager.pauseUI.get(1).visible = true;
+                GameManager.pauseUI.get(2).visible = true;
+                GameManager.pauseUI.get(3).visible = true;
+                GameManager.pauseUI.get(4).visible = true;
             }
             if(rumbling)
             {
@@ -372,9 +377,6 @@ public class Player extends Object
                     device.setVibration(0,0);
                 }
             }
-            //System.out.println(offsetPos.x);
-           /*this.offsetPos.x = main.getInput().getMouseX() - this.width;
-           this.offsetPos.y = main.getInput().getMouseY() + this.height + 180;*/
         }
         else if(isKeyBoard)
         {

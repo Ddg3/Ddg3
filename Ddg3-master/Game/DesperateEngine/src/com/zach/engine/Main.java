@@ -23,7 +23,7 @@ public class Main implements Runnable
     private AbstractGame game;
 
     private boolean running = false;
-    private final double UPDATE_CAP = 1.0f/60.0f;
+    private final double UPDATE_CAP = 1.0f/600.0f;
     private int width = 640;
     private int height = 360;
     private float scale = 3f;

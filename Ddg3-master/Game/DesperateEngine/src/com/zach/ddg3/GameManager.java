@@ -39,6 +39,15 @@ public class GameManager extends AbstractGame
     private boolean[] collision;
     private boolean isColliding = false;
     private static TextObject fpsCounter = null;
+
+    public boolean isShowFps() {
+        return showFps;
+    }
+
+    public void setShowFps(boolean showFps) {
+        this.showFps = showFps;
+    }
+
     private boolean showFps = true;
     private boolean showHitboxes = false;
     public static boolean isPlaying = true;
@@ -69,6 +78,7 @@ public class GameManager extends AbstractGame
     @Override
     public void init(Main main)
     {
+        showFps = false;
         pauseUI.add(0, new Object("PAUSED", 331, 95, "/pauseText.png", 1, 1));
         pauseUI.get(0).zIndex = Integer.MAX_VALUE;
         pauseUI.get(0).visible = false;
@@ -160,13 +170,13 @@ public class GameManager extends AbstractGame
                 e.printStackTrace();
             }
         }
-        Physics.update(main);
+        if(isPlaying) {
+            Physics.update(main);
+            gameLevelManager.update(main, dt);
+            gameLevelManager.currLevel.update(main, dt);
+        }
 
-        gameLevelManager.update(main, dt);
-        gameLevelManager.currLevel.update(main, dt);
-
-        if(!(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE && mainLevel.gameWon) && !mainLevel.starting && !creditRolling)
-        {
+        if(!(gameLevelManager.getGameState() == GameLevelManager.GameState.MAIN_STATE && mainLevel.gameWon) && !mainLevel.starting && !creditRolling) {
             cameraFollow();
         }
         camera.update(this, main, dt);
@@ -313,7 +323,7 @@ public class GameManager extends AbstractGame
                     showFps = true;
                 }
         }
-        if(main.getInput().isKeyDown(KeyEvent.VK_0))
+        /*if(main.getInput().isKeyDown(KeyEvent.VK_0))
         {
             if(showHitboxes)
             {
@@ -336,12 +346,18 @@ public class GameManager extends AbstractGame
 
                 players.get(i).changeSpecies();
             }
-        }
+        }*/
         if(main.getInput().isKeyDown(KeyEvent.VK_ESCAPE))
         {
-            if(isPlaying)
+            if(isPlaying && players.get(0) != null)
             {
                 isPlaying = false;
+                pausePlayer = players.get(0);
+                GameManager.pauseUI.get(0).visible = true;
+                GameManager.pauseUI.get(1).visible = true;
+                GameManager.pauseUI.get(2).visible = true;
+                GameManager.pauseUI.get(3).visible = true;
+                GameManager.pauseUI.get(4).visible = true;
             }
         }
         if(!isPlaying)
@@ -349,9 +365,7 @@ public class GameManager extends AbstractGame
             if(!creditRolling) {
                 pause(pausePlayer, main);
                 for (int i = 0; i < pauseUI.size(); i++) {
-                    if (!pauseUI.get(i).visible) {
-                        pauseUI.get(i).visible = true;
-                    }
+                    //pauseUI.get(i).visible = true;
                     pauseUI.get(i).update(main, this, dt);
                     pauseUI.get(i).render(main, main.getRenderer());
                 }
@@ -397,7 +411,6 @@ public class GameManager extends AbstractGame
             if (creditFadeAway.getFrame() == 0)
             {
                 creditFadeAway.stop();
-
                 if(credits.size() > 0)
                 {
                     for (int i = 0; i < credits.size(); i++)

@@ -92,16 +92,25 @@ public class titleLevel extends GameLevel
             swan.playTo(0, 10);
         }
 
-        if(GameManager.deviceManager.devices[0].poll())
-        {
-            if(GameManager.deviceManager.buttons[0].isPressed(XInputButton.START))
-            {
-                if(swan.anim != 10)
-                swan.playTo(0, 10);
+        for(int i = 0; i < GameManager.deviceManager.devices.length; i++) {
+            if (GameManager.deviceManager.devices[i].poll()) {
+                if (GameManager.deviceManager.buttons[i].isPressed(XInputButton.START)) {
+                    if (swan.anim == 0) {
+                        swan.playTo(0, 10);
+                    }
+                }
+            }
+        }
+        if(swan.anim > 0 && swan.anim < 3){
+            for (int j = 0; j < GameManager.deviceManager.devices.length; j++) {
+                GameManager.deviceManager.devices[j].setVibration(30000, 30000);
             }
         }
         if(swan.anim == 10)
         {
+            for (int j = 0; j < GameManager.deviceManager.devices.length; j++) {
+                GameManager.deviceManager.devices[j].setVibration(0, 0);
+            }
             if(fadeAway.getFrame() == 0)
             {
                 fadeAway.playToAndDestroy(0, 6);

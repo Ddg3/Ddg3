@@ -71,7 +71,7 @@ public class WeaponComponent extends Component
     private int explosionHeight = 82;
     private int explosionFrames = 25;
     private String explosionPath = "/explosion.png";
-    private float playerBaseSpeed = 150f;
+    private float playerBaseSpeed;
     private Object laserSight = null;
 
     public boolean isTriggered = false;
@@ -126,6 +126,9 @@ public class WeaponComponent extends Component
 
     public WeaponComponent(Object parent, String subTag)
     {
+        if(parentIsPlayer)
+            this.playerBaseSpeed = ((Player)parent).getSpeed();
+
         random = new Random();
         this.parent = parent;
         this.tag = "Weapon";
@@ -317,6 +320,7 @@ public class WeaponComponent extends Component
         bullet.setPosition(parent.getPositionX(), parent.getPositionY());
         bullet.setDirection(direction);
         bullet.zIndex = parent.zIndex + 1;
+        bullet.setSpeed(100);
         GameManager.objects.add(bullet);
         bullet.offsetPos = new Vector(bullet.getPositionX() + 6400, bullet.getPositionY() + 3600);
     }
@@ -602,7 +606,7 @@ public class WeaponComponent extends Component
         switch (weaponName)
         {
             case "rocketLauncher":
-                speed = 225f;
+                speed = 250f;
                 explodes = true;
                 accelerates = true;
                 accelRate = 0.1f;
@@ -697,7 +701,7 @@ public class WeaponComponent extends Component
                 detonated = true;
                 hasDirection = false;
                 accelerates = true;
-                accelRate = 0.1f;
+                accelRate = 0.02f;
                 bulletMax = 8;
                 speedOnBounce = 1;
                 isAnimated = true;
@@ -768,7 +772,7 @@ public class WeaponComponent extends Component
 
                 altWidth = 108;
                 altHeight = 108;
-            altFrames = 8;
+                altFrames = 8;
                 altFrameLife = 0.05f;
                 altPath = "/weaponSelectBox1.png";
 

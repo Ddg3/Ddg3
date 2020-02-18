@@ -316,9 +316,9 @@ public class Object extends GameObject implements Comparable<Object>
     public void applyKnockback(Vector knockback, float dt)
     {
         //System.out.println(knockback.y / knockback.getLength());
-        if((knockback.x / (knockback.getLength() ) > 0 || knockback.y / (knockback.getLength()) > 0) || knockback.getLength() > 100) {
-            this.position.x += knockback.x / (knockback.getLength() * 2);
-            this.position.y += knockback.y / (knockback.getLength() * 2);
+        if((knockback.x / (knockback.getLength() ) != 0 || knockback.y / (knockback.getLength()) != 0) || knockback.getLength() > 100) {
+            this.position.x += knockback.x / Math.abs(knockback.getLength() * (dt * 10000));
+            this.position.y += knockback.y / Math.abs(knockback.getLength() * (dt * 10000));
         }
         else {
             isKnocked = false;

@@ -1080,7 +1080,7 @@ public class Bullet extends Object
             {
                 if(other.getTag().equalsIgnoreCase("Trigger"))
                 {
-                    if (((position.x <= triggerPoint.x + 6 && position.x >= triggerPoint.x - 6) && (position.y <= triggerPoint.y + 6 && position.y >= triggerPoint.y - 6)))
+                    if ((position.y <= triggerPoint.y + 6 && position.y >= triggerPoint.y - 6))
                     {
                         if (weapon.isExplodes())
                         {
